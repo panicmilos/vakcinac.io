@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zahtev-za-izdavanje-zelenog-sertifikata
+  dan="17.11.2021."
+  u="Новом Саду"
+>
+  <zahtev>
+    <podnosilac-zahteva>
+      <podnosilac>
+        <ime>Милош</ime>
+        <prezime>Панић</prezime>
+      </podnosilac>
+      <datum-rođenja>
+        <dan>25</dan>
+        <mesec>6</mesec>
+        <godina>1999</godina>
+      </datum-rođenja>
+      <pol>Мушки</pol>
+      <jmbg>2506xxxxxxxxx</jmbg>
+      <broj-pasosa></broj-pasosa>
+    </podnosilac-zahteva>
+    <razlog>
+      Подносим захтев да бих мога ићи на пиво после 8 навече односно тим билдинг.
+    </razlog>
+  </zahtev>
+</zahtev-za-izdavanje-zelenog-sertifikata>
