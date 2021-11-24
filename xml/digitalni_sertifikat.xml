@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<digitalni-sertifikat xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://euprava.org ../xsd/digitalni_sertifikat.xsd"
+    xmlns="http://euprava.org"
+    broj-sertifikata="132141" datum-izdavanja="10.05.3003 10:30">
+
+    <validacija>https://euprava.gov.rs/DigitalniZeleniSertifikat/validacijaDokumenta</validacija>
+    <nosilac-sertifikata>
+        <ime>Mirko</ime>
+        <prezime>Mirkovic</prezime>
+        <pol>Musko</pol>
+        <jmbg>1111111111111</jmbg>
+        <br-pasosa>11111</br-pasosa>
+    </nosilac-sertifikata>
+
+    <vakcinacije broj-doza="2">
+        <vakcinacija doza="1">
+            <tip>Pfizer-BioNTech</tip>
+            <proizvodjac>BIONTECH MANUFACTURING GMBH.</proizvodjac>
+            <serija>51322</serija>
+            <datum>
+                <dan>20</dan>
+                <mesec>2</mesec>
+                <godina>3003</godina>
+            </datum>
+            <zdravstvena-ustanova>Marka Mirkovica, Nova Varos</zdravstvena-ustanova>
+        </vakcinacija>
+        <vakcinacija doza="2">
+            <tip>Pfizer-BioNTech</tip>
+            <proizvodjac>BIONTECH MANUFACTURING GMBH.</proizvodjac>
+            <serija>53532</serija>
+            <datum>
+                <dan>10</dan>
+                <mesec>3</mesec>
+                <godina>3003</godina>
+            </datum>
+            <zdravstvena-ustanova>Marka Mirkovica, Nova Varos</zdravstvena-ustanova>
+        </vakcinacija>
+    </vakcinacije>
+
+    <testovi broj-testova="3">
+        <test broj="1">
+            <ime>RT Real-time PCR</ime>
+            <vrsta-uzorka>nazalni</vrsta-uzorka>
+            <proizvodjac>Ministarstvo zradvlja</proizvodjac>
+            <datum-uzorka>
+                <dan>20</dan>
+                <mesec>2</mesec>
+                <godina>3003</godina>
+            </datum-uzorka>
+            <datum-izdavanja>
+                <dan>20</dan>
+                <mesec>3</mesec>
+                <godina>3003</godina>
+            </datum-izdavanja>
+            <rezultat>Negativan</rezultat>
+            <labaratorija>BioLab Zrenjanin</labaratorija>
+        </test>
+        <test broj="2">
+            <ime>Ag-RDT (Antigetn Rapid Detection test)</ime>
+            <vrsta-uzorka xsi:nil="true"></vrsta-uzorka>
+            <proizvodjac xsi:nil="true"></proizvodjac>
+            <datum-uzorka xsi:nil="true"></datum-uzorka>
+            <datum-izdavanja xsi:nil="true"></datum-izdavanja>
+            <rezultat xsi:nil="true"></rezultat>
+            <labaratorija xsi:nil="true"></labaratorija>
+        </test>
+        <test broj="3">
+            <ime xsi:nil="true"></ime>
+            <vrsta-uzorka xsi:nil="true"></vrsta-uzorka>
+            <proizvodjac xsi:nil="true"></proizvodjac>
+            <datum-uzorka xsi:nil="true"></datum-uzorka>
+            <datum-izdavanja xsi:nil="true"></datum-izdavanja>
+            <rezultat xsi:nil="true"></rezultat>
+            <labaratorija xsi:nil="true"></labaratorija>
+        </test>
+    </testovi>
+
+</digitalni-sertifikat>
