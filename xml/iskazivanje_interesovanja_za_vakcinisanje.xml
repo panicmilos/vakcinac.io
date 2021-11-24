@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<izjava_interesovanja_za_vakcinisanje
+  dan="17.11.2021."
+>
+  <podnosilac-izjave>
+    <podnosilac>
+      <drzavljanstvo>0</drzavljanstvo>
+      <jmbg>2312xxxxxxxxx</jmbg>
+      <ime>Luka</ime>
+      <prezime>Bjelica</prezime>
+    </podnosilac>
+    <kontakt>
+      <adresa-elektronske-poste>lukica99@gmail.com</adresa-elektronske-poste>
+      <broj-mobilnog-telefona>0659127389</broj-mobilnog-telefona>
+      <broj-fiksnog-telefona>023598716</broj-fiksnog-telefona>
+    </kontakt>
+    <dobrovoljan-davalac-krvi>Da</dobrovoljan-davalac-krvi>
+  </podnosilac-izjave>
+  <informacije-o-primanju-vakcije>
+    <opstina>Zrenjanin</opstina>
+    <proizvodjaci>
+      <proizvodjac>Sinopharm</proizvodjac>
+      <proizvodjac>AstraZeneca</proizvodjac>
+    </proizvodjaci>
+  </informacije-o-primanju-vakcije>
+</izjava_interesovanja_za_vakcinisanje>
