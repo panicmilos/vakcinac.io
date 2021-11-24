@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<saglasnost-za-sprovodjenje-preporucene-imunizacije
+    dan="17.11.2021."
+>
+    <pacijent>
+        <drzavljanstvo>
+            <domace>
+                <jmbg>2506xxxxxxxxx</jmbg>
+            </domace>
+            <strano>
+                <naziv-drzavljanstva></naziv-drzavljanstva>
+                <broj-pasosa-ebs></broj-pasosa-ebs>
+            </strano>
+        </drzavljanstvo>
+        <licne-informacije
+            radni-status="студент"
+            zanimanje-zaposlenog="друго"
+        >
+            <prezime>Шербеџија</prezime>
+            <ime>Лука</ime>
+            <ime-roditelja>Петар</ime-roditelja>
+            <pol>Мушки</pol>
+        </licne-informacije>
+        <rodjenje>
+            <datum-rođenja>
+                <dan>6</dan>
+                <mesec>4</mesec>
+                <godina>1999</godina>
+            </datum-rođenja>
+            <mesto-rodjenja>Нови Сад</mesto-rodjenja>
+        </rodjenje>
+        <stanovanje>
+            <adresa>
+                <ulica>Светосавска</ulica>
+                <broj>15</broj>
+            </adresa>
+            <mesto>Нови Сад</mesto>
+            <opstina>Нови Сад</opstina>
+        </stanovanje>
+        <kontakt>
+            <adresa-elektronske-poste>serbedzija@gmail.com</adresa-elektronske-poste>
+            <broj-mobilnog-telefona>012454363</broj-mobilnog-telefona>
+            <broj-fiksnog-telefona>2312777</broj-fiksnog-telefona>
+        </kontakt>
+        <ustanova-socijalne-zastite 
+            korisnik="не"
+        >
+            <naziv-sedista></naziv-sedista>
+            <opstina-sedista></opstina-sedista>
+        </ustanova-socijalne-zastite>
+    </pacijent>
+    <izjava-saglasnosti 
+        izjava="Нисам сагласан"
+    >
+        <naziv-imunoloskog-leka></naziv-imunoloskog-leka>
+    </izjava-saglasnosti>
+
+    <evidencija-o-vakcinaciji>
+        <zdravstvena-ustanova>Дом здравља „Јован Јовановић Змај“</zdravstvena-ustanova>
+        <vakcinacijski-punkt>15</vakcinacijski-punkt>
+        <lekar>
+            <ime>Ивко</ime>
+            <prezime>Бањац</prezime>
+            <faksimil>123456</faksimil>
+            <broj-telefona>02345632</broj-telefona>
+        </lekar>
+        <obrazac>
+            <primljene-vakcine>
+                <vakcina 
+                    datum=""
+                >
+                    <naziv></naziv>
+                    <nacin-davanja-vakcine></nacin-davanja-vakcine>
+                    <ekstremitet></ekstremitet>
+                    <serija-vakcine></serija-vakcine>
+                    <proizvodjac></proizvodjac>
+                    <nezeljena-reakcija></nezeljena-reakcija>
+                </vakcina>
+            </primljene-vakcine>
+            <privremene-kontraindikacije 
+                datum-utvrdjivanja=""
+                odluka-komisije=""
+            >
+                <dijagnoza></dijagnoza>
+            </privremene-kontraindikacije>
+        </obrazac>
+    </evidencija-o-vakcinaciji>
+</saglasnost-za-sprovodjenje-preporucene-imunizacije>
