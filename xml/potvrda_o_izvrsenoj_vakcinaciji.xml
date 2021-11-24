@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<potvrda_o_izvrsenoj_vakcinaciji
+  datum-izdavanja="19.11.2021."
+  broj-primljenih-doza="1"
+>
+
+  <podaci-o-vakcinisanom>
+    <ime>Милош</ime>
+    <prezime>Панић</prezime>
+    <datum-rođenja>
+      <dan>25</dan>
+      <mesec>6</mesec>
+      <godina>1999</godina>
+    </datum-rođenja>
+    <pol>Мушки</pol>
+    <jmbg>2506xxxxxxxxx</jmbg>
+  </podaci-o-vakcinisanom>
+
+  <podaci-o-vakcinaciji>
+    <zdravstvena-ustanova>ДОМ ЗДРАВЉА ЗВЕЗДАРА</zdravstvena-ustanova>
+    <naziv-vakcine>Pfizer, BioNTech</naziv-vakcine>
+    <podaci-o-dozama>
+      <doza broj="1">
+        <datum>19.11.2021.</datum>
+        <serija>1234567</serija>
+      </doza>
+      <doza broj="2" />
+    </podaci-o-dozama>
+  </podaci-o-vakcinaciji>
+
+  <qr-kod />
+
+</potvrda_o_izvrsenoj_vakcinaciji>
