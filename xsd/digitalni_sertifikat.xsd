@@ -1,42 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    targetNamespace="http://euprava.org" xmlns:eu="http://euprava.org" elementFormDefault="qualified">
-    
-    <xsd:simpleType name="Tjmbg">
-        <xsd:restriction base="xsd:string">
-            <xsd:length value="13"></xsd:length>
-            <xsd:pattern value="\d{13}"></xsd:pattern>
-        </xsd:restriction>
-    </xsd:simpleType>
-
-    <xsd:simpleType name="Tpasos">
-        <xsd:restriction base="xsd:string">
-            <xsd:length value="5"></xsd:length>
-            <xsd:pattern value="\d{5}"></xsd:pattern>
-        </xsd:restriction>
-    </xsd:simpleType>
-
-    <xsd:simpleType name="Tpol">
-        <xsd:restriction base="xsd:string">
-            <xsd:enumeration value="Musko"/>
-            <xsd:enumeration value="Zensko"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-
-    <xsd:simpleType name="Trezultat">
-        <xsd:restriction base="xsd:string">
-            <xsd:enumeration value="Pozitivan"/>
-            <xsd:enumeration value="Negativan"/>
-        </xsd:restriction>
-    </xsd:simpleType>
-
-    <xsd:complexType name="Tdatum">
-        <xsd:sequence>
-            <xsd:element name="dan" type="xsd:int"></xsd:element>
-            <xsd:element name="mesec" type="xsd:int"></xsd:element>
-            <xsd:element name="godina" type="xsd:int"></xsd:element>
-        </xsd:sequence>
-    </xsd:complexType>
+<xsd:schema
+    targetNamespace="http://euprava.org/digitalni_sertifikat" 
+    xmlns="http://euprava.org/digitalni_sertifikat"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:os="http://osnovna-sema.org" 
+    elementFormDefault="qualified">
+    <xsd:import namespace="http://osnovna-sema.org" schemaLocation="osnovna_sema.xsd"/>
 
     <xsd:element name="digitalni-sertifikat">
         <xsd:complexType>
@@ -49,9 +18,9 @@
                         <xsd:sequence>
                             <xsd:element name="ime" type="xsd:string"></xsd:element>
                             <xsd:element name="prezime" type="xsd:string"></xsd:element>
-                            <xsd:element name="pol" type="eu:Tpol"></xsd:element>
-                            <xsd:element name="jmbg" type="eu:Tjmbg"></xsd:element>
-                            <xsd:element name="br-pasosa" type="eu:Tpasos"></xsd:element>
+                            <xsd:element name="pol" type="os:Tpol"></xsd:element>
+                            <xsd:element name="jmbg" type="os:Tjmbg"></xsd:element>
+                            <xsd:element name="br-pasosa" type="os:Tpasos"></xsd:element>
                         </xsd:sequence>
                     </xsd:complexType>
                 </xsd:element>
@@ -65,7 +34,7 @@
                                         <xsd:element name="tip" type="xsd:string"></xsd:element>
                                         <xsd:element name="proizvodjac" type="xsd:string"></xsd:element>
                                         <xsd:element name="serija" type="xsd:string"></xsd:element>
-                                        <xsd:element name="datum" type="eu:Tdatum"></xsd:element>
+                                        <xsd:element name="datum" type="os:Tdatum"></xsd:element>
                                         <xsd:element name="zdravstvena-ustanova" type="xsd:string"></xsd:element>
                                     </xsd:sequence>
                                     <xsd:attribute name="doza" type="xsd:int"></xsd:attribute>
@@ -85,8 +54,8 @@
                                         <xsd:element name="ime" nillable="true" type="xsd:string"></xsd:element>
                                         <xsd:element name="vrsta-uzorka" nillable="true" type="xsd:string"></xsd:element>
                                         <xsd:element name="proizvodjac" nillable="true" type="xsd:string"></xsd:element>
-                                        <xsd:element name="datum-uzorka" nillable="true" type="eu:Tdatum"></xsd:element>
-                                        <xsd:element name="datum-izdavanja" nillable="true" type="eu:Tdatum"></xsd:element>
+                                        <xsd:element name="datum-uzorka" nillable="true" type="os:Tdatum"></xsd:element>
+                                        <xsd:element name="datum-izdavanja" nillable="true" type="os:Tdatum"></xsd:element>
                                         <xsd:element name="rezultat" nillable="true" type="xsd:string"></xsd:element>
                                         <xsd:element name="labaratorija" nillable="true" type="xsd:string"></xsd:element>
                                     </xsd:sequence>

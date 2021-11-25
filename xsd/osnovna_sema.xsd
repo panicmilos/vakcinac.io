@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://osnovna-sema.org"
+    xmlns="http://osnovna-sema.org"
+    elementFormDefault="qualified">
+
+    <xsd:simpleType name="Tjmbg">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="\d{13}"></xsd:pattern>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="Tpasos">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="\d{5}"></xsd:pattern>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="Tpol">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Musko"/>
+            <xsd:enumeration value="Zensko"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="Trezultat">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Pozitivan"/>
+            <xsd:enumeration value="Negativan"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="Tdatum">
+        <xsd:sequence>
+            <xsd:element name="dan">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:int">
+                        <xsd:minInclusive value="1"></xsd:minInclusive>
+                        <xsd:maxInclusive value="31"></xsd:maxInclusive>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="mesec">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:int">
+                        <xsd:minInclusive value="1"></xsd:minInclusive>
+                        <xsd:maxInclusive value="12"></xsd:maxInclusive>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+            <xsd:element name="godina">
+                <xsd:simpleType>
+                    <xsd:restriction base="xsd:int">
+                        <xsd:minInclusive value="1903"></xsd:minInclusive>
+                        <xsd:maxInclusive value="2025"></xsd:maxInclusive>
+                    </xsd:restriction>
+                </xsd:simpleType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

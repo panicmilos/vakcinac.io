@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<digitalni-sertifikat xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://euprava.org ../xsd/digitalni_sertifikat.xsd"
-    xmlns="http://euprava.org"
-    broj-sertifikata="132141" datum-izdavanja="10.05.3003 10:30">
+<digitalni-sertifikat 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://euprava.org/digitalni_sertifikat ../xsd/digitalni_sertifikat.xsd"
+    xmlns="http://euprava.org/digitalni_sertifikat"
+    xmlns:os="http://osnovna-sema.org"
+    broj-sertifikata="132141" 
+    datum-izdavanja="10.05.3003 10:30">
 
     <validacija>https://euprava.gov.rs/DigitalniZeleniSertifikat/validacijaDokumenta</validacija>
     <nosilac-sertifikata>
@@ -19,9 +22,9 @@
             <proizvodjac>BIONTECH MANUFACTURING GMBH.</proizvodjac>
             <serija>51322</serija>
             <datum>
-                <dan>20</dan>
-                <mesec>2</mesec>
-                <godina>3003</godina>
+                <os:dan>20</os:dan>
+                <os:mesec>2</os:mesec>
+                <os:godina>2020</os:godina>
             </datum>
             <zdravstvena-ustanova>Marka Mirkovica, Nova Varos</zdravstvena-ustanova>
         </vakcinacija>
@@ -30,9 +33,9 @@
             <proizvodjac>BIONTECH MANUFACTURING GMBH.</proizvodjac>
             <serija>53532</serija>
             <datum>
-                <dan>10</dan>
-                <mesec>3</mesec>
-                <godina>3003</godina>
+                <os:dan>10</os:dan>
+                <os:mesec>3</os:mesec>
+                <os:godina>2020</os:godina>
             </datum>
             <zdravstvena-ustanova>Marka Mirkovica, Nova Varos</zdravstvena-ustanova>
         </vakcinacija>
@@ -44,14 +47,14 @@
             <vrsta-uzorka>nazalni</vrsta-uzorka>
             <proizvodjac>Ministarstvo zradvlja</proizvodjac>
             <datum-uzorka>
-                <dan>20</dan>
-                <mesec>2</mesec>
-                <godina>3003</godina>
+                <os:dan>20</os:dan>
+                <os:mesec>2</os:mesec>
+                <os:godina>2020</os:godina>
             </datum-uzorka>
             <datum-izdavanja>
-                <dan>20</dan>
-                <mesec>3</mesec>
-                <godina>3003</godina>
+                <os:dan>20</os:dan>
+                <os:mesec>3</os:mesec>
+                <os:godina>2020</os:godina>
             </datum-izdavanja>
             <rezultat>Negativan</rezultat>
             <labaratorija>BioLab Zrenjanin</labaratorija>
