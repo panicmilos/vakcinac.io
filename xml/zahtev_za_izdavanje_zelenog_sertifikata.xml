@@ -1,25 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zahtev-za-izdavanje-zelenog-sertifikata
-  dan="17.11.2021."
-  u="Новом Саду"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://euprava.org/zahtev_za_zeleni_sertifikat ../xsd/zahtev_za_zeleni_sertifikat.xsd"
+  xmlns="http://euprava.org/zahtev_za_zeleni_sertifikat"
+  xmlns:os="http://osnovna-sema.org"
+
+  dan="17.11.2021"
+  mesto="Новом Сад"
 >
-  <zahtev>
     <podnosilac-zahteva>
       <podnosilac>
         <ime>Милош</ime>
         <prezime>Панић</prezime>
       </podnosilac>
       <datum-rođenja>
-        <dan>25</dan>
-        <mesec>6</mesec>
-        <godina>1999</godina>
+        <os:dan>25</os:dan>
+        <os:mesec>6</os:mesec>
+        <os:godina>1999</os:godina>
       </datum-rođenja>
-      <pol>Мушки</pol>
-      <jmbg>2506xxxxxxxxx</jmbg>
-      <broj-pasosa></broj-pasosa>
+      <pol>0</pol>
+      <jmbg>2506222222222</jmbg>
+      <broj-pasosa>22222</broj-pasosa>
     </podnosilac-zahteva>
     <razlog>
       Подносим захтев да бих мога ићи на пиво после 8 навече односно тим билдинг.
     </razlog>
-  </zahtev>
 </zahtev-za-izdavanje-zelenog-sertifikata>
