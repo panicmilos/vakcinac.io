@@ -1,87 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <saglasnost-za-sprovodjenje-preporucene-imunizacije
-    dan="17.11.2021."
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://euprava.org/saglasnost_imunizacije ../xsd/saglasnost_imunizacije.xsd"
+    xmlns="http://euprava.org/saglasnost_imunizacije"
+    xmlns:os="http://osnovna-sema.org"
+    datum-izdavanja="17.11.2021"
 >
     <pacijent>
         <drzavljanstvo>
             <domace>
-                <jmbg>2506xxxxxxxxx</jmbg>
+                <jmbg>2506123456789</jmbg>
             </domace>
-            <strano>
-                <naziv-drzavljanstva></naziv-drzavljanstva>
-                <broj-pasosa-ebs></broj-pasosa-ebs>
-            </strano>
         </drzavljanstvo>
-        <licne-informacije
-            radni-status="студент"
-            zanimanje-zaposlenog="друго"
-        >
+        <licne-informacije>
             <prezime>Шербеџија</prezime>
             <ime>Лука</ime>
             <ime-roditelja>Петар</ime-roditelja>
-            <pol>Мушки</pol>
+            <pol>0</pol>
+            <radni-status>4</radni-status>
+            <zanimanje>5</zanimanje>
         </licne-informacije>
         <rodjenje>
             <datum-rođenja>
-                <dan>6</dan>
-                <mesec>4</mesec>
-                <godina>1999</godina>
+                <os:dan>6</os:dan>
+                <os:mesec>4</os:mesec>
+                <os:godina>1999</os:godina>
             </datum-rođenja>
             <mesto-rodjenja>Нови Сад</mesto-rodjenja>
         </rodjenje>
         <stanovanje>
-            <adresa>
-                <ulica>Светосавска</ulica>
-                <broj>15</broj>
-            </adresa>
+            <adresa>Светосавска 15</adresa>
             <mesto>Нови Сад</mesto>
             <opstina>Нови Сад</opstina>
         </stanovanje>
         <kontakt>
-            <adresa-elektronske-poste>serbedzija@gmail.com</adresa-elektronske-poste>
-            <broj-mobilnog-telefona>012454363</broj-mobilnog-telefona>
-            <broj-fiksnog-telefona>2312777</broj-fiksnog-telefona>
+            <os:adresa-elektronske-poste>serbedzija@gmail.com</os:adresa-elektronske-poste>
+            <os:broj-mobilnog-telefona>0624543632</os:broj-mobilnog-telefona>
+            <os:broj-fiksnog-telefona>0112777</os:broj-fiksnog-telefona>
         </kontakt>
-        <ustanova-socijalne-zastite 
-            korisnik="не"
-        >
-            <naziv-sedista></naziv-sedista>
-            <opstina-sedista></opstina-sedista>
+        <ustanova-socijalne-zastite>
+            <korisnik>false</korisnik>
+            <naziv-opstina-sedista></naziv-opstina-sedista>
         </ustanova-socijalne-zastite>
     </pacijent>
-    <izjava-saglasnosti 
-        izjava="Нисам сагласан"
-    >
+    <izjava-saglasnosti>
+        <izjava>false</izjava>
         <naziv-imunoloskog-leka></naziv-imunoloskog-leka>
     </izjava-saglasnosti>
 
     <evidencija-o-vakcinaciji>
         <zdravstvena-ustanova>Дом здравља „Јован Јовановић Змај“</zdravstvena-ustanova>
-        <vakcinacijski-punkt>15</vakcinacijski-punkt>
+        <vakcinacijski-punkt>Променада</vakcinacijski-punkt>
         <lekar>
             <ime>Ивко</ime>
             <prezime>Бањац</prezime>
             <faksimil>123456</faksimil>
-            <broj-telefona>02345632</broj-telefona>
+            <broj-telefona>0624543632</broj-telefona>
         </lekar>
         <obrazac>
             <primljene-vakcine>
-                <vakcina 
-                    datum=""
-                >
-                    <naziv></naziv>
-                    <nacin-davanja-vakcine></nacin-davanja-vakcine>
-                    <ekstremitet></ekstremitet>
-                    <serija-vakcine></serija-vakcine>
-                    <proizvodjac></proizvodjac>
-                    <nezeljena-reakcija></nezeljena-reakcija>
-                </vakcina>
+                <naziv xsi:nil="true"></naziv>
+                <datum-davanja-vakcine xsi:nil="true"></datum-davanja-vakcine>
+                <nacin-davanja-vakcine xsi:nil="true"></nacin-davanja-vakcine>
+                <ekstremitet xsi:nil="true"></ekstremitet>
+                <serija-vakcine xsi:nil="true"></serija-vakcine>
+                <proizvodjac xsi:nil="true"></proizvodjac>
+                <nezeljena-reakcija xsi:nil="true"></nezeljena-reakcija>
             </primljene-vakcine>
-            <privremene-kontraindikacije 
-                datum-utvrdjivanja=""
-                odluka-komisije=""
-            >
-                <dijagnoza></dijagnoza>
+            <privremene-kontraindikacije>
+                <datum-utvrdjivanja xsi:nil="true"></datum-utvrdjivanja>
+                <dijagnoza xsi:nil="true"></dijagnoza>
+                <odluka-komisije xsi:nil="true"></odluka-komisije>
             </privremene-kontraindikacije>
         </obrazac>
     </evidencija-o-vakcinaciji>

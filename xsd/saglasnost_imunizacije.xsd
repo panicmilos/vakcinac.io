@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+    targetNamespace="http://euprava.org/saglasnost_imunizacije" 
+    xmlns="http://euprava.org/saglasnost_imunizacije"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:os="http://osnovna-sema.org" 
+    elementFormDefault="qualified">
+    <xsd:import namespace="http://osnovna-sema.org" schemaLocation="osnovna_sema.xsd"/>
+
+    <xsd:simpleType name="TradniStatus">
+        <xsd:restriction base="xsd:int">
+            <xsd:enumeration value="0"/>
+            <xsd:enumeration value="1"/>
+            <xsd:enumeration value="2"/>
+            <xsd:enumeration value="3"/>
+            <xsd:enumeration value="4"/>
+            <xsd:enumeration value="5"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="Tzanimanje">
+        <xsd:restriction base="xsd:int">
+            <xsd:enumeration value="0"/>
+            <xsd:enumeration value="1"/>
+            <xsd:enumeration value="2"/>
+            <xsd:enumeration value="3"/>
+            <xsd:enumeration value="4"/>
+            <xsd:enumeration value="5"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="Tekstremitet">
+        <xsd:restriction base="xsd:int">
+            <xsd:enumeration value="0"/>
+            <xsd:enumeration value="1"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:element name="saglasnost-za-sprovodjenje-preporucene-imunizacije">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="pacijent">
+                    <xsd:complexType>
+                        <xsd:sequence>
+
+                            <xsd:element name="drzavljanstvo">
+                                <xsd:complexType>
+                                    <xsd:choice minOccurs="1" maxOccurs="1">
+                                        <xsd:element name="domace">
+                                            <xsd:complexType>
+                                                <xsd:sequence>
+                                                    <xsd:element name="jmbg" type="os:Tjmbg"></xsd:element>   
+                                                </xsd:sequence>
+                                            </xsd:complexType>      
+                                        </xsd:element>
+                                        <xsd:element name="strano">
+                                            <xsd:complexType>
+                                                <xsd:sequence>
+                                                    <xsd:element name="naziv-drzavljanstva" type="xsd:string"></xsd:element>
+                                                    <xsd:element name="broj-pasosa-ebs" type="os:Tpasos"></xsd:element>      
+                                                </xsd:sequence>
+                                            </xsd:complexType>      
+                                        </xsd:element>
+                                    </xsd:choice>
+                                </xsd:complexType>
+                            </xsd:element>
+
+                            <xsd:element name="licne-informacije">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="prezime" type="xsd:string"></xsd:element>
+                                        <xsd:element name="ime" type="xsd:string"></xsd:element>
+                                        <xsd:element name="ime-roditelja" type="xsd:string"></xsd:element>
+                                        <xsd:element name="pol" type="os:Tpol"></xsd:element>
+                                        <xsd:element name="radni-status" type="TradniStatus"></xsd:element>
+                                        <xsd:element name="zanimanje" type="Tzanimanje"></xsd:element>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+
+                            <xsd:element name="rodjenje">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="datum-rođenja" type="os:Tdatum"></xsd:element>
+                                        <xsd:element name="mesto-rodjenja" type="xsd:string"></xsd:element>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+
+                            <xsd:element name="stanovanje">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="adresa" type="xsd:string"></xsd:element>
+                                        <xsd:element name="mesto" type="xsd:string"></xsd:element>
+                                        <xsd:element name="opstina" type="xsd:string"></xsd:element>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+
+                            <xsd:element name="kontakt" type="os:Tkontakt"></xsd:element>
+
+                            <xsd:element name="ustanova-socijalne-zastite">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="korisnik" type="xsd:boolean"></xsd:element>
+                                        <xsd:element name="naziv-opstina-sedista" type="xsd:string"></xsd:element>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+
+                <xsd:element name="izjava-saglasnosti">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="izjava" type="xsd:boolean"></xsd:element>
+                            <xsd:element name="naziv-imunoloskog-leka" type="xsd:string"></xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+
+                <xsd:element name="evidencija-o-vakcinaciji">
+                    <xsd:complexType>
+                        <xsd:sequence>
+
+                            <xsd:element name="zdravstvena-ustanova" type="xsd:string"></xsd:element>
+                            <xsd:element name="vakcinacijski-punkt" type="xsd:string"></xsd:element>
+                            <xsd:element name="lekar">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="ime" type="xsd:string"></xsd:element>
+                                        <xsd:element name="prezime" type="xsd:string"></xsd:element>
+                                        <xsd:element name="faksimil" type="xsd:string"></xsd:element>
+                                        <xsd:element name="broj-telefona" type="os:TbrMob"></xsd:element>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+
+                            <xsd:element name="obrazac">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+
+                                        <xsd:element name="primljene-vakcine" minOccurs="1" maxOccurs="unbounded">
+                                            <xsd:complexType>
+                                                <xsd:sequence>
+                                                    <xsd:element name="naziv" nillable="true" type="xsd:string"></xsd:element>
+                                                    <xsd:element name="datum-davanja-vakcine" nillable="true" type="os:Tdatum"></xsd:element>
+                                                    <xsd:element name="nacin-davanja-vakcine" nillable="true" type="xsd:string"></xsd:element>
+                                                    <xsd:element name="ekstremitet" nillable="true" type="Tekstremitet"></xsd:element>
+                                                    <xsd:element name="serija-vakcine" nillable="true" type="xsd:string"></xsd:element>
+                                                    <xsd:element name="proizvodjac" nillable="true" type="xsd:string"></xsd:element>
+                                                    <xsd:element name="nezeljena-reakcija" nillable="true" type="xsd:string"></xsd:element>
+                                                </xsd:sequence>
+                                                <xsd:attribute name="broj" type="xsd:int"></xsd:attribute>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                        
+                                        <xsd:element name="privremene-kontraindikacije">
+                                            <xsd:complexType>
+                                                <xsd:sequence>
+                                                    <xsd:element name="datum-utvrdjivanja" nillable="true" type="os:Tdatum"></xsd:element>
+                                                    <xsd:element name="dijagnoza" nillable="true" type="xsd:string"></xsd:element>
+                                                    <xsd:element name="odluka-komisije" nillable="true" type="xsd:boolean"></xsd:element>
+                                                </xsd:sequence>
+                                                <xsd:attribute name="broj" type="xsd:int"></xsd:attribute>
+                                            </xsd:complexType>
+                                        </xsd:element>
+
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+
+            </xsd:sequence>
+
+            <xsd:attribute name="datum-izdavanja" type="os:TdateString"></xsd:attribute>
+
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

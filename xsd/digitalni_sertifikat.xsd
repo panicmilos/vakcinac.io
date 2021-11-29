@@ -76,13 +76,7 @@
                     </xsd:restriction>
                 </xsd:simpleType>
             </xsd:attribute>
-            <xsd:attribute name="datum-izdavanja">
-                <xsd:simpleType>
-                    <xsd:restriction base="xsd:string">
-                        <xsd:pattern value="\d{2}\.\d{2}\.\d{4} \d{2}:\d{2}"></xsd:pattern>
-                    </xsd:restriction>
-                </xsd:simpleType>
-            </xsd:attribute>
+            <xsd:attribute name="datum-izdavanja" type="os:TdateTimeString"></xsd:attribute>
 
         </xsd:complexType>
     </xsd:element>
