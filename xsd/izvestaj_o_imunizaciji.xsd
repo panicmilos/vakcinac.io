@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+  targetNamespace="http://euprava.org/izvestaj_o_imunizaciji" 
+  xmlns="http://euprava.org/izvestaj_o_imunizaciji"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:os="http://osnovna-sema.org" 
+  elementFormDefault="qualified">
+  <xsd:import namespace="http://osnovna-sema.org" schemaLocation="osnovna_sema.xsd"/>
+
+  <xsd:element name="izvestaj-o-imunizaciji">
+    <xsd:complexType>
+
+      <xsd:sequence>
+        <xsd:element name="statistika-zahteva">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="podneto" type="xsd:nonNegativeInteger"></xsd:element>
+              <xsd:element name="primljeno" type="xsd:nonNegativeInteger"></xsd:element>
+              <xsd:element name="izdato" type="xsd:nonNegativeInteger"></xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+
+        <xsd:element name="statistika-doza">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="ukupno-izdatih-doza" type="xsd:nonNegativeInteger"></xsd:element>
+              <xsd:element name="izdate-doze">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="doza" minOccurs="0" maxOccurs="unbounded">
+                      <xsd:complexType>
+                        <xsd:simpleContent>
+                          <xsd:extension base="xsd:nonNegativeInteger">
+                            <xsd:attribute name="redni-broj" type="xsd:nonNegativeInteger" />
+                          </xsd:extension>
+                        </xsd:simpleContent>
+                      </xsd:complexType>
+                    </xsd:element>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+
+        <xsd:element name="statistika-proizvodjaca">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="proizvodjac" minOccurs="0" maxOccurs="unbounded">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="naziv" type="xsd:string"></xsd:element>
+                    <xsd:element name="broj-doza" type="xsd:nonNegativeInteger"></xsd:element>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      </xsd:sequence>
+
+      <xsd:attribute name="izdato" type="os:TdateString"></xsd:attribute>
+      <xsd:attribute name="od" type="os:TdateString"></xsd:attribute>
+      <xsd:attribute name="do" type="os:TdateString"></xsd:attribute>
+
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

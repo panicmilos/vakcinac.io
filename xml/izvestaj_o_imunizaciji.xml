@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <izvestaj-o-imunizaciji
-  izdato="11.09.2022."
-  od="01.08.2021."
-  do="01.09.2021."
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://euprava.org/izvestaj_o_imunizaciji ../xsd/izvestaj_o_imunizaciji.xsd"
+  xmlns="http://euprava.org/izvestaj_o_imunizaciji"
+  xmlns:os="http://osnovna-sema.org"
+  izdato="11.09.2022"
+  od="01.08.2021"
+  do="01.09.2021"
 >
   <statistika-zahteva>
     <podneto>2758</podneto>
@@ -32,7 +36,7 @@
     </proizvodjac>
     <proizvodjac>
       <naziv>AstraZeneca, Oxford</naziv>
-      <broj-doza>AstraZeneca, Oxford</broj-doza>
+      <broj-doza>144</broj-doza>
     </proizvodjac>
   </statistika-proizvodjaca>
 </izvestaj-o-imunizaciji>
