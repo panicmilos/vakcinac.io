@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+    targetNamespace="http://euprava.org/izjava_interesovanja_za_vakcinisanje" 
+    xmlns="http://euprava.org/izjava_interesovanja_za_vakcinisanje"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:os="http://osnovna-sema.org" 
+    elementFormDefault="qualified">
+    <xsd:import namespace="http://osnovna-sema.org" schemaLocation="osnovna_sema.xsd"/>
+    
+    <xsd:simpleType name="Tdrzavljanstvo">
+        <xsd:restriction base="xsd:int">
+            <xsd:enumeration value="0"></xsd:enumeration>
+            <xsd:enumeration value="1"></xsd:enumeration>
+            <xsd:enumeration value="2"></xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="Tproizvodjac">
+        <xsd:restriction base="xsd:int">
+            <xsd:enumeration value="0"></xsd:enumeration>
+            <xsd:enumeration value="1"></xsd:enumeration>
+            <xsd:enumeration value="2"></xsd:enumeration>
+            <xsd:enumeration value="3"></xsd:enumeration>
+            <xsd:enumeration value="4"></xsd:enumeration>
+            <xsd:enumeration value="5"></xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:element name="izjava-interesovanja-za-vakcinisanje">
+        <xsd:complexType>
+            <xsd:sequence>
+
+                <xsd:element name="podnosilac-izjave">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="podnosilac">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="drzavljanstvo" type="Tdrzavljanstvo"></xsd:element>
+                                        <xsd:element name="jmbg" type="os:Tjmbg"></xsd:element>
+                                        <xsd:element name="ime" type="xsd:string"></xsd:element>
+                                        <xsd:element name="prezime" type="xsd:string"></xsd:element>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element name="kontakt" type="os:Tkontakt" ></xsd:element>
+                            <xsd:element name="dobrovoljan-davalac-krvi" type="xsd:boolean"></xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+
+                <xsd:element name="informacije-o-primanju-vakcine">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="opstina" type="xsd:string"></xsd:element>
+                            <xsd:element name="proizvodjaci">
+                                <xsd:complexType>
+                                    <xsd:choice minOccurs="1" maxOccurs="unbounded">
+                                        <xsd:element name="proizvodjac" type="Tproizvodjac"></xsd:element>
+                                    </xsd:choice>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+
+            <xsd:attribute name="dan" type="os:TdateString"></xsd:attribute>
+
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

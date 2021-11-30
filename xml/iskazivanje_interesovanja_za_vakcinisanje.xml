@@ -1,26 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<izjava_interesovanja_za_vakcinisanje
-  dan="17.11.2021."
+<izjava-interesovanja-za-vakcinisanje
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://euprava.org/izjava_interesovanja_za_vakcinisanje ../xsd/izjava_interesovanja_za_vakcinisanje.xsd"
+  xmlns="http://euprava.org/izjava_interesovanja_za_vakcinisanje"
+  xmlns:os="http://osnovna-sema.org"
+  dan="17.11.2021"
 >
   <podnosilac-izjave>
     <podnosilac>
       <drzavljanstvo>0</drzavljanstvo>
-      <jmbg>2312xxxxxxxxx</jmbg>
+      <jmbg>2312918273972</jmbg>
       <ime>Luka</ime>
       <prezime>Bjelica</prezime>
     </podnosilac>
     <kontakt>
-      <adresa-elektronske-poste>lukica99@gmail.com</adresa-elektronske-poste>
-      <broj-mobilnog-telefona>0659127389</broj-mobilnog-telefona>
-      <broj-fiksnog-telefona>023598716</broj-fiksnog-telefona>
+      <os:adresa-elektronske-poste>lukica99@gmail.com</os:adresa-elektronske-poste>
+      <os:broj-mobilnog-telefona>0659127389</os:broj-mobilnog-telefona>
+      <os:broj-fiksnog-telefona>023598716</os:broj-fiksnog-telefona>
     </kontakt>
-    <dobrovoljan-davalac-krvi>Da</dobrovoljan-davalac-krvi>
+    <dobrovoljan-davalac-krvi>true</dobrovoljan-davalac-krvi>
   </podnosilac-izjave>
-  <informacije-o-primanju-vakcije>
+  <informacije-o-primanju-vakcine>
     <opstina>Zrenjanin</opstina>
     <proizvodjaci>
-      <proizvodjac>Sinopharm</proizvodjac>
-      <proizvodjac>AstraZeneca</proizvodjac>
+      <proizvodjac>0</proizvodjac>
+      <proizvodjac>2</proizvodjac>
     </proizvodjaci>
-  </informacije-o-primanju-vakcije>
-</izjava_interesovanja_za_vakcinisanje>
+  </informacije-o-primanju-vakcine>
+</izjava-interesovanja-za-vakcinisanje>
