@@ -97,4 +97,21 @@
             <xsd:element name="broj-fiksnog-telefona" type="TbrFiks"></xsd:element>
         </xsd:sequence>
     </xsd:complexType>
+
+    <xsd:complexType name="Tosoba">
+        <xsd:sequence>
+            <xsd:element name="ime" type="xsd:string"></xsd:element>
+            <xsd:element name="prezime" type="xsd:string"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="TosobaSaJmbg">
+        <xsd:complexContent>
+            <xsd:extension base="Tosoba">
+                <xsd:sequence>
+                    <xsd:element name="jmbg" type="Tjmbg"></xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
 </xsd:schema>

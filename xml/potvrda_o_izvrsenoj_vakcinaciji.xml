@@ -9,15 +9,15 @@
 >
 
   <podaci-o-vakcinisanom>
-    <ime>Милош</ime>
-    <prezime>Панић</prezime>
+    <os:ime>Милош</os:ime>
+    <os:prezime>Панић</os:prezime>
+    <os:jmbg>2506999850152</os:jmbg>
     <datum-rodjenja>
       <os:dan>25</os:dan>
       <os:mesec>6</os:mesec>
       <os:godina>1999</os:godina>
     </datum-rodjenja>
     <pol>0</pol>
-    <jmbg>2506999850152</jmbg>
   </podaci-o-vakcinisanom>
 
   <podaci-o-vakcinaciji>

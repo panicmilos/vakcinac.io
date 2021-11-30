@@ -26,6 +26,16 @@
         </xsd:restriction>
     </xsd:simpleType>
 
+    <xsd:complexType name="Tpodnosilac">
+        <xsd:complexContent>
+            <xsd:extension base="os:TosobaSaJmbg">
+                <xsd:sequence>
+                    <xsd:element name="drzavljanstvo" type="Tdrzavljanstvo"></xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
     <xsd:element name="izjava-interesovanja-za-vakcinisanje">
         <xsd:complexType>
             <xsd:sequence>
@@ -33,16 +43,7 @@
                 <xsd:element name="podnosilac-izjave">
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element name="podnosilac">
-                                <xsd:complexType>
-                                    <xsd:sequence>
-                                        <xsd:element name="drzavljanstvo" type="Tdrzavljanstvo"></xsd:element>
-                                        <xsd:element name="jmbg" type="os:Tjmbg"></xsd:element>
-                                        <xsd:element name="ime" type="xsd:string"></xsd:element>
-                                        <xsd:element name="prezime" type="xsd:string"></xsd:element>
-                                    </xsd:sequence>
-                                </xsd:complexType>
-                            </xsd:element>
+                            <xsd:element name="podnosilac" type="Tpodnosilac"></xsd:element>
                             <xsd:element name="kontakt" type="os:Tkontakt" ></xsd:element>
                             <xsd:element name="dobrovoljan-davalac-krvi" type="xsd:boolean"></xsd:element>
                         </xsd:sequence>

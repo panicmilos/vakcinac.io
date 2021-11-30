@@ -9,10 +9,10 @@
 
     <validacija>https://euprava.gov.rs/DigitalniZeleniSertifikat/validacijaDokumenta</validacija>
     <nosilac-sertifikata>
-        <ime>Mirko</ime>
-        <prezime>Mirkovic</prezime>
+        <os:ime>Mirko</os:ime>
+        <os:prezime>Mirkovic</os:prezime>
+        <os:jmbg>1111111111111</os:jmbg>
         <pol>0</pol>
-        <jmbg>1111111111111</jmbg>
         <br-pasosa>11111</br-pasosa>
     </nosilac-sertifikata>
 

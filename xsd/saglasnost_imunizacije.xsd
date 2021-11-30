@@ -36,6 +36,30 @@
         </xsd:restriction>
     </xsd:simpleType>
 
+    <xsd:complexType name="TlicneInformacije">
+        <xsd:complexContent>
+            <xsd:extension base="os:Tosoba">
+                <xsd:sequence>
+                    <xsd:element name="ime-roditelja" type="xsd:string"></xsd:element>
+                    <xsd:element name="pol" type="os:Tpol"></xsd:element>
+                    <xsd:element name="radni-status" type="TradniStatus"></xsd:element>
+                    <xsd:element name="zanimanje" type="Tzanimanje"></xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="Tlekar">
+        <xsd:complexContent>
+            <xsd:extension base="os:Tosoba">
+                <xsd:sequence>
+                    <xsd:element name="faksimil" type="xsd:string"></xsd:element>
+                    <xsd:element name="broj-telefona" type="os:TbrMob"></xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
     <xsd:element name="saglasnost-za-sprovodjenje-preporucene-imunizacije">
         <xsd:complexType>
             <xsd:sequence>
@@ -65,18 +89,7 @@
                                 </xsd:complexType>
                             </xsd:element>
 
-                            <xsd:element name="licne-informacije">
-                                <xsd:complexType>
-                                    <xsd:sequence>
-                                        <xsd:element name="prezime" type="xsd:string"></xsd:element>
-                                        <xsd:element name="ime" type="xsd:string"></xsd:element>
-                                        <xsd:element name="ime-roditelja" type="xsd:string"></xsd:element>
-                                        <xsd:element name="pol" type="os:Tpol"></xsd:element>
-                                        <xsd:element name="radni-status" type="TradniStatus"></xsd:element>
-                                        <xsd:element name="zanimanje" type="Tzanimanje"></xsd:element>
-                                    </xsd:sequence>
-                                </xsd:complexType>
-                            </xsd:element>
+                            <xsd:element name="licne-informacije" type="TlicneInformacije"></xsd:element>
 
                             <xsd:element name="rodjenje">
                                 <xsd:complexType>
@@ -127,16 +140,7 @@
 
                             <xsd:element name="zdravstvena-ustanova" type="xsd:string"></xsd:element>
                             <xsd:element name="vakcinacijski-punkt" type="xsd:string"></xsd:element>
-                            <xsd:element name="lekar">
-                                <xsd:complexType>
-                                    <xsd:sequence>
-                                        <xsd:element name="ime" type="xsd:string"></xsd:element>
-                                        <xsd:element name="prezime" type="xsd:string"></xsd:element>
-                                        <xsd:element name="faksimil" type="xsd:string"></xsd:element>
-                                        <xsd:element name="broj-telefona" type="os:TbrMob"></xsd:element>
-                                    </xsd:sequence>
-                                </xsd:complexType>
-                            </xsd:element>
+                            <xsd:element name="lekar" type="Tlekar"></xsd:element>
 
                             <xsd:element name="obrazac">
                                 <xsd:complexType>

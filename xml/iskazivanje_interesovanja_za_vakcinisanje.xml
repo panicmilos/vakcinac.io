@@ -8,10 +8,10 @@
 >
   <podnosilac-izjave>
     <podnosilac>
+      <os:ime>Luka</os:ime>
+      <os:prezime>Bjelica</os:prezime>
+      <os:jmbg>2312918273972</os:jmbg>
       <drzavljanstvo>0</drzavljanstvo>
-      <jmbg>2312918273972</jmbg>
-      <ime>Luka</ime>
-      <prezime>Bjelica</prezime>
     </podnosilac>
     <kontakt>
       <os:adresa-elektronske-poste>lukica99@gmail.com</os:adresa-elektronske-poste>

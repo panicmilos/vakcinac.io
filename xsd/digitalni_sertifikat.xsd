@@ -7,23 +7,24 @@
     elementFormDefault="qualified">
     <xsd:import namespace="http://osnovna-sema.org" schemaLocation="osnovna_sema.xsd"/>
 
+    <xsd:complexType name="TnosilacSertifikata">
+        <xsd:complexContent>
+            <xsd:extension base="os:TosobaSaJmbg">
+                <xsd:sequence>
+                    <xsd:element name="pol" type="os:Tpol"></xsd:element>
+                    <xsd:element name="br-pasosa" type="os:Tpasos"></xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
     <xsd:element name="digitalni-sertifikat">
         <xsd:complexType>
             <xsd:sequence>
 
                 <xsd:element name="validacija" type="xsd:anyURI"></xsd:element>
 
-                <xsd:element name="nosilac-sertifikata">
-                    <xsd:complexType>
-                        <xsd:sequence>
-                            <xsd:element name="ime" type="xsd:string"></xsd:element>
-                            <xsd:element name="prezime" type="xsd:string"></xsd:element>
-                            <xsd:element name="pol" type="os:Tpol"></xsd:element>
-                            <xsd:element name="jmbg" type="os:Tjmbg"></xsd:element>
-                            <xsd:element name="br-pasosa" type="os:Tpasos"></xsd:element>
-                        </xsd:sequence>
-                    </xsd:complexType>
-                </xsd:element>
+                <xsd:element name="nosilac-sertifikata" type="TnosilacSertifikata"></xsd:element>
 
                 <xsd:element name="vakcinacije">
                     <xsd:complexType>

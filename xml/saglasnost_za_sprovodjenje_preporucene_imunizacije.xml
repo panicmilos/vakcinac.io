@@ -13,8 +13,8 @@
             </domace>
         </drzavljanstvo>
         <licne-informacije>
-            <prezime>Шербеџија</prezime>
-            <ime>Лука</ime>
+            <os:ime>Лука</os:ime>
+            <os:prezime>Шербеџија</os:prezime>
             <ime-roditelja>Петар</ime-roditelja>
             <pol>0</pol>
             <radni-status>4</radni-status>
@@ -52,8 +52,8 @@
         <zdravstvena-ustanova>Дом здравља „Јован Јовановић Змај“</zdravstvena-ustanova>
         <vakcinacijski-punkt>Променада</vakcinacijski-punkt>
         <lekar>
-            <ime>Ивко</ime>
-            <prezime>Бањац</prezime>
+            <os:ime>Ивко</os:ime>
+            <os:prezime>Бањац</os:prezime>
             <faksimil>123456</faksimil>
             <broj-telefona>0624543632</broj-telefona>
         </lekar>
