@@ -43,6 +43,12 @@
                     </xsd:element>
                   </xsd:sequence>
                 </xsd:complexType>
+
+                <xsd:unique name="jedinstveniRedniBroj">
+                  <xsd:selector xpath=".//*" />
+                  <xsd:field xpath="@redni-broj" />
+                </xsd:unique>
+            
               </xsd:element>
             </xsd:sequence>
           </xsd:complexType>
@@ -56,5 +62,6 @@
       <xsd:attribute name="broj-primljenih-doza" type="xsd:nonNegativeInteger"></xsd:attribute>
 
     </xsd:complexType>
+
   </xsd:element>
 </xsd:schema>
