@@ -1,33 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<potvrda_o_izvrsenoj_vakcinaciji
-  datum-izdavanja="19.11.2021."
+<potvrda-o-izvrsenoj-vakcinaciji
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://euprava.org/potvrda_o_izvrsenoj_vakcinaciji ../xsd/potvrda_o_izvrsenoj_vakcinaciji.xsd"
+  xmlns="http://euprava.org/potvrda_o_izvrsenoj_vakcinaciji"
+  xmlns:os="http://osnovna-sema.org"
+  datum-izdavanja="19.11.2021"
   broj-primljenih-doza="1"
 >
 
   <podaci-o-vakcinisanom>
     <ime>Милош</ime>
     <prezime>Панић</prezime>
-    <datum-rođenja>
-      <dan>25</dan>
-      <mesec>6</mesec>
-      <godina>1999</godina>
-    </datum-rođenja>
-    <pol>Мушки</pol>
-    <jmbg>2506xxxxxxxxx</jmbg>
+    <datum-rodjenja>
+      <os:dan>25</os:dan>
+      <os:mesec>6</os:mesec>
+      <os:godina>1999</os:godina>
+    </datum-rodjenja>
+    <pol>0</pol>
+    <jmbg>2506999850152</jmbg>
   </podaci-o-vakcinisanom>
 
   <podaci-o-vakcinaciji>
     <zdravstvena-ustanova>ДОМ ЗДРАВЉА ЗВЕЗДАРА</zdravstvena-ustanova>
     <naziv-vakcine>Pfizer, BioNTech</naziv-vakcine>
     <podaci-o-dozama>
-      <doza broj="1">
-        <datum>19.11.2021.</datum>
+      <primljena-doza redni-broj="1">
+        <datum>19.11.2021</datum>
         <serija>1234567</serija>
-      </doza>
-      <doza broj="2" />
+      </primljena-doza>
+      <primljena-doza redni-broj="2">
+        <datum xsi:nil="true"></datum>
+        <serija xsi:nil="true"></serija>
+      </primljena-doza>
     </podaci-o-dozama>
   </podaci-o-vakcinaciji>
 
   <qr-kod />
 
-</potvrda_o_izvrsenoj_vakcinaciji>
+</potvrda-o-izvrsenoj-vakcinaciji>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema  targetNamespace="http://euprava.org/potvrda_o_izvrsenoj_vakcinaciji" 
+  xmlns="http://euprava.org/potvrda_o_izvrsenoj_vakcinaciji"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:os="http://osnovna-sema.org" 
+  elementFormDefault="qualified">
+  <xsd:import namespace="http://osnovna-sema.org" schemaLocation="osnovna_sema.xsd"/>
+
+  <xsd:element name="potvrda-o-izvrsenoj-vakcinaciji">
+    <xsd:complexType>
+
+      <xsd:sequence>
+        <xsd:element name="podaci-o-vakcinisanom">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="ime" type="xsd:string"></xsd:element>
+              <xsd:element name="prezime" type="xsd:string"></xsd:element>
+              <xsd:element name="datum-rodjenja" type="os:Tdatum"></xsd:element>
+              <xsd:element name="pol" type="os:Tpol"></xsd:element>
+              <xsd:element name="jmbg" type="os:Tjmbg"></xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+
+        <xsd:element name="podaci-o-vakcinaciji">
+          <xsd:complexType>
+            <xsd:sequence>
+              <xsd:element name="zdravstvena-ustanova" type="xsd:string"></xsd:element>
+              <xsd:element name="naziv-vakcine" type="xsd:string"></xsd:element>
+              <xsd:element name="podaci-o-dozama">
+                <xsd:complexType>
+                  <xsd:sequence>
+                    <xsd:element name="primljena-doza" minOccurs="0" maxOccurs="unbounded">
+                      <xsd:complexType>
+
+                        <xsd:sequence>
+                          <xsd:element name="datum" type="os:TdateString" nillable="true"></xsd:element>
+                          <xsd:element name="serija" type="xsd:string" nillable="true"></xsd:element>
+                        </xsd:sequence>
+
+                        <xsd:attribute name="redni-broj" type="xsd:string" />
+                      </xsd:complexType>                   
+                    </xsd:element>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+
+        <xsd:element name="qr-kod" type="xsd:anyURI"></xsd:element>
+
+      </xsd:sequence>
+
+      <xsd:attribute name="datum-izdavanja" type="os:TdateString"></xsd:attribute>
+      <xsd:attribute name="broj-primljenih-doza" type="xsd:nonNegativeInteger"></xsd:attribute>
+
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>
