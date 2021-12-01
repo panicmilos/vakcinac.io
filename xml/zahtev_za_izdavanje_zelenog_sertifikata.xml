@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../xslt/zahtev_za_izdavanje_zelenog_sertifikata.xsl"?>
 <zahtev-za-izdavanje-zelenog-sertifikata
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="https://www.vakcinac-io.rs/xsd/zahtev ../xsd/zahtev_za_zeleni_sertifikat.xsd"
