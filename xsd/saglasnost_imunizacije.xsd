@@ -9,29 +9,43 @@
 
     <xsd:simpleType name="TradniStatus">
         <xsd:restriction base="xsd:int">
+            <!-- запослен -->
             <xsd:enumeration value="0"/>
+            <!-- незапослен -->
             <xsd:enumeration value="1"/>
+            <!-- пензионер -->
             <xsd:enumeration value="2"/>
+            <!-- ученик -->
             <xsd:enumeration value="3"/>
+            <!-- студент -->
             <xsd:enumeration value="4"/>
+            <!-- дете -->
             <xsd:enumeration value="5"/>
         </xsd:restriction>
     </xsd:simpleType>
 
     <xsd:simpleType name="Tzanimanje">
         <xsd:restriction base="xsd:int">
+            <!-- здравствена заштита -->
             <xsd:enumeration value="0"/>
+            <!-- социјална заштита -->
             <xsd:enumeration value="1"/>
+            <!-- просвета -->
             <xsd:enumeration value="2"/>
+            <!-- МУП -->
             <xsd:enumeration value="3"/>
+            <!-- Војска РС -->
             <xsd:enumeration value="4"/>
+            <!-- друго -->
             <xsd:enumeration value="5"/>
         </xsd:restriction>
     </xsd:simpleType>
 
     <xsd:simpleType name="Tekstremitet">
         <xsd:restriction base="xsd:int">
+            <!-- ДР -->
             <xsd:enumeration value="0"/>
+            <!-- ЛР -->
             <xsd:enumeration value="1"/>
         </xsd:restriction>
     </xsd:simpleType>

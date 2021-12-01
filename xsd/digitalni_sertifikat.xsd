@@ -57,7 +57,7 @@
                                         <xsd:element name="proizvodjac" nillable="true" type="xsd:string"></xsd:element>
                                         <xsd:element name="datum-uzorka" nillable="true" type="os:Tdatum"></xsd:element>
                                         <xsd:element name="datum-izdavanja" nillable="true" type="os:Tdatum"></xsd:element>
-                                        <xsd:element name="rezultat" nillable="true" type="xsd:string"></xsd:element>
+                                        <xsd:element name="rezultat" nillable="true" type="os:Trezultat"></xsd:element>
                                         <xsd:element name="labaratorija" nillable="true" type="xsd:string"></xsd:element>
                                     </xsd:sequence>
                                     <xsd:attribute name="broj" type="xsd:int"></xsd:attribute>

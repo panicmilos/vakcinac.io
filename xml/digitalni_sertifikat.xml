@@ -56,7 +56,7 @@
                 <os:mesec>3</os:mesec>
                 <os:godina>2020</os:godina>
             </datum-izdavanja>
-            <rezultat>Negativan</rezultat>
+            <rezultat>0</rezultat>
             <labaratorija>BioLab Zrenjanin</labaratorija>
         </test>
         <test broj="2">

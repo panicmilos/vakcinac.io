@@ -19,15 +19,19 @@
 
     <xsd:simpleType name="Tpol">
         <xsd:restriction base="xsd:int">
+            <!-- Muško -->
             <xsd:enumeration value="0"/>
+            <!-- Žensko -->
             <xsd:enumeration value="1"/>
         </xsd:restriction>
     </xsd:simpleType>
 
     <xsd:simpleType name="Trezultat">
         <xsd:restriction base="xsd:string">
-            <xsd:enumeration value="Pozitivan"/>
-            <xsd:enumeration value="Negativan"/>
+            <!-- Pozitivan -->
+            <xsd:enumeration value="1"/>
+            <!-- Negativan -->
+            <xsd:enumeration value="0"/>
         </xsd:restriction>
     </xsd:simpleType>
 

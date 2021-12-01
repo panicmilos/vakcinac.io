@@ -9,19 +9,28 @@
     
     <xsd:simpleType name="Tdrzavljanstvo">
         <xsd:restriction base="xsd:int">
+            <!-- Држављанин Републике Србије -->
             <xsd:enumeration value="0"></xsd:enumeration>
+            <!-- Страни држављанин са боравком у РС -->
             <xsd:enumeration value="1"></xsd:enumeration>
+            <!-- Страни држављанин без боравка у РС  -->
             <xsd:enumeration value="2"></xsd:enumeration>
         </xsd:restriction>
     </xsd:simpleType>
 
     <xsd:simpleType name="Tproizvodjac">
         <xsd:restriction base="xsd:int">
+            <!-- Pfizer-BioNTech -->
             <xsd:enumeration value="0"></xsd:enumeration>
+            <!-- Sputnik V -->
             <xsd:enumeration value="1"></xsd:enumeration>
+            <!-- Sinopharm -->
             <xsd:enumeration value="2"></xsd:enumeration>
+            <!-- AstraZeneca -->
             <xsd:enumeration value="3"></xsd:enumeration>
+            <!-- Moderna -->
             <xsd:enumeration value="4"></xsd:enumeration>
+            <!-- Било која -->
             <xsd:enumeration value="5"></xsd:enumeration>
         </xsd:restriction>
     </xsd:simpleType>
@@ -56,9 +65,9 @@
                             <xsd:element name="opstina" type="xsd:string"></xsd:element>
                             <xsd:element name="proizvodjaci">
                                 <xsd:complexType>
-                                    <xsd:choice minOccurs="1" maxOccurs="unbounded">
+                                    <xsd:sequence minOccurs="1" maxOccurs="unbounded">
                                         <xsd:element name="proizvodjac" type="Tproizvodjac"></xsd:element>
-                                    </xsd:choice>
+                                    </xsd:sequence>
                                 </xsd:complexType>
                             </xsd:element>
                         </xsd:sequence>
