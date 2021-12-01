@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <digitalni-sertifikat 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://euprava.org/digitalni_sertifikat ../xsd/digitalni_sertifikat.xsd"
-    xmlns="http://euprava.org/digitalni_sertifikat"
-    xmlns:os="http://osnovna-sema.org"
+    xsi:schemaLocation="https://www.vakcinac-io.rs/xsd/digitalni-sertifikat ../xsd/digitalni_sertifikat.xsd"
+    xmlns="https://www.vakcinac-io.rs/xsd/digitalni-sertifikat"
+    xmlns:os="https://www.vakcinac-io.rs/xsd/osnovna-sema"
     broj-sertifikata="132141" 
     datum-izdavanja="10.05.3003 10:30">
 

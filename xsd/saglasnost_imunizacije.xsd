@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema
-    targetNamespace="http://euprava.org/saglasnost_imunizacije" 
-    xmlns="http://euprava.org/saglasnost_imunizacije"
+    targetNamespace="https://www.vakcinac-io.rs/xsd/saglasnost" 
+    xmlns="https://www.vakcinac-io.rs/xsd/saglasnost"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    xmlns:os="http://osnovna-sema.org" 
+    xmlns:os="https://www.vakcinac-io.rs/xsd/osnovna-sema" 
     elementFormDefault="qualified">
-    <xsd:import namespace="http://osnovna-sema.org" schemaLocation="osnovna_sema.xsd"/>
+    <xsd:import namespace="https://www.vakcinac-io.rs/xsd/osnovna-sema" schemaLocation="osnovna_sema.xsd"/>
 
     <xsd:simpleType name="TradniStatus">
         <xsd:restriction base="xsd:int">

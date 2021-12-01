@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zahtev-za-izdavanje-zelenog-sertifikata
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://euprava.org/zahtev_za_zeleni_sertifikat ../xsd/zahtev_za_zeleni_sertifikat.xsd"
-  xmlns="http://euprava.org/zahtev_za_zeleni_sertifikat"
-  xmlns:os="http://osnovna-sema.org"
+  xsi:schemaLocation="https://www.vakcinac-io.rs/xsd/zahtev ../xsd/zahtev_za_zeleni_sertifikat.xsd"
+  xmlns="https://www.vakcinac-io.rs/xsd/zahtev"
+  xmlns:os="https://www.vakcinac-io.rs/xsd/osnovna-sema"
 
   dan="17.11.2021"
   mesto="Новом Сад"

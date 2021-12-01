@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <izvestaj-o-imunizaciji
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://euprava.org/izvestaj_o_imunizaciji ../xsd/izvestaj_o_imunizaciji.xsd"
-  xmlns="http://euprava.org/izvestaj_o_imunizaciji"
-  xmlns:os="http://osnovna-sema.org"
+  xsi:schemaLocation="https://www.vakcinac-io.rs/xsd/izvestaj ../xsd/izvestaj_o_imunizaciji.xsd"
+  xmlns="https://www.vakcinac-io.rs/xsd/izvestaj"
+  xmlns:os="https://www.vakcinac-io.rs/xsd/osnovna-sema"
   izdato="11.09.2022"
   od="01.08.2021"
   do="01.09.2021"

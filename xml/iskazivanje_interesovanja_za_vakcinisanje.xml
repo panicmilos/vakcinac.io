@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <izjava-interesovanja-za-vakcinisanje
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://euprava.org/izjava_interesovanja_za_vakcinisanje ../xsd/izjava_interesovanja_za_vakcinisanje.xsd"
-  xmlns="http://euprava.org/izjava_interesovanja_za_vakcinisanje"
-  xmlns:os="http://osnovna-sema.org"
+  xsi:schemaLocation="https://www.vakcinac-io.rs/xsd/interesovanje ../xsd/izjava_interesovanja_za_vakcinisanje.xsd"
+  xmlns="https://www.vakcinac-io.rs/xsd/interesovanje"
+  xmlns:os="https://www.vakcinac-io.rs/xsd/osnovna-sema"
   dan="17.11.2021"
 >
   <podnosilac-izjave>

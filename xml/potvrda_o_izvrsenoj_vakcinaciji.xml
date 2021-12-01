@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <potvrda-o-izvrsenoj-vakcinaciji
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://euprava.org/potvrda_o_izvrsenoj_vakcinaciji ../xsd/potvrda_o_izvrsenoj_vakcinaciji.xsd"
-  xmlns="http://euprava.org/potvrda_o_izvrsenoj_vakcinaciji"
-  xmlns:os="http://osnovna-sema.org"
+  xsi:schemaLocation="https://www.vakcinac-io.rs/xsd/potvrda ../xsd/potvrda_o_izvrsenoj_vakcinaciji.xsd"
+  xmlns="https://www.vakcinac-io.rs/xsd/potvrda"
+  xmlns:os="https://www.vakcinac-io.rs/xsd/osnovna-sema"
   datum-izdavanja="19.11.2021"
   broj-primljenih-doza="1"
   sifra-potvrde="12345"

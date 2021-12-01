@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema  targetNamespace="http://euprava.org/potvrda_o_izvrsenoj_vakcinaciji" 
-  xmlns="http://euprava.org/potvrda_o_izvrsenoj_vakcinaciji"
+<xsd:schema  targetNamespace="https://www.vakcinac-io.rs/xsd/potvrda" 
+  xmlns="https://www.vakcinac-io.rs/xsd/potvrda"
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-  xmlns:os="http://osnovna-sema.org" 
+  xmlns:os="https://www.vakcinac-io.rs/xsd/osnovna-sema" 
   elementFormDefault="qualified">
-  <xsd:import namespace="http://osnovna-sema.org" schemaLocation="osnovna_sema.xsd"/>
+  <xsd:import namespace="https://www.vakcinac-io.rs/xsd/osnovna-sema" schemaLocation="osnovna_sema.xsd"/>
 
   <xsd:complexType name="TpodaciOVakcinisanom">
     <xsd:complexContent>
