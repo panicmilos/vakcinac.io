@@ -61,6 +61,7 @@
 
       <xsd:attribute name="datum-izdavanja" type="os:TdateString"></xsd:attribute>
       <xsd:attribute name="broj-primljenih-doza" type="xsd:nonNegativeInteger"></xsd:attribute>
+      <xsd:attribute name="sifra-potvrde" type="xsd:string"></xsd:attribute>
 
     </xsd:complexType>
 
