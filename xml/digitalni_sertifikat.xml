@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../xslt/digitalni_sertifikat.xsl"?>
 <digitalni-sertifikat 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="https://www.vakcinac-io.rs/xsd/digitalni-sertifikat ../xsd/digitalni_sertifikat.xsd"
@@ -14,6 +15,11 @@
         <os:jmbg>1111111111111</os:jmbg>
         <pol>0</pol>
         <br-pasosa>11111</br-pasosa>
+        <datum-rodjenja>
+            <os:dan>11</os:dan>
+            <os:mesec>2</os:mesec>
+            <os:godina>1999</os:godina>
+        </datum-rodjenja>
     </nosilac-sertifikata>
 
     <vakcinacije broj-doza="2">

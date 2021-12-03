@@ -13,6 +13,7 @@
                 <xsd:sequence>
                     <xsd:element name="pol" type="os:Tpol"></xsd:element>
                     <xsd:element name="br-pasosa" type="os:Tpasos"></xsd:element>
+                    <xsd:element name="datum-rodjenja" type="os:Tdatum"></xsd:element>
                 </xsd:sequence>
             </xsd:extension>
         </xsd:complexContent>
