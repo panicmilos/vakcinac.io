@@ -7,7 +7,7 @@
   xmlns:os="https://www.vakcinac-io.rs/xsd/osnovna-sema"
 
   dan="17.11.2021"
-  mesto="Новом Сад"
+  mesto="Новом Саду"
 >
   <podnosilac-zahteva>
     <os:ime>Милош</os:ime>
@@ -22,6 +22,6 @@
     <broj-pasosa>22222</broj-pasosa>
   </podnosilac-zahteva>
   <razlog>
-    Подносим захтев да бих мога ићи на пиво после 8 навече односно тим билдинг.
+    Подносим захтев да бих могasdadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdа ићи на пиво после 8 навече односно тим билдинг.
   </razlog>
 </zahtev-za-izdavanje-zelenog-sertifikata>

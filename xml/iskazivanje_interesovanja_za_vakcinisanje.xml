@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../xslt/iskazivanje_interesovanja_za_vakcinisanje.xsl"?>
 <izjava-interesovanja-za-vakcinisanje
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="https://www.vakcinac-io.rs/xsd/interesovanje ../xsd/izjava_interesovanja_za_vakcinisanje.xsd"
