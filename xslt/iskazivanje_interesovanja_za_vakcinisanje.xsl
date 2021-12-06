@@ -68,6 +68,7 @@
         }
 
         .chosen-option {
+		  padding: 2 5 2 5;
           border: 2px solid;
           border-radius: 15px;
         }
