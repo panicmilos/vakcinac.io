@@ -36,6 +36,6 @@
     </podaci-o-dozama>
   </podaci-o-vakcinaciji>
 
-  <qr-kod />
+  <qr-kod></qr-kod>
 
 </potvrda-o-izvrsenoj-vakcinaciji>
