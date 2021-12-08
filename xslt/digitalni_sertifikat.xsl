@@ -14,54 +14,84 @@
                 body {
                     margin: 10%;
                 }
-                .nosilac-info {
-                    width: 32vh;
+
+                .wrapper {
+                    display: grid;
                 }
 
-                .main-table {
-                    width: 100%:
+                .nosilac-info {
+                    width: 30%;
+                }
+
+                table {
+                    width: 100%;
+                }
+
+                .grid-cell {
+                    padding: 5px;
+                }
+
+                .nosilac-cell {
+                    border-bottom: 1px solid black;
+                }
+
+                .vaccination-header {
+                    text-align: center;
+                    margin: 1px;
+                }
+
+                .border-cell {
+                    border-bottom: 1px solid black;
+                    border-right: 1px solid black;
+                }
+
+                #vakcinacije div:last-child {
+                    border-right: none;
+                    border-bottom: 1px solid black;
+                }
+
+                #testovi > div:nth-last-child(-n+3) {
+                    border-right: none;
+                    border-bottom: 1px solid black;
+                }
+
+                #testovi > div:last-child {
+                    border-right: none;
+                    border-bottom: none;
                 }
 
             </style>
         </head>
         <body>
-            <table class="main-table">
-                <tr>
-                    <td>
-                        <table>
-                            <tr>
-                                <td>
-                                    <strong>Број сертификата /<br/> Certificate ID:</strong>
-                                </td>
-                                <td class="nosilac-info">
-                                    <xsl:value-of select="@broj-sertifikata"/>
-                                </td>
-                                <td>
-                                    <strong>Датум и време издавања сертификата /<br/> Certificate issuing date and time:</strong>
-                                </td>
-                                <td>
-                                    <xsl:value-of select="@datum-izdavanja"/>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <xsl:apply-templates select="x:nosilac-sertifikata"/>
-                    </td>
-                </tr>
-                <xsl:apply-templates select="x:vakcinacije"/>
-                <tr>
-                    <xsl:apply-templates select="x:testovi"/>
-                </tr>
-            </table>
+            <div class="wrapper">
+                <div style="grid-row: 1">
+                    <table>
+                        <tr>
+                            <td>
+                                <strong>Број сертификата /<br/> Certificate ID:</strong>
+                            </td>
+                            <td class="nosilac-info">
+                                <xsl:value-of select="@broj-sertifikata"/>
+                            </td>
+                            <td>
+                                <strong>Датум и време издавања сертификата /<br/> Certificate issuing date and time:</strong>
+                            </td>
+                            <td>
+                                <xsl:value-of select="@datum-izdavanja"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <xsl:apply-templates select="x:nosilac-sertifikata"/>
+            </div>
+            <xsl:apply-templates select="x:vakcinacije"/>
+            <xsl:apply-templates select="x:testovi"/>
         </body>
     </html>
 </xsl:template>
 
 <xsl:template match="x:nosilac-sertifikata">
-    <div>
+    <div class="nosilac-cell" style="grid-row: 2;">
         <table>
             <tr>
                 <td class="nosilac-info">
@@ -123,16 +153,16 @@
 </xsl:template>
 
 <xsl:template match="x:vakcinacije">
-    <tr>
-        <td><h3>Вакцинација / Vaccination</h3></td>
-    </tr>
-    <tr>
-        <xsl:apply-templates match="x:vakcinacija"/>
-    </tr> 
+    <div id="vakcinacije" class="wrapper">
+        <div class="grid-cell" style="grid-row: 1; grid-column: 1 / 3; ">
+            <h3 class="vaccination-header">Вакцинација / Vaccination</h3>
+        </div>
+            <xsl:apply-templates select="x:vakcinacija"/>
+    </div>
 </xsl:template>
 
 <xsl:template match="x:vakcinacija">
-    <td>
+    <div class="border-cell grid-cell" style="grid-row: 2;">
         <div>
             <b>Доза / Dose: <xsl:value-of select="@doza"/> / <xsl:value-of select="../@broj-doza"/></b><br/>
             <b>Тип / Type:</b>
@@ -147,84 +177,90 @@
         <b>Датум / Date:</b> <xsl:value-of select="x:datum"/> <br/>
         <b>Здравствена установа / Health care institurion:</b> <br/>
         <xsl:value-of select="x:zdravstvena-ustanova"/>
-    </td> 
+    </div>
 </xsl:template>
 
 <xsl:template match="x:testovi">
-    <tr>
-        <xsl:apply-templates match="x:test"/>
-    </tr>
+    <div id="testovi" class="wrapper">
+        <xsl:apply-templates select="x:test"/>
+    </div>
 </xsl:template>
 
 <xsl:template match="x:test">
-    <td>
-        <b>Врста узорка / Sample type:</b>
-        <p>
-            <xsl:choose>
-                <xsl:when test="not(x:vrsta-uzorka/@xsi:nil='true')">
-                    <xsl:value-of select="x:vrsta-uzorka"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    N/A
-                </xsl:otherwise>
-            </xsl:choose>
-        </p>
-        <b>Произвођач теста / Test manufacturer:</b>
-        <p>
-            <xsl:choose>
-                <xsl:when test="not(x:proizvodjac/@xsi:nil='true')">
-                    <xsl:value-of select="x:proizvodjac"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    N/A
-                </xsl:otherwise>
-            </xsl:choose>
-        </p>
-        <b>Датум и време узорковања / Date and time of sampling:</b>
-        <p>
-            <xsl:choose>
-                <xsl:when test="not(x:datum-uzorka/@xsi:nil='true')">
-                    <xsl:value-of select="x:datum-uzorka"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    N/A
-                </xsl:otherwise>
-            </xsl:choose>
-        </p>
-        <b>Датум и време издавања резултата / Date and time of result:</b>
-        <p>
-            <xsl:choose>
-                <xsl:when test="not(x:datum-izdavanja/@xsi:nil='true')">
-                    <xsl:value-of select="x:datum-izdavanja"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    N/A
-                </xsl:otherwise>
-            </xsl:choose>
-        </p>
-        <b>Резултат / Result:</b>
-        <p>
-            <xsl:choose>
-                <xsl:when test="not(x:rezultat/@xsi:nil='true')">
-                    <xsl:value-of select="x:rezultat"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    N/A
-                </xsl:otherwise>
-            </xsl:choose>
-        </p>
-        <b>Лабораторија / Labratory:</b>
-        <p>
-            <xsl:choose>
-                <xsl:when test="not(x:labaratorija/@xsi:nil='true')">
-                    <xsl:value-of select="x:labaratorija"/>
-                </xsl:when>
-                <xsl:otherwise>
-                    N/A
-                </xsl:otherwise>
-            </xsl:choose>
-        </p>
-    </td>
+        <div class="border-cell grid-cell" style="grid-row: 1;">
+            <h3 style="text-align: center;"><xsl:value-of select="x:ime"/></h3>
+        </div>
+        <div class="border-cell grid-cell" style="grid-row: 2;">
+            <b>Врста узорка / Sample type:</b>
+            <p>
+                <xsl:choose>
+                    <xsl:when test="not(x:vrsta-uzorka/@xsi:nil='true')">
+                        <xsl:value-of select="x:vrsta-uzorka"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        N/A
+                    </xsl:otherwise>
+                </xsl:choose>
+            </p>
+            <b>Произвођач теста / Test manufacturer:</b>
+            <p>
+                <xsl:choose>
+                    <xsl:when test="not(x:proizvodjac/@xsi:nil='true')">
+                        <xsl:value-of select="x:proizvodjac"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        N/A
+                    </xsl:otherwise>
+                </xsl:choose>
+            </p>
+            <b>Датум и време узорковања / Date and time of sampling:</b>
+            <p>
+                <xsl:choose>
+                    <xsl:when test="not(x:datum-uzorka/@xsi:nil='true')">
+                        <xsl:value-of select="x:datum-uzorka"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        N/A
+                    </xsl:otherwise>
+                </xsl:choose>
+            </p>
+            <b>Датум и време издавања резултата / Date and time of result:</b>
+            <p>
+                <xsl:choose>
+                    <xsl:when test="not(x:datum-izdavanja/@xsi:nil='true')">
+                        <xsl:value-of select="x:datum-izdavanja"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        N/A
+                    </xsl:otherwise>
+                </xsl:choose>
+            </p>
+            
+        </div>
+        <div class="grid-cell" style="grid-row: 3;">
+            <b>Резултат / Result:</b>
+            <p>
+                <xsl:choose>
+                    <xsl:when test="not(x:rezultat/@xsi:nil='true')">
+                        <xsl:value-of select="x:rezultat"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        N/A
+                    </xsl:otherwise>
+                </xsl:choose>
+            </p>
+            <b>Лабораторија / Labratory:</b>
+            <p>
+                <xsl:choose>
+                    <xsl:when test="not(x:labaratorija/@xsi:nil='true')">
+                        <xsl:value-of select="x:labaratorija"/>
+                    </xsl:when>
+                    <xsl:otherwise>
+                        N/A
+                    </xsl:otherwise>
+                </xsl:choose>
+            </p>
+        </div>
 </xsl:template>
 
 

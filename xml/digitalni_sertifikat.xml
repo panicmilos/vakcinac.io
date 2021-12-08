@@ -49,7 +49,7 @@
 
     <testovi broj-testova="3">
         <test broj="1">
-            <ime>RT Real-time PCR</ime>
+            <ime>SARS CoV-2 RT Real-time PCR</ime>
             <vrsta-uzorka>nazalni</vrsta-uzorka>
             <proizvodjac>Ministarstvo zradvlja</proizvodjac>
             <datum-uzorka>
@@ -66,7 +66,7 @@
             <labaratorija>BioLab Zrenjanin</labaratorija>
         </test>
         <test broj="2">
-            <ime>Ag-RDT (Antigetn Rapid Detection test)</ime>
+            <ime>SARS CoV-2 RT Ag-RDT (Antigetn Rapid Detection test)</ime>
             <vrsta-uzorka xsi:nil="true"></vrsta-uzorka>
             <proizvodjac xsi:nil="true"></proizvodjac>
             <datum-uzorka xsi:nil="true"></datum-uzorka>
@@ -75,7 +75,7 @@
             <labaratorija xsi:nil="true"></labaratorija>
         </test>
         <test broj="3">
-            <ime xsi:nil="true"></ime>
+            <ime>SARS CoV-2 RBD S-Protein Immunoglobulin G (lgG) test</ime>
             <vrsta-uzorka xsi:nil="true"></vrsta-uzorka>
             <proizvodjac xsi:nil="true"></proizvodjac>
             <datum-uzorka xsi:nil="true"></datum-uzorka>
