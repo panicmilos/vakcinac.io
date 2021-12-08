@@ -130,6 +130,28 @@
             <xsl:apply-templates select="x:vakcinacije"/>
             <xsl:apply-templates select="x:testovi"/>
             <div class="footer">
+                <div style="grid-column: 1;">
+                    <img style="margin: -10px; float: left;" width="200px" src="https://www.energetskiportal.rs/wp-content/uploads/2018/02/batutlogo.png"/>
+                    <p style="float: left;">
+                        <strong>Сертификат издаје:</strong><br/>
+                        Институт за јавно здравље Србије<br/>
+                        "Др Миалн Јовановић Батут"<br/>
+                        <strong>Сертификат issued by:</strong><br/>
+                        Institute of Public Health of Serbia<br/>
+                        "Dr Milan Jovanović Batut"
+                    </p>
+                </div>
+                <div style="grid-column: 2;">
+                    <p style="float: right;">
+                        РЕПУБЛИКА СРБИЈА<br/>
+                        Влада Републике Србије<br/>
+                        Канцеларија за информационе<br/>
+                        технологије и електронску управу<br/>
+                        Немањина 11, Београд<br/>
+                        Датум: <xsl:value-of select="@datum-izdavanja"/>
+                    </p>
+                    <img style="margin: -20px; float: right;" width="200px" src="https://kampovi.mis.org.rs/wp-content/uploads/2015/06/grb.png"/>
+                </div>
             </div>
         </body>
     </html>
