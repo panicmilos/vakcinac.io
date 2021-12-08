@@ -41,6 +41,10 @@
           padding-bottom: 1em;
         }
 
+        tr {
+          width: 100%;
+        }
+
         td:not(:last-child) {
           padding-right: 5px;
         }
@@ -175,9 +179,9 @@
           <td width="50%" class="right-dash"><span class="d-tc">2)</span><span class="underlined-text"><xsl:value-of select="x:strano/x:naziv-drzavljanstva" /></span></td>
           <td width="50%"><span class="d-tc">&#160;</span><span class="underlined-text"><xsl:value-of select="x:strano/x:broj-pasosa-ebs" /></span></td>
         </tr>
-        <tr>
-          <td><p class="centered-text">(назив страног држављанства)</p></td>
-          <td><p class="centered-text">(бр. пасоша или ЕБС за стране држављане)</p></td>
+        <tr class="d-table">
+          <td width="50%"><p class="centered-text">(назив страног држављанства)</p></td>
+          <td width="50%"><p class="centered-text">(бр. пасоша или ЕБС за стране држављане)</p></td>
         </tr>
       </table>
     </div>
@@ -391,9 +395,9 @@
 <xsl:template match="x:evidencija-o-vakcinaciji">
   <div>
     <table>
-      <tr>
-        <td width="60%" class="d-table"><span class="d-tc">Здравствена установа</span><span class="underlined-text"><xsl:value-of select="x:zdravstvena-ustanova" /></span></td>
-        <td width="40%" class="d-table"><span class="d-tc">Вакцинацијски пункт</span><span class="underlined-text"><xsl:value-of select="x:vakcinacijski-punkt" /></span></td>
+      <tr class="d-table">
+        <td width="60%"><span class="d-tc">Здравствена установа</span><span class="underlined-text"><xsl:value-of select="x:zdravstvena-ustanova" /></span></td>
+        <td width="40%"><span class="d-tc">Вакцинацијски пункт</span><span class="underlined-text"><xsl:value-of select="x:vakcinacijski-punkt" /></span></td>
       </tr>
     </table>
     <table>

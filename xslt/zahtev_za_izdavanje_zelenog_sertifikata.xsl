@@ -57,7 +57,11 @@
           margin-left: 5px;
         }
 
-        .dots-underline {
+        .form-content > div > .dots-reason {
+          flex: 50%;
+        }
+
+        .dots-underline, .dots-reason {
           border-bottom: 2px dotted;
         }
 
@@ -129,7 +133,7 @@
 
           <p>Разлог за подношење захтева:</p>
           <div>
-            <p class="reason"><span class="dots-underline"><xsl:value-of select="x:razlog" /></span></p>
+            <span class="dots-reason"><xsl:value-of select="x:razlog" /></span>
           </div>
           <span class="hint">(навести што прецизнији разлога за подношење захтева за издавање дигиталног пасоша)</span>
         </div>
@@ -138,7 +142,7 @@
       <div class="end-container">
         <div>
           У <span class="underline"><xsl:value-of select="@mesto" /></span>,
-          <p class="mtop">дана <span class="underline"><xsl:value-of select="@dan" /></span> године</p>
+          <p class="mtop">дана <span class="underline"><xsl:value-of select="@dan" />.</span> године</p>
         </div>
         <div class="signature">
           <p class="signature-label">Потпис</p>
