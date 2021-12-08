@@ -25,6 +25,7 @@
 
                 table {
                     width: 100%;
+                    border-spacing: 10px;
                 }
 
                 .grid-cell {
@@ -60,9 +61,51 @@
                     border-bottom: none;
                 }
 
+                .info {
+                    padding-left: 5px;
+                }
+
+                .republic {
+                    font-size: 18px;
+                    text-align: center;
+                }
+
+                .title {
+                    font-size: 20px;
+                    text-align: center;
+                }
+
             </style>
         </head>
         <body>
+            <div class="header">
+                <div class="wrapper">
+                    <div style="grid-column: 1; text-align: center;">
+                        <img style="margin: -10px;" width="200px" src="https://kampovi.mis.org.rs/wp-content/uploads/2015/06/grb.png"/>
+                        <p class="republic">
+                            <strong>РЕПУБЛИКА СРБИЈА</strong><br/>
+                            <strong>REPUBLIC OF SERBIA</strong>
+                        </p>
+                    </div>
+                    <div style="grid-column: 2;">
+                        <p class="title">
+                            <strong>ДИТИГАЛНИ ЗЕЛЕНИ СЕРТИФИКАТ</strong><br/>
+                            Потврда о извршеној вакцинацији против COVID-19 и резултатима тестирања
+                        </p>
+                        <p class="title">
+                            <strong>DIGITAL GREEN CERTIFICATE</strong><br/>
+                            Certificate of vaccination against COVID-19 and test results
+                        </p>
+                    </div>
+                    <div style="grid-column: 3;">
+                        <img>
+                            <xsl:attribute name="src">
+                                https://api.qrserver.com/v1/create-qr-code/?size400=x150&amp;data=<xsl:value-of select="x:validacija"/>
+                            </xsl:attribute>
+                        </img>
+                    </div>
+                </div>
+            </div>
             <div class="wrapper">
                 <div style="grid-row: 1">
                     <table>
@@ -86,6 +129,8 @@
             </div>
             <xsl:apply-templates select="x:vakcinacije"/>
             <xsl:apply-templates select="x:testovi"/>
+            <div class="footer">
+            </div>
         </body>
     </html>
 </xsl:template>
@@ -121,9 +166,7 @@
                     <strong>Датум рођења / Date of birth:</strong>
                 </td>
                 <td>
-                    <xsl:value-of select="x:datum-rodjenja/os:dan"/>.
-                    <xsl:value-of select="x:datum-rodjenja/os:mesec"/>.
-                    <xsl:value-of select="x:datum-rodjenja/os:godina"/>
+                    <xsl:value-of select="x:datum-rodjenja/os:dan"/>.<xsl:value-of select="x:datum-rodjenja/os:mesec"/>.<xsl:value-of select="x:datum-rodjenja/os:godina"/>.
                 </td>
             </tr>
             <tr>
@@ -167,16 +210,23 @@
             <b>Доза / Dose: <xsl:value-of select="@doza"/> / <xsl:value-of select="../@broj-doza"/></b><br/>
             <b>Тип / Type:</b>
         </div>
-        <p>
+        <p class="info">
             <xsl:value-of select="x:tip"/>
         </p>
         <b>Произвођач и серија / Manufacturer and batch number:</b>
-        <p>
+        <p class="info">
             <xsl:value-of select="x:proizvodjac"/>, <xsl:value-of select="x:serija"/>
         </p>
-        <b>Датум / Date:</b> <xsl:value-of select="x:datum"/> <br/>
-        <b>Здравствена установа / Health care institurion:</b> <br/>
-        <xsl:value-of select="x:zdravstvena-ustanova"/>
+        <p>
+            <b>Датум / Date:</b>     
+            <span class="info">
+                <xsl:value-of select="x:datum/os:dan"/>.<xsl:value-of select="x:datum/os:mesec"/>.<xsl:value-of select="x:datum/os:godina"/>.
+            </span>
+        </p>
+        <b>Здравствена установа / Health care institurion:</b>
+        <p>
+            <xsl:value-of select="x:zdravstvena-ustanova"/>
+        </p>
     </div>
 </xsl:template>
 
@@ -192,7 +242,7 @@
         </div>
         <div class="border-cell grid-cell" style="grid-row: 2;">
             <b>Врста узорка / Sample type:</b>
-            <p>
+            <p class="info">
                 <xsl:choose>
                     <xsl:when test="not(x:vrsta-uzorka/@xsi:nil='true')">
                         <xsl:value-of select="x:vrsta-uzorka"/>
@@ -203,7 +253,7 @@
                 </xsl:choose>
             </p>
             <b>Произвођач теста / Test manufacturer:</b>
-            <p>
+            <p class="info">
                 <xsl:choose>
                     <xsl:when test="not(x:proizvodjac/@xsi:nil='true')">
                         <xsl:value-of select="x:proizvodjac"/>
@@ -214,10 +264,10 @@
                 </xsl:choose>
             </p>
             <b>Датум и време узорковања / Date and time of sampling:</b>
-            <p>
+            <p class="info">
                 <xsl:choose>
                     <xsl:when test="not(x:datum-uzorka/@xsi:nil='true')">
-                        <xsl:value-of select="x:datum-uzorka"/>
+                        <xsl:value-of select="x:datum-uzorka/os:dan"/>.<xsl:value-of select="x:datum-uzorka/os:mesec"/>.<xsl:value-of select="x:datum-uzorka/os:godina"/>.
                     </xsl:when>
                     <xsl:otherwise>
                         N/A
@@ -225,11 +275,11 @@
                 </xsl:choose>
             </p>
             <b>Датум и време издавања резултата / Date and time of result:</b>
-            <p>
+            <p class="info">
                 <xsl:choose>
                     <xsl:when test="not(x:datum-izdavanja/@xsi:nil='true')">
-                        <xsl:value-of select="x:datum-izdavanja"/>
-                    </xsl:when>
+                    <xsl:value-of select="x:datum-izdavanja/os:dan"/>.<xsl:value-of select="x:datum-izdavanja/os:mesec"/>.<xsl:value-of select="x:datum-izdavanja/os:godina"/>.
+                </xsl:when>
                     <xsl:otherwise>
                         N/A
                     </xsl:otherwise>
@@ -239,7 +289,7 @@
         </div>
         <div class="grid-cell" style="grid-row: 3;">
             <b>Резултат / Result:</b>
-            <p>
+            <p class="info">
                 <xsl:choose>
                     <xsl:when test="not(x:rezultat/@xsi:nil='true')">
                         <xsl:value-of select="x:rezultat"/>
@@ -250,7 +300,7 @@
                 </xsl:choose>
             </p>
             <b>Лабораторија / Labratory:</b>
-            <p>
+            <p class="info">
                 <xsl:choose>
                     <xsl:when test="not(x:labaratorija/@xsi:nil='true')">
                         <xsl:value-of select="x:labaratorija"/>
@@ -262,6 +312,5 @@
             </p>
         </div>
 </xsl:template>
-
 
 </xsl:stylesheet>

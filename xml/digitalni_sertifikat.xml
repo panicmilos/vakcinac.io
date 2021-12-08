@@ -6,7 +6,7 @@
     xmlns="https://www.vakcinac-io.rs/xsd/digitalni-sertifikat"
     xmlns:os="https://www.vakcinac-io.rs/xsd/osnovna-sema"
     broj-sertifikata="132141" 
-    datum-izdavanja="10.05.3003 10:30">
+    datum-izdavanja="10.05.2020 10:30">
 
     <validacija>https://euprava.gov.rs/DigitalniZeleniSertifikat/validacijaDokumenta</validacija>
     <nosilac-sertifikata>
