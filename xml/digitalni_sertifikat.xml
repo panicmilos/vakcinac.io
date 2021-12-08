@@ -25,7 +25,7 @@
     <vakcinacije broj-doza="2">
         <vakcinacija doza="1">
             <tip>Pfizer-BioNTech</tip>
-            <proizvodjac>BIONTECH MANUFACTURING GMBH.</proizvodjac>
+            <proizvodjac>BIONTECH MANUFACTURING GMBH</proizvodjac>
             <serija>51322</serija>
             <datum>
                 <os:dan>20</os:dan>
@@ -36,7 +36,7 @@
         </vakcinacija>
         <vakcinacija doza="2">
             <tip>Pfizer-BioNTech</tip>
-            <proizvodjac>BIONTECH MANUFACTURING GMBH.</proizvodjac>
+            <proizvodjac>BIONTECH MANUFACTURING GMBH</proizvodjac>
             <serija>53532</serija>
             <datum>
                 <os:dan>10</os:dan>

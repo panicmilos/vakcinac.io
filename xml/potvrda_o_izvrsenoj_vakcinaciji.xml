@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../xslt/potvrda_o_izvrsenoj_vakcinaciji.xsl"?>
 <potvrda-o-izvrsenoj-vakcinaciji
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="https://www.vakcinac-io.rs/xsd/potvrda ../xsd/potvrda_o_izvrsenoj_vakcinaciji.xsd"
@@ -30,12 +31,16 @@
         <serija>1234567</serija>
       </primljena-doza>
       <primljena-doza redni-broj="2">
+        <datum>10.10.2021</datum>
+        <serija>12345</serija>
+      </primljena-doza>
+      <primljena-doza redni-broj="3">
         <datum xsi:nil="true"></datum>
         <serija xsi:nil="true"></serija>
       </primljena-doza>
     </podaci-o-dozama>
   </podaci-o-vakcinaciji>
 
-  <qr-kod />
+  <qr-kod></qr-kod>
 
 </potvrda-o-izvrsenoj-vakcinaciji>
