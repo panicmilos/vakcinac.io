@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema
-    targetNamespace="https://www.vakcinac-io.rs/xsd/zahtev" 
-    xmlns="https://www.vakcinac-io.rs/xsd/zahtev"
+    targetNamespace="https://www.vakcinac-io.rs/zahtev" 
+    xmlns="https://www.vakcinac-io.rs/zahtev"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    xmlns:os="https://www.vakcinac-io.rs/xsd/osnovna-sema" 
+    xmlns:os="https://www.vakcinac-io.rs/osnovna-sema" 
     elementFormDefault="qualified">
-    <xsd:import namespace="https://www.vakcinac-io.rs/xsd/osnovna-sema" schemaLocation="osnovna_sema.xsd"/>
+    <xsd:import namespace="https://www.vakcinac-io.rs/osnovna-sema" schemaLocation="osnovna_sema.xsd"/>
 
     <xsd:complexType name="TpodnosilacZahteva">
         <xsd:complexContent>

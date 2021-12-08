@@ -2,8 +2,8 @@
 <xsl:stylesheet
   version="1.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  xmlns:x="https://www.vakcinac-io.rs/xsd/zahtev"
-  xmlns:os="https://www.vakcinac-io.rs/xsd/osnovna-sema"
+  xmlns:x="https://www.vakcinac-io.rs/zahtev"
+  xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
 >
 
 <xsl:template match="/x:zahtev-za-izdavanje-zelenog-sertifikata">

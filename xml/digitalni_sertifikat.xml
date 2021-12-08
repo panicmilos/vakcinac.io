@@ -2,9 +2,9 @@
 <?xml-stylesheet type="text/xsl" href="../xslt/digitalni_sertifikat.xsl"?>
 <digitalni-sertifikat 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="https://www.vakcinac-io.rs/xsd/digitalni-sertifikat ../xsd/digitalni_sertifikat.xsd"
-    xmlns="https://www.vakcinac-io.rs/xsd/digitalni-sertifikat"
-    xmlns:os="https://www.vakcinac-io.rs/xsd/osnovna-sema"
+    xsi:schemaLocation="https://www.vakcinac-io.rs/digitalni-sertifikat ../xsd/digitalni_sertifikat.xsd"
+    xmlns="https://www.vakcinac-io.rs/digitalni-sertifikat"
+    xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
     broj-sertifikata="132141" 
     datum-izdavanja="10.05.2020 10:30">
 

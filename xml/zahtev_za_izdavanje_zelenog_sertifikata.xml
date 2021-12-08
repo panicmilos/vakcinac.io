@@ -2,9 +2,9 @@
 <?xml-stylesheet type="text/xsl" href="../xslt/zahtev_za_izdavanje_zelenog_sertifikata.xsl"?>
 <zahtev-za-izdavanje-zelenog-sertifikata
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="https://www.vakcinac-io.rs/xsd/zahtev ../xsd/zahtev_za_zeleni_sertifikat.xsd"
-  xmlns="https://www.vakcinac-io.rs/xsd/zahtev"
-  xmlns:os="https://www.vakcinac-io.rs/xsd/osnovna-sema"
+  xsi:schemaLocation="https://www.vakcinac-io.rs/zahtev ../xsd/zahtev_za_zeleni_sertifikat.xsd"
+  xmlns="https://www.vakcinac-io.rs/zahtev"
+  xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
 
   dan="17.11.2021"
   mesto="Новом Саду"

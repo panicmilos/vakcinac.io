@@ -2,9 +2,9 @@
 <?xml-stylesheet type="text/xsl" href="../xslt/iskazivanje_interesovanja_za_vakcinisanje.xsl"?>
 <izjava-interesovanja-za-vakcinisanje
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="https://www.vakcinac-io.rs/xsd/interesovanje ../xsd/izjava_interesovanja_za_vakcinisanje.xsd"
-  xmlns="https://www.vakcinac-io.rs/xsd/interesovanje"
-  xmlns:os="https://www.vakcinac-io.rs/xsd/osnovna-sema"
+  xsi:schemaLocation="https://www.vakcinac-io.rs/interesovanje ../xsd/izjava_interesovanja_za_vakcinisanje.xsd"
+  xmlns="https://www.vakcinac-io.rs/interesovanje"
+  xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
   dan="17.11.2021"
 >
   <podnosilac-izjave>

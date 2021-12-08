@@ -2,9 +2,9 @@
 <?xml-stylesheet type="text/xsl" href="../xslt/saglasnost_imunizacije.xsl"?>
 <saglasnost-za-sprovodjenje-preporucene-imunizacije
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="https://www.vakcinac-io.rs/xsd/saglasnost ../xsd/saglasnost_imunizacije.xsd"
-    xmlns="https://www.vakcinac-io.rs/xsd/saglasnost"
-    xmlns:os="https://www.vakcinac-io.rs/xsd/osnovna-sema"
+    xsi:schemaLocation="https://www.vakcinac-io.rs/saglasnost ../xsd/saglasnost_imunizacije.xsd"
+    xmlns="https://www.vakcinac-io.rs/saglasnost"
+    xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
     datum-izdavanja="17.11.2021"
 >
     <pacijent>

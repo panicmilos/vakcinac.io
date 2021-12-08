@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema 
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    targetNamespace="https://www.vakcinac-io.rs/xsd/osnovna-sema"
-    xmlns="https://www.vakcinac-io.rs/xsd/osnovna-sema"
+    targetNamespace="https://www.vakcinac-io.rs/osnovna-sema"
+    xmlns="https://www.vakcinac-io.rs/osnovna-sema"
     elementFormDefault="qualified">
 
     <xsd:simpleType name="Tjmbg">

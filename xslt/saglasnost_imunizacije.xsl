@@ -3,8 +3,8 @@
   version="1.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  xmlns:x="https://www.vakcinac-io.rs/xsd/saglasnost"
-  xmlns:os="https://www.vakcinac-io.rs/xsd/osnovna-sema"
+  xmlns:x="https://www.vakcinac-io.rs/saglasnost"
+  xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
 >
 
 <xsl:template match="/x:saglasnost-za-sprovodjenje-preporucene-imunizacije">

@@ -1,6 +1,6 @@
 # Identifikatori dokumenata
 
-Svaki dokument u sistemu ima prefix https://www.vakcinac-io.rs/xml
+Svaki dokument u sistemu ima prefix https://www.vakcinac-io.rs/
 
 ## Digitalni sertifikat
 
