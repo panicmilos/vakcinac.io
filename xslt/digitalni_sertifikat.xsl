@@ -129,8 +129,8 @@
             </div>
             <xsl:apply-templates select="x:vakcinacije"/>
             <xsl:apply-templates select="x:testovi"/>
-            <div class="footer">
-                <div style="grid-column: 1;">
+            <div class="footer wrapper">
+                <div style="grid-row: 2; grid-column: 1;">
                     <img style="margin: -10px; float: left;" width="200px" src="https://www.energetskiportal.rs/wp-content/uploads/2018/02/batutlogo.png"/>
                     <p style="float: left;">
                         <strong>Сертификат издаје:</strong><br/>
@@ -141,7 +141,12 @@
                         "Dr Milan Jovanović Batut"
                     </p>
                 </div>
-                <div style="grid-column: 2;">
+                <div style="grid-row: 1; grid-column: 2;">
+                    <p style="float: right; padding-right: 20%">
+                        <strong>Дигитални потпис / Digitaly signed by:</strong>
+                    </p>
+                </div>
+                <div style="grid-row: 2; grid-column: 2;">
                     <p style="float: right;">
                         РЕПУБЛИКА СРБИЈА<br/>
                         Влада Републике Србије<br/>
@@ -208,12 +213,6 @@
                 </td>
             </tr>
         </table>
-    </div> 
-</xsl:template>
-
-<xsl:template match="x:validacija">
-    <div>
-        
     </div> 
 </xsl:template>
 
