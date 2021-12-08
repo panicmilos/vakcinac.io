@@ -282,6 +282,11 @@
         <div class="info-language weak">
             Zdravstvena ustanova / Medica institution
         </div>
+        <img>
+            <xsl:attribute name="src">
+                https://api.qrserver.com/v1/create-qr-code/?size200=x150&amp;data=<xsl:value-of select="../x:qr-kod"/>
+            </xsl:attribute>
+        </img>
     </div>
 </xsl:template>
 

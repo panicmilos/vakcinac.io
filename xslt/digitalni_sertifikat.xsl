@@ -308,7 +308,7 @@
             </p>
             
         </div>
-        <div class="grid-cell" style="grid-row: 3;">
+        <div class="grid-cell" style="grid-row: 3; background-color: #e6e6e6;">
             <b>Резултат / Result:</b>
             <p class="info">
                 <xsl:choose>
