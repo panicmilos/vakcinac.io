@@ -5,7 +5,8 @@
     xsi:schemaLocation="https://www.vakcinac-io.rs/saglasnost ../xsd/saglasnost_imunizacije.xsd"
     xmlns="https://www.vakcinac-io.rs/saglasnost"
     xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
-    datum-izdavanja="17.11.2021"
+
+    datum-izdavanja="17.11.2021."
 >
     <pacijent>
         <drzavljanstvo>
@@ -22,11 +23,7 @@
             <zanimanje>5</zanimanje>
         </licne-informacije>
         <rodjenje>
-            <datum-rođenja>
-                <os:dan>6</os:dan>
-                <os:mesec>4</os:mesec>
-                <os:godina>1999</os:godina>
-            </datum-rođenja>
+            <datum-rođenja>06.04.1999.</datum-rođenja>
             <mesto-rodjenja>Нови Сад</mesto-rodjenja>
         </rodjenje>
         <stanovanje>
@@ -37,7 +34,7 @@
         <kontakt>
             <os:adresa-elektronske-poste>serbedzija@gmail.com</os:adresa-elektronske-poste>
             <os:broj-mobilnog-telefona>0624543632</os:broj-mobilnog-telefona>
-            <os:broj-fiksnog-telefona>0112777</os:broj-fiksnog-telefona>
+            <os:broj-fiksnog-telefona>011277787</os:broj-fiksnog-telefona>
         </kontakt>
         <ustanova-socijalne-zastite>
             <korisnik>false</korisnik>
@@ -59,7 +56,16 @@
             <broj-telefona>0624543632</broj-telefona>
         </lekar>
         <obrazac>
-            <primljene-vakcine>
+            <primljene-vakcine broj="1">
+                <naziv xsi:nil="true"></naziv>
+                <datum-davanja-vakcine xsi:nil="true"></datum-davanja-vakcine>
+                <nacin-davanja-vakcine xsi:nil="true"></nacin-davanja-vakcine>
+                <ekstremitet xsi:nil="true"></ekstremitet>
+                <serija-vakcine xsi:nil="true"></serija-vakcine>
+                <proizvodjac xsi:nil="true"></proizvodjac>
+                <nezeljena-reakcija xsi:nil="true"></nezeljena-reakcija>
+            </primljene-vakcine>
+            <primljene-vakcine broj="2">
                 <naziv xsi:nil="true"></naziv>
                 <datum-davanja-vakcine xsi:nil="true"></datum-davanja-vakcine>
                 <nacin-davanja-vakcine xsi:nil="true"></nacin-davanja-vakcine>

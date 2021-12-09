@@ -3,7 +3,7 @@
   version="1.0"
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:x="https://www.vakcinac-io.rs/digitalni-sertifikat"
-  xmlns:os="https://www.vakcinac-io.rsosnovna-sema"
+  xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 >
 
@@ -89,7 +89,7 @@
                     </div>
                     <div style="grid-column: 2;">
                         <p class="title">
-                            <strong>ДИТИГАЛНИ ЗЕЛЕНИ СЕРТИФИКАТ</strong><br/>
+                            <strong>ДИГИТАЛНИ ЗЕЛЕНИ СЕРТИФИКАТ</strong><br/>
                             Потврда о извршеној вакцинацији против COVID-19 и резултатима тестирања
                         </p>
                         <p class="title">
@@ -135,8 +135,8 @@
                     <p style="float: left;">
                         <strong>Сертификат издаје:</strong><br/>
                         Институт за јавно здравље Србије<br/>
-                        "Др Миалн Јовановић Батут"<br/>
-                        <strong>Сертификат issued by:</strong><br/>
+                        "Др Милан Јовановић Батут"<br/>
+                        <strong>Certificate issued by:</strong><br/>
                         Institute of Public Health of Serbia<br/>
                         "Dr Milan Jovanović Batut"
                     </p>
@@ -193,7 +193,7 @@
                     <strong>Датум рођења / Date of birth:</strong>
                 </td>
                 <td>
-                    <xsl:value-of select="x:datum-rodjenja/os:dan"/>.<xsl:value-of select="x:datum-rodjenja/os:mesec"/>.<xsl:value-of select="x:datum-rodjenja/os:godina"/>.
+                    <xsl:value-of select="x:datum-rodjenja"/>
                 </td>
             </tr>
             <tr>
@@ -206,7 +206,7 @@
             </tr>
             <tr>
                 <td class="nosilac-info">
-                    <strong>Број пасоша / Passport No.:</strong>
+                    <strong>Број пасоша / Passport No.</strong>
                 </td>
                 <td>
                     <xsl:value-of select="x:br-pasosa"/>
@@ -241,10 +241,10 @@
         <p>
             <b>Датум / Date:</b>     
             <span class="info">
-                <xsl:value-of select="x:datum/os:dan"/>.<xsl:value-of select="x:datum/os:mesec"/>.<xsl:value-of select="x:datum/os:godina"/>.
+                <xsl:value-of select="x:datum"/>
             </span>
         </p>
-        <b>Здравствена установа / Health care institurion:</b>
+        <b>Здравствена установа / Health care institution:</b>
         <p>
             <xsl:value-of select="x:zdravstvena-ustanova"/>
         </p>
@@ -288,7 +288,7 @@
             <p class="info">
                 <xsl:choose>
                     <xsl:when test="not(x:datum-uzorka/@xsi:nil='true')">
-                        <xsl:value-of select="x:datum-uzorka/os:dan"/>.<xsl:value-of select="x:datum-uzorka/os:mesec"/>.<xsl:value-of select="x:datum-uzorka/os:godina"/>.
+                        <xsl:value-of select="x:datum-uzorka"/>
                     </xsl:when>
                     <xsl:otherwise>
                         N/A
@@ -299,7 +299,7 @@
             <p class="info">
                 <xsl:choose>
                     <xsl:when test="not(x:datum-izdavanja/@xsi:nil='true')">
-                    <xsl:value-of select="x:datum-izdavanja/os:dan"/>.<xsl:value-of select="x:datum-izdavanja/os:mesec"/>.<xsl:value-of select="x:datum-izdavanja/os:godina"/>.
+                    <xsl:value-of select="x:datum-izdavanja"/>
                 </xsl:when>
                     <xsl:otherwise>
                         N/A
@@ -313,14 +313,21 @@
             <p class="info">
                 <xsl:choose>
                     <xsl:when test="not(x:rezultat/@xsi:nil='true')">
-                        <xsl:value-of select="x:rezultat"/>
+                        <xsl:choose>
+                            <xsl:when test="x:rezultat = 1">
+                                <xsl:text>Позитиван</xsl:text>
+                            </xsl:when>
+                            <xsl:otherwise>
+                                <xsl:text>Негативан</xsl:text>
+                            </xsl:otherwise>
+                        </xsl:choose>
                     </xsl:when>
                     <xsl:otherwise>
                         N/A
                     </xsl:otherwise>
                 </xsl:choose>
             </p>
-            <b>Лабораторија / Labratory:</b>
+            <b>Лабораторија / Laboratory:</b>
             <p class="info">
                 <xsl:choose>
                     <xsl:when test="not(x:labaratorija/@xsi:nil='true')">

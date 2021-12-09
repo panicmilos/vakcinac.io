@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   targetNamespace="https://www.vakcinac-io.rs/izvestaj" 
   xmlns="https://www.vakcinac-io.rs/izvestaj"
-  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
   xmlns:os="https://www.vakcinac-io.rs/osnovna-sema" 
   elementFormDefault="qualified">
   <xsd:import namespace="https://www.vakcinac-io.rs/osnovna-sema" schemaLocation="osnovna_sema.xsd"/>
@@ -32,7 +32,7 @@
                       <xsd:complexType>
                         <xsd:simpleContent>
                           <xsd:extension base="xsd:nonNegativeInteger">
-                            <xsd:attribute name="redni-broj" type="xsd:nonNegativeInteger" />
+                            <xsd:attribute name="redni-broj" type="xsd:positiveInteger" use="required" />
                           </xsd:extension>
                         </xsd:simpleContent>
                       </xsd:complexType>
@@ -66,9 +66,9 @@
         </xsd:element>
       </xsd:sequence>
 
-      <xsd:attribute name="izdato" type="os:TdateString"></xsd:attribute>
-      <xsd:attribute name="od" type="os:TdateString"></xsd:attribute>
-      <xsd:attribute name="do" type="os:TdateString"></xsd:attribute>
+      <xsd:attribute name="izdato" type="os:TdateString" use="required"></xsd:attribute>
+      <xsd:attribute name="od" type="os:TdateString" use="required"></xsd:attribute>
+      <xsd:attribute name="do" type="os:TdateString" use="required"></xsd:attribute>
 
     </xsd:complexType>
   </xsd:element>

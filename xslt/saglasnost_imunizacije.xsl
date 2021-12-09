@@ -216,11 +216,7 @@
         </td>
         <td width="37%" class="right-dash">
           <strong class="d-tc">Датум рођења</strong>
-          <span class="underlined-text">
-            <xsl:value-of select="../x:rodjenje/x:datum-rođenja/os:dan" />.
-            <xsl:value-of select="../x:rodjenje/x:datum-rođenja/os:mesec" />.
-            <xsl:value-of select="../x:rodjenje/x:datum-rođenja/os:godina" />.
-          </span>
+          <span class="underlined-text"><xsl:value-of select="../x:rodjenje/x:datum-rođenja" /></span>
         </td>
         <td width="50%"><strong class="d-tc">Место рођења</strong><span class="underlined-text"><xsl:value-of select="../x:rodjenje/x:mesto-rodjenja" /></span></td>
       </tr>

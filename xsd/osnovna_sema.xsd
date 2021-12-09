@@ -13,7 +13,7 @@
 
     <xsd:simpleType name="Tpasos">
         <xsd:restriction base="xsd:string">
-            <xsd:pattern value="\d{5}"></xsd:pattern>
+            <xsd:pattern value="\d{9}"></xsd:pattern>
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -37,13 +37,13 @@
 
     <xsd:simpleType name="TbrMob">
         <xsd:restriction base="xsd:string">
-            <xsd:pattern value="06\d{8}"></xsd:pattern>
+            <xsd:pattern value="06\d{7,8}"></xsd:pattern>
         </xsd:restriction>
     </xsd:simpleType>
 
     <xsd:simpleType name="TbrFiks">
         <xsd:restriction base="xsd:string">
-            <xsd:pattern value="0\d+"></xsd:pattern>
+            <xsd:pattern value="0\d{8,9}"></xsd:pattern>
         </xsd:restriction>
     </xsd:simpleType>
 
@@ -53,46 +53,17 @@
         </xsd:restriction>
     </xsd:simpleType>
 
-    <xsd:simpleType name="TdateTimeString">
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="\d{2}\.\d{2}\.\d{4} \d{2}:\d{2}"></xsd:pattern>
-        </xsd:restriction>
-    </xsd:simpleType>
-
     <xsd:simpleType name="TdateString">
         <xsd:restriction base="xsd:string">
-            <xsd:pattern value="\d{2}\.\d{2}\.\d{4}"></xsd:pattern>
+            <xsd:pattern value="\d{2}\.\d{2}\.\d{4}\."></xsd:pattern>
         </xsd:restriction>
     </xsd:simpleType>
-
-    <xsd:complexType name="Tdatum">
-        <xsd:sequence>
-            <xsd:element name="dan">
-                <xsd:simpleType>
-                    <xsd:restriction base="xsd:int">
-                        <xsd:minInclusive value="1"></xsd:minInclusive>
-                        <xsd:maxInclusive value="31"></xsd:maxInclusive>
-                    </xsd:restriction>
-                </xsd:simpleType>
-            </xsd:element>
-            <xsd:element name="mesec">
-                <xsd:simpleType>
-                    <xsd:restriction base="xsd:int">
-                        <xsd:minInclusive value="1"></xsd:minInclusive>
-                        <xsd:maxInclusive value="12"></xsd:maxInclusive>
-                    </xsd:restriction>
-                </xsd:simpleType>
-            </xsd:element>
-            <xsd:element name="godina">
-                <xsd:simpleType>
-                    <xsd:restriction base="xsd:int">
-                        <xsd:minInclusive value="1903"></xsd:minInclusive>
-                        <xsd:maxInclusive value="2025"></xsd:maxInclusive>
-                    </xsd:restriction>
-                </xsd:simpleType>
-            </xsd:element>
-        </xsd:sequence>
-    </xsd:complexType>
+    
+    <xsd:simpleType name="TdateTimeString">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="\d{2}\.\d{2}\.\d{4}\. \d{2}:\d{2}"></xsd:pattern>
+        </xsd:restriction>
+    </xsd:simpleType>
 
     <xsd:complexType name="Tkontakt">
         <xsd:sequence>
@@ -118,4 +89,11 @@
             </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
+
+    <xsd:simpleType name="Tserija">
+        <xsd:restriction base="xsd:string">
+            <xsd:length value="6"></xsd:length>
+        </xsd:restriction>
+    </xsd:simpleType>
+
 </xsd:schema>

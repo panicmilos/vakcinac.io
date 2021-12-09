@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema  targetNamespace="https://www.vakcinac-io.rs/potvrda" 
-  xmlns="https://www.vakcinac-io.rs/potvrda"
+<xsd:schema
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="https://www.vakcinac-io.rs/potvrda" 
+  xmlns="https://www.vakcinac-io.rs/potvrda"
   xmlns:os="https://www.vakcinac-io.rs/osnovna-sema" 
   elementFormDefault="qualified">
   <xsd:import namespace="https://www.vakcinac-io.rs/osnovna-sema" schemaLocation="osnovna_sema.xsd"/>
@@ -10,7 +11,7 @@
     <xsd:complexContent>
       <xsd:extension base="os:TosobaSaJmbg">
         <xsd:sequence>
-          <xsd:element name="datum-rodjenja" type="os:Tdatum"></xsd:element>
+          <xsd:element name="datum-rodjenja" type="os:TdateString"></xsd:element>
           <xsd:element name="pol" type="os:Tpol"></xsd:element>
         </xsd:sequence>
       </xsd:extension>
@@ -19,7 +20,6 @@
 
   <xsd:element name="potvrda-o-izvrsenoj-vakcinaciji">
     <xsd:complexType>
-
       <xsd:sequence>
         <xsd:element name="podaci-o-vakcinisanom" type="TpodaciOVakcinisanom"></xsd:element>
 
@@ -31,15 +31,15 @@
               <xsd:element name="podaci-o-dozama">
                 <xsd:complexType>
                   <xsd:sequence>
-                    <xsd:element name="primljena-doza" minOccurs="0" maxOccurs="unbounded">
+                    <xsd:element name="primljena-doza" minOccurs="1" maxOccurs="unbounded">
                       <xsd:complexType>
 
                         <xsd:sequence>
                           <xsd:element name="datum" type="os:TdateString" nillable="true"></xsd:element>
-                          <xsd:element name="serija" type="xsd:string" nillable="true"></xsd:element>
+                          <xsd:element name="serija" type="os:Tserija" nillable="true"></xsd:element>
                         </xsd:sequence>
 
-                        <xsd:attribute name="redni-broj" type="xsd:string" />
+                        <xsd:attribute name="redni-broj" type="xsd:positiveInteger" use="required" />
                       </xsd:complexType>                   
                     </xsd:element>
                   </xsd:sequence>
@@ -59,9 +59,15 @@
 
       </xsd:sequence>
 
-      <xsd:attribute name="datum-izdavanja" type="os:TdateString"></xsd:attribute>
-      <xsd:attribute name="broj-primljenih-doza" type="xsd:nonNegativeInteger"></xsd:attribute>
-      <xsd:attribute name="sifra-potvrde" type="xsd:string"></xsd:attribute>
+      <xsd:attribute name="datum-izdavanja" type="os:TdateString" use="required"></xsd:attribute>
+      <xsd:attribute name="broj-primljenih-doza" type="xsd:nonNegativeInteger" use="required"></xsd:attribute>
+      <xsd:attribute name="sifra-potvrde" use="required">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:string">
+            <xsd:pattern value="\d{6}-\d{6}"></xsd:pattern>
+          </xsd:restriction>
+        </xsd:simpleType>
+      </xsd:attribute>
 
     </xsd:complexType>
 

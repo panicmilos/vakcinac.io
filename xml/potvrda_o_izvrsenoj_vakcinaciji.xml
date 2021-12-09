@@ -5,20 +5,17 @@
   xsi:schemaLocation="https://www.vakcinac-io.rs/potvrda ../xsd/potvrda_o_izvrsenoj_vakcinaciji.xsd"
   xmlns="https://www.vakcinac-io.rs/potvrda"
   xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
-  datum-izdavanja="19.11.2021"
+  
+  datum-izdavanja="19.11.2021."
   broj-primljenih-doza="1"
-  sifra-potvrde="12345"
+  sifra-potvrde="123451-512534"
 >
 
   <podaci-o-vakcinisanom>
     <os:ime>Милош</os:ime>
     <os:prezime>Панић</os:prezime>
     <os:jmbg>2506999850152</os:jmbg>
-    <datum-rodjenja>
-      <os:dan>25</os:dan>
-      <os:mesec>6</os:mesec>
-      <os:godina>1999</os:godina>
-    </datum-rodjenja>
+    <datum-rodjenja>25.06.1999.</datum-rodjenja>
     <pol>0</pol>
   </podaci-o-vakcinisanom>
 
@@ -27,12 +24,12 @@
     <naziv-vakcine>Pfizer, BioNTech</naziv-vakcine>
     <podaci-o-dozama>
       <primljena-doza redni-broj="1">
-        <datum>19.11.2021</datum>
-        <serija>1234567</serija>
+        <datum>06.10.2021.</datum>
+        <serija>123467</serija>
       </primljena-doza>
       <primljena-doza redni-broj="2">
-        <datum>10.10.2021</datum>
-        <serija>12345</serija>
+        <datum>10.11.2021.</datum>
+        <serija>123453</serija>
       </primljena-doza>
       <primljena-doza redni-broj="3">
         <datum xsi:nil="true"></datum>
@@ -41,6 +38,6 @@
     </podaci-o-dozama>
   </podaci-o-vakcinaciji>
 
-  <qr-kod>https://www.google.com/</qr-kod>
+  <qr-kod>https://www.vakcinac-io.rs/potvrda/123451-512534</qr-kod>
 
 </potvrda-o-izvrsenoj-vakcinaciji>

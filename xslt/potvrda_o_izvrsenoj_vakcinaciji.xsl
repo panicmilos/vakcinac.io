@@ -78,7 +78,7 @@
                             INSTITUTE OF PUBLIC HEALTH OF SERBIA
                         </div>
                         <div class="institute-name weak">
-                            „Dr Milan Jovanovic Batut”
+                            „Dr Milan Jovanović Batut”
                         </div>
                     </div>
                 </div>
@@ -88,7 +88,7 @@
 
                 <div style="text-align: center">
                     <div style="font-size: 20px; margin-top:2.5%;"><strong>ПОТВРДА О ИЗВРШЕНОЈ ВАКЦИНАЦИЈИ ПРОТИВ COVID-19</strong></div>
-                    <div class="weak" style="margin-top: 0.3%;">POTVRDA O IZVRSENOJ VAKCINACIJI <strong>PROTIV COVID-19</strong></div>
+                    <div class="weak" style="margin-top: 0.3%;">POTVRDA O IZVRŠENOJ VAKCINACIJI <strong>PROTIV COVID-19</strong></div>
                     <div class="weak" style="margin-top: 0.3%;">CONFIRMATION OF THE <strong>COVID-19</strong> VACCINATION</div>
                 </div>
 
@@ -147,12 +147,6 @@
     <xsl:choose>
         <xsl:when test="$redni-broj = 1 and $pismo = 'cir'">
             прве
-        </xsl:when>
-        <xsl:when test="$redni-broj = 1 and $pismo = 'lat'">
-            
-        </xsl:when>
-        <xsl:when test="$redni-broj = 1 and $pismo = 'eng'">
-            
         </xsl:when>
         <xsl:when test="$redni-broj = 2 and $pismo = 'cir'">
             друге
@@ -230,7 +224,7 @@
     </div>
 
     <div class="info">
-        <strong>Датум рођења: <xsl:value-of select="concat(x:datum-rodjenja/os:dan, '.', x:datum-rodjenja/os:mesec, '.', x:datum-rodjenja/os:godina)" /></strong>
+        <strong>Датум рођења: <xsl:value-of select="x:datum-rodjenja" /></strong>
     </div>
     <div class="info-language weak">
         Datum rođenja / Date of Birth
@@ -280,7 +274,7 @@
             <strong>Здравствена установа: <xsl:value-of select="x:zdravstvena-ustanova" /></strong>
         </div>
         <div class="info-language weak">
-            Zdravstvena ustanova / Medica institution
+            Zdravstvena ustanova / Medical institution
         </div>
         <img>
             <xsl:attribute name="src">

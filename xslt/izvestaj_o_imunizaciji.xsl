@@ -44,9 +44,9 @@
       <div>
         <p>
           Извештај се односи на период од
-          <strong><xsl:value-of select="@od"/></strong>.
+          <strong><xsl:value-of select="@od"/></strong>
           до 
-          <strong><xsl:value-of select="@do"/></strong>.
+          <strong><xsl:value-of select="@do"/></strong>
         </p>
       </div>
 
@@ -72,7 +72,7 @@
     У напоменутом временском интервалу је: 
   </p>
   <ul>
-    <li>поднето <strong><xsl:value-of select="x:podneto" /></strong> докумената о интересовању за имунизацију; </li>
+    <li>поднето <strong><xsl:value-of select="x:podneto" /></strong> докумената о интересовању за имунизацију. </li>
     <li>примљено <strong><xsl:value-of select="x:primljeno" /></strong> захтева за дигитални зелени сертификат, од којих је <strong><xsl:value-of select="x:izdato" /></strong> издато. </li>
   </ul>
 </xsl:template>

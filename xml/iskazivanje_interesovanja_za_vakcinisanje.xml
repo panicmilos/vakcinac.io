@@ -5,7 +5,8 @@
   xsi:schemaLocation="https://www.vakcinac-io.rs/interesovanje ../xsd/izjava_interesovanja_za_vakcinisanje.xsd"
   xmlns="https://www.vakcinac-io.rs/interesovanje"
   xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
-  dan="17.11.2021"
+  
+  dan="17.11.2021."
 >
   <podnosilac-izjave>
     <podnosilac>

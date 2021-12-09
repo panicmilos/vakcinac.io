@@ -5,63 +5,44 @@
     xsi:schemaLocation="https://www.vakcinac-io.rs/digitalni-sertifikat ../xsd/digitalni_sertifikat.xsd"
     xmlns="https://www.vakcinac-io.rs/digitalni-sertifikat"
     xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
-    broj-sertifikata="132141" 
-    datum-izdavanja="10.05.2020 10:30">
+    
+    broj-sertifikata="1321412/21" 
+    datum-izdavanja="10.05.2020. 10:30">
 
-    <validacija>https://euprava.gov.rs/DigitalniZeleniSertifikat/validacijaDokumenta</validacija>
+    <validacija>https://www.vakcinac-io.rs/digitalni-sertifikat/1321412/21</validacija>
     <nosilac-sertifikata>
         <os:ime>Mirko</os:ime>
-        <os:prezime>Mirkovic</os:prezime>
+        <os:prezime>Mirković</os:prezime>
         <os:jmbg>1111111111111</os:jmbg>
         <pol>0</pol>
-        <br-pasosa>11111</br-pasosa>
-        <datum-rodjenja>
-            <os:dan>11</os:dan>
-            <os:mesec>2</os:mesec>
-            <os:godina>1999</os:godina>
-        </datum-rodjenja>
+        <br-pasosa>111111111</br-pasosa>
+        <datum-rodjenja>11.02.1999.</datum-rodjenja>
     </nosilac-sertifikata>
 
     <vakcinacije broj-doza="2">
         <vakcinacija doza="1">
             <tip>Pfizer-BioNTech</tip>
             <proizvodjac>BIONTECH MANUFACTURING GMBH</proizvodjac>
-            <serija>51322</serija>
-            <datum>
-                <os:dan>20</os:dan>
-                <os:mesec>2</os:mesec>
-                <os:godina>2020</os:godina>
-            </datum>
-            <zdravstvena-ustanova>Marka Mirkovica, Nova Varos</zdravstvena-ustanova>
+            <serija>513221</serija>
+            <datum>20.02.2020.</datum>
+            <zdravstvena-ustanova>Marka Mirkovića, Nova Varoš</zdravstvena-ustanova>
         </vakcinacija>
         <vakcinacija doza="2">
             <tip>Pfizer-BioNTech</tip>
             <proizvodjac>BIONTECH MANUFACTURING GMBH</proizvodjac>
-            <serija>53532</serija>
-            <datum>
-                <os:dan>10</os:dan>
-                <os:mesec>3</os:mesec>
-                <os:godina>2020</os:godina>
-            </datum>
-            <zdravstvena-ustanova>Marka Mirkovica, Nova Varos</zdravstvena-ustanova>
+            <serija>535321</serija>
+            <datum>10.03.2020.</datum>
+            <zdravstvena-ustanova>Marka Mirkovića, Nova Varoš</zdravstvena-ustanova>
         </vakcinacija>
     </vakcinacije>
 
     <testovi broj-testova="3">
         <test broj="1">
             <ime>SARS CoV-2 RT Real-time PCR</ime>
-            <vrsta-uzorka>nazalni</vrsta-uzorka>
-            <proizvodjac>Ministarstvo zradvlja</proizvodjac>
-            <datum-uzorka>
-                <os:dan>20</os:dan>
-                <os:mesec>2</os:mesec>
-                <os:godina>2020</os:godina>
-            </datum-uzorka>
-            <datum-izdavanja>
-                <os:dan>20</os:dan>
-                <os:mesec>3</os:mesec>
-                <os:godina>2020</os:godina>
-            </datum-izdavanja>
+            <vrsta-uzorka>Nazalni</vrsta-uzorka>
+            <proizvodjac>Ministarstvo zdravlja</proizvodjac>
+            <datum-uzorka>20.02.2020.</datum-uzorka>
+            <datum-izdavanja>22.02.2020.</datum-izdavanja>
             <rezultat>0</rezultat>
             <labaratorija>BioLab Zrenjanin</labaratorija>
         </test>

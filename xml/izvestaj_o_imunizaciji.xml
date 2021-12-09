@@ -5,9 +5,10 @@
   xsi:schemaLocation="https://www.vakcinac-io.rs/izvestaj ../xsd/izvestaj_o_imunizaciji.xsd"
   xmlns="https://www.vakcinac-io.rs/izvestaj"
   xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
-  izdato="11.09.2022"
-  od="01.08.2021"
-  do="01.09.2021"
+  
+  izdato="11.09.2022."
+  od="01.08.2021."
+  do="01.09.2021."
 >
   <statistika-zahteva>
     <podneto>2758</podneto>
