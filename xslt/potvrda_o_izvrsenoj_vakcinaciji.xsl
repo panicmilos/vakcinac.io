@@ -95,7 +95,7 @@
                 <xsl:apply-templates select="x:podaci-o-vakcinisanom" />
                 <xsl:apply-templates select="x:podaci-o-vakcinaciji" />
 
-                <xsl:call-template name="qr-kod" />
+                <xsl:call-template name="vazenje-potvrde" />
 
         </body>
     </html>
@@ -131,7 +131,7 @@
     </xsl:choose>
 </xsl:template>
 
-<xsl:template name ="qr-kod">
+<xsl:template name ="vazenje-potvrde">
     <div class="info">
         Ова потврда важи без потписа и печата 
     </div>
@@ -183,7 +183,7 @@
         </xsl:call-template> дозе вакцине: </strong>
         <xsl:choose>
             <xsl:when test="$datum != ''">
-                <strong><xsl:value-of select="$datum"/>, серија: <xsl:value-of select="$serija"/></strong>
+                <strong><xsl:value-of select="$datum"/> , серија: <xsl:value-of select="$serija"/></strong>
             </xsl:when>
             <xsl:otherwise>
               ㅤ
