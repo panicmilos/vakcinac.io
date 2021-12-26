@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-        xmlns:fo="http://www.w3.org/1999/XSL/Format"
-        xmlns:p="https://www.vakcinac-io.rs/potvrda"
-        xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
-        version="2.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:fo="http://www.w3.org/1999/XSL/Format"
+    xmlns:p="https://www.vakcinac-io.rs/potvrda"
+    xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
+    version="2.0"
 >
-    <xsl:import href="./styles/potvrda_o_izvrsenoj_vakcinaciji.xsl"/>
+    <xsl:import href="./styles/potvrda_o_izvrsenoj_vakcinaciji.xsl" />
 
     <xsl:variable name="fo:layout-master-set">
         <fo:layout-master-set>
@@ -26,8 +26,8 @@
 
                     <fo:block>
                         <fo:table>
-                            <fo:table-column column-width="40%"/>
-                            <fo:table-column column-width="60%"/>
+                            <fo:table-column column-width="40%" />
+                            <fo:table-column column-width="60%" />
                             <fo:table-body>
                                 <fo:table-row>
                                     <fo:table-cell>
@@ -88,7 +88,7 @@
         </fo:block>
     </xsl:template>
 
-    <xsl:template name ="pol-vakcinisanog-srb">
+    <xsl:template name="pol-vakcinisanog-srb">
         <xsl:choose>
             <xsl:when test="os:pol = 0">
                 Женско
@@ -99,7 +99,7 @@
         </xsl:choose>
     </xsl:template>
 
-    <xsl:template name ="pol-vakcinisanog-eng">
+    <xsl:template name="pol-vakcinisanog-eng">
         <xsl:choose>
             <xsl:when test="os:pol = 0">
                 Female
@@ -110,20 +110,20 @@
         </xsl:choose>
     </xsl:template>
 
-    <xsl:template name ="vazenje-potvrde">
+    <xsl:template name="vazenje-potvrde">
         <fo:table xsl:use-attribute-sets="mt-4.5">
-            <fo:table-column column-width="80%"/>
-            <fo:table-column column-width="20%"/>
+            <fo:table-column column-width="80%" />
+            <fo:table-column column-width="20%" />
             <fo:table-body>
                 <fo:table-row>
                     <fo:table-cell xsl:use-attribute-sets="confirmation">
-                            <fo:block xsl:use-attribute-sets="info-confirmation">
-                                Ова потврда важи без потписа и печата
-                            </fo:block>>
+                        <fo:block xsl:use-attribute-sets="info-confirmation">
+                            Ова потврда важи без потписа и печата
+                        </fo:block>
 
-                            <fo:block xsl:use-attribute-sets="info-confirmation-weak mt-0.3 weak-text">
-                                Ova potvrda važi bez potpisa i pečata / This certificate is valid without signatures and seals
-                            </fo:block>
+                        <fo:block xsl:use-attribute-sets="info-confirmation-weak mt-0.3 weak-text">
+                            Ova potvrda važi bez potpisa i pečata / This certificate is valid without signatures and seals
+                        </fo:block>
                     </fo:table-cell>
                     <fo:table-cell>
                         <fo:block xsl:use-attribute-sets="text-right">
@@ -140,7 +140,7 @@
         </fo:table>
     </xsl:template>
 
-    <xsl:template name="redni-broj-doze-pismo" >
+    <xsl:template name="redni-broj-doze-pismo">
         <xsl:param name="redni-broj" />
         <xsl:param name="pismo" />
 
@@ -169,42 +169,49 @@
         </xsl:choose>
     </xsl:template>
 
-    <xsl:template name="podaci-o-dozi" >
+    <xsl:template name="podaci-o-dozi">
         <xsl:param name="datum" />
         <xsl:param name="serija" />
         <xsl:param name="redni-broj" />
 
         <fo:block xsl:use-attribute-sets="info bold-text">
-            Датум давања и број серије <xsl:call-template name="redni-broj-doze-pismo">
+            Датум давања и број серије
+            <xsl:call-template name="redni-broj-doze-pismo">
                 <xsl:with-param name="redni-broj" select="$redni-broj" />
                 <xsl:with-param name="pismo">
                     <xsl:text>cir</xsl:text>
                 </xsl:with-param>
-            </xsl:call-template> дозе вакцине:
+            </xsl:call-template>
+            дозе вакцине:
             <xsl:choose>
                 <xsl:when test="$datum != ''">
                     <xsl:value-of select="$datum"/> , серија: <xsl:value-of select="$serija"/>
                 </xsl:when>
                 <xsl:otherwise></xsl:otherwise>
             </xsl:choose>
-        </fo:block>>
+        </fo:block>
 
         <fo:block xsl:use-attribute-sets="info-language mt-0.3 weak-text">
-            Datum <xsl:call-template name="redni-broj-doze-pismo">
-            <xsl:with-param name="redni-broj" select="$redni-broj" />
-            <xsl:with-param name="pismo">
-                <xsl:text>lat</xsl:text>
-            </xsl:with-param>
-            </xsl:call-template> vakcinacije / <xsl:call-template name="redni-broj-doze-pismo">
+            Datum
+            <xsl:call-template name="redni-broj-doze-pismo">
+                <xsl:with-param name="redni-broj" select="$redni-broj" />
+                <xsl:with-param name="pismo">
+                    <xsl:text>lat</xsl:text>
+                </xsl:with-param>
+            </xsl:call-template>
+            vakcinacije /
+            <xsl:call-template name="redni-broj-doze-pismo">
                 <xsl:with-param name="redni-broj" select="$redni-broj" />
                 <xsl:with-param name="pismo">
                     <xsl:text>eng</xsl:text>
                 </xsl:with-param>
-            </xsl:call-template> Vaccination Date
-        </fo:block>>
+            </xsl:call-template>
+            Vaccination Date
+        </fo:block>
+
     </xsl:template>
 
-    <xsl:template name ="primljene-doze">
+    <xsl:template name="primljene-doze">
         <xsl:for-each select="p:podaci-o-dozama/p:primljena-doza">
             <xsl:call-template name="podaci-o-dozi">
                 <xsl:with-param name="datum" select="p:datum" />
@@ -214,11 +221,11 @@
         </xsl:for-each>
     </xsl:template>
 
-    <xsl:template match ="p:podaci-o-vakcinisanom">
+    <xsl:template match="p:podaci-o-vakcinisanom">
         <fo:block xsl:use-attribute-sets="info bold-text">
             Име и презиме: <xsl:value-of select="concat(os:ime,' ', os:prezime)" />
-        </fo:block>>
-
+        </fo:block>
+        
         <fo:block xsl:use-attribute-sets="info-language mt-0.3 weak-text">
             Ime i prezime / First and Last Name
         </fo:block>
@@ -232,7 +239,8 @@
         </fo:block>
 
         <fo:block xsl:use-attribute-sets="info bold-text">
-            Пол:  <xsl:call-template name="pol-vakcinisanog-srb" />
+            Пол:
+            <xsl:call-template name="pol-vakcinisanog-srb" />
         </fo:block>
 
         <fo:block xsl:use-attribute-sets="info-language mt-0.3 weak-text">
@@ -248,7 +256,7 @@
         </fo:block>
     </xsl:template>
 
-    <xsl:template match ="p:podaci-o-vakcinaciji">
+    <xsl:template match="p:podaci-o-vakcinaciji">
         <xsl:call-template name="primljene-doze" />
 
         <fo:block xsl:use-attribute-sets="info bold-text">

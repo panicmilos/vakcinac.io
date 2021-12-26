@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+<xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fox="http://xmlgraphics.apache.org/fop/extensions">
 
   <xsl:attribute-set name="h3">
     <xsl:attribute name="text-align">center</xsl:attribute>
     <xsl:attribute name="font-size">15px</xsl:attribute>
     <xsl:attribute name="font-weight">bold</xsl:attribute>
+    <xsl:attribute name="padding-bottom">2.5%</xsl:attribute>
   </xsl:attribute-set>
 
   <xsl:attribute-set name="div">
-    <xsl:attribute name="padding-bottom">2%</xsl:attribute>
+    <xsl:attribute name="padding-bottom">1.5%</xsl:attribute>
   </xsl:attribute-set>
 
   <xsl:attribute-set name="intro-text">
@@ -35,10 +36,10 @@
   <xsl:attribute-set name="chosen-option">
     <xsl:attribute name="padding">2 5 2 5</xsl:attribute>
     <xsl:attribute name="border">2px solid</xsl:attribute>
+    <xsl:attribute name="fox:border-radius">20pt</xsl:attribute>
   </xsl:attribute-set>
 
-  <xsl:attribute-set name="end-container">
-  </xsl:attribute-set>
+  <xsl:attribute-set name="end-container"></xsl:attribute-set>
 
   <xsl:attribute-set name="signature">
     <xsl:attribute name="text-align">center</xsl:attribute>
