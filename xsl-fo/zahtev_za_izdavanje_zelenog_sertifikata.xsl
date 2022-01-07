@@ -63,7 +63,7 @@
                 </fo:table-cell>
                 <fo:table-cell>
                   <fo:block xsl:use-attribute-sets="dots-underline">
-                    <xsl:value-of select="x:podnosilac-zahteva/x:datum-rođenja" />
+                    <xsl:value-of select="x:podnosilac-zahteva/x:datum-rodjenja" />
                   </fo:block>
                 </fo:table-cell>
               </fo:table-row>

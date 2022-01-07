@@ -119,7 +119,7 @@
             <span>Име и презиме:</span> <span class="dots-underline"><xsl:apply-templates select="x:podnosilac-zahteva" /></span>
           </div>
           <div>
-            <span>Датум рођења:</span> <span class="dots-underline"><xsl:value-of select="x:podnosilac-zahteva/x:datum-rođenja" /></span>
+            <span>Датум рођења:</span> <span class="dots-underline"><xsl:value-of select="x:podnosilac-zahteva/x:datum-rodjenja" /></span>
           </div>
           <div>
             <span>Пол:</span> <span class="dots-underline"><xsl:apply-templates select="x:podnosilac-zahteva/x:pol" /></span>

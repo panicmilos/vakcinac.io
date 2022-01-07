@@ -169,7 +169,7 @@
             </fo:block>
           </fo:table-cell>
           <fo:table-cell><fo:block xsl:use-attribute-sets="bold-text">Датум рођења</fo:block></fo:table-cell>
-          <fo:table-cell xsl:use-attribute-sets="right-dash mr-5"><fo:block xsl:use-attribute-sets="underline-text"><xsl:value-of select="../s:rodjenje/s:datum-rođenja" /></fo:block></fo:table-cell>
+          <fo:table-cell xsl:use-attribute-sets="right-dash mr-5"><fo:block xsl:use-attribute-sets="underline-text"><xsl:value-of select="../s:rodjenje/s:datum-rodjenja" /></fo:block></fo:table-cell>
           <fo:table-cell><fo:block xsl:use-attribute-sets="bold-text ml-5">Место рођења</fo:block></fo:table-cell>
           <fo:table-cell><fo:block xsl:use-attribute-sets="underline-text"><xsl:value-of select="../s:rodjenje/s:mesto-rodjenja" /></fo:block></fo:table-cell>
         </fo:table-row>

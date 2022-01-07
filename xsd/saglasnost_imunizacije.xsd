@@ -108,7 +108,7 @@
                             <xsd:element name="rodjenje">
                                 <xsd:complexType>
                                     <xsd:sequence>
-                                        <xsd:element name="datum-rođenja" type="os:TdateString"></xsd:element>
+                                        <xsd:element name="datum-rodjenja" type="os:TdateString"></xsd:element>
                                         <xsd:element name="mesto-rodjenja" type="xsd:string"></xsd:element>
                                     </xsd:sequence>
                                 </xsd:complexType>

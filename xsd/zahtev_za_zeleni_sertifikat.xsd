@@ -11,7 +11,7 @@
         <xsd:complexContent>
             <xsd:extension base="os:TosobaSaJmbg">
                 <xsd:sequence>
-                    <xsd:element name="datum-rođenja" type="os:TdateString"></xsd:element>
+                    <xsd:element name="datum-rodjenja" type="os:TdateString"></xsd:element>
                     <xsd:element name="pol" type="os:Tpol"></xsd:element>
                     <xsd:element name="broj-pasosa" type="os:Tpasos"></xsd:element>
                 </xsd:sequence>
