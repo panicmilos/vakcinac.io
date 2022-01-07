@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import vakcinac.io.citizen.annotations.RegisterExistEntity;
 import vakcinac.io.citizen.annotations.RegisterXmlScheme;
+import vakcinac.io.citizen.annotations.RegisterXslt;
 import vakcinac.io.citizen.models.os.Tkontakt;
 import vakcinac.io.citizen.utils.adapters.LocalDateAdapter;
 
@@ -208,6 +209,9 @@ import vakcinac.io.citizen.utils.adapters.LocalDateAdapter;
 )
 @RegisterExistEntity(
 	collectionUri="db/saglasnosti"
+)
+@RegisterXslt(
+	xslPath="/data/xslt/saglasnost_imunizacije.xsl"
 )
 public class SaglasnostZaSprovodjenjePreporuceneImunizacije {
 

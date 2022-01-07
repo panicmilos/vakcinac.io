@@ -30,9 +30,9 @@ public abstract class ExistRepository<T> implements Closeable {
 		try (CloseableResource resource = new CloseableResource(collection.createResource(id, XMLResource.RESOURCE_TYPE))) {
 
 			JaxBParser parser = JaxBParserFactory.newInstanceFor(obj.getClass());
-			String serializedDs = parser.marshall(obj);
+			String serializedObj = parser.marshall(obj);
 
-			resource.setContent(serializedDs);
+			resource.setContent(serializedObj);
 			collection.storeResource(resource.getRealResource());
 		} catch (XMLDBException e) {
 		}

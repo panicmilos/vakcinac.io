@@ -24,6 +24,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import vakcinac.io.citizen.annotations.RegisterExistEntity;
 import vakcinac.io.citizen.annotations.RegisterXmlScheme;
+import vakcinac.io.citizen.annotations.RegisterXslt;
 import vakcinac.io.citizen.utils.adapters.LocalDateAdapter;
 
 
@@ -127,6 +128,9 @@ import vakcinac.io.citizen.utils.adapters.LocalDateAdapter;
 )
 @RegisterExistEntity(
 	collectionUri="db/izvestaji"
+)
+@RegisterXslt(
+	xslPath="/data/xslt/izvestaj_o_imunizaciji.xsl"
 )
 public class IzvestajOImunizaciji {
 
