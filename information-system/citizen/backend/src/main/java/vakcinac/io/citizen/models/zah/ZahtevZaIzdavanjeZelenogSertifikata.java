@@ -16,6 +16,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import vakcinac.io.citizen.annotations.RegisterXmlScheme;
 import vakcinac.io.citizen.utils.adapters.LocalDateAdapter;
 
 
@@ -47,6 +49,11 @@ import vakcinac.io.citizen.utils.adapters.LocalDateAdapter;
     "razlog"
 })
 @XmlRootElement(name = "zahtev-za-izdavanje-zelenog-sertifikata")
+@RegisterXmlScheme(
+	schemePath="/data/schemes/zahtev_za_zeleni_sertifikat.xsd",
+	targetNamespace="https://www.vakcinac-io.rs/zahtev",
+	shortNamespace="zah"
+)
 public class ZahtevZaIzdavanjeZelenogSertifikata {
 
     @XmlElement(name = "podnosilac-zahteva", required = true)

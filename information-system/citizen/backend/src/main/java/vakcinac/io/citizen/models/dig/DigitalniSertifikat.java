@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -21,6 +22,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import vakcinac.io.citizen.annotations.RegisterXmlScheme;
 import vakcinac.io.citizen.utils.adapters.LocalDateAdapter;
 import vakcinac.io.citizen.utils.adapters.LocalDateTimeAdapter;
 
@@ -117,6 +120,11 @@ import vakcinac.io.citizen.utils.adapters.LocalDateTimeAdapter;
     "testovi"
 })
 @XmlRootElement(name = "digitalni-sertifikat")
+@RegisterXmlScheme(
+	schemePath="/data/schemes/digitalni_sertifikat.xsd",
+	targetNamespace="https://www.vakcinac-io.rs/digitalni-sertifikat",
+	shortNamespace="dig"
+)
 public class DigitalniSertifikat {
 
     @XmlElement(required = true)

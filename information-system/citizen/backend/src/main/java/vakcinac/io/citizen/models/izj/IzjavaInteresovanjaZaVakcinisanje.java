@@ -18,6 +18,8 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import vakcinac.io.citizen.annotations.RegisterXmlScheme;
 import vakcinac.io.citizen.models.os.Tkontakt;
 import vakcinac.io.citizen.utils.adapters.LocalDateAdapter;
 
@@ -82,6 +84,11 @@ import vakcinac.io.citizen.utils.adapters.LocalDateAdapter;
     "informacijeOPrimanjuVakcine"
 })
 @XmlRootElement(name = "izjava-interesovanja-za-vakcinisanje")
+@RegisterXmlScheme(
+	schemePath="/data/schemes/izjava_interesovanja_za_vakcinisanje.xsd",
+	targetNamespace="https://www.vakcinac-io.rs/interesovanje",
+	shortNamespace="izj"
+)
 public class IzjavaInteresovanjaZaVakcinisanje {
 
     @XmlElement(name = "podnosilac-izjave", required = true)

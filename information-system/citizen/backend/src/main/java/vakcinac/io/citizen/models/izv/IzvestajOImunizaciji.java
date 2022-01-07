@@ -21,6 +21,8 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import vakcinac.io.citizen.annotations.RegisterXmlScheme;
 import vakcinac.io.citizen.utils.adapters.LocalDateAdapter;
 
 
@@ -117,6 +119,11 @@ import vakcinac.io.citizen.utils.adapters.LocalDateAdapter;
     "statistikaProizvodjaca"
 })
 @XmlRootElement(name = "izvestaj-o-imunizaciji")
+@RegisterXmlScheme(
+	schemePath="/data/schemes/izvestaj_o_imunizaciji.xsd",
+	targetNamespace="https://www.vakcinac-io.rs/izvestaj",
+	shortNamespace="izv"
+)
 public class IzvestajOImunizaciji {
 
     @XmlElement(name = "statistika-zahteva", required = true)

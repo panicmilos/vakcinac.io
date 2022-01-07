@@ -20,6 +20,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import vakcinac.io.citizen.annotations.RegisterXmlScheme;
 import vakcinac.io.citizen.utils.adapters.LocalDateAdapter;
 
 
@@ -94,6 +96,11 @@ import vakcinac.io.citizen.utils.adapters.LocalDateAdapter;
     "qrKod"
 })
 @XmlRootElement(name = "potvrda-o-izvrsenoj-vakcinaciji")
+@RegisterXmlScheme(
+	schemePath="/data/schemes/potvrda_o_izvrsenoj_vakcinaciji.xsd",
+	targetNamespace="https://www.vakcinac-io.rs/potvrda",
+	shortNamespace="pot"
+)
 public class PotvrdaOIzvrsenojVakcinaciji {
 
     @XmlElement(name = "podaci-o-vakcinisanom", required = true)
