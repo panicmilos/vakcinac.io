@@ -9,6 +9,7 @@
 package vakcinac.io.citizen.models.zah;
 
 import java.time.LocalDate;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -17,6 +18,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import vakcinac.io.citizen.annotations.RegisterExistEntity;
 import vakcinac.io.citizen.annotations.RegisterXmlScheme;
 import vakcinac.io.citizen.utils.adapters.LocalDateAdapter;
 
@@ -53,6 +55,9 @@ import vakcinac.io.citizen.utils.adapters.LocalDateAdapter;
 	schemePath="/data/schemes/zahtev_za_zeleni_sertifikat.xsd",
 	targetNamespace="https://www.vakcinac-io.rs/zahtev",
 	shortNamespace="zah"
+)
+@RegisterExistEntity(
+	collectionUri="db/zahtevi"
 )
 public class ZahtevZaIzdavanjeZelenogSertifikata {
 

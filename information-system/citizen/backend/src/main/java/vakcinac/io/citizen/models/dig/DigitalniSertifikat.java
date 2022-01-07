@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import vakcinac.io.citizen.annotations.RegisterExistEntity;
 import vakcinac.io.citizen.annotations.RegisterXmlScheme;
 import vakcinac.io.citizen.utils.adapters.LocalDateAdapter;
 import vakcinac.io.citizen.utils.adapters.LocalDateTimeAdapter;
@@ -124,6 +125,9 @@ import vakcinac.io.citizen.utils.adapters.LocalDateTimeAdapter;
 	schemePath="/data/schemes/digitalni_sertifikat.xsd",
 	targetNamespace="https://www.vakcinac-io.rs/digitalni-sertifikat",
 	shortNamespace="dig"
+)
+@RegisterExistEntity(
+	collectionUri="db/digitalni-sertifikati"
 )
 public class DigitalniSertifikat {
 

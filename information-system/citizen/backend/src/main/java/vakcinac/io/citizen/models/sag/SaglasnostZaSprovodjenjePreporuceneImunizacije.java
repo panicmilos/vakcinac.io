@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import vakcinac.io.citizen.annotations.RegisterExistEntity;
 import vakcinac.io.citizen.annotations.RegisterXmlScheme;
 import vakcinac.io.citizen.models.os.Tkontakt;
 import vakcinac.io.citizen.utils.adapters.LocalDateAdapter;
@@ -204,6 +205,9 @@ import vakcinac.io.citizen.utils.adapters.LocalDateAdapter;
 	schemePath="/data/schemes/saglasnost_imunizacije.xsd",
 	targetNamespace="https://www.vakcinac-io.rs/saglasnost",
 	shortNamespace="sag"
+)
+@RegisterExistEntity(
+	collectionUri="db/saglasnosti"
 )
 public class SaglasnostZaSprovodjenjePreporuceneImunizacije {
 

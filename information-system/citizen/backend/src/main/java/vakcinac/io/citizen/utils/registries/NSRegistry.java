@@ -16,8 +16,13 @@ import vakcinac.io.citizen.utils.AnnotatedClassScanner;
 public class NSRegistry extends NamespacePrefixMapper {
 	private HashMap<String, String> registry;
 	
+	@SuppressWarnings("serial")
 	public NSRegistry() { 
-		registry = new HashMap<String, String>(); 
+		registry = new HashMap<String, String>() {{
+			put("http://www.w3.org/2001/XMLSchema-instance", "xsi");
+			put("http://java.sun.com/xml/ns/jaxb", "jaxb");
+		}};
+		
 		findAllNamespaces();
 	}
 	

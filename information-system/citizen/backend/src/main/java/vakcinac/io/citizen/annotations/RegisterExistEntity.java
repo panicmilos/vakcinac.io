@@ -8,9 +8,6 @@ import java.lang.annotation.Target;
 
 @Retention(RUNTIME)
 @Target(ElementType.TYPE)
-public @interface RegisterXmlScheme {
-	String schemePath();
-	String targetNamespace();
-	String shortNamespace();
-
+public @interface RegisterExistEntity {
+	String collectionUri();
 }

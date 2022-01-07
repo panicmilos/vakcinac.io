@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import vakcinac.io.citizen.annotations.RegisterExistEntity;
 import vakcinac.io.citizen.annotations.RegisterXmlScheme;
 import vakcinac.io.citizen.utils.adapters.LocalDateAdapter;
 
@@ -100,6 +101,9 @@ import vakcinac.io.citizen.utils.adapters.LocalDateAdapter;
 	schemePath="/data/schemes/potvrda_o_izvrsenoj_vakcinaciji.xsd",
 	targetNamespace="https://www.vakcinac-io.rs/potvrda",
 	shortNamespace="pot"
+)
+@RegisterExistEntity(
+	collectionUri="db/potvrde"
 )
 public class PotvrdaOIzvrsenojVakcinaciji {
 
