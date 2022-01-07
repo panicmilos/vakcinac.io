@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<jxb:bindings
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+    xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+    jxb:version="2.1"
+>
+    <jxb:bindings>
+        <jxb:globalBindings>
+            <xjc:javaType name="java.time.LocalDate" xmlType="os:TdateString" adapter="vakcinac.io.citizen.utils.adapters.LocalDateAdapter" />
+        </jxb:globalBindings>
+    </jxb:bindings>
+</jxb:bindings>
