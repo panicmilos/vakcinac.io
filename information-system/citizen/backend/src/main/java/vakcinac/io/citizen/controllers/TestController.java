@@ -1,6 +1,10 @@
 package vakcinac.io.citizen.controllers;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import vakcinac.io.citizen.Constants;
 import vakcinac.io.citizen.models.sag.SaglasnostZaSprovodjenjePreporuceneImunizacije;
 import vakcinac.io.citizen.repository.SaglasnostRepository;
+import vakcinac.io.citizen.utils.extractors.MetadataExtractor;
 import vakcinac.io.citizen.utils.parsers.JaxBParser;
 import vakcinac.io.citizen.utils.parsers.JaxBParserFactory;
 import vakcinac.io.citizen.utils.transformers.PDFTransformer;
@@ -71,9 +76,18 @@ public class TestController {
 		headers.setContentType(MediaType.APPLICATION_PDF);
 		headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
 
-		System.out.println(pdf);
 		return new ResponseEntity<byte[]>(pdf, headers, HttpStatus.OK);
+	}
+	
+	@GetMapping("5")
+	public ResponseEntity<String> Test5() throws IOException {
 
+		MetadataExtractor extractor = new MetadataExtractor();
+		String infile = String.join("", Files.readAllLines(Paths.get(Constants.ROOT_RESOURCE + "/data/rdf-test/contacts.xml")));
+
+		byte[] rdf = extractor.extract(infile);
+
+		return ResponseEntity.ok(new String(rdf, StandardCharsets.UTF_8));
 	}
 
 }
