@@ -10,15 +10,15 @@ import org.xmldb.api.base.Service;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.CollectionManagementService;
 
-import vakcinac.io.citizen.utils.AuthenticationUtils;
-import vakcinac.io.citizen.utils.AuthenticationUtils.ConnectionProperties;
+import vakcinac.io.citizen.utils.ExistAuthenticationUtils;
+import vakcinac.io.citizen.utils.ExistAuthenticationUtils.ExistConnectionProperties;
 
 public class CloseableCollection implements Collection, Closeable {
-	private ConnectionProperties connectionProeprties;
+	private ExistConnectionProperties connectionProeprties;
 	private Collection connection;
 
 	public CloseableCollection(String collectionUrl) throws IOException, XMLDBException {
-		connectionProeprties = AuthenticationUtils.loadProperties();
+		connectionProeprties = ExistAuthenticationUtils.loadProperties();
 
 		this.connection = getOrCreateCollection(collectionUrl);
 	}

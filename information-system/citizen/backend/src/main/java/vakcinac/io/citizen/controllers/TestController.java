@@ -1,11 +1,8 @@
 package vakcinac.io.citizen.controllers;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
+import org.apache.jena.query.ResultSetFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import vakcinac.io.citizen.Constants;
 import vakcinac.io.citizen.models.sag.SaglasnostZaSprovodjenjePreporuceneImunizacije;
 import vakcinac.io.citizen.repository.SaglasnostRepository;
-import vakcinac.io.citizen.utils.extractors.MetadataExtractor;
+import vakcinac.io.citizen.repository.jena.CloseableResultSet;
+import vakcinac.io.citizen.repository.jena.JenaRepository;
 import vakcinac.io.citizen.utils.parsers.JaxBParser;
 import vakcinac.io.citizen.utils.parsers.JaxBParserFactory;
 import vakcinac.io.citizen.utils.transformers.PDFTransformer;
@@ -30,6 +28,9 @@ public class TestController {
 
 	@Autowired
 	SaglasnostRepository saglasnostRepository;
+
+	@Autowired
+	JenaRepository jenaRepository;
 
 	@GetMapping("2")
 	public ResponseEntity<Object> Test2() {
@@ -78,16 +79,15 @@ public class TestController {
 
 		return new ResponseEntity<byte[]>(pdf, headers, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("5")
-	public ResponseEntity<String> Test5() throws IOException {
+	public ResponseEntity<String> Test5() throws Exception {
 
-		MetadataExtractor extractor = new MetadataExtractor();
-		String infile = String.join("", Files.readAllLines(Paths.get(Constants.ROOT_RESOURCE + "/data/rdf-test/contacts.xml")));
+		try (CloseableResultSet set = jenaRepository.read("/nesto/cao")) {
+			ResultSetFormatter.outputAsXML(System.out, set);
+		}
 
-		byte[] rdf = extractor.extract(infile);
-
-		return ResponseEntity.ok(new String(rdf, StandardCharsets.UTF_8));
+		return ResponseEntity.ok("");
 	}
 
 }

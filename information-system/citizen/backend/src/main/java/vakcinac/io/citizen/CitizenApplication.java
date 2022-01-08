@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.xmldb.api.DatabaseManager;
 import org.xmldb.api.base.Database;
 
-import vakcinac.io.citizen.utils.AuthenticationUtils;
-import vakcinac.io.citizen.utils.AuthenticationUtils.ConnectionProperties;
+import vakcinac.io.citizen.utils.ExistAuthenticationUtils;
+import vakcinac.io.citizen.utils.ExistAuthenticationUtils.ExistConnectionProperties;
 
 @SpringBootApplication
 public class CitizenApplication implements CommandLineRunner {
@@ -20,7 +20,7 @@ public class CitizenApplication implements CommandLineRunner {
     public void run(String... args) {
 		try {
 			//initialize database driver
-			ConnectionProperties conn = AuthenticationUtils.loadProperties();
+			ExistConnectionProperties conn = ExistAuthenticationUtils.loadProperties();
 			Class<?> cl = Class.forName(conn.driver);
 
 			// encapsulation of the database driver functionality
