@@ -58,7 +58,7 @@ public class JaxBParser {
 
 			try {
 				SchemeRegistry schemeRegistry = new SchemeRegistry();
-				SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+				SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);				
 				Schema schema = schemaFactory.newSchema(new File(Constants.ROOT_RESOURCE + schemeRegistry.getPathFor(forClass)));
 				unmarshaller.setSchema(schema);
 				unmarshaller.setEventHandler(new JaxBParsingHandler());

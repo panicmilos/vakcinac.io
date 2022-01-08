@@ -5,11 +5,9 @@ import java.io.IOException;
 
 import javax.xml.transform.OutputKeys;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 
-import vakcinac.io.citizen.models.dig.DigitalniSertifikat;
 import vakcinac.io.citizen.utils.parsers.JaxBParser;
 import vakcinac.io.citizen.utils.parsers.JaxBParserFactory;
 import vakcinac.io.citizen.utils.registries.ExistEntitiesRegistry;
@@ -17,11 +15,14 @@ import vakcinac.io.citizen.utils.registries.ExistEntitiesRegistry;
 @SuppressWarnings("unused")
 public abstract class ExistRepository<T> implements Closeable {
 	private CloseableCollection collection;
-
+	private Class<?> forClass;
+	
 	public ExistRepository(Class<?> forClass) throws IOException, XMLDBException {
+		this.forClass = forClass;
+
 		ExistEntitiesRegistry collectionUriRegistry = new ExistEntitiesRegistry();
 		String collectionUri = collectionUriRegistry.getCollectionUriFor(forClass);
-
+		
 		collection = new CloseableCollection(collectionUri);
 		collection.setProperty(OutputKeys.INDENT, "yes");
 	}
@@ -29,7 +30,7 @@ public abstract class ExistRepository<T> implements Closeable {
 	public void store(String id, T obj) {
 		try (CloseableResource resource = new CloseableResource(collection.createResource(id, XMLResource.RESOURCE_TYPE))) {
 
-			JaxBParser parser = JaxBParserFactory.newInstanceFor(obj.getClass());
+			JaxBParser parser = JaxBParserFactory.newInstanceFor(forClass);
 			String serializedObj = parser.marshall(obj);
 
 			resource.setContent(serializedObj);
@@ -46,7 +47,7 @@ public abstract class ExistRepository<T> implements Closeable {
 				return null;
 			}
 
-			JaxBParser parser = JaxBParserFactory.newInstanceFor(DigitalniSertifikat.class);
+			JaxBParser parser = JaxBParserFactory.newInstanceFor(forClass);
 			return parser.unmarshall(resource.getContent().toString());
 
 		} catch (XMLDBException e) {
@@ -64,7 +65,7 @@ public abstract class ExistRepository<T> implements Closeable {
 				return null;
 			}
 
-			JaxBParser parser = JaxBParserFactory.newInstanceFor(DigitalniSertifikat.class);
+			JaxBParser parser = JaxBParserFactory.newInstanceFor(forClass);
 			T obj = parser.unmarshall(resource.getContent().toString());
 
 			collection.removeResource(resource.getRealResource());
