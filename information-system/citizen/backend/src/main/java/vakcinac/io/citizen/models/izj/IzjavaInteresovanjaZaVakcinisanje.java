@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import vakcinac.io.citizen.annotations.RegisterExistEntity;
 import vakcinac.io.citizen.annotations.RegisterXmlScheme;
+import vakcinac.io.citizen.annotations.RegisterXslFo;
 import vakcinac.io.citizen.annotations.RegisterXslt;
 import vakcinac.io.citizen.models.os.Tkontakt;
 import vakcinac.io.citizen.utils.adapters.LocalDateAdapter;
@@ -96,6 +97,9 @@ import vakcinac.io.citizen.utils.adapters.LocalDateAdapter;
 )
 @RegisterXslt(
 	xslPath="/data/xslt/iskazivanje_interesovanja_za_vakcinisanje.xsl"
+)
+@RegisterXslFo(
+	xslPath="/data/xsl-fo/iskazivanje_interesovanja_za_vakcinisanje.xsl"
 )
 public class IzjavaInteresovanjaZaVakcinisanje {
 

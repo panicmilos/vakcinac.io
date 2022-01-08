@@ -2,7 +2,6 @@ package vakcinac.io.citizen.utils.transformers;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
@@ -16,7 +15,6 @@ import javax.xml.transform.stream.StreamSource;
 import org.w3c.dom.Document;
 
 import vakcinac.io.citizen.Constants;
-import vakcinac.io.citizen.models.dig.DigitalniSertifikat;
 import vakcinac.io.citizen.utils.parsers.DocumentParser;
 import vakcinac.io.citizen.utils.parsers.JaxBParser;
 import vakcinac.io.citizen.utils.parsers.JaxBParserFactory;
@@ -26,15 +24,15 @@ public class XHTMLTransformer {
 
 	private TransformerFactory transformerFactory;
 	private DocumentParser documentParser;
-	private XsltRegistry xsltRegisty;
+	private XsltRegistry xsltRegistry;
 
 	public XHTMLTransformer() {
 		transformerFactory = TransformerFactory.newInstance();
 		documentParser = new DocumentParser();
-		xsltRegisty = new XsltRegistry();
+		xsltRegistry = new XsltRegistry();
 	}
 
-	public byte[] generate(Object obj) throws FileNotFoundException {
+	public byte[] generate(Object obj) {
 
 		try {
 			String serializedObj = serializeSource(obj);
@@ -59,7 +57,7 @@ public class XHTMLTransformer {
 	}
 	
 	private String serializeSource(Object obj) {
-		JaxBParser parser = JaxBParserFactory.newInstanceFor(DigitalniSertifikat.class);
+		JaxBParser parser = JaxBParserFactory.newInstanceFor(obj.getClass());
 		
 		return parser.marshall(obj);
 	}
@@ -67,7 +65,7 @@ public class XHTMLTransformer {
 	private String findXslPathFor(Object obj) {
 		Class<?> objClass = obj.getClass();
 		
-		return Constants.ROOT_RESOURCE + xsltRegisty.getPathFor(objClass);
+		return Constants.ROOT_RESOURCE + xsltRegistry.getPathFor(objClass);
 	}
 	
 	private Transformer createTransformerFor(StreamSource transformSource) throws TransformerConfigurationException {

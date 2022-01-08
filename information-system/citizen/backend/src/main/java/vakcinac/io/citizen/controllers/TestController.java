@@ -1,8 +1,6 @@
 package vakcinac.io.citizen.controllers;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -14,10 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import vakcinac.io.citizen.Constants;
-import vakcinac.io.citizen.models.dig.DigitalniSertifikat;
-import vakcinac.io.citizen.repository.DigitalniSertifikatiRepository;
+import vakcinac.io.citizen.models.sag.SaglasnostZaSprovodjenjePreporuceneImunizacije;
+import vakcinac.io.citizen.repository.SaglasnostRepository;
 import vakcinac.io.citizen.utils.parsers.JaxBParser;
 import vakcinac.io.citizen.utils.parsers.JaxBParserFactory;
+import vakcinac.io.citizen.utils.transformers.PDFTransformer;
 import vakcinac.io.citizen.utils.transformers.XHTMLTransformer;
 
 @Controller
@@ -25,32 +24,18 @@ import vakcinac.io.citizen.utils.transformers.XHTMLTransformer;
 public class TestController {
 
 	@Autowired
-	DigitalniSertifikatiRepository test;
-	
-	@GetMapping()
-	public ResponseEntity<Object> Test() throws IOException {
-
-		System.out.println("[INFO] Example 1: JAXB unmarshalling.\n");
-
-		// Unmarshalling generiše objektni model na osnovu XML fajla
-		JaxBParser parser = JaxBParserFactory.newInstanceFor(DigitalniSertifikat.class);
-
-		DigitalniSertifikat ds = parser.unmarshall(new File(Constants.ROOT_RESOURCE + "/data/docs/digitalni_sertifikat.xml"));
-
-		return ResponseEntity.ok(ds);
-
-	}
+	SaglasnostRepository saglasnostRepository;
 
 	@GetMapping("2")
 	public ResponseEntity<Object> Test2() {
 
 		try {
-			JaxBParser parser = JaxBParserFactory.newInstanceFor(DigitalniSertifikat.class);
-			DigitalniSertifikat ds = parser.unmarshall(new File(Constants.ROOT_RESOURCE + "/data/docs/digitalni_sertifikat.xml"));
+			JaxBParser parser = JaxBParserFactory.newInstanceFor(SaglasnostZaSprovodjenjePreporuceneImunizacije.class);
+			SaglasnostZaSprovodjenjePreporuceneImunizacije szspi = parser.unmarshall(new File(
+					Constants.ROOT_RESOURCE + "/data/docs/saglasnost_za_sprovodjenje_preporucene_imunizacije.xml"));
 
-
-			test.store("cao.xml", ds);			
-			return ResponseEntity.ok(test.retrieve("cao.xml"));
+			saglasnostRepository.store("cao.xml", szspi);
+			return ResponseEntity.ok(saglasnostRepository.retrieve("cao.xml"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -58,29 +43,37 @@ public class TestController {
 		return ResponseEntity.ok(null);
 
 	}
-	
+
 	@GetMapping("3")
 	public ResponseEntity<byte[]> Test3() {
 
 		XHTMLTransformer transformer = new XHTMLTransformer();
-		try {
-			DigitalniSertifikat ds = test.retrieve("cao.xml");
-			
-			byte[] xhtml = transformer.generate(ds);
-			
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_XHTML_XML);
-            headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
-    		return new ResponseEntity<byte[]>(xhtml, headers, HttpStatus.OK);
+		SaglasnostZaSprovodjenjePreporuceneImunizacije szspi = saglasnostRepository.retrieve("cao.xml");
 
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		byte[] xhtml = transformer.generate(szspi);
 
-		return ResponseEntity.ok(null);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_XHTML_XML);
+		headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+		return new ResponseEntity<byte[]>(xhtml, headers, HttpStatus.OK);
 
 	}
 
+	@GetMapping("4")
+	public ResponseEntity<byte[]> Test4() {
+
+		PDFTransformer transformer = new PDFTransformer();
+		SaglasnostZaSprovodjenjePreporuceneImunizacije szspi = saglasnostRepository.retrieve("cao.xml");
+
+		byte[] pdf = transformer.generate(szspi);
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_PDF);
+		headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+
+		System.out.println(pdf);
+		return new ResponseEntity<byte[]>(pdf, headers, HttpStatus.OK);
+
+	}
 
 }

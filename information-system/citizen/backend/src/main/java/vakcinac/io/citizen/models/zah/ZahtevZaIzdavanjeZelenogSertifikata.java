@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import vakcinac.io.citizen.annotations.RegisterExistEntity;
 import vakcinac.io.citizen.annotations.RegisterXmlScheme;
+import vakcinac.io.citizen.annotations.RegisterXslFo;
 import vakcinac.io.citizen.annotations.RegisterXslt;
 import vakcinac.io.citizen.utils.adapters.LocalDateAdapter;
 
@@ -62,6 +63,9 @@ import vakcinac.io.citizen.utils.adapters.LocalDateAdapter;
 )
 @RegisterXslt(
 	xslPath="/data/xslt/zahtev_za_izdavanje_zelenog_sertifikata.xsl"
+)
+@RegisterXslFo(
+	xslPath="/data/xsl-fo/zahtev_za_izdavanje_zelenog_sertifikata.xsl"
 )
 public class ZahtevZaIzdavanjeZelenogSertifikata {
 
