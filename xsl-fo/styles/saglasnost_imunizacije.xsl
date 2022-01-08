@@ -30,7 +30,7 @@
     <xsl:attribute name="text-align">center</xsl:attribute>
     <xsl:attribute name="border">1px solid black</xsl:attribute>
     <xsl:attribute name="margin-top">5px</xsl:attribute>
-    <xsl:attribute name="margin-bottom">8px</xsl:attribute>
+    <xsl:attribute name="margin-bottom">4px</xsl:attribute>
   </xsl:attribute-set>
 
   <xsl:attribute-set name="b-th">
@@ -89,7 +89,5 @@
     <xsl:attribute name="margin-top">15px</xsl:attribute>
     <xsl:attribute name="margin-bottom">15px</xsl:attribute>
   </xsl:attribute-set>
-
-
 
 </xsl:stylesheet>

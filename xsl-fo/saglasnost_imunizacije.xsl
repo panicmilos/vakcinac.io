@@ -24,7 +24,7 @@
       <fo:page-sequence master-reference="saglasnost-imunizacije-page">
         <fo:flow flow-name="xsl-region-body">
 
-          <fo:block space-after="15px">
+          <fo:block space-after="10px">
             <fo:table>
               <fo:table-column column-width="70%"/>
               <fo:table-column column-width="30%"/>
@@ -40,7 +40,7 @@
                       <fo:external-graphic
                         src="url(https://media.covid19.rs/2020/02/BATUT-logo-300x158.png)"
                         content-width="120px"
-                        content-height="120px"
+                        content-height="105px"
                         scaling="uniform"/>
                     </fo:block>
                   </fo:table-cell>
@@ -87,7 +87,7 @@
   </xsl:template>
 
   <xsl:template match="s:drzavljanstvo">
-    <fo:table xsl:use-attribute-sets="table">
+    <fo:table xsl:use-attribute-sets="table" margin-bottom="3px">
       <fo:table-column column-width="17%"/>
       <fo:table-column column-width="83%"/>
       <fo:table-body>
@@ -121,8 +121,8 @@
                 <fo:table-body>
                   <fo:table-row>
                     <fo:table-cell><fo:block>2)</fo:block></fo:table-cell>
-                    <fo:table-cell xsl:use-attribute-sets="right-dash mr-5"><fo:block xsl:use-attribute-sets="underline-text"><xsl:value-of select="s:strano/s:naziv-drzavljanstva"/></fo:block></fo:table-cell>
-                    <fo:table-cell><fo:block xsl:use-attribute-sets="underline-text ml-5"><xsl:value-of select="s:strano/s:broj-pasosa-ebs"/></fo:block></fo:table-cell>
+                    <fo:table-cell xsl:use-attribute-sets="right-dash mr-5"><fo:block xsl:use-attribute-sets="underline-text">&#160;<xsl:value-of select="s:strano/s:naziv-drzavljanstva"/></fo:block></fo:table-cell>
+                    <fo:table-cell><fo:block xsl:use-attribute-sets="underline-text ml-5">&#160;<xsl:value-of select="s:strano/s:broj-pasosa-ebs"/></fo:block></fo:table-cell>
                   </fo:table-row>
                   <fo:table-row>
                     <fo:table-cell><fo:block>&#160;</fo:block></fo:table-cell>
