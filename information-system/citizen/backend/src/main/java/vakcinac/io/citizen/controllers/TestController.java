@@ -89,5 +89,14 @@ public class TestController {
 
 		return ResponseEntity.ok("");
 	}
+	
+	@GetMapping("6")
+	public ResponseEntity<String> Test6() throws Exception {
+
+//		jenaRepository.dropGraph("/1234");
+		jenaRepository.dropAll();
+
+		return ResponseEntity.ok("");
+	}
 
 }

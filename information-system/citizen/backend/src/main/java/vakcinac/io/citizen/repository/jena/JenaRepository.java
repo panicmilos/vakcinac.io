@@ -50,6 +50,21 @@ public class JenaRepository implements Closeable {
 		
 		return new CloseableResultSet(resultSet, query);
 	}
+	
+	public void dropGraph(String graphUri) {
+		String sparqlUpdate = SparqlUtils.dropGraph(connectionProperties.dataEndpoint + graphUri);
+		UpdateRequest dropRequest = UpdateFactory.create(sparqlUpdate);
+
+		UpdateProcessor processor = UpdateExecutionFactory.createRemote(dropRequest, connectionProperties.updateEndpoint, client, context);
+		processor.execute();
+	}
+	
+	public void dropAll() {
+		UpdateRequest request = UpdateFactory.create(SparqlUtils.dropAll());
+
+		UpdateProcessor processor = UpdateExecutionFactory.createRemote(request, connectionProperties.updateEndpoint, client, context);
+		processor.execute();
+	}
 
 	@Override
 	public void close() throws IOException {
