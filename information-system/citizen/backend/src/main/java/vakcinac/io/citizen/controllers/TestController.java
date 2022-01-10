@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import vakcinac.io.citizen.Constants;
 import vakcinac.io.citizen.models.sag.SaglasnostZaSprovodjenjePreporuceneImunizacije;
-import vakcinac.io.citizen.repository.SaglasnostRepository;
+import vakcinac.io.citizen.repository.exist.SaglasnostRepository;
 import vakcinac.io.citizen.repository.jena.CloseableResultSet;
 import vakcinac.io.citizen.repository.jena.JenaRepository;
 import vakcinac.io.citizen.utils.parsers.JaxBParser;
@@ -89,14 +89,13 @@ public class TestController {
 
 		return ResponseEntity.ok("");
 	}
-	
+
 	@GetMapping("6")
-	public ResponseEntity<String> Test6() throws Exception {
-
-//		jenaRepository.dropGraph("/1234");
+		public ResponseEntity<String> Test6() throws Exception {
+	
+	//		jenaRepository.dropGraph("/1234");
 		jenaRepository.dropAll();
-
-		return ResponseEntity.ok("");
-	}
-
+	
+			return ResponseEntity.ok("");
+		}
 }

@@ -1,4 +1,4 @@
-package vakcinac.io.citizen.repository;
+package vakcinac.io.citizen.repository.exist;
 
 import java.io.Closeable;
 import java.io.IOException;

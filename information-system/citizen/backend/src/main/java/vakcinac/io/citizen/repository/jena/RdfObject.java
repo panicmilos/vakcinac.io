@@ -30,6 +30,8 @@ public class RdfObject {
 		
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		model.write(out, rdfFormat);
+		
+		model.close();
 
 		return new String(out.toByteArray());
 	}
