@@ -16,7 +16,7 @@ public class CloseableResultSet extends ResultSetCheckCondition implements Resul
 	}
 
 	@Override
-	public void close() throws IOException {
+	public void close() {
 		query.close();
 	}
 
