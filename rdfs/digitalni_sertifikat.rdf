@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+  xmlns:rdf="http://www.w3.org/1999/02/22=rdf=syntax=ns#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf=schema#"
+
+  xmlns:os="https://www.vakcinac-io.rs/rdfs/deljeno/"
+  xml:base="https://www.vakcinac-io.rs/rdfs/digitalni-sertifikat/#"
+>
+  
+  <!-- Linkovi ka dokumentima -->
+
+  <rdf:Property rdf:ID="izdatNaOsnovu">
+    <rdfs:domain rdf:resource="os:DigitalniSertifikatDokument"></rdfs:domain>
+    <rdfs:range rdf:resource="os:ZahtevZaDigitalniSertifikatDokument"></rdfs:range>
+  </rdf:Property>
+
+  <rdf:Property rdf:ID="saPotvrdom">
+    <rdfs:domain rdf:resource="os:DigitalniSertifikatDokument"></rdfs:domain>
+    <rdfs:range rdf:resource="os:PotvrdaOVakcinisanju"></rdfs:range>
+  </rdf:Property>
+
+  <!-- Linkovi ka osobama -->
+
+  <rdf:Property rdf:ID="za">
+    <rdfs:domain rdf:resource="os:DigitalniSertifikatDokument"></rdfs:domain>
+    <rdfs:range rdf:resource="os:Sluzbenik"></rdfs:range>
+  </rdf:Property>
+
+  <rdf:Property rdf:ID="izdao">
+    <rdfs:domain rdf:resource="os:DigitalniSertifikaDokument"></rdfs:domain>
+    <rdfs:range rdf:resource="os:Sluzbenik"></rdfs:range>
+  </rdf:Property>
+
+</rdf:RDF>
