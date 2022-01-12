@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 public class LocalDateAdapter extends XmlAdapter<String, LocalDate> {
     @Override
     public LocalDate unmarshal(String date) throws Exception {
-    	if (date == null || date.isBlank()) {
+    	if (date == null || date.trim().isEmpty()) {
     		return null;
     	}
     	
