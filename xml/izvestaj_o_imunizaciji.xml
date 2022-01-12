@@ -17,7 +17,7 @@
   do="01.09.2021."
 >
 
-  <link rel="rdfioi:izdao" href="https://www.vakcinac-io.rs/sluzbenik/2222222222221" typeof="rdfos:Sluzbenik" />
+  <link rel="rdfioi:izdao" href="https://www.vakcinac-io.rs/sluzbenici/2222222222221" typeof="rdfos:Sluzbenik" />
 
   <meta property="rdfioi:periodOd" datatype="xsi:date">2021-08-01</meta>
   <meta property="rdfioi:periodDo" datatype="xsi:date">2021-09-01</meta>

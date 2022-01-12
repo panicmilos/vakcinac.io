@@ -1,13 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../xslt/iskazivanje_interesovanja_za_vakcinisanje.xsl"?>
 <izjava-interesovanja-za-vakcinisanje
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="https://www.vakcinac-io.rs/interesovanje ../xsd/izjava_interesovanja_za_vakcinisanje.xsd"
-  xmlns="https://www.vakcinac-io.rs/interesovanje"
-  xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
-  
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance/"
+  xsi:schemaLocation="https://www.vakcinac-io.rs/interesovanje/ ../xsd/izjava_interesovanja_za_vakcinisanje.xsd"
+  xmlns="https://www.vakcinac-io.rs/interesovanje/"
+  xmlns:os="https://www.vakcinac-io.rs/osnovna-sema/"
+
+  xmlns:rdfos="https://www.vakcinac-io.rs/rdfs/deljeno/"
+  xmlns:rdfiizv="https://www.vakcinac-io.rs/rdfs/interesovanje/"
+
+  about="https://www.vakcinac-io.rs/interesovanje/2312918273972/1"
+  typeof="rdfos:IzjavaInteresovanjaZaVakcinisanjeDokument"
+
   dan="17.11.2021."
 >
+  <link rel="rdfiizv:za" href="https://www.vakcinac-io.rs/gradjani/2312918273972" typeof="rdfos:Gradjanin" />
+  <link rel="rdfiizv:zeljeneVakcine" href="https://www.vakcinac-io.rs/vakcine/0" typeof="rdfos:Vakcina" />
+  <link rel="rdfiizv:zeljeneVakcine" href="https://www.vakcinac-io.rs/vakcine/2" typeof="rdfos:Vakcina" />
+
+  <meta property="rdfiizv:uOpstini" datatype="xsi:string">Zrenjanin</meta>
+  <meta property="rdfos:izdat" datatype="xsi:date">2021.11.17</meta>
+
   <podnosilac-izjave>
     <podnosilac>
       <os:ime>Luka</os:ime>

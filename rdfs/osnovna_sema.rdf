@@ -15,6 +15,8 @@
 
   <rdfs:Class rdf:ID="IzvestajOImunizacijiDokument"></rdfs:Class>
 
+  <rdfs:Class rdf:ID="IzjavaInteresovanjaZaVakcinisanjeDokument"></rdfs:Class>
+
   <!-- Klase osoba -->
 
   <rdfs:Class rdf:ID="Osoba"></rdfs:Class>
@@ -30,6 +32,10 @@
   <rdfs:Class rdf:ID="ZravstveniRadnik">
     <rdfs:subClassOf rdf:resource="#Osoba" />
   </rdfs:Class>
+
+  <!-- Ostale klase -->
+
+  <rdfs:Class rdf:ID="Vakcina"></rdfs:Class>
 
   <!-- Deljeni atributi -->
 
