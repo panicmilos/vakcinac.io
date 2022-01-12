@@ -14,7 +14,7 @@
 
     datum-izdavanja="17.11.2021."
 >
-    <link rel="rdfsi:naOsnovuInteresovanja" href="https://www.vakcinac-io.rs/interesovanje/2506123456789/1" typeof="rdfos:Gradjanin" />
+    <link rel="rdfsi:naOsnovuInteresovanja" href="https://www.vakcinac-io.rs/interesovanje/2506123456789/1" typeof="rdfos:IzjavaInteresovanjaZaVakcinisanjeDokument" />
     <link rel="rdfsi:za" href="https://www.vakcinac-io.rs/gradjani/2506123456789" typeof="rdfos:Gradjanin" />
     <link rel="rdfsi:vakcinisanOd" href="https://www.vakcinac-io.rs/zdravstveni-radnici/123456" typeof="rdfos:ZdravstveniRadnik" />
 

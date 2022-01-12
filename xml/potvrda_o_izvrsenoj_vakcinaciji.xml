@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../xslt/potvrda_o_izvrsenoj_vakcinaciji.xsl"?>
 <potvrda-o-izvrsenoj-vakcinaciji
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="https://www.vakcinac-io.rs/potvrda ../xsd/potvrda_o_izvrsenoj_vakcinaciji.xsd"
-  xmlns="https://www.vakcinac-io.rs/potvrda"
-  xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance/"
+  xsi:schemaLocation="https://www.vakcinac-io.rs/potvrda/ ../xsd/potvrda_o_izvrsenoj_vakcinaciji.xsd"
+  xmlns="https://www.vakcinac-io.rs/potvrda/"
+  xmlns:os="https://www.vakcinac-io.rs/osnovna-sema/"
+
+  xmlns:rdfos="https://www.vakcinac-io.rs/rdfs/deljeno/"
+  xmlns:rdfpoiv="https://www.vakcinac-io.rs/rdfs/digitalni-sertifikat/"
+
+  about="https://www.vakcinac-io.rs/potvrda/123451-512534"
+  typeof="rdfos:PotvrdaOVakcinisanjuDokument"
   
   datum-izdavanja="19.11.2021."
-  broj-primljenih-doza="1"
+  broj-primljenih-doza="2"
   sifra-potvrde="123451-512534"
 >
+
+  <link rel="rdfpoiv:naOsnovuInteresovanja" href="https://www.vakcinac-io.rs/interesovanje/2506123456789/1" typeof="rdfos:IzjavaInteresovanjaZaVakcinisanjeDokument" />
+  <link rel="rdfpoiv:saSaglasnoscu" href="https://www.vakcinac-io.rs/saglasnost/2506999850152/1" typeof="rdfos:SaglasnostImunizacijeDokument" />
+  <link rel="rdfpoiv:saSaglasnoscu" href="https://www.vakcinac-io.rs/saglasnost/2506999850152/2" typeof="rdfos:SaglasnostImunizacijeDokument" />
+  <link rel="rdfpoiv:za" href="https://www.vakcinac-io.rs/gradjani/2506999850152" typeof="rdfos:Gradjanin" />
+  <link rel="rdfpoiv:izdao" href="https://www.vakcinac-io.rs/sluzbenici/2222222222221" typeof="rdfos:Sluzbenik" />
+    
+  <meta property="rdfpoiv:izmenjen" datatype="xsi:date">2021-12-22</meta>
+  <meta property="rdfpoiv:brojDoza" datatype="xsi:integer">2</meta>
+  <meta property="rdfos:izdat" datatype="xsi:date">2021-11-19</meta>
 
   <podaci-o-vakcinisanom>
     <os:ime>Милош</os:ime>

@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema
-  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-  targetNamespace="https://www.vakcinac-io.rs/potvrda" 
-  xmlns="https://www.vakcinac-io.rs/potvrda"
-  xmlns:os="https://www.vakcinac-io.rs/osnovna-sema" 
-  elementFormDefault="qualified">
-  <xsd:import namespace="https://www.vakcinac-io.rs/osnovna-sema" schemaLocation="osnovna_sema.xsd"/>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="https://www.vakcinac-io.rs/potvrda/" xmlns="https://www.vakcinac-io.rs/potvrda/" xmlns:os="https://www.vakcinac-io.rs/osnovna-sema/" elementFormDefault="qualified">
+  <xsd:import namespace="https://www.vakcinac-io.rs/osnovna-sema/" schemaLocation="osnovna_sema.xsd" />
 
   <xsd:complexType name="TpodaciOVakcinisanom">
     <xsd:complexContent>
@@ -21,6 +16,10 @@
   <xsd:element name="potvrda-o-izvrsenoj-vakcinaciji">
     <xsd:complexType>
       <xsd:sequence>
+
+        <xsd:element name="link" type="os:Tlink" minOccurs="0" maxOccurs="unbounded" fixed=""></xsd:element>
+        <xsd:element name="meta" type="os:Tmeta" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+
         <xsd:element name="podaci-o-vakcinisanom" type="TpodaciOVakcinisanom"></xsd:element>
 
         <xsd:element name="podaci-o-vakcinaciji">
@@ -40,7 +39,7 @@
                         </xsd:sequence>
 
                         <xsd:attribute name="redni-broj" type="xsd:positiveInteger" use="required" />
-                      </xsd:complexType>                   
+                      </xsd:complexType>
                     </xsd:element>
                   </xsd:sequence>
                 </xsd:complexType>
@@ -49,7 +48,7 @@
                   <xsd:selector xpath=".//*" />
                   <xsd:field xpath="@redni-broj" />
                 </xsd:unique>
-            
+
               </xsd:element>
             </xsd:sequence>
           </xsd:complexType>
@@ -68,6 +67,8 @@
           </xsd:restriction>
         </xsd:simpleType>
       </xsd:attribute>
+
+      <xsd:attributeGroup ref="os:rdfMainDocument"></xsd:attributeGroup>
 
     </xsd:complexType>
 
