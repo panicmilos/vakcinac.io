@@ -19,7 +19,7 @@
   <link rel="rdfiizv:zeljeneVakcine" href="https://www.vakcinac-io.rs/vakcine/2" typeof="rdfos:Vakcina" />
 
   <meta property="rdfiizv:uOpstini" datatype="xsi:string">Zrenjanin</meta>
-  <meta property="rdfos:izdat" datatype="xsi:date">2021.11.17</meta>
+  <meta property="rdfos:izdat" datatype="xsi:date">2021-11-17</meta>
 
   <podnosilac-izjave>
     <podnosilac>
