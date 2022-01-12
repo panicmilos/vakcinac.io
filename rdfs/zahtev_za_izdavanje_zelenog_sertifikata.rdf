@@ -21,6 +21,7 @@
 
   <!-- Atributi -->
 
+  <rdf:Property rdf:ID="obradjen"></rdf:Property>
   <rdf:Property rdf:ID="prihvacen"></rdf:Property>
 
 </rdf:RDF>

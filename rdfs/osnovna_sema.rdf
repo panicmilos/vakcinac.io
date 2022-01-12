@@ -17,6 +17,8 @@
 
   <rdfs:Class rdf:ID="IzjavaInteresovanjaZaVakcinisanjeDokument"></rdfs:Class>
 
+  <rdfs:Class rdf:ID="SaglasnostImunizacijeDokument"></rdfs:Class>
+
   <!-- Klase osoba -->
 
   <rdfs:Class rdf:ID="Osoba"></rdfs:Class>

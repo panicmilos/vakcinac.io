@@ -9,7 +9,7 @@
   
   <!-- Linkovi ka dokumentima -->
 
-  <rdf:Property rdf:ID="izdatNaOsnovu">
+  <rdf:Property rdf:ID="naOsnovuZahteva">
     <rdfs:domain rdf:resource="os:DigitalniSertifikatDokument"></rdfs:domain>
     <rdfs:range rdf:resource="os:ZahtevZaDigitalniSertifikatDokument"></rdfs:range>
   </rdf:Property>

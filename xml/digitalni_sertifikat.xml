@@ -15,7 +15,7 @@
     broj-sertifikata="1321412/21" 
     datum-izdavanja="10.05.2020. 10:30">
 
-    <link rel="rdfds:izdatNaOsnovu" href="https://www.vakcinac-io.rs/zahtev/1111111111111/1" typeof="rdfos:ZahtevZaDigitalniSertifikatDokument" />
+    <link rel="rdfds:naOsnovuZahteva" href="https://www.vakcinac-io.rs/zahtev/1111111111111/1" typeof="rdfos:ZahtevZaDigitalniSertifikatDokument" />
     <link rel="rdfds:saPotvrdom" href="https://www.vakcinac-io.rs/potvrda/123451-512534" typeof="rdfos:PotvrdaOVakcinisanjuDokument" />
     <link rel="rdfds:saPotvrdom" href="https://www.vakcinac-io.rs/potvrda/123451-512532" typeof="rdfos:PotvrdaOVakcinisanjuDokument" />
     <link rel="rdfds:za" href="https://www.vakcinac-io.rs/gradjani/1111111111111" typeof="rdfos:Gradjanin" />

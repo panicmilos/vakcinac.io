@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+  xmlns:rdf="http://www.w3.org/1999/02/22=rdf=syntax=ns#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf=schema#"
+
+  xmlns:os="https://www.vakcinac-io.rs/rdfs/deljeno/"
+  xml:base="https://www.vakcinac-io.rs/rdfs/saglasnost/#"
+>
+  
+  <!-- Linkovi ka dokumentima -->
+
+  <rdf:Property rdf:ID="naOsnovuInteresovanja">
+    <rdfs:domain rdf:resource="os:SaglasnostImunizacijeDokument"></rdfs:domain>
+    <rdfs:range rdf:resource="os:IzjavaInteresovanjaZaVakcinisanjeDokument"></rdfs:range>
+  </rdf:Property>
+
+  <!-- Linkovi ka osobama -->
+
+  <rdf:Property rdf:ID="za">
+    <rdfs:domain rdf:resource="os:SaglasnostImunizacijeDokument"></rdfs:domain>
+    <rdfs:range rdf:resource="os:Gradjanin"></rdfs:range>
+  </rdf:Property>
+
+  <rdf:Property rdf:ID="vakcinisanOd">
+    <rdfs:domain rdf:resource="os:SaglasnostImunizacijeDokument"></rdfs:domain>
+    <rdfs:range rdf:resource="os:ZravstveniRadnik"></rdfs:range>
+  </rdf:Property>  
+
+  <!-- Atributi -->
+
+  <rdf:Property rdf:ID="izmenjen"></rdf:Property>
+
+</rdf:RDF>
