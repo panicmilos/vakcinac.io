@@ -11,8 +11,9 @@
   
   <rdfs:Class rdf:ID="ZahtevZaDigitalniSertifikatDokument"></rdfs:Class>
 
-  <rdfs:Class rdf:ID="PotvrdaOVakcinisanju"></rdfs:Class>
+  <rdfs:Class rdf:ID="PotvrdaOVakcinisanjuDokument"></rdfs:Class>
 
+  <rdfs:Class rdf:ID="IzvestajOImunizacijiDokument"></rdfs:Class>
 
   <!-- Klase osoba -->
 
@@ -30,10 +31,8 @@
     <rdfs:subClassOf rdf:resource="#Osoba" />
   </rdfs:Class>
 
-
   <!-- Deljeni atributi -->
 
   <rdf:Property rdf:ID="izdat"></rdf:Property>
-
 
 </rdf:RDF>

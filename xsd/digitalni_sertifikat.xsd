@@ -91,8 +91,11 @@
                     </xsd:restriction>
                 </xsd:simpleType>
             </xsd:attribute>
+            
             <xsd:attribute name="datum-izdavanja" type="os:TdateTimeString" use="required"></xsd:attribute>
+            
             <xsd:attributeGroup ref="os:rdfMainDocument"></xsd:attributeGroup>
+       
         </xsd:complexType>
     </xsd:element>
 </xsd:schema>

@@ -16,12 +16,12 @@
     datum-izdavanja="10.05.2020. 10:30">
 
     <link rel="rdfds:izdatNaOsnovu" href="https://www.vakcinac-io.rs/zahtev/1111111111111/1" typeof="rdfos:ZahtevZaDigitalniSertifikatDokument" />
-    <link rel="rdfds:saPotvrdom" href="https://www.vakcinac-io.rs/potvrda/123451-512534" typeof="rdfos:PotvrdaOVakcinisanju" />
-    <link rel="rdfds:saPotvrdom" href="https://www.vakcinac-io.rs/potvrda/123451-512532" typeof="rdfos:PotvrdaOVakcinisanju" />
+    <link rel="rdfds:saPotvrdom" href="https://www.vakcinac-io.rs/potvrda/123451-512534" typeof="rdfos:PotvrdaOVakcinisanjuDokument" />
+    <link rel="rdfds:saPotvrdom" href="https://www.vakcinac-io.rs/potvrda/123451-512532" typeof="rdfos:PotvrdaOVakcinisanjuDokument" />
     <link rel="rdfds:za" href="https://www.vakcinac-io.rs/gradjanin/1111111111111" typeof="rdfos:Gradjanin" />
     <link rel="rdfds:izdao" href="https://www.vakcinac-io.rs/sluzbenik/2222222222221" typeof="rdfos:Sluzbenik" />
 
-    <meta property="rdfos:izdat" datatype="xsi:date">2020-05-10T10:30</meta>
+    <meta property="rdfos:izdat" datatype="xsi:dateTime">2020-05-10T10:30</meta>
 
     <validacija>https://www.vakcinac-io.rs/digitalni-sertifikat/1321412/21</validacija>
     <nosilac-sertifikata>

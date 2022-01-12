@@ -16,7 +16,7 @@
 
   <rdf:Property rdf:ID="saPotvrdom">
     <rdfs:domain rdf:resource="os:DigitalniSertifikatDokument"></rdfs:domain>
-    <rdfs:range rdf:resource="os:PotvrdaOVakcinisanju"></rdfs:range>
+    <rdfs:range rdf:resource="os:PotvrdaOVakcinisanjuDokument"></rdfs:range>
   </rdf:Property>
 
   <!-- Linkovi ka osobama -->
