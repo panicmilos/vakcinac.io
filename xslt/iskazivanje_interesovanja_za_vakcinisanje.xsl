@@ -9,6 +9,8 @@
 <xsl:template match="/x:izjava-interesovanja-za-vakcinisanje">
   <html>
     <head>
+      <meta charset="UTF-8" />
+      
       <style>
         body {
           margin: 8% 14% 15% 14%;

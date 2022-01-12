@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    targetNamespace="https://www.vakcinac-io.rs/saglasnost/" 
-    xmlns="https://www.vakcinac-io.rs/saglasnost/"
-    xmlns:os="https://www.vakcinac-io.rs/osnovna-sema/" 
+    targetNamespace="https://www.vakcinac-io.rs/saglasnost" 
+    xmlns="https://www.vakcinac-io.rs/saglasnost"
+    xmlns:os="https://www.vakcinac-io.rs/osnovna-sema" 
     elementFormDefault="qualified">
-    <xsd:import namespace="https://www.vakcinac-io.rs/osnovna-sema/" schemaLocation="osnovna_sema.xsd"/>
+    <xsd:import namespace="https://www.vakcinac-io.rs/osnovna-sema" schemaLocation="osnovna_sema.xsd"/>
 
     <xsd:simpleType name="TradniStatus">
         <xsd:restriction base="xsd:int">

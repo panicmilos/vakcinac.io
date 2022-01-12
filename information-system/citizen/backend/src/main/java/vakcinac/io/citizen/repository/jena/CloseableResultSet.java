@@ -1,7 +1,6 @@
 package vakcinac.io.citizen.repository.jena;
 
 import java.io.Closeable;
-import java.io.IOException;
 
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.ResultSet;

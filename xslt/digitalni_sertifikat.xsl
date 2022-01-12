@@ -10,6 +10,8 @@
 <xsl:template match="/x:digitalni-sertifikat">
     <html>
         <head>
+            <meta charset="UTF-8" />
+
             <style>
                 body {
                     margin: 10%;

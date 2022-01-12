@@ -10,6 +10,7 @@
 <xsl:template match="/x:saglasnost-za-sprovodjenje-preporucene-imunizacije">
   <html>
     <head>
+      <meta charset="UTF-8" />
 
       <style>
         body {

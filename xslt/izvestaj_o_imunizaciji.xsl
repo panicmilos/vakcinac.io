@@ -9,6 +9,8 @@
 <xsl:template match="/x:izvestaj-o-imunizaciji">
   <html>
     <head>
+      <meta charset="UTF-8" />
+      
       <style>
         body {
           margin: 8% 12% 15% 12%;

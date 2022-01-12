@@ -6,14 +6,14 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.context.annotation.RequestScope;
 import org.xmldb.api.base.XMLDBException;
 
-import vakcinac.io.citizen.models.dig.DigitalniSertifikat;
+import vakcinac.io.citizen.models.izv.IzvestajOImunizaciji;
 
 @Repository
 @RequestScope
-public class DigitalniSertifikatiRepository extends ExistRepository<DigitalniSertifikat> {
+public class IzvestajRepository extends ExistRepository<IzvestajOImunizaciji> {
 
-	public DigitalniSertifikatiRepository() throws IOException, XMLDBException {
-		super(DigitalniSertifikat.class);
+	public IzvestajRepository() throws IOException, XMLDBException {
+		super(IzvestajOImunizaciji.class);
 	}
 
 }

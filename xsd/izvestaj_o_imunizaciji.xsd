@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema
   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-  targetNamespace="https://www.vakcinac-io.rs/izvestaj/" 
-  xmlns="https://www.vakcinac-io.rs/izvestaj/"
-  xmlns:os="https://www.vakcinac-io.rs/osnovna-sema/" 
+  targetNamespace="https://www.vakcinac-io.rs/izvestaj" 
+  xmlns="https://www.vakcinac-io.rs/izvestaj"
+  xmlns:os="https://www.vakcinac-io.rs/osnovna-sema" 
   elementFormDefault="qualified">
-  <xsd:import namespace="https://www.vakcinac-io.rs/osnovna-sema/" schemaLocation="osnovna_sema.xsd"/>
+  <xsd:import namespace="https://www.vakcinac-io.rs/osnovna-sema" schemaLocation="osnovna_sema.xsd"/>
 
   <xsd:element name="izvestaj-o-imunizaciji">
     <xsd:complexType>
 
       <xsd:sequence>
+        
+        <xsd:element name="link" type="os:Tlink" minOccurs="0" maxOccurs="unbounded" fixed=""></xsd:element>
+        <xsd:element name="meta" type="os:Tmeta" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+
         <xsd:element name="statistika-zahteva">
           <xsd:complexType>
             <xsd:sequence>
@@ -24,9 +28,6 @@
         <xsd:element name="statistika-doza">
           <xsd:complexType>
             <xsd:sequence>
-
-              <xsd:element name="link" type="os:Tlink" minOccurs="0" maxOccurs="unbounded" fixed=""></xsd:element>
-              <xsd:element name="meta" type="os:Tmeta" minOccurs="0" maxOccurs="unbounded"></xsd:element>
 
               <xsd:element name="ukupno-izdatih-doza" type="xsd:nonNegativeInteger"></xsd:element>
               <xsd:element name="izdate-doze">

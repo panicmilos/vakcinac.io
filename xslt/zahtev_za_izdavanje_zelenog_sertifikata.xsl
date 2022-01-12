@@ -9,6 +9,8 @@
 <xsl:template match="/x:zahtev-za-izdavanje-zelenog-sertifikata">
   <html>
     <head>
+      <meta charset="UTF-8" />
+      
       <style>
         body {
           margin: 8% 14% 15% 14%;

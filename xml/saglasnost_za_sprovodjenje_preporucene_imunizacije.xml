@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../xslt/saglasnost_imunizacije.xsl"?>
 <saglasnost-za-sprovodjenje-preporucene-imunizacije
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance/"
-    xsi:schemaLocation="https://www.vakcinac-io.rs/saglasnost/ ../xsd/saglasnost_imunizacije.xsd"
-    xmlns="https://www.vakcinac-io.rs/saglasnos/t"
-    xmlns:os="https://www.vakcinac-io.rs/osnovna-sema/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xsi:schemaLocation="https://www.vakcinac-io.rs/saglasnost ../xsd/saglasnost_imunizacije.xsd"
+    xmlns="https://www.vakcinac-io.rs/saglasnost"
+    xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
 
     xmlns:rdfos="https://www.vakcinac-io.rs/rdfs/deljeno/"
     xmlns:rdfsi="https://www.vakcinac-io.rs/rdfs/saglasnost/"
@@ -18,8 +19,8 @@
     <link rel="rdfsi:za" href="https://www.vakcinac-io.rs/gradjani/2506123456789" typeof="rdfos:Gradjanin" />
     <link rel="rdfsi:vakcinisanOd" href="https://www.vakcinac-io.rs/zdravstveni-radnici/123456" typeof="rdfos:ZdravstveniRadnik" />
 
-    <meta property="rdfsi:izmenjen" datatype="xsi:date">2021-11-19</meta>
-    <meta property="rdfos:izdat" datatype="xsi:date">2021-11-17</meta>
+    <meta property="rdfsi:izmenjen" datatype="xsd:date">2021-11-19</meta>
+    <meta property="rdfos:izdat" datatype="xsd:date">2021-11-17</meta>
 
     <pacijent>
         <drzavljanstvo>

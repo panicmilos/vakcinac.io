@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="../xslt/digitalni_sertifikat.xsl"?>
 <digitalni-sertifikat 
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance/"
-    xsi:schemaLocation="https://www.vakcinac-io.rs/digitalni-sertifikat/ ../xsd/digitalni_sertifikat.xsd"
-    xmlns="https://www.vakcinac-io.rs/digitalni-sertifikat/"
-    xmlns:os="https://www.vakcinac-io.rs/osnovna-sema/"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xsi:schemaLocation="https://www.vakcinac-io.rs/digitalni-sertifikat ../xsd/digitalni_sertifikat.xsd"
+    xmlns="https://www.vakcinac-io.rs/digitalni-sertifikat"
+    xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
 
     xmlns:rdfos="https://www.vakcinac-io.rs/rdfs/deljeno/"
     xmlns:rdfds="https://www.vakcinac-io.rs/rdfs/digitalni-sertifikat/"
@@ -21,7 +22,7 @@
     <link rel="rdfds:za" href="https://www.vakcinac-io.rs/gradjani/1111111111111" typeof="rdfos:Gradjanin" />
     <link rel="rdfds:izdao" href="https://www.vakcinac-io.rs/sluzbenici/2222222222221" typeof="rdfos:Sluzbenik" />
 
-    <meta property="rdfos:izdat" datatype="xsi:dateTime">2020-05-10T10:30</meta>
+    <meta property="rdfos:izdat" datatype="xsd:dateTime">2020-05-10T10:30</meta>
 
     <validacija>https://www.vakcinac-io.rs/digitalni-sertifikat/1321412/21</validacija>
     <nosilac-sertifikata>

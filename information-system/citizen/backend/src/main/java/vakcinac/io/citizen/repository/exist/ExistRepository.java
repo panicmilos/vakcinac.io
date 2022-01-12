@@ -38,6 +38,15 @@ public abstract class ExistRepository<T> implements Closeable {
 		} catch (XMLDBException e) {
 		}
 	}
+	
+	public void store(String id, String serializedObj) {
+		try (CloseableResource resource = new CloseableResource(collection.createResource(id, XMLResource.RESOURCE_TYPE))) {
+
+			resource.setContent(serializedObj);
+			collection.storeResource(resource.getRealResource());
+		} catch (XMLDBException e) {
+		}
+	}
 
 	public T retrieve(String id) {
 		try (CloseableResource resource = new CloseableResource(collection.getResource(id))) {

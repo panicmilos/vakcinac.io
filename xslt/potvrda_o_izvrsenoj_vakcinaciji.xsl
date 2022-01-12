@@ -9,6 +9,7 @@
 <xsl:template match="/x:potvrda-o-izvrsenoj-vakcinaciji">
     <html>
         <head>
+            <meta charset="UTF-8" />
 
             <style>
                 body {

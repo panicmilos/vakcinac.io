@@ -20,7 +20,7 @@ public class RdfObject {
 		MetadataExtractor extractor = new MetadataExtractor();
 		
 		byte[] rdf = extractor.extract(xml);
-		
+				
 		return new RdfObject(rdf);
 	}
 	
@@ -33,6 +33,7 @@ public class RdfObject {
 		
 		model.close();
 
+		System.out.println(new String(out.toByteArray()));
 		return new String(out.toByteArray());
 	}
 }
