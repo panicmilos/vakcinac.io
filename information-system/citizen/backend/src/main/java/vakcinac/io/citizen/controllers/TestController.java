@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.logging.Logger;
 
 import org.apache.jena.query.ResultSetFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,7 @@ import vakcinac.io.citizen.utils.parsers.JaxBParser;
 import vakcinac.io.citizen.utils.parsers.JaxBParserFactory;
 import vakcinac.io.citizen.utils.transformers.PDFTransformer;
 import vakcinac.io.citizen.utils.transformers.XHTMLTransformer;
+import vakcinac.io.core.CoreClass;
 
 @Controller
 @RequestMapping("/test")
@@ -87,7 +89,13 @@ public class TestController {
 		classRegistry.put(5, SaglasnostZaSprovodjenjePreporuceneImunizacije.class);
 		classRegistry.put(6, ZahtevZaIzdavanjeZelenogSertifikata.class);
 	}
-	
+
+	@GetMapping(path="common")
+	public ResponseEntity<String> testCoreString() {
+		System.out.println(CoreClass.coreString);
+		return ResponseEntity.ok(CoreClass.coreString);
+	}
+
 	@GetMapping(path="exist/{documentNum}", produces=MediaType.APPLICATION_XML_VALUE)
 	public ResponseEntity<String> TestExistDB(@PathVariable("documentNum") int documentNum, @RequestParam("documentName") String documentName) throws IOException {
 		String path = documentPaths.get(documentNum);
