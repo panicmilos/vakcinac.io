@@ -1,9 +1,15 @@
-import { createApp } from "vue";
-import { router } from "./router";
+import Vue from "vue";
 import App from "./App.vue";
+import VueCompositionAPI from "@vue/composition-api";
+import vuetify from "@/plugins/vuetify";
 
-const app = createApp(App);
+Vue.config.productionTip = false;
 
-app.use(router);
+Vue.use(VueCompositionAPI);
 
-app.mount("#app");
+Vue.config.productionTip = false;
+
+new Vue({
+  vuetify,
+  render: (h) => h(App)
+}).$mount("#app");
