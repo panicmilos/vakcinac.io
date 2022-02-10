@@ -1,0 +1,27 @@
+{
+  "name": "vakcinac.io",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "author": "PZLL",
+  "license": "ISC",
+  "dependencies": {
+    "@vitejs/plugin-vue": "2.0.1",
+    "@vue/babel-helper-vue-jsx-merge-props": "1.2.1",
+    "@vue/babel-preset-jsx": "1.2.4",
+    "install": "0.13.0",
+    "npm": "8.4.1",
+    "postcss-nested": "5.0.6",
+    "vite": "2.7.13",
+    "vue": "3.2.27",
+    "vue-router": "4.0.12",
+    "vuex": "4.0.2"
+  },
+  "devDependencies": {
+    "@vue/compiler-sfc": "3.2.27"
+  }
+}
