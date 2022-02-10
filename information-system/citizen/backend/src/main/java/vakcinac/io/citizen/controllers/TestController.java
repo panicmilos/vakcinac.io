@@ -2,6 +2,7 @@ package vakcinac.io.citizen.controllers;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -14,10 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import vakcinac.io.citizen.Constants;
 import vakcinac.io.citizen.models.dig.DigitalniSertifikat;
@@ -39,6 +37,8 @@ import vakcinac.io.citizen.utils.parsers.JaxBParserFactory;
 import vakcinac.io.citizen.utils.transformers.PDFTransformer;
 import vakcinac.io.citizen.utils.transformers.XHTMLTransformer;
 import vakcinac.io.core.CoreClass;
+
+import javax.xml.bind.JAXB;
 
 @Controller
 @RequestMapping("/test")
@@ -165,6 +165,21 @@ public class TestController {
 			
 			return new ResponseEntity<byte[]>(xhtml, headers, HttpStatus.OK);
 		}
+	}
+
+	@PostMapping(path = "xsl/generate/pdf", consumes = MediaType.APPLICATION_XML_VALUE)
+	public ResponseEntity<byte[]> generatePdf(@RequestBody String xmlDocument) {
+		StringReader stringReader = new StringReader(xmlDocument);
+		DigitalniSertifikat digitalniSertifikat = JAXB.unmarshal(stringReader, DigitalniSertifikat.class);
+
+		PDFTransformer transformer = new PDFTransformer();
+		byte[] pdf = transformer.generate(digitalniSertifikat);
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_PDF);
+		headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+
+		return new ResponseEntity<byte[]>(pdf, headers, HttpStatus.OK);
 	}
 	
 }
