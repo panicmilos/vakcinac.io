@@ -10,7 +10,7 @@ package vakcinac.io.citizen.models.os;
 
 import javax.xml.bind.annotation.XmlRegistry;
 
-import vakcinac.io.citizen.annotations.RegisterXmlScheme;
+import vakcinac.io.core.annotations.RegisterXmlScheme;
 
 
 /**

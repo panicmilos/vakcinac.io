@@ -15,9 +15,13 @@ import org.apache.jena.update.UpdateRequest;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.context.annotation.RequestScope;
 
-import vakcinac.io.citizen.utils.JenaAuthenticationUtils;
-import vakcinac.io.citizen.utils.JenaAuthenticationUtils.JenaConnectionProperties;
-import vakcinac.io.citizen.utils.SparqlUtils;
+import vakcinac.io.core.repository.jena.CloseableResultSet;
+import vakcinac.io.core.repository.jena.HttpClientFactory;
+import vakcinac.io.core.repository.jena.HttpContextFactory;
+import vakcinac.io.core.repository.jena.RdfObject;
+import vakcinac.io.core.utils.JenaAuthenticationUtils;
+import vakcinac.io.core.utils.JenaAuthenticationUtils.JenaConnectionProperties;
+import vakcinac.io.core.utils.SparqlUtils;
 
 @RequestScope
 @Repository

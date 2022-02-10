@@ -23,13 +23,13 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.XmlValue;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import vakcinac.io.citizen.annotations.RegisterExistEntity;
-import vakcinac.io.citizen.annotations.RegisterXmlScheme;
-import vakcinac.io.citizen.annotations.RegisterXslFo;
-import vakcinac.io.citizen.annotations.RegisterXslt;
+import vakcinac.io.core.annotations.RegisterExistEntity;
+import vakcinac.io.core.annotations.RegisterXmlScheme;
+import vakcinac.io.core.annotations.RegisterXslFo;
+import vakcinac.io.core.annotations.RegisterXslt;
 import vakcinac.io.citizen.models.os.Tlink;
 import vakcinac.io.citizen.models.os.Tmeta;
-import vakcinac.io.citizen.utils.adapters.LocalDateAdapter;
+import vakcinac.io.core.utils.adapters.LocalDateAdapter;
 
 
 /**
