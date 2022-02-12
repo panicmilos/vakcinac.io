@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import vakcinac.io.citizen.models.os.TosobaSaJmbg;
+import vakcinac.io.core.models.os.TosobaSaJmbg;
 import vakcinac.io.core.utils.adapters.LocalDateAdapter;
 
 

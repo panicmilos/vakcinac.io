@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zdravstveni-radnik
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xsi:schemaLocation="https://www.vakcinac-io.rs/zdravstveni-radnik ../xsd/zdravstveni_radnik.xsd"
+    xmlns="https://www.vakcinac-io.rs/zdravstveni-radnik"
+    xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
+>
+
+    <radnik>
+        <os:ime>Ivko</os:ime>
+        <os:prezime>Banjac</os:prezime>
+        <os:korisnicko-ime>ivica</os:korisnicko-ime>
+        <os:lozinka>12345</os:lozinka>
+        <os:datum-rodjenja>11.04.1969.</os:datum-rodjenja>
+        <os:pol>0</os:pol>
+        <os:email>ivica@gmail.com</os:email>
+        <faksimil>123456</faksimil>
+        <broj-telefona>0624543632</broj-telefona>
+    </radnik>
+
+</zdravstveni-radnik>

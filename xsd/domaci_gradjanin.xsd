@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="https://www.vakcinac-io.rs/domaci-gradjanin" 
+    xmlns="https://www.vakcinac-io.rs/domaci-gradjanin"
+    xmlns:os="https://www.vakcinac-io.rs/osnovna-sema" 
+    elementFormDefault="qualified">
+    <xsd:import namespace="https://www.vakcinac-io.rs/osnovna-sema" schemaLocation="osnovna_sema.xsd"/>
+
+    <xsd:complexType name="TdomaciGradjanin">
+        <xsd:complexContent>
+            <xsd:extension base="os:Tgradjanin">
+                <xsd:sequence>
+                    <xsd:element name="jmbg" type="os:Tjmbg"></xsd:element>
+                    <xsd:element name="broj-mobilnog-telefona" type="os:TbrMob"></xsd:element>
+                    <xsd:element name="broj-fiksnog-telefona" type="os:TbrFiks"></xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:element name="domaci-gradjanin">
+        <xsd:complexType>
+            <xsd:sequence>
+
+                <xsd:element name="gradjanin" type="TdomaciGradjanin"></xsd:element>
+
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>

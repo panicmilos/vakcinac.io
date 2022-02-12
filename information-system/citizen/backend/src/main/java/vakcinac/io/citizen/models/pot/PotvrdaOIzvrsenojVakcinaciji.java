@@ -26,8 +26,8 @@ import vakcinac.io.core.annotations.RegisterExistEntity;
 import vakcinac.io.core.annotations.RegisterXmlScheme;
 import vakcinac.io.core.annotations.RegisterXslFo;
 import vakcinac.io.core.annotations.RegisterXslt;
-import vakcinac.io.citizen.models.os.Tlink;
-import vakcinac.io.citizen.models.os.Tmeta;
+import vakcinac.io.core.models.os.Tlink;
+import vakcinac.io.core.models.os.Tmeta;
 import vakcinac.io.core.utils.adapters.LocalDateAdapter;
 
 

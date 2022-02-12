@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../xslt/saglasnost_imunizacije.xsl"?>
+<saglasnost-za-sprovodjenje-preporucene-imunizacije
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xsi:schemaLocation="https://www.vakcinac-io.rs/saglasnost ../xsd/saglasnost_imunizacije.xsd"
+    xmlns="https://www.vakcinac-io.rs/saglasnost"
+    xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
+
+    xmlns:rdfos="https://www.vakcinac-io.rs/rdfs/deljeno/"
+    xmlns:rdfsi="https://www.vakcinac-io.rs/rdfs/saglasnost/"
+
+    about="https://www.vakcinac-io.rs/saglasnost/2506123456789/1"
+    typeof="rdfos:SaglasnostImunizacijeDokument"
+
+    datum-izdavanja="17.11.2021."
+>
+    <link rel="rdfsi:naOsnovuInteresovanja" href="https://www.vakcinac-io.rs/interesovanje/2506123456789/1" typeof="rdfos:IzjavaInteresovanjaZaVakcinisanjeDokument" />
+    <link rel="rdfsi:za" href="https://www.vakcinac-io.rs/gradjani/2506123456789" typeof="rdfos:Gradjanin" />
+    <link rel="rdfsi:vakcinisanOd" href="https://www.vakcinac-io.rs/zdravstveni-radnici/123456" typeof="rdfos:ZdravstveniRadnik" />
+
+    <meta property="rdfsi:izmenjen" datatype="xsd:date">2021-11-19</meta>
+    <meta property="rdfos:izdat" datatype="xsd:date">2021-11-17</meta>
+
+    <pacijent>
+        <drzavljanstvo>
+            <domace>
+                <jmbg>2506123456789</jmbg>
+            </domace>
+        </drzavljanstvo>
+        <licne-informacije>
+            <os:ime>Лука</os:ime>
+            <os:prezime>Шербеџија</os:prezime>
+            <ime-roditelja>Петар</ime-roditelja>
+            <pol>0</pol>
+            <radni-status>4</radni-status>
+            <zanimanje>5</zanimanje>
+        </licne-informacije>
+        <rodjenje>
+            <datum-rodjenja>06.04.1999.</datum-rodjenja>
+            <mesto-rodjenja>Нови Сад</mesto-rodjenja>
+        </rodjenje>
+        <stanovanje>
+            <adresa>Светосавска 15</adresa>
+            <mesto>Нови Сад</mesto>
+            <opstina>Нови Сад</opstina>
+        </stanovanje>
+        <kontakt>
+            <os:adresa-elektronske-poste>serbedzija@gmail.com</os:adresa-elektronske-poste>
+            <os:broj-mobilnog-telefona>0624543632</os:broj-mobilnog-telefona>
+            <os:broj-fiksnog-telefona>011277787</os:broj-fiksnog-telefona>
+        </kontakt>
+        <ustanova-socijalne-zastite>
+            <korisnik>false</korisnik>
+            <naziv-opstina-sedista></naziv-opstina-sedista>
+        </ustanova-socijalne-zastite>
+    </pacijent>
+    <izjava-saglasnosti>
+        <izjava>false</izjava>
+        <naziv-imunoloskog-leka></naziv-imunoloskog-leka>
+    </izjava-saglasnosti>
+
+    <evidencija-o-vakcinaciji>
+        <zdravstvena-ustanova>Дом здравља Јован Јовановић Змај</zdravstvena-ustanova>
+        <vakcinacijski-punkt>Променада</vakcinacijski-punkt>
+        <lekar>
+            <os:ime>Ивко</os:ime>
+            <os:prezime>Бањац</os:prezime>
+            <faksimil>123456</faksimil>
+            <broj-telefona>0624543632</broj-telefona>
+        </lekar>
+        <obrazac>
+            <primljene-vakcine broj="1">
+                <naziv xsi:nil="true"></naziv>
+                <datum-davanja-vakcine xsi:nil="true"></datum-davanja-vakcine>
+                <nacin-davanja-vakcine xsi:nil="true"></nacin-davanja-vakcine>
+                <ekstremitet xsi:nil="true"></ekstremitet>
+                <serija-vakcine xsi:nil="true"></serija-vakcine>
+                <proizvodjac xsi:nil="true"></proizvodjac>
+                <nezeljena-reakcija xsi:nil="true"></nezeljena-reakcija>
+            </primljene-vakcine>
+            <primljene-vakcine broj="2">
+                <naziv xsi:nil="true"></naziv>
+                <datum-davanja-vakcine xsi:nil="true"></datum-davanja-vakcine>
+                <nacin-davanja-vakcine xsi:nil="true"></nacin-davanja-vakcine>
+                <ekstremitet xsi:nil="true"></ekstremitet>
+                <serija-vakcine xsi:nil="true"></serija-vakcine>
+                <proizvodjac xsi:nil="true"></proizvodjac>
+                <nezeljena-reakcija xsi:nil="true"></nezeljena-reakcija>
+            </primljene-vakcine>
+            <privremene-kontraindikacije>
+                <datum-utvrdjivanja xsi:nil="true"></datum-utvrdjivanja>
+                <dijagnoza xsi:nil="true"></dijagnoza>
+                <odluka-komisije xsi:nil="true"></odluka-komisije>
+            </privremene-kontraindikacije>
+        </obrazac>
+    </evidencija-o-vakcinaciji>
+</saglasnost-za-sprovodjenje-preporucene-imunizacije>

@@ -16,19 +16,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.client.RestTemplate;
 import vakcinac.io.core.Constants;
 import vakcinac.io.citizen.models.dig.DigitalniSertifikat;
-import vakcinac.io.citizen.models.izj.IzjavaInteresovanjaZaVakcinisanje;
-import vakcinac.io.citizen.models.izv.IzvestajOImunizaciji;
 import vakcinac.io.citizen.models.pot.PotvrdaOIzvrsenojVakcinaciji;
-import vakcinac.io.citizen.models.sag.SaglasnostZaSprovodjenjePreporuceneImunizacije;
-import vakcinac.io.citizen.models.zah.ZahtevZaIzdavanjeZelenogSertifikata;
 import vakcinac.io.citizen.repository.DigitalniSertifikatRepository;
-import vakcinac.io.citizen.repository.IzjavaRepository;
-import vakcinac.io.citizen.repository.IzvestajRepository;
 import vakcinac.io.citizen.repository.PotvrdaRepository;
-import vakcinac.io.citizen.repository.SaglasnostRepository;
-import vakcinac.io.citizen.repository.ZahtevRepository;
 import vakcinac.io.core.repository.jena.CloseableResultSet;
 import vakcinac.io.citizen.repository.jena.JenaRepository;
 import vakcinac.io.core.utils.parsers.JaxBParser;
@@ -47,19 +40,7 @@ public class TestController {
 	private DigitalniSertifikatRepository digitalniSertifikatRepository;
 	
 	@Autowired
-	private IzjavaRepository izjavaRepository;
-	
-	@Autowired
-	private IzvestajRepository izvestajRepository;
-	
-	@Autowired
 	private PotvrdaRepository potvrdaRepository;
-	
-	@Autowired
-	private SaglasnostRepository saglasnostRepository;
-	
-	@Autowired
-	private ZahtevRepository zahtevRepository;
 
 	@Autowired
 	private JenaRepository jenaRepository;
@@ -82,11 +63,7 @@ public class TestController {
 		
 		classRegistry = new HashMap<Integer, Class<?>>();
 		classRegistry.put(1, DigitalniSertifikat.class);
-		classRegistry.put(2, IzjavaInteresovanjaZaVakcinisanje.class);
-		classRegistry.put(3, IzvestajOImunizaciji.class);
 		classRegistry.put(4, PotvrdaOIzvrsenojVakcinaciji.class);
-		classRegistry.put(5, SaglasnostZaSprovodjenjePreporuceneImunizacije.class);
-		classRegistry.put(6, ZahtevZaIzdavanjeZelenogSertifikata.class);
 	}
 
 	@GetMapping(path="common")
@@ -104,18 +81,10 @@ public class TestController {
 		Object deserializedObj = parser.unmarshall(fileContent);
 		
 		if(documentNum == 1) digitalniSertifikatRepository.store(documentName, (DigitalniSertifikat)deserializedObj);
-		if(documentNum == 2) izjavaRepository.store(documentName, (IzjavaInteresovanjaZaVakcinisanje)deserializedObj);
-		if(documentNum == 3) izvestajRepository.store(documentName, (IzvestajOImunizaciji)deserializedObj);
 		if(documentNum == 4) potvrdaRepository.store(documentName, (PotvrdaOIzvrsenojVakcinaciji)deserializedObj);
-		if(documentNum == 5) saglasnostRepository.store(documentName, (SaglasnostZaSprovodjenjePreporuceneImunizacije)deserializedObj);
-		if(documentNum == 6) zahtevRepository.store(documentName, (ZahtevZaIzdavanjeZelenogSertifikata)deserializedObj);
 		
 		if(documentNum == 1) return ResponseEntity.ok(parser.marshall(digitalniSertifikatRepository.retrieve(documentName)));
-		if(documentNum == 2) return ResponseEntity.ok(parser.marshall(izjavaRepository.retrieve(documentName)));
-		if(documentNum == 3) return ResponseEntity.ok(parser.marshall(izvestajRepository.retrieve(documentName)));
 		if(documentNum == 4) return ResponseEntity.ok(parser.marshall(potvrdaRepository.retrieve(documentName)));
-		if(documentNum == 5) return ResponseEntity.ok(parser.marshall(saglasnostRepository.retrieve(documentName)));
-		if(documentNum == 6) return ResponseEntity.ok(parser.marshall(zahtevRepository.retrieve(documentName)));
 
 		return ResponseEntity.ok(null);
 	}
@@ -179,6 +148,13 @@ public class TestController {
 		headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
 
 		return new ResponseEntity<byte[]>(pdf, headers, HttpStatus.OK);
+	}
+
+	@GetMapping(path = "proxy-test")
+	public ResponseEntity<String> testProxy() {
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<String> proxyResponse = restTemplate.getForEntity("http://localhost:8881/test/proxy-test", String.class);
+		return proxyResponse;
 	}
 	
 }

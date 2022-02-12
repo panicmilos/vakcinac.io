@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="https://www.vakcinac-io.rs/zdravstveni-radnik" 
+    xmlns="https://www.vakcinac-io.rs/zdravstveni-radnik"
+    xmlns:os="https://www.vakcinac-io.rs/osnovna-sema" 
+    elementFormDefault="qualified">
+    <xsd:import namespace="https://www.vakcinac-io.rs/osnovna-sema" schemaLocation="osnovna_sema.xsd"/>
+
+    <xsd:complexType name="TzdravstveniRadnik">
+        <xsd:complexContent>
+            <xsd:extension base="os:Tkorisnik">
+                <xsd:sequence>
+                    <xsd:element name="faksimil" type="xsd:string"></xsd:element>
+                    <xsd:element name="broj-telefona" type="os:TbrMob"></xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:element name="zdravstveni-radnik">
+        <xsd:complexType>
+            <xsd:sequence>
+
+                <xsd:element name="radnik" type="TzdravstveniRadnik"></xsd:element>
+
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<termin
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+  xsi:schemaLocation="https://www.vakcinac-io.rs/termin ../xsd/termin.xsd"
+  xmlns="https://www.vakcinac-io.rs/termin"
+  xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
+>
+
+  <vreme>22.02.2022. 13:00</vreme>
+  <jmbg>2312918273972</jmbg>
+  <vakcina>Neki unique Id</vakcina>
+  <realizovan xsi:nil="true"></realizovan>
+  
+</termin>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../xslt/zahtev_za_izdavanje_zelenog_sertifikata.xsl"?>
+<zahtev-za-izdavanje-zelenog-sertifikata
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+  xsi:schemaLocation="https://www.vakcinac-io.rs/zahtev ../xsd/zahtev_za_zeleni_sertifikat.xsd"
+  xmlns="https://www.vakcinac-io.rs/zahtev"
+  xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
+
+  xmlns:rdfos="https://www.vakcinac-io.rs/rdfs/deljeno/"
+  xmlns:rdfzzizs="https://www.vakcinac-io.rs/rdfs/zahtev/"
+
+  about="https://www.vakcinac-io.rs/zahtev/2506222222222/1"
+  typeof="rdfos:ZahtevZaDigitalniSertifikatDokument"
+
+  dan="17.11.2021."
+  mesto="Новом Саду"
+>
+
+  <link rel="rdfzzizs:za" href="https://www.vakcinac-io.rs/gradjani/2506222222222" typeof="rdfos:Gradjanin" />
+  <link rel="rdfzzizs:obradio" href="https://www.vakcinac-io.rs/sluzbenici/2222222222221" typeof="rdfos:Sluzbenik" />
+
+  <meta property="rdfzzizs:obradjen" datatype="xsd:date">2021-11-18</meta>
+  <meta property="rdfzzizs:prihvacen" datatype="xsd:boolean">true</meta>
+  <meta property="rdfos:izdat" datatype="xsd:date">2021-11-17</meta>
+
+  <podnosilac-zahteva>
+    <os:ime>Милош</os:ime>
+    <os:prezime>Панић</os:prezime>
+    <os:jmbg>2506222222222</os:jmbg>
+    <datum-rodjenja>25.06.1999.</datum-rodjenja>
+    <pol>0</pol>
+    <broj-pasosa>222222222</broj-pasosa>
+  </podnosilac-zahteva>
+  <razlog>
+    Подносим захтев да бих могaо ићи на пиво после 8 навече односно тим билдинг.
+  </razlog>
+</zahtev-za-izdavanje-zelenog-sertifikata>
