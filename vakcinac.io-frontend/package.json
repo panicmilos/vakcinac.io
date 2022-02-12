@@ -1,0 +1,31 @@
+{
+  "name": "jsonforms-vue2-seed",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "@jsonforms/core": "^2.5.2",
+    "@jsonforms/vue2": "^2.5.2",
+    "@jsonforms/vue2-vuetify": "^3.0.0-alpha.2",
+    "@vue/composition-api": "^1.4.6",
+    "core-js": "^3.6.5",
+    "vue": "^2.6.11",
+    "vuetify": "^2.6.3"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "deepmerge": "^4.2.2",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^6.2.2",
+    "node-sass": "^7.0.1",
+    "sass": "~1.32",
+    "sass-loader": "^10",
+    "vue-template-compiler": "^2.6.11"
+  }
+}
