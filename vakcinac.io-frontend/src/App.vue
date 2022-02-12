@@ -1,25 +1,18 @@
 <template>
   <div data-app>
     <img class="logo" alt="" src="./assets/logo.png" />
-    <json-forms
-      v-bind:data="data"
-      v-bind:renderers="renderers"
-      v-bind:schema="schema"
-      v-bind:uischema="uischema"
-      @change="onChange"
+    <Form
+      :data="data"
+      :schema="schema"
+      :uischema="uischema"
+      @submit="onSubmit"
     />
   </div>
 </template>
 
 <script>
 import { defineComponent } from "@vue/composition-api";
-import { JsonForms } from "@jsonforms/vue2";
-import { vuetifyRenderers } from "@jsonforms/vue2-vuetify";
-
-const renderers = [
-  ...vuetifyRenderers
-  // here you can add custom renderers
-];
+import Form from "./components/Form.vue";
 
 const schema = {
   properties: {
@@ -105,12 +98,10 @@ const uischema = {
 export default defineComponent({
   name: "App",
   components: {
-    JsonForms
+    Form
   },
   data() {
     return {
-      // freeze renderers for performance gains
-      renderers: Object.freeze(renderers),
       data: {
         name: "Send email to Adrian",
         description: "Confirm if you have passed the subject\nHereby ...",
@@ -123,8 +114,8 @@ export default defineComponent({
     };
   },
   methods: {
-    onChange(event) {
-      this.data = event.data;
+    onSubmit(event) {
+      console.log(event);
     }
   },
 });
