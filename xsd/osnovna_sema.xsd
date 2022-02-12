@@ -17,6 +17,12 @@
         </xsd:restriction>
     </xsd:simpleType>
 
+    <xsd:simpleType name="Tebs">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="\d{13}"></xsd:pattern>
+        </xsd:restriction>
+    </xsd:simpleType>
+
     <xsd:simpleType name="Tpol">
         <xsd:restriction base="xsd:int">
             <!-- Muško -->
@@ -102,6 +108,34 @@
             <xsd:extension base="Tosoba">
                 <xsd:sequence>
                     <xsd:element name="jmbg" type="Tjmbg"></xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="Tkorisnik">
+        <xsd:complexContent>
+            <xsd:extension base="Tosoba">
+                <xsd:sequence>
+                    <xsd:element name="korisnicko-ime" type="xsd:string"></xsd:element>
+                    <xsd:element name="lozinka" type="xsd:string"></xsd:element>
+                    <xsd:element name="datum-rodjenja" type="TdateString"></xsd:element>
+                    <xsd:element name="pol" type="Tpol"></xsd:element>
+                    <xsd:element name="email" type="Temail"></xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="Tgradjanin">
+        <xsd:complexContent>
+            <xsd:extension base="Tkorisnik">
+                <xsd:sequence>
+                    <xsd:element name="ime-roditelja" type="xsd:string"></xsd:element>
+                    <xsd:element name="mesto-rodjenja" type="xsd:string"></xsd:element>
+                    <xsd:element name="adresa" type="xsd:string"></xsd:element>
+                    <xsd:element name="mesto" type="xsd:string"></xsd:element>
+                    <xsd:element name="opstina" type="xsd:string"></xsd:element>
                 </xsd:sequence>
             </xsd:extension>
         </xsd:complexContent>
