@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../xslt/izvestaj_o_imunizaciji.xsl"?>
+<izvestaj-o-imunizaciji
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+  xsi:schemaLocation="https://www.vakcinac-io.rs/izvestaj ../xsd/izvestaj_o_imunizaciji.xsd"
+  xmlns="https://www.vakcinac-io.rs/izvestaj"
+  xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
+  
+  xmlns:rdfos="https://www.vakcinac-io.rs/rdfs/deljeno/"
+  xmlns:rdfioi="https://www.vakcinac-io.rs/rdfs/izvestaj/"
+
+  about="https://www.vakcinac-io.rs/izvestaj/1"
+  typeof="rdfos:IzvestajOImunizacijiDokument"
+
+  izdato="11.09.2022."
+  od="01.08.2021."
+  do="01.09.2021."
+>
+
+  <link rel="rdfioi:izdao" href="https://www.vakcinac-io.rs/sluzbenici/2222222222221" typeof="rdfos:Sluzbenik" />
+
+  <meta property="rdfioi:periodOd" datatype="xsd:date">2021-08-01</meta>
+  <meta property="rdfioi:periodDo" datatype="xsd:date">2021-09-01</meta>
+  <meta property="rdfioi:ukupnoDoza" datatype="xsd:integer">3225</meta>
+  <meta property="rdfos:izdat" datatype="xsd:date">2022-09-11</meta>
+
+  <statistika-zahteva>
+    <podneto>2758</podneto>
+    <primljeno>453</primljeno>
+    <izdato>428</izdato>
+  </statistika-zahteva>
+  <statistika-doza>
+    <ukupno-izdatih-doza>3225</ukupno-izdatih-doza>
+    <izdate-doze>
+      <doza redni-broj="1">1789</doza>
+      <doza redni-broj="2">1276</doza>
+      <doza redni-broj="3">160</doza>
+    </izdate-doze>
+  </statistika-doza>
+  <statistika-proizvodjaca>
+    <proizvodjac>
+      <naziv>Pfizer, BioNTech</naziv>
+      <broj-doza>1625</broj-doza>
+    </proizvodjac>
+    <proizvodjac>
+      <naziv>Sinopharm</naziv>
+      <broj-doza>1100</broj-doza>
+    </proizvodjac>
+    <proizvodjac>
+      <naziv>Sputnik V</naziv>
+      <broj-doza>356</broj-doza>
+    </proizvodjac>
+    <proizvodjac>
+      <naziv>AstraZeneca, Oxford</naziv>
+      <broj-doza>144</broj-doza>
+    </proizvodjac>
+  </statistika-proizvodjaca>
+</izvestaj-o-imunizaciji>

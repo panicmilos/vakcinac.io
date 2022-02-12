@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../xslt/digitalni_sertifikat.xsl"?>
+<digitalni-sertifikat 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xsi:schemaLocation="https://www.vakcinac-io.rs/digitalni-sertifikat ../xsd/digitalni_sertifikat.xsd"
+    xmlns="https://www.vakcinac-io.rs/digitalni-sertifikat"
+    xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
+
+    xmlns:rdfos="https://www.vakcinac-io.rs/rdfs/deljeno/"
+    xmlns:rdfds="https://www.vakcinac-io.rs/rdfs/digitalni-sertifikat/"
+
+    about="https://www.vakcinac-io.rs/digitalni-sertifikat/1321412/21"
+    typeof="rdfos:DigitalniSertifikaDokument"
+
+    broj-sertifikata="1321412/21" 
+    datum-izdavanja="10.05.2020. 10:30">
+
+    <link rel="rdfds:naOsnovuZahteva" href="https://www.vakcinac-io.rs/zahtev/1111111111111/1" typeof="rdfos:ZahtevZaDigitalniSertifikatDokument" />
+    <link rel="rdfds:saPotvrdom" href="https://www.vakcinac-io.rs/potvrda/123451-512534" typeof="rdfos:PotvrdaOVakcinisanjuDokument" />
+    <link rel="rdfds:saPotvrdom" href="https://www.vakcinac-io.rs/potvrda/123451-512532" typeof="rdfos:PotvrdaOVakcinisanjuDokument" />
+    <link rel="rdfds:za" href="https://www.vakcinac-io.rs/gradjani/1111111111111" typeof="rdfos:Gradjanin" />
+    <link rel="rdfds:izdao" href="https://www.vakcinac-io.rs/sluzbenici/2222222222221" typeof="rdfos:Sluzbenik" />
+
+    <meta property="rdfos:izdat" datatype="xsd:dateTime">2020-05-10T10:30</meta>
+
+    <validacija>https://www.vakcinac-io.rs/digitalni-sertifikat/1321412/21</validacija>
+    <nosilac-sertifikata>
+        <os:ime>Mirko</os:ime>
+        <os:prezime>Mirkovic</os:prezime>
+        <os:jmbg>1111111111111</os:jmbg>
+        <pol>0</pol>
+        <br-pasosa>111111111</br-pasosa>
+        <datum-rodjenja>11.02.1999.</datum-rodjenja>
+    </nosilac-sertifikata>
+
+    <vakcinacije broj-doza="2">
+        <vakcinacija doza="1">
+            <tip>Pfizer-BioNTech</tip>
+            <proizvodjac>BIONTECH MANUFACTURING GMBH</proizvodjac>
+            <serija>513221</serija>
+            <datum>20.02.2020.</datum>
+            <zdravstvena-ustanova>Marka Mirkovica, Nova Varos</zdravstvena-ustanova>
+        </vakcinacija>
+        <vakcinacija doza="2">
+            <tip>Pfizer-BioNTech</tip>
+            <proizvodjac>BIONTECH MANUFACTURING GMBH</proizvodjac>
+            <serija>535321</serija>
+            <datum>10.03.2020.</datum>
+            <zdravstvena-ustanova>Marka Mirkovica, Nova Varos</zdravstvena-ustanova>
+        </vakcinacija>
+    </vakcinacije>
+
+    <testovi broj-testova="3">
+        <test broj="1">
+            <ime>SARS CoV-2 RT Real-time PCR</ime>
+            <vrsta-uzorka>Nazalni</vrsta-uzorka>
+            <proizvodjac>Ministarstvo zdravlja</proizvodjac>
+            <datum-uzorka>20.02.2020.</datum-uzorka>
+            <datum-izdavanja>22.02.2020.</datum-izdavanja>
+            <rezultat>0</rezultat>
+            <labaratorija>BioLab Zrenjanin</labaratorija>
+        </test>
+        <test broj="2">
+            <ime>SARS CoV-2 RT Ag-RDT (Antigetn Rapid Detection test)</ime>
+            <vrsta-uzorka xsi:nil="true"></vrsta-uzorka>
+            <proizvodjac xsi:nil="true"></proizvodjac>
+            <datum-uzorka xsi:nil="true"></datum-uzorka>
+            <datum-izdavanja xsi:nil="true"></datum-izdavanja>
+            <rezultat xsi:nil="true"></rezultat>
+            <labaratorija xsi:nil="true"></labaratorija>
+        </test>
+        <test broj="3">
+            <ime>SARS CoV-2 RBD S-Protein Immunoglobulin G (lgG) test</ime>
+            <vrsta-uzorka xsi:nil="true"></vrsta-uzorka>
+            <proizvodjac xsi:nil="true"></proizvodjac>
+            <datum-uzorka xsi:nil="true"></datum-uzorka>
+            <datum-izdavanja xsi:nil="true"></datum-izdavanja>
+            <rezultat xsi:nil="true"></rezultat>
+            <labaratorija xsi:nil="true"></labaratorija>
+        </test>
+    </testovi>
+
+</digitalni-sertifikat>
