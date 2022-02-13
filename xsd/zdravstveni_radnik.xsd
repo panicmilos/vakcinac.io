@@ -18,14 +18,7 @@
         </xsd:complexContent>
     </xsd:complexType>
 
-    <xsd:element name="zdravstveni-radnik">
-        <xsd:complexType>
-            <xsd:sequence>
-
-                <xsd:element name="radnik" type="TzdravstveniRadnik"></xsd:element>
-
-            </xsd:sequence>
-        </xsd:complexType>
+    <xsd:element name="zdravstveni-radnik" type="TzdravstveniRadnik">
     </xsd:element>
 
 </xsd:schema>

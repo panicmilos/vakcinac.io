@@ -6,23 +6,20 @@
     xmlns="https://www.vakcinac-io.rs/domaci-gradjanin"
     xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
 >
-
-    <gradjanin>
-        <os:ime>Petar</os:ime>
-        <os:prezime>Peric</os:prezime>
-        <os:korisnicko-ime>perica</os:korisnicko-ime>
-        <os:lozinka>12345</os:lozinka>
-        <os:datum-rodjenja>11.03.1999.</os:datum-rodjenja>
-        <os:pol>0</os:pol>
-        <os:email>petar@gmail.com</os:email>
-        <os:ime-roditelja>Djuro</os:ime-roditelja>
-        <os:mesto-rodjenja>Novi Sad</os:mesto-rodjenja>
-        <os:adresa>Svetosavska 10</os:adresa>
-        <os:mesto>Novi Sad</os:mesto>
-        <os:opstina>Novi Sad</os:opstina>
-        <jmbg>2312918273972</jmbg>
-        <broj-mobilnog-telefona>0659127389</broj-mobilnog-telefona>
-        <broj-fiksnog-telefona>023598716</broj-fiksnog-telefona>
-    </gradjanin>
+    <os:ime>Petar</os:ime>
+    <os:prezime>Peric</os:prezime>
+    <os:korisnicko-ime>perica</os:korisnicko-ime>
+    <os:lozinka>12345</os:lozinka>
+    <os:datum-rodjenja>1999-03-09</os:datum-rodjenja>
+    <os:pol>0</os:pol>
+    <os:email>petar@gmail.com</os:email>
+    <os:ime-roditelja>Djuro</os:ime-roditelja>
+    <os:mesto-rodjenja>Novi Sad</os:mesto-rodjenja>
+    <os:adresa>Svetosavska 10</os:adresa>
+    <os:mesto>Novi Sad</os:mesto>
+    <os:opstina>Novi Sad</os:opstina>
+    <jmbg>2312918273972</jmbg>
+    <broj-mobilnog-telefona>0659127389</broj-mobilnog-telefona>
+    <broj-fiksnog-telefona>023598716</broj-fiksnog-telefona>
 
 </domaci-gradjanin>

@@ -6,24 +6,21 @@
     xmlns="https://www.vakcinac-io.rs/strani-gradjanin"
     xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
 >
-
-    <gradjanin>
-        <os:ime>Mirko</os:ime>
-        <os:prezime>Miric</os:prezime>
-        <os:korisnicko-ime>miki</os:korisnicko-ime>
-        <os:lozinka>12345</os:lozinka>
-        <os:datum-rodjenja>11.04.1999.</os:datum-rodjenja>
-        <os:pol>0</os:pol>
-        <os:email>petar@gmail.com</os:email>
-        <os:ime-roditelja>Savo</os:ime-roditelja>
-        <os:mesto-rodjenja>Novi Sad</os:mesto-rodjenja>
-        <os:adresa>72 Green Lane</os:adresa>
-        <os:mesto>London</os:mesto>
-        <os:opstina>London</os:opstina>
-        <identifikacioni-dokument>0</identifikacioni-dokument>
-        <broj-pasosa>123541236</broj-pasosa>
-        <ebs xsi:nil="true"></ebs>
-        <drzava>Engleska</drzava>
-    </gradjanin>
+    <os:ime>Mirko</os:ime>
+    <os:prezime>Miric</os:prezime>
+    <os:korisnicko-ime>miki</os:korisnicko-ime>
+    <os:lozinka>12345</os:lozinka>
+    <os:datum-rodjenja>1999-11-04</os:datum-rodjenja>
+    <os:pol>0</os:pol>
+    <os:email>petar@gmail.com</os:email>
+    <os:ime-roditelja>Savo</os:ime-roditelja>
+    <os:mesto-rodjenja>Novi Sad</os:mesto-rodjenja>
+    <os:adresa>72 Green Lane</os:adresa>
+    <os:mesto>London</os:mesto>
+    <os:opstina>London</os:opstina>
+    <identifikacioni-dokument>0</identifikacioni-dokument>
+    <broj-pasosa>123541236</broj-pasosa>
+    <ebs xsi:nil="true"></ebs>
+    <drzava>Engleska</drzava>
 
 </strani-gradjanin>

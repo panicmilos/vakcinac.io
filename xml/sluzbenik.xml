@@ -6,15 +6,12 @@
     xmlns="https://www.vakcinac-io.rs/sluzbenik"
     xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
 >
-
-    <radnik>
-        <os:ime>Ivan</os:ime>
-        <os:prezime>Ivic</os:prezime>
-        <os:korisnicko-ime>ivic</os:korisnicko-ime>
-        <os:lozinka>12345</os:lozinka>
-        <os:datum-rodjenja>11.04.1973.</os:datum-rodjenja>
-        <os:pol>0</os:pol>
-        <os:email>ivic@gmail.com</os:email>
-    </radnik>
+    <os:ime>Ivan</os:ime>
+    <os:prezime>Ivic</os:prezime>
+    <os:korisnicko-ime>ivic</os:korisnicko-ime>
+    <os:lozinka>12345</os:lozinka>
+    <os:datum-rodjenja>1973-04-11</os:datum-rodjenja>
+    <os:pol>0</os:pol>
+    <os:email>ivic@gmail.com</os:email>
 
 </sluzbenik>

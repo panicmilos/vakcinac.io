@@ -19,14 +19,7 @@
         </xsd:complexContent>
     </xsd:complexType>
 
-    <xsd:element name="domaci-gradjanin">
-        <xsd:complexType>
-            <xsd:sequence>
-
-                <xsd:element name="gradjanin" type="TdomaciGradjanin"></xsd:element>
-
-            </xsd:sequence>
-        </xsd:complexType>
+    <xsd:element name="domaci-gradjanin" type="TdomaciGradjanin">
     </xsd:element>
 
 </xsd:schema>
