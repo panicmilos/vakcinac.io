@@ -7,18 +7,17 @@
     elementFormDefault="qualified">
     <xsd:import namespace="https://www.vakcinac-io.rs/osnovna-sema" schemaLocation="osnovna_sema.xsd"/>
 
-    <xsd:complexType name="TzdravstveniRadnik">
-        <xsd:complexContent>
-            <xsd:extension base="os:Tkorisnik">
-                <xsd:sequence>
-                    <xsd:element name="faksimil" type="xsd:string"></xsd:element>
-                    <xsd:element name="broj-telefona" type="os:TbrMob"></xsd:element>
-                </xsd:sequence>
-            </xsd:extension>
-        </xsd:complexContent>
-    </xsd:complexType>
-
-    <xsd:element name="zdravstveni-radnik" type="TzdravstveniRadnik">
+    <xsd:element name="zdravstveni-radnik">
+        <xsd:complexType>
+            <xsd:complexContent>
+                <xsd:extension base="os:Tkorisnik">
+                    <xsd:sequence>
+                        <xsd:element name="faksimil" type="xsd:string"></xsd:element>
+                        <xsd:element name="broj-telefona" type="os:TbrMob"></xsd:element>
+                    </xsd:sequence>
+                </xsd:extension>
+            </xsd:complexContent>
+        </xsd:complexType>
     </xsd:element>
 
 </xsd:schema>
