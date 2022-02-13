@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<red-cekanja
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+  xsi:schemaLocation="https://www.vakcinac-io.rs/red-cekanja ../xsd/red_cekanja.xsd"
+  xmlns="https://www.vakcinac-io.rs/red-cekanja"
+  xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
+>
+  <gradjanin-u-redu>
+    <vakcine>
+      <vakcina>0</vakcina>
+      <vakcina>2</vakcina>
+    </vakcine>
+
+    <jmbg>1245125521521</jmbg>
+
+    <minimalno-vreme>25.02.2022.</minimalno-vreme>
+
+  </gradjanin-u-redu>
+  
+</red-cekanja>
