@@ -119,7 +119,7 @@
                 <xsd:sequence>
                     <xsd:element name="korisnicko-ime" type="xsd:string"></xsd:element>
                     <xsd:element name="lozinka" type="xsd:string"></xsd:element>
-                    <xsd:element name="datum-rodjenja" type="TdateString"></xsd:element>
+                    <xsd:element name="datum-rodjenja" type="xsd:date"></xsd:element>
                     <xsd:element name="pol" type="Tpol"></xsd:element>
                     <xsd:element name="email" type="Temail"></xsd:element>
                 </xsd:sequence>
