@@ -6,6 +6,7 @@ import org.springframework.web.context.annotation.RequestScope;
 import vakcinac.io.civil.servant.models.vak.Vakcina;
 import vakcinac.io.civil.servant.repository.VakcinaRepository;
 import vakcinac.io.core.exceptions.MissingEntityException;
+import vakcinac.io.core.services.BaseService;
 
 @Service
 @RequestScope

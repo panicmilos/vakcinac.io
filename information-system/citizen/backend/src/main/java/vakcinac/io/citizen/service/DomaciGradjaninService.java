@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import vakcinac.io.citizen.models.dgradj.DomaciGradjanin;
 import vakcinac.io.citizen.repository.DomaciGradjaninRepository;
 import vakcinac.io.core.exceptions.MissingEntityException;
+import vakcinac.io.core.services.BaseService;
 
 @Service
 public class DomaciGradjaninService extends BaseService<DomaciGradjanin> {

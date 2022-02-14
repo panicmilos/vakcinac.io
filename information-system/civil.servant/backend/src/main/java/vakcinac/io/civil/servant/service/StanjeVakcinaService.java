@@ -11,6 +11,7 @@ import vakcinac.io.civil.servant.models.stanj.StanjeVakcina;
 import vakcinac.io.civil.servant.models.vak.Vakcina;
 import vakcinac.io.civil.servant.repository.StanjeVakcinaRepository;
 import vakcinac.io.core.exceptions.MissingEntityException;
+import vakcinac.io.core.services.BaseService;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 
