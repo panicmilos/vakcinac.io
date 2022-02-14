@@ -18,6 +18,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
+import vakcinac.io.core.annotations.RegisterExistEntity;
+import vakcinac.io.core.annotations.RegisterXmlScheme;
+
 
 /**
  * <p>Java class for anonymous complex type.
@@ -55,6 +58,14 @@ import javax.xml.bind.annotation.XmlType;
     "stanjeVakcine"
 })
 @XmlRootElement(name = "stanje_vakcina")
+@RegisterXmlScheme(
+	schemePath="/data/schemes/stanje_vakcina.xsd",
+	targetNamespace="https://www.vakcinac-io.rs/stanje_vakcina",
+	shortNamespace="stanj"
+)
+@RegisterExistEntity(
+	collectionUri="db/vakcine"
+)
 public class StanjeVakcina {
 
     @XmlElement(name = "stanje_vakcine")
@@ -112,6 +123,7 @@ public class StanjeVakcina {
      * 
      */
     @XmlAccessorType(XmlAccessType.FIELD)
+    @XmlRootElement(name = "stanje_vakcine")
     @XmlType(name = "", propOrder = {
         "vakcina",
         "dostupno",

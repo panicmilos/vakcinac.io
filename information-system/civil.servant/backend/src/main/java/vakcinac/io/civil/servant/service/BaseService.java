@@ -20,5 +20,9 @@ public abstract class BaseService<T> {
 	protected T create(String id, T obj) {
 		return baseRepository.store(id, obj);
 	}
+	
+	public T delete(String id) {
+		return baseRepository.remove(id);
+	}
 
 }

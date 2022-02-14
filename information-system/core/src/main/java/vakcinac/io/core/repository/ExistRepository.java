@@ -25,14 +25,15 @@ import vakcinac.io.core.utils.registries.TargetNamespaceRegistry;
 
 @SuppressWarnings("unused")
 public abstract class ExistRepository<T> implements Closeable {
-	protected CloseableCollection collection;
 	protected Class<?> forClass;
-	
+	protected String collectionUri;
+	protected CloseableCollection collection;
+
 	public ExistRepository(Class<?> forClass) throws IOException, XMLDBException {
 		this.forClass = forClass;
 
 		ExistEntitiesRegistry collectionUriRegistry = new ExistEntitiesRegistry();
-		String collectionUri = collectionUriRegistry.getCollectionUriFor(forClass);
+		collectionUri = collectionUriRegistry.getCollectionUriFor(forClass);
 		
 		collection = new CloseableCollection(collectionUri);
 		collection.setProperty(OutputKeys.INDENT, "yes");
@@ -68,7 +69,7 @@ public abstract class ExistRepository<T> implements Closeable {
 	public T retrieve(String id) {
 		try (CloseableResource resource = new CloseableResource(collection.getResource(id))) {
 
-			if (resource == null) {
+			if (resource.getRealResource() == null) {
 				System.out.format("[ERROR] Document with id: %s can not be found!\n", id);
 				return null;
 			}
@@ -81,6 +82,17 @@ public abstract class ExistRepository<T> implements Closeable {
 
 		return null;
 
+	}
+	
+	public boolean contains(String id, String xPathExpression) throws XMLDBException {
+		String xQueryExpression = String.format("doc(\"/%s/%s\")%s", collectionUri, id, xPathExpression);
+
+		ResourceIterator iterator = executeRetrieveUsingXQuery(xQueryExpression);
+        while(iterator.hasMoreResources()) {
+    		return true;
+		}
+        
+        return false;
 	}
 	
 	public ResourceIterator retrieveUsingXQuery(String xQueryExpression) throws XMLDBException {
@@ -132,16 +144,16 @@ public abstract class ExistRepository<T> implements Closeable {
 		XUpdateQueryService xqueryService = collection.getXUpdateQueryService();
 		String nonFormattedAppend = XUpdateTemplate.getAppend(registry.getTargetNamespaceFor(forClass));
 		String formattedAppend = String.format(nonFormattedAppend, contextPath, serializedObj);
-		
+		System.out.println(formattedAppend);
 		xqueryService.updateResource(id, formattedAppend);
 	}
 	
-	public void update(String id, String contextPath, String serializedObj) throws XMLDBException {
+	public void update(String id, String contextPath, Object obj) throws XMLDBException {
 		TargetNamespaceRegistry registry = new TargetNamespaceRegistry();
 		
 		XUpdateQueryService xqueryService = collection.getXUpdateQueryService();
 		String nonFormattetUpdate = XUpdateTemplate.getUpdate(registry.getTargetNamespaceFor(forClass));
-		String formattedUpdate = String.format(nonFormattetUpdate, contextPath, serializedObj);
+		String formattedUpdate = String.format(nonFormattetUpdate, contextPath, obj.toString());
 		
 		xqueryService.updateResource(id, formattedUpdate);
 	}
@@ -149,7 +161,7 @@ public abstract class ExistRepository<T> implements Closeable {
 	public T remove(String id) {
 		try (CloseableResource resource = new CloseableResource(collection.getResource(id))) {
 
-			if (resource == null) {
+			if (resource.getRealResource() == null) {
 				System.out.format("[ERROR] Document with id: %s can not be found!\n", id);
 				return null;
 			}

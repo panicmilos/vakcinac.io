@@ -22,9 +22,15 @@ import vakcinac.io.core.utils.registries.SchemeRegistry;
 @SuppressWarnings("unchecked")
 public class JaxBParser {
 	private Class<?> genericClass;
+	private Boolean indent;
 
 	public JaxBParser(Class<?> genericClass) {
+		this(genericClass, Boolean.TRUE);
+	}
+	
+	public JaxBParser(Class<?> genericClass, Boolean indent) {
 		this.genericClass = genericClass;
+		this.indent = indent; 
 	}
 
 	public <T> T unmarshall(String text) {
@@ -72,7 +78,7 @@ public class JaxBParser {
 
 	public <T> String marshall(T object) {
 		try {
-			Marshaller marshaller = MarshallerFactory.newInstanceFor(genericClass);
+			Marshaller marshaller = MarshallerFactory.newInstanceFor(genericClass, this.indent);
 			StringWriter writer = new StringWriter();
 
 			marshaller.marshal(object, writer);
@@ -87,11 +93,14 @@ public class JaxBParser {
 
 	private static class MarshallerFactory {
 
-		public static Marshaller newInstanceFor(Class<?> forClass) throws JAXBException {
+		public static Marshaller newInstanceFor(Class<?> forClass, Boolean indent) throws JAXBException {
 			JAXBContext context = JAXBContext.newInstance(forClass);
 			Marshaller marshaller = context.createMarshaller();
 
-			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+			if (!indent) {
+				marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
+			}
+			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, indent);
 			marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", new NSRegistry());
 
 			return marshaller;
