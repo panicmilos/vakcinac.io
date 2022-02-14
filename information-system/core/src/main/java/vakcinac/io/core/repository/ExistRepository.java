@@ -2,21 +2,29 @@ package vakcinac.io.core.repository;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import javax.xml.transform.OutputKeys;
 
+import org.xmldb.api.base.CompiledExpression;
+import org.xmldb.api.base.ResourceIterator;
+import org.xmldb.api.base.ResourceSet;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
+import org.xmldb.api.modules.XQueryService;
 
 import vakcinac.io.core.repository.exist.CloseableResource;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 import vakcinac.io.core.utils.registries.ExistEntitiesRegistry;
+import vakcinac.io.core.utils.registries.TargetNamespaceRegistry;
 
 @SuppressWarnings("unused")
 public abstract class ExistRepository<T> implements Closeable {
-	private CloseableCollection collection;
-	private Class<?> forClass;
+	protected CloseableCollection collection;
+	protected Class<?> forClass;
 	
 	public ExistRepository(Class<?> forClass) throws IOException, XMLDBException {
 		this.forClass = forClass;
@@ -71,6 +79,29 @@ public abstract class ExistRepository<T> implements Closeable {
 
 		return null;
 
+	}
+	
+	public ResourceIterator retrieveUsingXQuery(String xQueryExpression) throws XMLDBException {
+		return executeRetrieveUsingXQuery(xQueryExpression);
+	}
+	
+	public ResourceIterator retrieveUsingXQuery(String filePath, Object ...args) throws XMLDBException, IOException {
+		byte[] encoded = Files.readAllBytes(Paths.get(filePath));
+		String notFormattedXQuery = new String(encoded, StandardCharsets.UTF_8);
+		
+		String formattedXQuery = String.format(notFormattedXQuery, args);
+
+		return executeRetrieveUsingXQuery(formattedXQuery);
+	}
+	
+	private ResourceIterator executeRetrieveUsingXQuery(String xQueryExpression) throws XMLDBException {
+		TargetNamespaceRegistry registry = new TargetNamespaceRegistry();
+		
+		XQueryService xqueryService = collection.getXQueryService(registry.getTargetNamespaceFor(forClass));
+        CompiledExpression compiledXquery = xqueryService.compile(xQueryExpression);
+        ResourceSet result = xqueryService.execute(compiledXquery);
+
+        return result.getIterator();		
 	}
 
 	public T remove(String id) {

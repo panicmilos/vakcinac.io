@@ -10,12 +10,20 @@ import org.xmldb.api.base.XMLDBException;
 public class CloseableResource implements Resource, Closeable {
 	private Resource resource;
 
+	public CloseableResource() {
+	}
+
 	public CloseableResource(Resource resource) {
+		this();
 		this.resource = resource;
 	}
 
 	public Resource getRealResource() {
 		return resource;
+	}
+	
+	public void setRealResource(Resource resource) {
+		this.resource = resource;
 	}
 
 	@Override

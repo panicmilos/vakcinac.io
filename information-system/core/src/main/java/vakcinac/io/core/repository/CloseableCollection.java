@@ -9,6 +9,7 @@ import org.xmldb.api.base.Resource;
 import org.xmldb.api.base.Service;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.CollectionManagementService;
+import org.xmldb.api.modules.XQueryService;
 
 import vakcinac.io.core.utils.ExistAuthenticationUtils;
 import vakcinac.io.core.utils.ExistAuthenticationUtils.ExistConnectionProperties;
@@ -118,6 +119,14 @@ public class CloseableCollection implements Collection, Closeable {
 			}
 		}
 
+	}
+	
+	public XQueryService getXQueryService(String targetNamespace) throws XMLDBException {
+        XQueryService xqueryService = (XQueryService) getService("XQueryService", "1.0");
+        xqueryService.setProperty("indent", "yes");
+        xqueryService.setNamespace("b", targetNamespace);
+        
+        return xqueryService;
 	}
 
 	private Collection getOrCreateCollection(String collectionUri) throws XMLDBException, IOException {
