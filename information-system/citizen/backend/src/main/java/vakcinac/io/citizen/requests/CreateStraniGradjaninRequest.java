@@ -47,7 +47,7 @@ public class CreateStraniGradjaninRequest {
 	private String opstina;
 
     @XmlElement(name = "identifikacioni-dokument")
-	private String identifikacioniDokument;
+	private Integer identifikacioniDokument;
 
     @XmlElement(name = "broj-pasosa")
 	private String brojPasosa;
@@ -156,11 +156,11 @@ public class CreateStraniGradjaninRequest {
 		this.opstina = opstina;
 	}
 
-	public String getIdentifikacioniDokument() {
+	public Integer getIdentifikacioniDokument() {
 		return identifikacioniDokument;
 	}
 
-	public void setIdentifikacioniDokument(String identifikacioniDokument) {
+	public void setIdentifikacioniDokument(Integer identifikacioniDokument) {
 		this.identifikacioniDokument = identifikacioniDokument;
 	}
 

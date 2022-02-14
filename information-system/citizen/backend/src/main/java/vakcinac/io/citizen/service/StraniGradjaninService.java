@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import vakcinac.io.citizen.models.sgradj.StraniGradjanin;
 import vakcinac.io.citizen.repository.StraniGradjaninRepository;
+import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.services.BaseService;
 
@@ -29,6 +30,10 @@ public class StraniGradjaninService extends BaseService<StraniGradjanin> {
 	}
 	
 	private void validate(String id, StraniGradjanin straniGradjanin) {
+		if (id == null || id.isEmpty()) {
+			throw new BadLogicException("Identifikacioni broj nije validan.");
+		}
+		
 		StraniGradjanin existingStraniGradjanin = read(id);
 		if (existingStraniGradjanin != null) {
 			throw new MissingEntityException("Građanin već postoji.");
