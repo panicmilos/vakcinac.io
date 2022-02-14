@@ -1,4 +1,4 @@
-package vakcinac.io.civil.servant.requests;
+package vakcinac.io.core.requests;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "izjava-interesovanja-za-vakcinisanje")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CreateIzjavaRequest {
-
-    @XmlElement(name = "drzavljanstvo")
+	@XmlElement(name = "drzavljanstvo")
     private int drzavljanstvo;
 
     @XmlElement(name = "podnosilac")
@@ -90,6 +89,4 @@ public class CreateIzjavaRequest {
 	public void setProizvodjac(List<Integer> proizvodjac) {
 		this.proizvodjac = proizvodjac;
 	}
-
 }
- 
