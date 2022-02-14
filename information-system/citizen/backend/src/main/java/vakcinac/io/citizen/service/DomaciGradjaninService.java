@@ -14,12 +14,6 @@ public class DomaciGradjaninService extends BaseService<DomaciGradjanin> {
 	
 	@Override
 	public DomaciGradjanin create(String id, DomaciGradjanin domaciGradjanin) {
-//		DomaciGradjanin existingDomaciGradjanin = read(id);
-//		
-//		if (existingDomaciGradjanin != null) {
-//			System.out.println("Postojim brate");
-//		}
-		
 		return super.create(id, domaciGradjanin);
 	}
 }

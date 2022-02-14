@@ -14,12 +14,6 @@ public class StraniGradjaninService extends BaseService<StraniGradjanin> {
 	
 	@Override
 	public StraniGradjanin create(String id, StraniGradjanin straniGradjanin) {
-		StraniGradjanin existingStraniGradjanin = read(id);
-		
-		if (existingStraniGradjanin != null) {
-			System.out.println("Postojim brate");
-		}
-		
 		return super.create(id, straniGradjanin);
 	}
 }
