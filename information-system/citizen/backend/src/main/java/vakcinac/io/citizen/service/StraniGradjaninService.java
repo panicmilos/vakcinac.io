@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import vakcinac.io.citizen.models.sgradj.StraniGradjanin;
 import vakcinac.io.citizen.repository.StraniGradjaninRepository;
+import vakcinac.io.core.exceptions.MissingEntityException;
 
 @Service
 public class StraniGradjaninService extends BaseService<StraniGradjanin> {
@@ -12,8 +13,14 @@ public class StraniGradjaninService extends BaseService<StraniGradjanin> {
 		super(straniGradjaninRepository);
 	}
 	
-	@Override
-	public StraniGradjanin create(String id, StraniGradjanin straniGradjanin) {
-		return super.create(id, straniGradjanin);
+	public StraniGradjanin create(StraniGradjanin straniGradjanin) {
+		String id = straniGradjanin.getIdentifikacioniDokument() == 0 ? straniGradjanin.getBrojPasosa() : straniGradjanin.getEbs();
+		
+		StraniGradjanin existingStraniGradjanin = read(id);
+		if (existingStraniGradjanin != null) {
+			throw new MissingEntityException("Strani građanin već postoji.");
+		}
+		
+		return create(id, straniGradjanin);
 	}
 }

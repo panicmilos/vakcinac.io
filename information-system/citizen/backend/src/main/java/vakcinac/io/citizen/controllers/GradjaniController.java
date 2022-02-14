@@ -37,7 +37,7 @@ public class GradjaniController extends ControllerBase {
 		
 		DomaciGradjanin domaciGradjanin = (DomaciGradjanin) map(createDomaciGradjaninRequest, DomaciGradjanin.class);
 		
-		DomaciGradjanin createdDomaciGradjanin = domaciGradjaninService.create(domaciGradjanin.getKorisnickoIme(), domaciGradjanin);
+		DomaciGradjanin createdDomaciGradjanin = domaciGradjaninService.create(domaciGradjanin);
 		
 		return ResponseEntity.ok(createdDomaciGradjanin);
 	}
@@ -48,7 +48,7 @@ public class GradjaniController extends ControllerBase {
 		
 		StraniGradjanin straniGradjanin = (StraniGradjanin) map(createStraniGradjaninRequest, StraniGradjanin.class);
 		
-		StraniGradjanin createdStraniGradjanin = straniGradjaninService.create(straniGradjanin.getKorisnickoIme(), straniGradjanin);
+		StraniGradjanin createdStraniGradjanin = straniGradjaninService.create(straniGradjanin);
 		
 		return ResponseEntity.ok(createdStraniGradjanin);
 	}

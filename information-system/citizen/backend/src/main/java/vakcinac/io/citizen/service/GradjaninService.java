@@ -29,6 +29,6 @@ public class GradjaninService {
 			return straniGradjanin;
 		}
 		
-		throw new MissingEntityException("Gradjanin sa prosleđenim id-em ne postoji.");
+		throw new MissingEntityException("Gradjanin ne postoji.");
 	}
 }
