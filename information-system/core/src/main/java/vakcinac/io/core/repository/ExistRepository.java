@@ -52,6 +52,7 @@ public abstract class ExistRepository<T> implements Closeable {
 			
 			return obj;
 		} catch (XMLDBException e) {
+			e.printStackTrace();
 			return null;
 		}
 	}
