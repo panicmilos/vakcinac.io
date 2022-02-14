@@ -18,7 +18,7 @@ public class StraniGradjaninService extends BaseService<StraniGradjanin> {
 		
 		StraniGradjanin existingStraniGradjanin = read(id);
 		if (existingStraniGradjanin != null) {
-			throw new MissingEntityException("Strani građanin već postoji.");
+			throw new MissingEntityException("Građanin već postoji.");
 		}
 		
 		return create(id, straniGradjanin);
