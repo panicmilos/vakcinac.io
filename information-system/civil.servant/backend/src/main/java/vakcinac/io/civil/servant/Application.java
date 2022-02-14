@@ -1,9 +1,11 @@
 package vakcinac.io.civil.servant;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.xmldb.api.DatabaseManager;
 import org.xmldb.api.base.Database;
 import vakcinac.io.core.Constants;
@@ -17,6 +19,11 @@ public class Application implements CommandLineRunner {
 
 	@Value("${root.resource}")
 	private String rootResource;
+	
+	@Bean
+	public ModelMapper getModelMapper() {
+		return new ModelMapper();
+	}
 
 	public static void main(String[] args) { SpringApplication.run(Application.class, args); }
 

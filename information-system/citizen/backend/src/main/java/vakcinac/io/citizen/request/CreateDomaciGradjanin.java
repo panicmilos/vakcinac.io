@@ -10,7 +10,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 @XmlRootElement(name = "domaci-gradjanin")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DomaciGradjaninRequest {
+public class CreateDomaciGradjanin {
 	
     @XmlElement(name = "ime")
 	private String ime;
@@ -57,7 +57,7 @@ public class DomaciGradjaninRequest {
     @XmlElement(name = "broj-fiksnog-telefona")
 	private String brojFiksnogTelefona;
 	
-	public DomaciGradjaninRequest() {}
+	public CreateDomaciGradjanin() {}
 	
 	public String getIme() {
 		return ime;
