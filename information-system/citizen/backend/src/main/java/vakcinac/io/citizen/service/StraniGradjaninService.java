@@ -16,11 +16,21 @@ public class StraniGradjaninService extends BaseService<StraniGradjanin> {
 	public StraniGradjanin create(StraniGradjanin straniGradjanin) {
 		String id = straniGradjanin.getIdentifikacioniDokument() == 0 ? straniGradjanin.getBrojPasosa() : straniGradjanin.getEbs();
 		
+		validate(id, straniGradjanin);
+		
+		return create(id, straniGradjanin);
+	}
+	
+	public StraniGradjanin findByKorisnickoIme(String korisnickoIme) {
+		String XQueryExpression = String.format("collection('/db/strani-gradjani')//*:strani-gradjanin/*:korisnicko-ime[text() = '%s']/..", korisnickoIme);
+		
+		return findFirstByXQuery(XQueryExpression, StraniGradjanin.class);
+	}
+	
+	private void validate(String id, StraniGradjanin straniGradjanin) {
 		StraniGradjanin existingStraniGradjanin = read(id);
 		if (existingStraniGradjanin != null) {
 			throw new MissingEntityException("Građanin već postoji.");
 		}
-		
-		return create(id, straniGradjanin);
 	}
 }

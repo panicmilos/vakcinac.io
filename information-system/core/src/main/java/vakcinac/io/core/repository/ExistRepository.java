@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import javax.xml.transform.OutputKeys;
 
 import org.xmldb.api.base.CompiledExpression;
+import org.xmldb.api.base.Resource;
 import org.xmldb.api.base.ResourceIterator;
 import org.xmldb.api.base.ResourceSet;
 import org.xmldb.api.base.XMLDBException;
@@ -68,7 +69,7 @@ public abstract class ExistRepository<T> implements Closeable {
 	public T retrieve(String id) {
 		try (CloseableResource resource = new CloseableResource(collection.getResource(id))) {
 
-			if (resource == null) {
+			if (resource.getRealResource() == null) {
 				System.out.format("[ERROR] Document with id: %s can not be found!\n", id);
 				return null;
 			}
@@ -87,6 +88,12 @@ public abstract class ExistRepository<T> implements Closeable {
 		return executeRetrieveUsingXQuery(xQueryExpression);
 	}
 	
+	public Resource retrieveFirstUsingXQuery(String xQueryExpression) throws XMLDBException {
+		ResourceIterator iterator = executeRetrieveUsingXQuery(xQueryExpression);
+		
+		return findFirst(iterator);
+	}
+	
 	public ResourceIterator retrieveUsingXQuery(String filePath, Object ...args) throws XMLDBException, IOException {
 		byte[] encoded = Files.readAllBytes(Paths.get(filePath));
 		String notFormattedXQuery = new String(encoded, StandardCharsets.UTF_8);
@@ -94,6 +101,14 @@ public abstract class ExistRepository<T> implements Closeable {
 		String formattedXQuery = String.format(notFormattedXQuery, args);
 
 		return executeRetrieveUsingXQuery(formattedXQuery);
+	}
+	
+	private Resource findFirst(ResourceIterator iterator) throws XMLDBException {
+		if (!iterator.hasMoreResources()) {
+			return null;
+		}
+		
+		return iterator.nextResource();
 	}
 	
 	private ResourceIterator executeRetrieveUsingXQuery(String xQueryExpression) throws XMLDBException {

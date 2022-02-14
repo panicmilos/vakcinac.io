@@ -12,8 +12,7 @@ import vakcinac.io.citizen.models.dgradj.DomaciGradjanin;
 import vakcinac.io.citizen.models.sgradj.StraniGradjanin;
 import vakcinac.io.citizen.requests.CreateDomaciGradjaninRequest;
 import vakcinac.io.citizen.requests.CreateStraniGradjaninRequest;
-import vakcinac.io.citizen.service.DomaciGradjaninService;
-import vakcinac.io.citizen.service.StraniGradjaninService;
+import vakcinac.io.citizen.service.GradjaninService;
 import vakcinac.io.citizen.validators.CitizenValidator;
 import vakcinac.io.core.controllers.ControllerBase;
 
@@ -21,14 +20,12 @@ import vakcinac.io.core.controllers.ControllerBase;
 @RequestMapping("/gradjani")
 public class GradjaniController extends ControllerBase {
 	
-	private DomaciGradjaninService domaciGradjaninService;
-	private StraniGradjaninService straniGradjaninService;
+	private GradjaninService gradjaninService;
 	
 	@Autowired
-	public GradjaniController(ModelMapper mapper, CitizenValidator validator, DomaciGradjaninService domaciGradjaninService, StraniGradjaninService straniGradjaninService) {
+	public GradjaniController(ModelMapper mapper, CitizenValidator validator, GradjaninService gradjaninService) {
 		super(mapper, validator);
-		this.domaciGradjaninService = domaciGradjaninService;
-		this.straniGradjaninService = straniGradjaninService;
+		this.gradjaninService = gradjaninService;
 	}
 	
 	@PostMapping("/domaci")
@@ -37,7 +34,7 @@ public class GradjaniController extends ControllerBase {
 		
 		DomaciGradjanin domaciGradjanin = (DomaciGradjanin) map(createDomaciGradjaninRequest, DomaciGradjanin.class);
 		
-		DomaciGradjanin createdDomaciGradjanin = domaciGradjaninService.create(domaciGradjanin);
+		DomaciGradjanin createdDomaciGradjanin = (DomaciGradjanin) gradjaninService.create(domaciGradjanin);
 		
 		return ResponseEntity.ok(createdDomaciGradjanin);
 	}
@@ -48,7 +45,7 @@ public class GradjaniController extends ControllerBase {
 		
 		StraniGradjanin straniGradjanin = (StraniGradjanin) map(createStraniGradjaninRequest, StraniGradjanin.class);
 		
-		StraniGradjanin createdStraniGradjanin = straniGradjaninService.create(straniGradjanin);
+		StraniGradjanin createdStraniGradjanin = (StraniGradjanin) gradjaninService.create(straniGradjanin);
 		
 		return ResponseEntity.ok(createdStraniGradjanin);
 	}
