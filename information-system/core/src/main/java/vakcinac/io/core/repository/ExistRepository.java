@@ -14,8 +14,10 @@ import org.xmldb.api.base.ResourceSet;
 import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 import org.xmldb.api.modules.XQueryService;
+import org.xmldb.api.modules.XUpdateQueryService;
 
 import vakcinac.io.core.repository.exist.CloseableResource;
+import vakcinac.io.core.repository.exist.XUpdateTemplate;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 import vakcinac.io.core.utils.registries.ExistEntitiesRegistry;
@@ -103,7 +105,47 @@ public abstract class ExistRepository<T> implements Closeable {
 
         return result.getIterator();		
 	}
-
+	
+	public void insertBefore(String id, String contextPath, String serializedObj) throws XMLDBException {
+		TargetNamespaceRegistry registry = new TargetNamespaceRegistry();
+		
+		XUpdateQueryService xqueryService = collection.getXUpdateQueryService();
+		String nonFormattedInsert = XUpdateTemplate.getInsertBefore(registry.getTargetNamespaceFor(forClass));
+		String formattedInsert = String.format(nonFormattedInsert, contextPath, serializedObj);
+		
+		xqueryService.updateResource(id, formattedInsert);
+	}
+	
+	public void insertAfter(String id, String contextPath, String serializedObj) throws XMLDBException {
+		TargetNamespaceRegistry registry = new TargetNamespaceRegistry();
+		
+		XUpdateQueryService xqueryService = collection.getXUpdateQueryService();
+		String nonFormattedInsert = XUpdateTemplate.getInsertAfter(registry.getTargetNamespaceFor(forClass));
+		String formattedInsert = String.format(nonFormattedInsert, contextPath, serializedObj);
+		
+		xqueryService.updateResource(id, formattedInsert);
+	}
+	
+	public void append(String id, String contextPath, String serializedObj) throws XMLDBException {
+		TargetNamespaceRegistry registry = new TargetNamespaceRegistry();
+		
+		XUpdateQueryService xqueryService = collection.getXUpdateQueryService();
+		String nonFormattedAppend = XUpdateTemplate.getAppend(registry.getTargetNamespaceFor(forClass));
+		String formattedAppend = String.format(nonFormattedAppend, contextPath, serializedObj);
+		
+		xqueryService.updateResource(id, formattedAppend);
+	}
+	
+	public void update(String id, String contextPath, String serializedObj) throws XMLDBException {
+		TargetNamespaceRegistry registry = new TargetNamespaceRegistry();
+		
+		XUpdateQueryService xqueryService = collection.getXUpdateQueryService();
+		String nonFormattetUpdate = XUpdateTemplate.getUpdate(registry.getTargetNamespaceFor(forClass));
+		String formattedUpdate = String.format(nonFormattetUpdate, contextPath, serializedObj);
+		
+		xqueryService.updateResource(id, formattedUpdate);
+	}
+	
 	public T remove(String id) {
 		try (CloseableResource resource = new CloseableResource(collection.getResource(id))) {
 
@@ -122,7 +164,16 @@ public abstract class ExistRepository<T> implements Closeable {
 		}
 
 		return null;
-
+	}
+	
+	public void remove(String id, String contextPath) throws XMLDBException {
+		TargetNamespaceRegistry registry = new TargetNamespaceRegistry();
+		
+		XUpdateQueryService xqueryService = collection.getXUpdateQueryService();
+		String nonFormattetRemove = XUpdateTemplate.getRemove(registry.getTargetNamespaceFor(forClass));
+		String formattedRemove = String.format(nonFormattetRemove, contextPath);
+		
+		xqueryService.updateResource(id, formattedRemove);
 	}
 
 	@Override

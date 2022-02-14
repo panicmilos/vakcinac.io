@@ -21,6 +21,7 @@ public class NSRegistry extends NamespacePrefixMapper {
 		registry = new HashMap<String, String>() {{
 			put("http://www.w3.org/2001/XMLSchema-instance", "xsi");
 			put("http://java.sun.com/xml/ns/jaxb", "jaxb");
+			put("https://www.vakcinac-io.rs/osnovna-sema", "os");
 		}};
 		
 		findAllNamespaces();

@@ -97,6 +97,20 @@ public class TestController {
 
 		return null;
 	}
+	
+	@GetMapping(path="xqueryupdate")
+	public ResponseEntity<String> testCoreStrin2412g() throws XMLDBException, IOException {
+
+//		digitalniSertifikatRepository.insertBefore("kt3new.xml", "//br-pasosa", "<a>cap</a>");
+//		digitalniSertifikatRepository.insertAfter("kt3new.xml", "//br-pasosa", "<a>cap2</a>");
+
+//		digitalniSertifikatRepository.append("kt3new.xml", "//nosilac-sertifikata", "<a>mrs u pm</a>");
+//		digitalniSertifikatRepository.update("kt3new.xml", "//br-pasosa", "<a>nesto sada kao radi?</a>");
+
+		digitalniSertifikatRepository.remove("kt3new.xml", "//br-pasosa");
+
+		return null;
+	}
  
 
 	@GetMapping(path="common")
