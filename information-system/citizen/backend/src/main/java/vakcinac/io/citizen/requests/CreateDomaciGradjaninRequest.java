@@ -1,11 +1,10 @@
 package vakcinac.io.citizen.requests;
 
-import java.time.LocalDate;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 @XmlRootElement(name = "domaci-gradjanin")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -24,7 +23,7 @@ public class CreateDomaciGradjaninRequest {
 	private String lozinka;
 
     @XmlElement(name = "datum-rodjenja")
-	private LocalDate datumRodjenja;
+	private XMLGregorianCalendar datumRodjenja;
 
     @XmlElement(name = "pol")
 	private Integer pol;
@@ -90,11 +89,11 @@ public class CreateDomaciGradjaninRequest {
 		this.lozinka = lozinka;
 	}
 
-	public LocalDate getDatumRodjenja() {
+	public XMLGregorianCalendar getDatumRodjenja() {
 		return datumRodjenja;
 	}
 
-	public void setDatumRodjenja(LocalDate datumRodjenja) {
+	public void setDatumRodjenja(XMLGregorianCalendar datumRodjenja) {
 		this.datumRodjenja = datumRodjenja;
 	}
 
