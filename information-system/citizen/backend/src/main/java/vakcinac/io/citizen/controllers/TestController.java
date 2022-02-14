@@ -7,6 +7,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 
+import javax.xml.bind.JAXB;
+
 import org.apache.jena.query.ResultSetFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -14,23 +16,29 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
-import vakcinac.io.core.Constants;
+import org.xmldb.api.base.ResourceIterator;
+import org.xmldb.api.base.XMLDBException;
+
 import vakcinac.io.citizen.models.dig.DigitalniSertifikat;
 import vakcinac.io.citizen.models.pot.PotvrdaOIzvrsenojVakcinaciji;
 import vakcinac.io.citizen.repository.DigitalniSertifikatRepository;
 import vakcinac.io.citizen.repository.PotvrdaRepository;
-import vakcinac.io.core.repository.jena.CloseableResultSet;
 import vakcinac.io.citizen.repository.jena.JenaRepository;
+import vakcinac.io.core.Constants;
+import vakcinac.io.core.CoreClass;
+import vakcinac.io.core.repository.exist.CloseableResource;
+import vakcinac.io.core.repository.jena.CloseableResultSet;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 import vakcinac.io.core.utils.transformers.PDFTransformer;
 import vakcinac.io.core.utils.transformers.XHTMLTransformer;
-import vakcinac.io.core.CoreClass;
-
-import javax.xml.bind.JAXB;
 
 @Controller
 @RequestMapping("/test")
@@ -65,6 +73,45 @@ public class TestController {
 		classRegistry.put(1, DigitalniSertifikat.class);
 		classRegistry.put(4, PotvrdaOIzvrsenojVakcinaciji.class);
 	}
+	
+	@GetMapping(path="xquery")
+	public ResponseEntity<String> testCoreStrin2g() throws XMLDBException, IOException {
+		ResourceIterator iterator =  digitalniSertifikatRepository.retrieveUsingXQuery("for $document in collection('/db/digitalni-sertifikati') return $document");
+		
+        try (CloseableResource resource = new CloseableResource()) {
+	        while(iterator.hasMoreResources()) {
+        		resource.setRealResource(iterator.nextResource());
+                System.out.println(resource.getContent());
+	        }
+        }
+        
+		iterator = digitalniSertifikatRepository.retrieveUsingXQuery(Constants.ROOT_RESOURCE + "/data/xquery/count.xqy", "/db/digitalni-sertifikati", "kt3");
+		
+        try (CloseableResource resource = new CloseableResource()) {
+	        while(iterator.hasMoreResources()) {
+        		resource.setRealResource(iterator.nextResource());
+                System.out.println(resource.getContent());
+	        }
+        }
+
+
+		return null;
+	}
+	
+	@GetMapping(path="xqueryupdate")
+	public ResponseEntity<String> testCoreStrin2412g() throws XMLDBException, IOException {
+
+//		digitalniSertifikatRepository.insertBefore("kt3new.xml", "//br-pasosa", "<a>cap</a>");
+//		digitalniSertifikatRepository.insertAfter("kt3new.xml", "//br-pasosa", "<a>cap2</a>");
+
+//		digitalniSertifikatRepository.append("kt3new.xml", "//nosilac-sertifikata", "<a>mrs u pm</a>");
+//		digitalniSertifikatRepository.update("kt3new.xml", "//br-pasosa", "<a>nesto sada kao radi?</a>");
+
+		digitalniSertifikatRepository.remove("kt3new.xml", "//br-pasosa");
+
+		return null;
+	}
+ 
 
 	@GetMapping(path="common")
 	public ResponseEntity<String> testCoreString() {
