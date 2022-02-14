@@ -15,7 +15,7 @@ public class SluzbenikService extends BaseService<Sluzbenik> {
 	}
 	
 	public Sluzbenik create(Sluzbenik sluzbenik) {
-		String id = "123";
+		String id = sluzbenik.getJmbg();
 		
 		validate(id, sluzbenik);
 		

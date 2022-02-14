@@ -45,6 +45,9 @@ public class CreateDomaciGradjaninRequest {
 
     @XmlElement(name = "opstina")
 	private String opstina;
+    
+    @XmlElement(name = "broj-pasosa")
+	private String brojPasosa;
 
     @XmlElement(name = "jmbg")
 	private String jmbg;
@@ -175,5 +178,13 @@ public class CreateDomaciGradjaninRequest {
 
 	public void setBrojFiksnogTelefona(String brojFiksnogTelefona) {
 		this.brojFiksnogTelefona = brojFiksnogTelefona;
+	}
+
+	public String getBrojPasosa() {
+		return brojPasosa;
+	}
+
+	public void setBrojPasosa(String brojPasosa) {
+		this.brojPasosa = brojPasosa;
 	}
 }

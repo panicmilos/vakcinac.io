@@ -15,7 +15,7 @@ public class ZdravstveniRadnikService extends BaseService<ZdravstveniRadnik> {
 	}
 	
 	public ZdravstveniRadnik create(ZdravstveniRadnik zdravstveniRadnik) {
-		String id = "123";
+		String id = zdravstveniRadnik.getJmbg();
 		
 		validate(id, zdravstveniRadnik);
 		
