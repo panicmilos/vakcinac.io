@@ -1,4 +1,4 @@
-package vakcinac.io.civil.servant.repository.jena;
+package vakcinac.io.core.repository.jena;
 
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
@@ -9,12 +9,6 @@ import org.apache.jena.update.UpdateExecutionFactory;
 import org.apache.jena.update.UpdateFactory;
 import org.apache.jena.update.UpdateProcessor;
 import org.apache.jena.update.UpdateRequest;
-import org.springframework.stereotype.Repository;
-import org.springframework.web.context.annotation.RequestScope;
-import vakcinac.io.core.repository.jena.CloseableResultSet;
-import vakcinac.io.core.repository.jena.HttpClientFactory;
-import vakcinac.io.core.repository.jena.HttpContextFactory;
-import vakcinac.io.core.repository.jena.RdfObject;
 import vakcinac.io.core.utils.JenaAuthenticationUtils;
 import vakcinac.io.core.utils.JenaAuthenticationUtils.JenaConnectionProperties;
 import vakcinac.io.core.utils.SparqlUtils;
@@ -22,8 +16,6 @@ import vakcinac.io.core.utils.SparqlUtils;
 import java.io.Closeable;
 import java.io.IOException;
 
-@RequestScope
-@Repository
 public class JenaRepository implements Closeable {
 	private BasicHttpContext context;
 	private CloseableHttpClient client;
