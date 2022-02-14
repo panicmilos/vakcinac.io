@@ -15,14 +15,14 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for TosobaSaJmbg complex type.
+ * <p>Java class for Tzaposleni complex type.
  * 
  * <p>The following schema fragment specifies the expected content contained within this class.
  * 
  * <pre>
- * &lt;complexType name="TosobaSaJmbg">
+ * &lt;complexType name="Tzaposleni">
  *   &lt;complexContent>
- *     &lt;extension base="{https://www.vakcinac-io.rs/osnovna-sema}Tosoba">
+ *     &lt;extension base="{https://www.vakcinac-io.rs/osnovna-sema}Tkorisnik">
  *       &lt;sequence>
  *         &lt;element name="jmbg" type="{https://www.vakcinac-io.rs/osnovna-sema}Tjmbg"/>
  *       &lt;/sequence>
@@ -34,11 +34,11 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TosobaSaJmbg", propOrder = {
+@XmlType(name = "Tzaposleni", propOrder = {
     "jmbg"
 })
-public class TosobaSaJmbg
-    extends Tosoba
+public class Tzaposleni
+    extends Tkorisnik
 {
 
     @XmlElement(required = true)
