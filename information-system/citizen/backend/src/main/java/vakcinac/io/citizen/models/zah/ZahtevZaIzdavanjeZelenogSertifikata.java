@@ -1,9 +1,22 @@
 package vakcinac.io.citizen.models.zah;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "zahtev-za-izdavanje-zelenog-sertifikata")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ZahtevZaIzdavanjeZelenogSertifikata {
-	private String podnosilac;
-	private String razlog;
-	private String mesto;
+
+    @XmlElement(name = "podnosilac")
+    private String podnosilac;
+
+    @XmlElement(name = "razlog")
+    private String razlog;
+    
+    @XmlElement(name = "mesto")
+    private String mesto;
 
 	public String getPodnosilac() {
 		return podnosilac;

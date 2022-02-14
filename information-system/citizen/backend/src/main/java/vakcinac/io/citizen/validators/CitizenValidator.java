@@ -1,11 +1,13 @@
 package vakcinac.io.citizen.validators;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.RequestScope;
 
 import vakcinac.io.core.validators.ObjectValidator;
 import vakcinac.io.core.validators.ValidatorsRegistry;
 
-@Service
+@Component
+@RequestScope
 public class CitizenValidator extends ObjectValidator {
 	
 	public CitizenValidator() {

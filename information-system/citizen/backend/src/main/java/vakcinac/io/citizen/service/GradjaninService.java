@@ -44,7 +44,7 @@ public class GradjaninService {
 			return domaciGradjanin;
 		}
 		
-		Tgradjanin straniGradjanin = straniGradjaninService.read(korisnickoIme);
+		Tgradjanin straniGradjanin = straniGradjaninService.findByKorisnickoIme(korisnickoIme);
 		if (straniGradjanin != null) {
 			return straniGradjanin;
 		}
