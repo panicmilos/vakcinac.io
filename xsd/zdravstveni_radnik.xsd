@@ -10,7 +10,7 @@
     <xsd:element name="zdravstveni-radnik">
         <xsd:complexType>
             <xsd:complexContent>
-                <xsd:extension base="os:Tkorisnik">
+                <xsd:extension base="os:Tzaposleni">
                     <xsd:sequence>
                         <xsd:element name="faksimil" type="xsd:string"></xsd:element>
                         <xsd:element name="broj-telefona" type="os:TbrMob"></xsd:element>

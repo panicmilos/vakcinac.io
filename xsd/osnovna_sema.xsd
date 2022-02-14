@@ -136,6 +136,17 @@
                     <xsd:element name="adresa" type="xsd:string"></xsd:element>
                     <xsd:element name="mesto" type="xsd:string"></xsd:element>
                     <xsd:element name="opstina" type="xsd:string"></xsd:element>
+                    <xsd:element name="broj-pasosa" nillable="true" type="Tpasos"></xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="Tzaposleni">
+        <xsd:complexContent>
+            <xsd:extension base="Tkorisnik">
+                <xsd:sequence>
+                    <xsd:element name="jmbg" type="Tjmbg"></xsd:element>
                 </xsd:sequence>
             </xsd:extension>
         </xsd:complexContent>

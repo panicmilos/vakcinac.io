@@ -10,7 +10,7 @@
     <xsd:element name="sluzbenik">
         <xsd:complexType>
             <xsd:complexContent>
-                <xsd:extension base="os:Tkorisnik">
+                <xsd:extension base="os:Tzaposleni">
                 </xsd:extension>
             </xsd:complexContent>
         </xsd:complexType>

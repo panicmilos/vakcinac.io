@@ -18,9 +18,10 @@
     <os:adresa>72 Green Lane</os:adresa>
     <os:mesto>London</os:mesto>
     <os:opstina>London</os:opstina>
+    <os:broj-pasosa>123541236</os:broj-pasosa>
     <identifikacioni-dokument>0</identifikacioni-dokument>
-    <broj-pasosa>123541236</broj-pasosa>
     <ebs xsi:nil="true"></ebs>
     <drzava>Engleska</drzava>
+    <boravak-u-rs>false</boravak-u-rs>
 
 </strani-gradjanin>

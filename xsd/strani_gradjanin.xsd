@@ -22,9 +22,9 @@
                 <xsd:extension base="os:Tgradjanin">
                     <xsd:sequence>
                         <xsd:element name="identifikacioni-dokument" type="TidentifikacioniDokument"></xsd:element>
-                        <xsd:element name="broj-pasosa" nillable="true" type="os:Tpasos"></xsd:element>
                         <xsd:element name="ebs" nillable="true" type="os:Tebs"></xsd:element>
                         <xsd:element name="drzava" type="xsd:string"></xsd:element>
+                        <xsd:element name="boravak-u-rs" type="xsd:boolean"></xsd:element>
                     </xsd:sequence>
                 </xsd:extension>
             </xsd:complexContent>
