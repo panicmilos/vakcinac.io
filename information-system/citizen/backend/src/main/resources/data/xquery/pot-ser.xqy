@@ -1,3 +1,5 @@
+xquery version "3.1";
+
 declare namespace pot="https://www.vakcinac-io.rs/potvrda";
 import module namespace functx="http://www.functx.com";
 

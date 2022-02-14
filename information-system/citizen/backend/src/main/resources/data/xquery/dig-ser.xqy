@@ -1,6 +1,6 @@
 xquery version "3.1";
 
-declare namespace  dig="https://www.vakcinac-io.rs/digitalni-sertifikat";
+declare namespace dig="https://www.vakcinac-io.rs/digitalni-sertifikat";
 import module namespace functx="http://www.functx.com";
 
 declare function local:search-dig($keyword as xs:string)
