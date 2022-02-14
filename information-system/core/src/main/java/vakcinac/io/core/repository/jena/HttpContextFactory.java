@@ -6,6 +6,7 @@ import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.protocol.ClientContext;
 import org.apache.http.protocol.BasicHttpContext;
 
+@SuppressWarnings("deprecation")
 public class HttpContextFactory {
 	
 	public static BasicHttpContext newContext() throws IOException {

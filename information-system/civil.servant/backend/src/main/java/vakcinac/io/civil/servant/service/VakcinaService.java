@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 
 import vakcinac.io.civil.servant.models.vak.Vakcina;
 import vakcinac.io.civil.servant.repository.VakcinaRepository;
+import vakcinac.io.core.exceptions.MissingEntityException;
 
 @Service
 public class VakcinaService extends BaseService<Vakcina> {
@@ -13,14 +14,15 @@ public class VakcinaService extends BaseService<Vakcina> {
 	}
 	
 	@Override
-	public Vakcina create(String id, Vakcina vakcina) {
-		Vakcina existingVakcina = read(id);
+	public Vakcina create(Vakcina vakcina) {
+		String id = vakcina.getSerija();
 		
+		Vakcina existingVakcina = read(id);
 		if (existingVakcina != null) {
-			System.out.println("Postojim brate");
+			throw new MissingEntityException("Vakcina već postoji.");
 		}
 		
-		return super.create(id, vakcina);
+		return create(id, vakcina);
 	}
 	
 }

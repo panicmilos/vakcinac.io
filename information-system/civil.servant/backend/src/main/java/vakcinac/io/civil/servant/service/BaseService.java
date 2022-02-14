@@ -14,8 +14,10 @@ public abstract class BaseService<T> {
 	public T read(String id) {
 		return baseRepository.retrieve(id);
 	}
+		
+	public abstract T create(T obj);
 	
-	public T create(String id, T obj) {
+	protected T create(String id, T obj) {
 		return baseRepository.store(id, obj);
 	}
 
