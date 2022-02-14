@@ -5,6 +5,7 @@ import org.springframework.web.context.annotation.RequestScope;
 
 import vakcinac.io.civil.servant.models.vak.Vakcina;
 import vakcinac.io.civil.servant.repository.VakcinaRepository;
+import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
 import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.services.BaseService;
 
@@ -12,8 +13,8 @@ import vakcinac.io.core.services.BaseService;
 @RequestScope
 public class VakcinaService extends BaseService<Vakcina> {
 	
-	public VakcinaService(VakcinaRepository vakcinaRepository) {
-		super(vakcinaRepository);
+	public VakcinaService(VakcinaRepository vakcinaRepository, CivilServantJenaRepository jenaRepository) {
+		super(vakcinaRepository, jenaRepository);
 	}
 	
 	@Override

@@ -8,6 +8,7 @@ import org.xmldb.api.base.XMLDBException;
 
 import vakcinac.io.civil.servant.models.izj.IzjavaInteresovanjaZaVakcinisanje;
 import vakcinac.io.civil.servant.repository.IzjavaRepository;
+import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
 import vakcinac.io.core.models.os.Tgradjanin;
 import vakcinac.io.core.services.BaseService;
 
@@ -17,8 +18,8 @@ public class IzjavaService extends BaseService<IzjavaInteresovanjaZaVakcinisanje
 
 	private GradjaninService gradjaninService;
 	
-	public IzjavaService(IzjavaRepository izjavaRepository, GradjaninService gradjaninService) {
-		super(izjavaRepository);
+	public IzjavaService(IzjavaRepository izjavaRepository, GradjaninService gradjaninService, CivilServantJenaRepository jenaRepository) {
+		super(izjavaRepository, jenaRepository);
 		
 		this.gradjaninService = gradjaninService;
 	}

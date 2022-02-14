@@ -4,14 +4,15 @@ import org.springframework.stereotype.Service;
 
 import vakcinac.io.citizen.models.dgradj.DomaciGradjanin;
 import vakcinac.io.citizen.repository.DomaciGradjaninRepository;
+import vakcinac.io.citizen.repository.jena.CitizenJenaRepository;
 import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.services.BaseService;
 
 @Service
 public class DomaciGradjaninService extends BaseService<DomaciGradjanin> {
 	
-	public DomaciGradjaninService(DomaciGradjaninRepository domaciGradjaninRepository) {
-		super(domaciGradjaninRepository);
+	public DomaciGradjaninService(DomaciGradjaninRepository domaciGradjaninRepository, CitizenJenaRepository jenaRepository) {
+		super(domaciGradjaninRepository, jenaRepository);
 	}
 	
 	public DomaciGradjanin create(DomaciGradjanin domaciGradjanin) {
