@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import vakcinac.io.civil.servant.models.izj.IzjavaInteresovanjaZaVakcinisanje;
 import vakcinac.io.civil.servant.models.izj.IzjavaInteresovanjaZaVakcinisanje.InformacijeOPrimanjuVakcine.Proizvodjaci;
 import vakcinac.io.civil.servant.models.izj.Tpodnosilac;
-import vakcinac.io.civil.servant.requests.CreateIzjavaRequest;
+import vakcinac.io.core.requests.CreateIzjavaRequest;
 import vakcinac.io.core.models.os.Tkontakt;
 
 public class IzjavaInteresovanjaZaVakcinisanjeFactory {
