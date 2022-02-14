@@ -10,6 +10,8 @@ package vakcinac.io.core.models.os;
 
 import javax.xml.bind.annotation.XmlRegistry;
 
+import vakcinac.io.core.annotations.RegisterXmlScheme;
+
 
 /**
  * This object contains factory methods for each 
@@ -26,6 +28,11 @@ import javax.xml.bind.annotation.XmlRegistry;
  * 
  */
 @XmlRegistry
+@RegisterXmlScheme(
+	schemePath = "/data/schemes/osnovna_sema.xsd",
+	targetNamespace="https://www.vakcinac-io.rs/osnovna-sema",
+	shortNamespace="os"
+)
 public class ObjectFactory {
 
 
