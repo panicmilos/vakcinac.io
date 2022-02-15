@@ -1,123 +1,37 @@
 <template>
-  <div data-app>
-    <img class="logo" alt="" src="@/assets/logo.png" />
-    <Form
-      :data="data"
-      :schema="schema"
-      :uischema="uischema"
-      @submit="onSubmit"
+  <v-app>
+    <sidebar
+      :items="items"
+      title="vakcinac.io"
+      subtitle="by PZLL"
+      userFullName="Meetar Meereech"
     />
-  </div>
+    <v-content>
+      <v-fade-transition mode="out-in">
+        <router-view></router-view>
+      </v-fade-transition>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
 import { defineComponent } from "@vue/composition-api";
-import Form from "../../components/Form.vue";
-
-const schema = {
-  properties: {
-    name: {
-      type: "string",
-      minLength: 1,
-      description: "The task's name"
-    },
-    description: {
-      title: "Long Description",
-      type: "string"
-    },
-    done: {
-      type: "boolean"
-    },
-    dueDate: {
-      type: "string",
-      format: "date",
-      description: "The task's due date"
-    },
-    rating: {
-      type: "integer",
-      maximum: 5
-    },
-    recurrence: {
-      type: "string",
-      enum: ["Never", "Daily", "Weekly", "Monthly"]
-    },
-    recurrenceInterval: {
-      type: "integer",
-      description: "Amount of days until recurrence"
-    }
-  }
-};
-
-const uischema = {
-  type: "HorizontalLayout",
-  elements: [
-    {
-      type: "VerticalLayout",
-      elements: [
-        {
-          type: "Control",
-          scope: "#/properties/name"
-        },
-        {
-          type: "Control",
-          scope: "#/properties/description",
-          options: {
-            multi: true
-          }
-        },
-        {
-          type: "Control",
-          scope: "#/properties/done"
-        }
-      ]
-    },
-    {
-      type: "VerticalLayout",
-      elements: [
-        {
-          type: "Control",
-          scope: "#/properties/dueDate"
-        },
-        {
-          type: "Control",
-          scope: "#/properties/rating",
-        },
-        {
-          type: "Control",
-          scope: "#/properties/recurrence"
-        },
-        {
-          type: "Control",
-          scope: "#/properties/recurrenceInterval"
-        }
-      ]
-    }
-  ]
-};
+import Sidebar from "../../components/Sidebar.vue";
+import FormExample from "./FormExample.vue";
 
 export default defineComponent({
   name: "App",
   components: {
-    Form
+    Sidebar,
+    FormExample,
   },
-  data() {
-    return {
-      data: {
-        name: "Send email to Adrian",
-        description: "Confirm if you have passed the subject\nHereby ...",
-        done: true,
-        recurrence: "Daily",
-        rating: 3
-      },
-      schema,
-      uischema
-    };
-  },
-  methods: {
-    onSubmit(event) {
-      console.log(event);
-    }
-  },
+  data: () => ({
+    items: [
+      { title: 'Dashboard', icon: 'mdi-view-dashboard', href: '/home' },
+      { title: 'Photos', icon: 'mdi-image', href: '/photos' },
+      { title: 'About', icon: 'mdi-help-box', href: '/about' },
+    ],
+  }),
 });
 </script>
 
