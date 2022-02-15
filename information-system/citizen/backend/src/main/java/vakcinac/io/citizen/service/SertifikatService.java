@@ -25,6 +25,8 @@ import vakcinac.io.core.models.os.Tgradjanin;
 import vakcinac.io.core.services.BaseService;
 import vakcinac.io.core.utils.DateUtils;
 import vakcinac.io.core.utils.RandomUtils;
+import vakcinac.io.core.utils.parsers.JaxBParser;
+import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 
 @Service
 @RequestScope
@@ -77,6 +79,10 @@ public class SertifikatService extends BaseService<DigitalniSertifikat> {
 		fillOutNosilacSertifikata(sertifikat, gradjaninId);
 		fillOutRdf(sertifikat, gradjaninId);
 		
+	    JaxBParser parser = JaxBParserFactory.newInstanceFor(DigitalniSertifikat.class);
+        String serializedObj = parser.marshall(sertifikat);
+        jenaRepository.insert(serializedObj, "/sertifikat");
+    
 		return create(id.replace('/', '-'), sertifikat);
 	}
 	
@@ -127,6 +133,8 @@ public class SertifikatService extends BaseService<DigitalniSertifikat> {
 			
 			vakcinacije.getVakcinacija().add(vakcinacija);
 		}
+		
+		sertifikat.setVakcinacije(vakcinacije);
 	}
 	
 	private String getRelatedZahtev(String za) {	
@@ -134,7 +142,7 @@ public class SertifikatService extends BaseService<DigitalniSertifikat> {
 	}
 	
 	private String getRelatedPotvrda(String za) {
-		return jenaRepository.readLatestSubject("/potvrde", String.format("<%s/rdfs/potvrda/za>", Constants.ROOT_URL), String.format("<%s>", za));
+		return jenaRepository.readLatestSubject("/potvrda", String.format("<%s/rdfs/potvrda/za>", Constants.ROOT_URL), String.format("<%s>", za));
 	}
 	
 	private void fillOutNosilacSertifikata(DigitalniSertifikat sertifikat, String gradjaninId) {
