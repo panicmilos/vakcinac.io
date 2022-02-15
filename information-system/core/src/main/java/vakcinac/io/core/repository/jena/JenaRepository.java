@@ -39,7 +39,11 @@ public class JenaRepository implements Closeable {
 	}
 	
 	public CloseableResultSet read(String graphUri) {
-		String sparqlQuery = SparqlUtils.selectData(connectionProperties.dataEndpoint + graphUri, "?s ?p ?o");
+		return read(graphUri, "?s ?p ?o");
+	}
+	
+	public CloseableResultSet read(String graphUri, String sparqlCondition) {
+		String sparqlQuery = SparqlUtils.selectData(connectionProperties.dataEndpoint + graphUri, sparqlCondition);
 		QueryExecution query = QueryExecutionFactory.sparqlService(connectionProperties.queryEndpoint, sparqlQuery);
 		ResultSet resultSet = query.execSelect();
 		
