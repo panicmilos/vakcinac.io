@@ -8,15 +8,15 @@
     <xsd:import namespace="https://www.vakcinac-io.rs/osnovna-sema" schemaLocation="osnovna_sema.xsd"/>
 
     <xsd:complexType name="TnosilacSertifikata">
-        <xsd:complexContent>
-            <xsd:extension base="os:TosobaSaJmbg">
-                <xsd:sequence>
-                    <xsd:element name="pol" type="os:Tpol"></xsd:element>
-                    <xsd:element name="br-pasosa" type="os:Tpasos"></xsd:element>
-                    <xsd:element name="datum-rodjenja" type="os:TdateString"></xsd:element>
-                </xsd:sequence>
-            </xsd:extension>
-        </xsd:complexContent>
+        <xsd:sequence>
+            <xsd:element name="ime" type="xsd:string"></xsd:element>
+            <xsd:element name="prezime" type="xsd:string"></xsd:element>
+            <xsd:element name="pol" type="os:Tpol"></xsd:element>
+            <xsd:element name="datum-rodjenja" type="os:TdateString"></xsd:element>
+            <xsd:element name="jmbg" type="os:Tjmbg" nillable="true"></xsd:element>
+            <xsd:element name="ebs" type="os:Tebs" nillable="true"></xsd:element>
+            <xsd:element name="br-pasosa" type="os:Tpasos" nillable="true"></xsd:element>
+        </xsd:sequence>
     </xsd:complexType>
 
     <xsd:element name="digitalni-sertifikat">

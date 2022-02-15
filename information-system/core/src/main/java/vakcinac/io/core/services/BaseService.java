@@ -1,18 +1,23 @@
 package vakcinac.io.core.services;
 
+import java.io.IOException;
+
 import org.xmldb.api.base.Resource;
 import org.xmldb.api.base.XMLDBException;
 
 import vakcinac.io.core.repository.ExistRepository;
+import vakcinac.io.core.repository.jena.JenaRepository;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 
 public abstract class BaseService<T> {
 	
 	protected ExistRepository<T> baseRepository;
+	protected JenaRepository jenaRepository;
 	
-	protected BaseService(ExistRepository<T> baseRepository) {
+	protected BaseService(ExistRepository<T> baseRepository, JenaRepository jenaRepository) {
 		this.baseRepository = baseRepository;
+		this.jenaRepository = jenaRepository;
 	}
 	
 	public T read(String id) {
@@ -24,6 +29,15 @@ public abstract class BaseService<T> {
 	protected T create(String id, T obj) {
 		return baseRepository.store(id, obj);
 	}
+	
+	protected T create(String additionalCollectionUri, String id, T obj) throws IOException, XMLDBException {
+		return baseRepository.store(additionalCollectionUri, id, obj);
+	}
+	
+	protected T create(String id, String serializedObj) {
+		return baseRepository.store(id, serializedObj);
+	}
+
 	
 	public T delete(String id) {
 		return baseRepository.remove(id);

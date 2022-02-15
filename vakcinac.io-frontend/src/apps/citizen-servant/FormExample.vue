@@ -1,6 +1,5 @@
 <template>
-  <div data-app>
-    <img class="logo" alt="" src="./assets/logo.png" />
+  <div>
     <Form
       :data="data"
       :schema="schema"
@@ -12,7 +11,7 @@
 
 <script>
 import { defineComponent } from "@vue/composition-api";
-import Form from "./components/Form.vue";
+import Form from "../../components/Form.vue";
 
 const schema = {
   properties: {
@@ -122,7 +121,4 @@ export default defineComponent({
 </script>
 
 <style>
-.logo {
-  flex: 0 1 auto;
-}
 </style>

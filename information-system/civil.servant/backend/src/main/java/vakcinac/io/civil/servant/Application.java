@@ -34,6 +34,9 @@ public class Application implements CommandLineRunner {
 			Constants.ROOT_PACKAGE = rootPackage;
 			Constants.ROOT_RESOURCE = rootResource;
 
+			System.out.println(Constants.ROOT_PACKAGE);
+			System.out.println(Constants.ROOT_RESOURCE);
+
 			//initialize database driver
 			ExistAuthenticationUtils.ExistConnectionProperties conn = ExistAuthenticationUtils.loadProperties();
 			Class<?> cl = Class.forName(conn.driver);

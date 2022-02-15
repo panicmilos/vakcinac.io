@@ -1,18 +1,21 @@
 package vakcinac.io.citizen.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.RequestScope;
 
 import vakcinac.io.citizen.models.sgradj.StraniGradjanin;
 import vakcinac.io.citizen.repository.StraniGradjaninRepository;
+import vakcinac.io.citizen.repository.jena.CitizenJenaRepository;
 import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.services.BaseService;
 
 @Service
+@RequestScope
 public class StraniGradjaninService extends BaseService<StraniGradjanin> {
 	
-	public StraniGradjaninService(StraniGradjaninRepository straniGradjaninRepository) {
-		super(straniGradjaninRepository);
+	public StraniGradjaninService(StraniGradjaninRepository straniGradjaninRepository, CitizenJenaRepository jenaRepository) {
+		super(straniGradjaninRepository, jenaRepository);
 	}
 	
 	public StraniGradjanin create(StraniGradjanin straniGradjanin) {
