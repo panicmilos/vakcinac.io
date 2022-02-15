@@ -6,6 +6,7 @@ import org.xmldb.api.base.XMLDBException;
 import vakcinac.io.civil.servant.models.sag.AzurirajSaglasnost;
 import vakcinac.io.civil.servant.models.sag.SaglasnostZaSprovodjenjePreporuceneImunizacije;
 import vakcinac.io.civil.servant.models.sag.Tlekar;
+import vakcinac.io.civil.servant.models.zah.ZahtevZaIzdavanjeZelenogSertifikata;
 import vakcinac.io.civil.servant.models.zrad.ZdravstveniRadnik;
 import vakcinac.io.civil.servant.repository.SaglasnostRepository;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
@@ -55,9 +56,14 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
         fillOutPacijent(saglasnost, gradjanin);
         fillOutRdf(gradjaninId, saglasnost);
 
+        JaxBParser parser = JaxBParserFactory.newInstanceFor(SaglasnostZaSprovodjenjePreporuceneImunizacije.class);
+        String serializedObj = parser.marshall(saglasnost);
+
         String id = String.format("%s_%d", gradjaninId, baseRepository.count(gradjaninId) + 1);
 
-        return create(id, saglasnost);
+        jenaRepository.insert(serializedObj, "/saglasnosti");
+
+        return create(id, serializedObj);
     }
 
     private void fillOutRdf(String gradjaninId, SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost) throws XMLDBException, IOException {
