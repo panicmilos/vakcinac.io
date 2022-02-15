@@ -43,6 +43,14 @@ public class AuthenticationService {
 
         return new AuthenticatedZaposleniResponse(korisnickoIme, jwt);
     }
+    
+    public String getCurrentWorkerId() {
+    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	String korisnickoIme = authentication.getName();
+    	
+    	Tzaposleni zaposleni = zaposleniService.findByKorisnickoIme(korisnickoIme);
+    	return zaposleni.getJmbg();
+    }
 
     private String generateJwt(String korisnickoIme, String lozinka, String zaposleniId) {
     	Authentication authentication = getAuthentication(korisnickoIme, lozinka);
