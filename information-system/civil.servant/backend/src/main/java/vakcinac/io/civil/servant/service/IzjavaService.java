@@ -1,16 +1,26 @@
 package vakcinac.io.civil.servant.service;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 import org.xmldb.api.base.XMLDBException;
 
 import vakcinac.io.civil.servant.models.izj.IzjavaInteresovanjaZaVakcinisanje;
+import vakcinac.io.civil.servant.models.sag.SaglasnostZaSprovodjenjePreporuceneImunizacije;
 import vakcinac.io.civil.servant.repository.IzjavaRepository;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
+import vakcinac.io.core.Constants;
+import vakcinac.io.core.factories.TlinkFactory;
+import vakcinac.io.core.factories.TmetaFactory;
 import vakcinac.io.core.models.os.Tgradjanin;
 import vakcinac.io.core.services.BaseService;
+import vakcinac.io.core.utils.LocalDateUtils;
+import vakcinac.io.core.utils.parsers.JaxBParser;
+import vakcinac.io.core.utils.parsers.JaxBParserFactory;
+
+import javax.xml.namespace.QName;
 
 @Service
 @RequestScope
@@ -33,8 +43,34 @@ public class IzjavaService extends BaseService<IzjavaInteresovanjaZaVakcinisanje
 		fillRestOfIzjava(izjava, gradjanin);
 		
 		String id = String.format("%s_%d", jmbg, baseRepository.count(jmbg) + 1);
-		
-		return create(id, izjava);
+		fillOutRdf(jmbg, izjava);
+
+		JaxBParser parser = JaxBParserFactory.newInstanceFor(IzjavaInteresovanjaZaVakcinisanje.class);
+		String serializedObj = parser.marshall(izjava);
+		jenaRepository.insert(serializedObj, "/izjava");
+
+		return create(id, serializedObj);
+	}
+
+	private void fillOutRdf(String gradjaninId, IzjavaInteresovanjaZaVakcinisanje izjava) throws XMLDBException, IOException {
+
+		String id =  String.format("%s/%d", gradjaninId, baseRepository.count(gradjaninId) + 1);
+
+		izjava.setAbout(String.format("%s/izjava/%s", Constants.ROOT_URL, id));
+		izjava.setTypeof("rdfos:IzjavaInteresovanjaZaVakcinisanjeDokument");
+		izjava.setDan(LocalDate.now());
+
+		izjava.getLink().add(TlinkFactory.create("rdfsi:za", String.format("%s/gradjani", Constants.ROOT_URL, gradjaninId), "rdfos:Gradjanin"));
+
+		for (int proizvodjac : izjava.getInformacijeOPrimanjuVakcine().getProizvodjaci().getProizvodjac()) {
+			izjava.getLink().add(TlinkFactory.create("rdfiizv:zeljeneVakcine", String.format("%s/vakcine/%d", Constants.ROOT_URL, proizvodjac), "rdfos:Vakcina"));
+		}
+
+		izjava.getMeta().add(TmetaFactory.create("rdfiizv:uOpstini", "xsd:date", izjava.getInformacijeOPrimanjuVakcine().getOpstina()));
+
+		izjava.getOtherAttributes().put(QName.valueOf("xmlns:xsd"), "http://www.w3.org/2001/XMLSchema#");
+		izjava.getOtherAttributes().put(QName.valueOf("xmlns:rdfos"), "https://www.vakcinac-io.rs/rdfs/deljeno/");
+		izjava.getOtherAttributes().put(QName.valueOf("xmlns:rdfiizv"), "https://www.vakcinac-io.rs/rdfs/interesovanje/");
 	}
 	
 	private void fillRestOfIzjava(IzjavaInteresovanjaZaVakcinisanje izjava, Tgradjanin gradjanin) {

@@ -35,6 +35,8 @@ public class IzjavaInteresovanjaZaVakcinisanjeFactory {
 		IzjavaInteresovanjaZaVakcinisanje.InformacijeOPrimanjuVakcine informacijeOVakcinisanju = new IzjavaInteresovanjaZaVakcinisanje.InformacijeOPrimanjuVakcine();
 		informacijeOVakcinisanju.setOpstina(createIzjavaRequest.getOpstina());
 		informacijeOVakcinisanju.setProizvodjaci(proizvodjaci);
+
+		izjava.setInformacijeOPrimanjuVakcine(informacijeOVakcinisanju);
 		
 		return izjava;
 	}
