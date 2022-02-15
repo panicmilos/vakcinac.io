@@ -72,7 +72,6 @@ public class SaglasnostZaSprovodjenjePreporuceneImunizacijeFactory {
         saglasnost.getPacijent().setKontakt(new Tkontakt());
         saglasnost.getPacijent().getKontakt().setBrojMobilnogTelefona(request.getBrojMobilnog());
         saglasnost.getPacijent().getKontakt().setBrojFiksnogTelefona(request.getBrojFiknsog());
-        saglasnost.setDatumIzdavanja(LocalDate.now());
 
         return saglasnost;
     }
