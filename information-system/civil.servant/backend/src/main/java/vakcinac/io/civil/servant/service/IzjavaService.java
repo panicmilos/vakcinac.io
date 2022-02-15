@@ -65,7 +65,7 @@ public class IzjavaService extends BaseService<IzjavaInteresovanjaZaVakcinisanje
 			izjava.getLink().add(TlinkFactory.create("rdfiizv:zeljeneVakcine", String.format("%s/vakcine/%d", Constants.ROOT_URL, proizvodjac), "rdfos:Vakcina"));
 		}
 
-		izjava.getMeta().add(TmetaFactory.create("rdfiizv:uOpstini", "xsd:date", izjava.getInformacijeOPrimanjuVakcine().getOpstina()));
+		izjava.getMeta().add(TmetaFactory.create("rdfiizv:uOpstini", "xsd:string", izjava.getInformacijeOPrimanjuVakcine().getOpstina()));
 
 		izjava.getOtherAttributes().put(QName.valueOf("xmlns:xsd"), "http://www.w3.org/2001/XMLSchema#");
 		izjava.getOtherAttributes().put(QName.valueOf("xmlns:rdfos"), "https://www.vakcinac-io.rs/rdfs/deljeno/");
