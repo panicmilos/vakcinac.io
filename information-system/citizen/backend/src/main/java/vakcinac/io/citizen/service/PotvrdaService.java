@@ -2,8 +2,10 @@ package vakcinac.io.citizen.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.RequestScope;
 import org.xmldb.api.base.XMLDBException;
 import vakcinac.io.citizen.models.pot.PotvrdaOIzvrsenojVakcinaciji;
+import vakcinac.io.core.Constants;
 import vakcinac.io.core.models.os.Tgradjanin;
 import vakcinac.io.core.repository.ExistRepository;
 import vakcinac.io.core.repository.jena.JenaRepository;
@@ -17,6 +19,7 @@ import java.time.LocalDate;
 import java.util.Random;
 
 @Service
+@RequestScope
 public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
 
     @Autowired
@@ -31,7 +34,7 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
 
         String id = getValidPotvrdaId();
 
-        potvrda.setQrKod(String.format("https://www.vakcinac-io.rs/potvrda/%s", id));
+        potvrda.setQrKod(String.format("%s/potvrda/%s", Constants.ROOT_URL, id));
 
         Tgradjanin gradjanin = gradjaninService.findById(potvrda.getPodaciOVakcinisanom().getJmbg());
 

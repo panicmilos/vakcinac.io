@@ -225,7 +225,7 @@
             </fo:table-cell>
             <fo:table-cell padding-left="5px">
               <fo:block>
-                <xsl:value-of select="os:ime"/>&#160;<xsl:value-of select="os:prezime"/>
+                <xsl:value-of select="x:ime"/>&#160;<xsl:value-of select="x:prezime"/>
               </fo:block>
             </fo:table-cell>
           </fo:table-row>
@@ -238,7 +238,7 @@
             <fo:table-cell padding-left="5px">
               <fo:block>
                 <xsl:choose>
-                  <xsl:when test="os:pol = 0">
+                  <xsl:when test="x:pol = 0">
                     Женско/Female
                   </xsl:when>
                   <xsl:otherwise>
@@ -268,7 +268,14 @@
             </fo:table-cell>
             <fo:table-cell padding-left="5px">
               <fo:block>
-                <xsl:value-of select="os:jmbg"/>
+                <xsl:choose>
+                  <xsl:when test="x:jmbg != ''">
+                      <xsl:value-of select="x:jmbg"/>
+                  </xsl:when>
+                  <xsl:when test="x:ebs != ''">
+                      <xsl:value-of select="x:ebs"/>
+                  </xsl:when>
+                </xsl:choose>
               </fo:block>
             </fo:table-cell>
           </fo:table-row>
@@ -280,7 +287,9 @@
             </fo:table-cell>
             <fo:table-cell padding-left="5px">
               <fo:block>
-                <xsl:value-of select="x:br-pasosa"/>
+                <xsl:if test="x:br-pasosa != ''">
+                  <xsl:value-of select="x:br-pasosa"/>
+                </xsl:if>
               </fo:block>
             </fo:table-cell>
           </fo:table-row>

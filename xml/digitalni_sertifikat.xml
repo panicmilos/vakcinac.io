@@ -26,12 +26,13 @@
 
     <validacija>https://www.vakcinac-io.rs/digitalni-sertifikat/1321412/21</validacija>
     <nosilac-sertifikata>
-        <os:ime>Mirko</os:ime>
-        <os:prezime>Mirkovic</os:prezime>
-        <os:jmbg>1111111111111</os:jmbg>
+        <ime>Mirko</ime>
+        <prezime>Mirkovic</prezime>
         <pol>0</pol>
-        <br-pasosa>111111111</br-pasosa>
         <datum-rodjenja>11.02.1999.</datum-rodjenja>
+        <jmbg>1111111111111</jmbg>
+        <ebs xsi:nil="true"></ebs>
+        <br-pasosa xsi:nil="true"></br-pasosa>
     </nosilac-sertifikata>
 
     <vakcinacije broj-doza="2">
