@@ -620,6 +620,7 @@ public class PotvrdaOIzvrsenojVakcinaciji {
              * 
              * 
              */
+            @XmlRootElement(name = "primljena-doza")
             @XmlAccessorType(XmlAccessType.FIELD)
             @XmlType(name = "", propOrder = {
                 "datum",
