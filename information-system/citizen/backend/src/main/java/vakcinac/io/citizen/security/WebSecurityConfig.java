@@ -46,6 +46,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/authentication").permitAll()
                 .antMatchers("/gradjani/*").permitAll()
                 .antMatchers("/saglasnosti").permitAll()
+                .antMatchers("/potvrde").permitAll()
+                .antMatchers("/potvrde/dodaj-dozu").permitAll()
                 .antMatchers("/zahtevi").permitAll()
                 .antMatchers("/sertifikati").permitAll()
                 .anyRequest().authenticated()

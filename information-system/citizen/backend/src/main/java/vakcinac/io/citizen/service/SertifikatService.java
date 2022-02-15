@@ -92,7 +92,7 @@ public class SertifikatService extends BaseService<DigitalniSertifikat> {
 		
 		String zahtev = getRelatedZahtev(za);
         if(zahtev == null || zahtev.trim().isEmpty()) {
-            throw new MissingEntityException(String.format("Ne postoji interesovanje za građanina %s", za));
+            throw new MissingEntityException(String.format("Ne postoji zahtev za digitalni sertifikat za građanina %s", za));
         }	
 		sertifikat.getLink().add(TlinkFactory.create("rdfds:naOsnovuZahteva", zahtev, "rdfos:ZahtevZaDigitalniSertifikatDokument"));
 		
@@ -129,12 +129,12 @@ public class SertifikatService extends BaseService<DigitalniSertifikat> {
 		}
 	}
 	
-	private String getRelatedZahtev(String za) {
-		return jenaRepository.readLatestSubject("/zahtevi", String.format("<$s/rdfs/zahtev/za>", Constants.ROOT_URL), String.format("<%s>", za));
+	private String getRelatedZahtev(String za) {	
+		return jenaRepository.readLatestSubject("/zahtevi", String.format("<%s/rdfs/zahtev/za>", Constants.ROOT_URL), String.format("<%s>", za));
 	}
 	
 	private String getRelatedPotvrda(String za) {
-		return jenaRepository.readLatestSubject("/potvrde", String.format("<$s/rdfs/potvrda/za>", Constants.ROOT_URL), String.format("<%s>", za));
+		return jenaRepository.readLatestSubject("/potvrde", String.format("<%s/rdfs/potvrda/za>", Constants.ROOT_URL), String.format("<%s>", za));
 	}
 	
 	private void fillOutNosilacSertifikata(DigitalniSertifikat sertifikat, String gradjaninId) {
