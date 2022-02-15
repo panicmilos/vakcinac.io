@@ -27,7 +27,7 @@
   </rdf:Property>
 
   <rdf:Property rdf:ID="izdao">
-    <rdfs:domain rdf:resource="os:DigitalniSertifikatDokument"></rdfs:domain>
+    <rdfs:domain rdf:resource="os:DigitalniSertifikaDokument"></rdfs:domain>
     <rdfs:range rdf:resource="os:Sluzbenik"></rdfs:range>
   </rdf:Property>
 
