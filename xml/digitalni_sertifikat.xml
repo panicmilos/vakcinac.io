@@ -18,7 +18,6 @@
 
     <link rel="rdfds:naOsnovuZahteva" href="https://www.vakcinac-io.rs/zahtev/1111111111111/1" typeof="rdfos:ZahtevZaDigitalniSertifikatDokument" />
     <link rel="rdfds:saPotvrdom" href="https://www.vakcinac-io.rs/potvrda/123451-512534" typeof="rdfos:PotvrdaOVakcinisanjuDokument" />
-    <link rel="rdfds:saPotvrdom" href="https://www.vakcinac-io.rs/potvrda/123451-512532" typeof="rdfos:PotvrdaOVakcinisanjuDokument" />
     <link rel="rdfds:za" href="https://www.vakcinac-io.rs/gradjani/1111111111111" typeof="rdfos:Gradjanin" />
     <link rel="rdfds:izdao" href="https://www.vakcinac-io.rs/sluzbenici/2222222222221" typeof="rdfos:Sluzbenik" />
 

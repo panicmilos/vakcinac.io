@@ -60,8 +60,7 @@ public class IzjavaService extends BaseService<IzjavaInteresovanjaZaVakcinisanje
 		izjava.setTypeof("rdfos:IzjavaInteresovanjaZaVakcinisanjeDokument");
 		izjava.setDan(LocalDate.now());
 
-		izjava.getLink().add(TlinkFactory.create("rdfsi:za", String.format("%s/gradjani", Constants.ROOT_URL, gradjaninId), "rdfos:Gradjanin"));
-
+		izjava.getLink().add(TlinkFactory.create("rdfiizv:za", String.format("%s/gradjani/%s", Constants.ROOT_URL, gradjaninId), "rdfos:Gradjanin"));
 		for (int proizvodjac : izjava.getInformacijeOPrimanjuVakcine().getProizvodjaci().getProizvodjac()) {
 			izjava.getLink().add(TlinkFactory.create("rdfiizv:zeljeneVakcine", String.format("%s/vakcine/%d", Constants.ROOT_URL, proizvodjac), "rdfos:Vakcina"));
 		}
