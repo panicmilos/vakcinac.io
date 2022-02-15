@@ -4,6 +4,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
+import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
 import org.apache.jena.update.UpdateExecutionFactory;
 import org.apache.jena.update.UpdateFactory;
@@ -48,6 +49,17 @@ public class JenaRepository implements Closeable {
 		ResultSet resultSet = query.execSelect();
 		
 		return new CloseableResultSet(resultSet, query);
+	}
+
+	public String readLatestSubject(String graph, String p, String o) {
+		try(CloseableResultSet set = read(graph, String.format("?s %s %s", p, o))) {
+			String subject = "";
+			while (set.hasNext()){
+				QuerySolution querySolution = set.next();
+				subject = querySolution.get("s").toString();
+			}
+			return subject;
+		}
 	}
 	
 	public void dropGraph(String graphUri) {

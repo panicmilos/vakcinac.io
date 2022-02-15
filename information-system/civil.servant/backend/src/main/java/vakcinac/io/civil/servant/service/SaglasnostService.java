@@ -17,6 +17,7 @@ import vakcinac.io.civil.servant.models.zrad.ZdravstveniRadnik;
 import vakcinac.io.civil.servant.repository.SaglasnostRepository;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
 import vakcinac.io.core.Constants;
+import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.factories.TlinkFactory;
 import vakcinac.io.core.factories.TmetaFactory;
 import vakcinac.io.core.models.os.Tgradjanin;
@@ -76,8 +77,15 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
 
         saglasnost.setDatumIzdavanja(LocalDate.now());
 
-        saglasnost.getLink().add(TlinkFactory.create("rdfsi:naOsnovuInteresovanja", String.format("%s/interesovanje/%s/%d", Constants.ROOT_URL, gradjaninId, 1), "rdfos:IzjavaInteresovanjaZaVakcinisanjeDokument"));
-        saglasnost.getLink().add(TlinkFactory.create("rdfsi:za", String.format("%s/gradjani", Constants.ROOT_URL, gradjaninId), "rdfos:Gradjanin"));
+        String za = String.format("%s/gradjani/%s", Constants.ROOT_URL, gradjaninId);
+
+        String interesovanje = getRelatedInteresovanje(za);
+        if(interesovanje == null || interesovanje.trim().isEmpty()) {
+            throw new MissingEntityException(String.format("No interesovanje for gradjanin %s", za));
+        }
+
+        saglasnost.getLink().add(TlinkFactory.create("rdfsi:naOsnovuInteresovanja", interesovanje, "rdfos:IzjavaInteresovanjaZaVakcinisanjeDokument"));
+        saglasnost.getLink().add(TlinkFactory.create("rdfsi:za", za, "rdfos:Gradjanin"));
         saglasnost.getLink().add(TlinkFactory.create("rdfsi:vakcinisanOd", "", "rdfos:ZdravstveniRadnik"));
 
         saglasnost.getMeta().add(TmetaFactory.create("rdfos:izdat", "xsd:date", LocalDateUtils.toXMLDateString(LocalDate.now())));
@@ -86,6 +94,10 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
         saglasnost.getOtherAttributes().put(QName.valueOf("xmlns:xsd"), "http://www.w3.org/2001/XMLSchema#");
         saglasnost.getOtherAttributes().put(QName.valueOf("xmlns:rdfos"), "https://www.vakcinac-io.rs/rdfs/deljeno/");
         saglasnost.getOtherAttributes().put(QName.valueOf("xmlns:rdfsi"), "https://www.vakcinac-io.rs/rdfs/saglasnost/");
+    }
+
+    private String getRelatedInteresovanje(String za) {
+        return jenaRepository.readLatestSubject("/izjava", "<https://www.vakcinac-io.rs/rdfs/interesovanje/za>", String.format("<%s>", za));
     }
 
     public SaglasnostZaSprovodjenjePreporuceneImunizacije update(AzurirajSaglasnost noviPodaci) throws Exception {
