@@ -1,6 +1,11 @@
 package vakcinac.io.core.utils;
 
 public class SparqlUtils {
+	
+	private static final String DELETE_DATA = "WITH <%s> " +
+			"DELETE { <%s> ?property ?value } " +
+			"WHERE { <%s> ?property ?value } ";
+	
 	/* The following operation causes all of the triples in all of the graphs to be deleted */
 	private static final String DROP_ALL = "DROP ALL";
 	
@@ -27,6 +32,11 @@ public class SparqlUtils {
 
 	/* An XML serialization format for RDF data */
 	public static final String RDF_XML = "RDF/XML";
+	
+	public static String deleteData(String graphURI, String about) {
+		System.out.println(String.format(DELETE_DATA, graphURI, about, about));
+		return String.format(DELETE_DATA, graphURI, about, about);
+	}
 	
 	public static String dropAll() {
 		return DROP_ALL;
