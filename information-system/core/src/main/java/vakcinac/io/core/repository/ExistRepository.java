@@ -57,6 +57,24 @@ public abstract class ExistRepository<T> implements Closeable {
 		}
 	}
 	
+	public T store(String additionalCollectionUri, String id, T obj) throws IOException, XMLDBException {
+		try (CloseableCollection collection = new CloseableCollection(String.format("%s/%s", collectionUri, additionalCollectionUri))) {
+			try (CloseableResource resource = new CloseableResource(collection.createResource(id + ".xml", XMLResource.RESOURCE_TYPE))) {
+	
+				JaxBParser parser = JaxBParserFactory.newInstanceFor(forClass);
+				String serializedObj = parser.marshall(obj);
+	
+				resource.setContent(serializedObj);
+				collection.storeResource(resource.getRealResource());
+				
+				return obj;
+			} catch (XMLDBException e) {
+				e.printStackTrace();
+				return null;
+			}
+		}
+	}
+	
 	public T store(String id, String serializedObj) {
 		try (CloseableResource resource = new CloseableResource(collection.createResource(id + ".xml", XMLResource.RESOURCE_TYPE))) {
 
@@ -107,6 +125,16 @@ public abstract class ExistRepository<T> implements Closeable {
 		}
 	}
 	
+	public int count(String additionalCollectionUri, String id) throws XMLDBException, IOException {
+		ResourceIterator iterator = retrieveUsingXQuery(Constants.ROOT_RESOURCE + "/data/xquery/count.xqy", String.format("%s/%s", collectionUri, additionalCollectionUri), id);
+		
+		try (CloseableResource resource = new CloseableResource(iterator.nextResource())) {
+			String content = resource.getContent().toString();
+
+			return Integer.parseInt(content);
+		}
+	}
+	
 	public ResourceIterator retrieveUsingXQuery(String xQueryExpression) throws XMLDBException {
 		return executeRetrieveUsingXQuery(xQueryExpression);
 	}
@@ -122,7 +150,7 @@ public abstract class ExistRepository<T> implements Closeable {
 		String notFormattedXQuery = new String(encoded, StandardCharsets.UTF_8);
 		
 		String formattedXQuery = String.format(notFormattedXQuery, args);
-
+		
 		return executeRetrieveUsingXQuery(formattedXQuery);
 	}
 	

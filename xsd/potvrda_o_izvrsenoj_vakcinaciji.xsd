@@ -74,7 +74,8 @@
       </xsd:attribute>
 
       <xsd:attributeGroup ref="os:rdfMainDocument"></xsd:attributeGroup>
-
+      <xsd:anyAttribute />
+      
     </xsd:complexType>
 
   </xsd:element>
