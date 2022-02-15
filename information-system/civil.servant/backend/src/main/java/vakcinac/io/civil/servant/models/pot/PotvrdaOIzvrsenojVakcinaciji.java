@@ -1,4 +1,4 @@
-package vakcinac.io.core.requests;
+package vakcinac.io.civil.servant.models.pot;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "create-potvrda-request")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CreatePotvrdaRequest {
+public class PotvrdaOIzvrsenojVakcinaciji {
 
     @XmlElement(name = "jmbg")
     private String jmbgOsobe;
@@ -42,3 +42,4 @@ public class CreatePotvrdaRequest {
         this.nazivVakcine = nazivVakcine;
     }
 }
+
