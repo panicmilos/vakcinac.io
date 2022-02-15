@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-@XmlRootElement(name = "domaci-gradjanin")
+@XmlRootElement(name = "strani-gradjanin")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CreateStraniGradjaninRequest {
 
@@ -57,6 +57,9 @@ public class CreateStraniGradjaninRequest {
 
     @XmlElement(name = "drzava")
 	private String drzava;
+    
+    @XmlElement(name = "boravak-u-rs")
+	private boolean boravakURs;
 
 	public CreateStraniGradjaninRequest() {}
 
@@ -186,5 +189,13 @@ public class CreateStraniGradjaninRequest {
 
 	public void setDrzava(String drzava) {
 		this.drzava = drzava;
+	}
+
+	public boolean isBoravakURs() {
+		return boravakURs;
+	}
+
+	public void setBoravakURs(boolean boravakURs) {
+		this.boravakURs = boravakURs;
 	}
 }
