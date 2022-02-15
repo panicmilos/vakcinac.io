@@ -4,14 +4,15 @@ import org.springframework.stereotype.Service;
 
 import vakcinac.io.civil.servant.models.zrad.ZdravstveniRadnik;
 import vakcinac.io.civil.servant.repository.ZdravstveniRadnikRepository;
+import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
 import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.services.BaseService;
 
 @Service
 public class ZdravstveniRadnikService extends BaseService<ZdravstveniRadnik> {
 	
-	public ZdravstveniRadnikService(ZdravstveniRadnikRepository zdravstveniRadnikRepository) {
-		super(zdravstveniRadnikRepository);
+	public ZdravstveniRadnikService(ZdravstveniRadnikRepository zdravstveniRadnikRepository, CivilServantJenaRepository jenaRepository) {
+		super(zdravstveniRadnikRepository, jenaRepository);
 	}
 	
 	public ZdravstveniRadnik create(ZdravstveniRadnik zdravstveniRadnik) {

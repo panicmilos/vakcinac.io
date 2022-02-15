@@ -11,12 +11,16 @@ package vakcinac.io.civil.servant.models.red;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import vakcinac.io.core.annotations.RegisterExistEntity;
+import vakcinac.io.core.annotations.RegisterXmlScheme;
 import vakcinac.io.core.utils.adapters.LocalDateAdapter;
 
 
@@ -69,6 +73,14 @@ import vakcinac.io.core.utils.adapters.LocalDateAdapter;
     "gradjaninURedu"
 })
 @XmlRootElement(name = "red-cekanja")
+@RegisterXmlScheme(
+	schemePath="/data/schemes/red_cekanja.xsd",
+	targetNamespace="https://www.vakcinac-io.rs/red-cekanja",
+	shortNamespace="red"
+)
+@RegisterExistEntity(
+	collectionUri="db/termini"
+)
 public class RedCekanja {
 
     @XmlElement(name = "gradjanin-u-redu")
@@ -145,6 +157,7 @@ public class RedCekanja {
         "jmbg",
         "brojPasosaEbs"
     })
+    @XmlRootElement(name = "gradjanin-u-redu")
     public static class GradjaninURedu {
 
         @XmlElement(name = "minimalno-vreme", required = true, type = String.class)
