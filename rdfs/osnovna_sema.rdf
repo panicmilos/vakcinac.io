@@ -7,7 +7,7 @@
 
   <!-- Klase dokumenata -->
 
-  <rdfs:Class rdf:ID="DigitalniSertifikaDokument"></rdfs:Class>
+  <rdfs:Class rdf:ID="DigitalniSertifikatDokument"></rdfs:Class>
   
   <rdfs:Class rdf:ID="ZahtevZaDigitalniSertifikatDokument"></rdfs:Class>
 

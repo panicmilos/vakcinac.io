@@ -11,12 +11,12 @@ import vakcinac.io.core.repository.ExistRepository;
 import vakcinac.io.core.repository.jena.JenaRepository;
 import vakcinac.io.core.services.BaseService;
 import vakcinac.io.core.utils.LocalDateUtils;
+import vakcinac.io.core.utils.RandomUtils;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 
 import java.math.BigInteger;
 import java.time.LocalDate;
-import java.util.Random;
 
 @Service
 @RequestScope
@@ -80,18 +80,6 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
     }
 
     private String generatePotvrdaId() {
-        return String.format("%s-%s", generateRandomNumericString(6), generateRandomNumericString(6));
-    }
-
-    private String generateRandomNumericString(int length) {
-            String SALTCHARS = "01234567890";
-            StringBuilder salt = new StringBuilder();
-            Random rnd = new Random();
-            while (salt.length() < length) {
-                int index = (int) (rnd.nextFloat() * SALTCHARS.length());
-                salt.append(SALTCHARS.charAt(index));
-            }
-            String saltStr = salt.toString();
-            return saltStr;
+        return String.format("%s-%s", RandomUtils.generateRandomNumericString(6), RandomUtils.generateRandomNumericString(6));
     }
 }
