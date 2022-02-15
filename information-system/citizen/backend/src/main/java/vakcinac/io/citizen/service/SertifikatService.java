@@ -2,6 +2,9 @@ package vakcinac.io.citizen.service;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.time.LocalDate;
+
+import javax.xml.namespace.QName;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,9 +24,11 @@ import vakcinac.io.core.Constants;
 import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.factories.TlinkFactory;
+import vakcinac.io.core.factories.TmetaFactory;
 import vakcinac.io.core.models.os.Tgradjanin;
 import vakcinac.io.core.services.BaseService;
 import vakcinac.io.core.utils.DateUtils;
+import vakcinac.io.core.utils.LocalDateUtils;
 import vakcinac.io.core.utils.RandomUtils;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
@@ -109,6 +114,12 @@ public class SertifikatService extends BaseService<DigitalniSertifikat> {
 		sertifikat.getLink().add(TlinkFactory.create("rdfds:saPotvrdom", potvrda, "rdfos:PotvrdaOVakcinisanjuDokument"));
 		
 		fillOutVakcine(sertifikat, potvrda);
+		
+		sertifikat.getMeta().add(TmetaFactory.create("rdfos:izdat", "xsd:date", LocalDateUtils.toXMLDateString(LocalDate.now())));
+		
+		sertifikat.getOtherAttributes().put(QName.valueOf("xmlns:xsd"), "http://www.w3.org/2001/XMLSchema#");
+		sertifikat.getOtherAttributes().put(QName.valueOf("xmlns:rdfos"), "https://www.vakcinac-io.rs/rdfs/deljeno/");
+		sertifikat.getOtherAttributes().put(QName.valueOf("xmlns:rdfds"), "https://www.vakcinac-io.rs/rdfs/digitalni-sertifikat/");
 	}
 	
 	private void fillOutVakcine(DigitalniSertifikat sertifikat, String potvrda) {
