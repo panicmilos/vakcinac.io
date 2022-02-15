@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.RequestScope;
 
 import vakcinac.io.civil.servant.models.sluz.Sluzbenik;
 import vakcinac.io.civil.servant.models.zrad.ZdravstveniRadnik;
@@ -18,6 +19,7 @@ import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.models.os.Tzaposleni;
 
 @Service
+@RequestScope
 public class ZaposleniService implements UserDetailsService {
 	
 	private SluzbenikService sluzbenikService;

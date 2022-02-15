@@ -22,7 +22,7 @@ public class AuthenticationController {
         this.authenticationService = authenticationService;
     }
 	
-	@PostMapping("/authenticate")
+	@PostMapping
     public ResponseEntity<AuthenticatedGradjaninResponse> authenticate(@RequestBody AuthenticateRequest authenticateRequest) {
         AuthenticatedGradjaninResponse authenticatedGradjanin = authenticationService.authenticate(authenticateRequest.getKorisnickoIme(),
                 authenticateRequest.getLozinka());

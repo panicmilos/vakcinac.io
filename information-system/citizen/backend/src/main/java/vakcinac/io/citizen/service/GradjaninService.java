@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.RequestScope;
 
 import vakcinac.io.citizen.models.dgradj.DomaciGradjanin;
 import vakcinac.io.citizen.models.sgradj.StraniGradjanin;
@@ -18,6 +19,7 @@ import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.models.os.Tgradjanin;
 
 @Service
+@RequestScope
 public class GradjaninService implements UserDetailsService {
 	
 	private DomaciGradjaninService domaciGradjaninService;

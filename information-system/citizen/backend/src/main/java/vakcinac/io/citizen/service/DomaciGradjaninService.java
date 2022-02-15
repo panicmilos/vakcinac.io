@@ -1,6 +1,7 @@
 package vakcinac.io.citizen.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.RequestScope;
 
 import vakcinac.io.citizen.models.dgradj.DomaciGradjanin;
 import vakcinac.io.citizen.repository.DomaciGradjaninRepository;
@@ -9,6 +10,7 @@ import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.services.BaseService;
 
 @Service
+@RequestScope
 public class DomaciGradjaninService extends BaseService<DomaciGradjanin> {
 	
 	public DomaciGradjaninService(DomaciGradjaninRepository domaciGradjaninRepository, CitizenJenaRepository jenaRepository) {
