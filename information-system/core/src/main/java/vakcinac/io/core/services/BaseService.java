@@ -1,5 +1,7 @@
 package vakcinac.io.core.services;
 
+import java.io.IOException;
+
 import org.xmldb.api.base.Resource;
 import org.xmldb.api.base.XMLDBException;
 
@@ -26,6 +28,10 @@ public abstract class BaseService<T> {
 	
 	protected T create(String id, T obj) {
 		return baseRepository.store(id, obj);
+	}
+	
+	protected T create(String additionalCollectionUri, String id, T obj) throws IOException, XMLDBException {
+		return baseRepository.store(additionalCollectionUri, id, obj);
 	}
 	
 	protected T create(String id, String serializedObj) {

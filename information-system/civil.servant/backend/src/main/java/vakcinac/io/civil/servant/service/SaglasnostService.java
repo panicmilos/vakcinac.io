@@ -1,21 +1,18 @@
 package vakcinac.io.civil.servant.service;
 
+import java.time.LocalDate;
+
 import org.springframework.stereotype.Service;
+
 import vakcinac.io.civil.servant.models.sag.AzurirajSaglasnost;
 import vakcinac.io.civil.servant.models.sag.SaglasnostZaSprovodjenjePreporuceneImunizacije;
-import vakcinac.io.civil.servant.models.sag.Tlekar;
 import vakcinac.io.civil.servant.models.zrad.ZdravstveniRadnik;
 import vakcinac.io.civil.servant.repository.SaglasnostRepository;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
 import vakcinac.io.core.models.os.Tgradjanin;
-import vakcinac.io.core.models.os.Tkontakt;
 import vakcinac.io.core.services.BaseService;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
-
-import javax.xml.bind.JAXB;
-import java.io.StringReader;
-import java.time.LocalDate;
 
 @Service
 public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePreporuceneImunizacije> {
