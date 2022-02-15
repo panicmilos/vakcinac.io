@@ -15,6 +15,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import vakcinac.io.core.annotations.RegisterExistEntity;
+import vakcinac.io.core.annotations.RegisterXmlScheme;
 import vakcinac.io.core.utils.adapters.LocalDateTimeAdapter;
 
 
@@ -52,6 +55,14 @@ import vakcinac.io.core.utils.adapters.LocalDateTimeAdapter;
     "realizovan"
 })
 @XmlRootElement(name = "termin")
+@RegisterXmlScheme(
+	schemePath="/data/schemes/termin.xsd",
+	targetNamespace="https://www.vakcinac-io.rs/termin",
+	shortNamespace="term"
+)
+@RegisterExistEntity(
+	collectionUri="db/termini"
+)
 public class Termin {
 
     @XmlElement(required = true, type = String.class)
