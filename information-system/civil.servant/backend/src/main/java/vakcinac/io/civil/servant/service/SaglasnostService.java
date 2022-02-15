@@ -6,6 +6,7 @@ import vakcinac.io.civil.servant.models.sag.SaglasnostZaSprovodjenjePreporuceneI
 import vakcinac.io.civil.servant.models.sag.Tlekar;
 import vakcinac.io.civil.servant.models.zrad.ZdravstveniRadnik;
 import vakcinac.io.civil.servant.repository.SaglasnostRepository;
+import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
 import vakcinac.io.core.models.os.Tgradjanin;
 import vakcinac.io.core.models.os.Tkontakt;
 import vakcinac.io.core.services.BaseService;
@@ -23,8 +24,8 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
 
     private ZaposleniService zaposleniService;
 
-    public SaglasnostService(GradjaninService gradjaninService, SaglasnostRepository saglasnostRepository, ZaposleniService zaposleniService) {
-        super(saglasnostRepository);
+    public SaglasnostService(GradjaninService gradjaninService, CivilServantJenaRepository jenaRepository, SaglasnostRepository saglasnostRepository, ZaposleniService zaposleniService) {
+        super(saglasnostRepository, jenaRepository);
 
         this.gradjaninService = gradjaninService;
         this.zaposleniService = zaposleniService;
