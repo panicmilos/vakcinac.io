@@ -71,7 +71,6 @@ public abstract class ExistRepository<T> implements Closeable {
 
 	public T retrieve(String id) {
 		try (CloseableResource resource = new CloseableResource(collection.getResource(id + ".xml"))) {
-
 			if (resource.getRealResource() == null) {
 				System.out.format("[ERROR] Document with id: %s can not be found!\n", id);
 				return null;
@@ -181,7 +180,6 @@ public abstract class ExistRepository<T> implements Closeable {
 		XUpdateQueryService xqueryService = collection.getXUpdateQueryService();
 		String nonFormattetUpdate = XUpdateTemplate.getUpdate(registry.getTargetNamespaceFor(forClass));
 		String formattedUpdate = String.format(nonFormattetUpdate, contextPath, obj.toString());
-		
 		xqueryService.updateResource(id + ".xml", formattedUpdate);
 	}
 	

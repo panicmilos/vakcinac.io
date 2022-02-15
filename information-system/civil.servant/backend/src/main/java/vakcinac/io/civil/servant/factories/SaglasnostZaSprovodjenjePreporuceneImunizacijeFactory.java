@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import vakcinac.io.civil.servant.models.sag.SaglasnostZaSprovodjenjePreporuceneImunizacije;
 import vakcinac.io.civil.servant.models.sag.Tlekar;
 import vakcinac.io.civil.servant.models.sag.TlicneInformacije;
+import vakcinac.io.core.models.os.Tkontakt;
 import vakcinac.io.core.requests.CreateSaglasnostRequest;
 
 import java.time.LocalDate;
@@ -68,6 +69,9 @@ public class SaglasnostZaSprovodjenjePreporuceneImunizacijeFactory {
 
         saglasnost.setPacijent(pacijent);
 
+        saglasnost.getPacijent().setKontakt(new Tkontakt());
+        saglasnost.getPacijent().getKontakt().setBrojMobilnogTelefona(request.getBrojMobilnog());
+        saglasnost.getPacijent().getKontakt().setBrojFiksnogTelefona(request.getBrojFiknsog());
         saglasnost.setDatumIzdavanja(LocalDate.now());
 
         return saglasnost;

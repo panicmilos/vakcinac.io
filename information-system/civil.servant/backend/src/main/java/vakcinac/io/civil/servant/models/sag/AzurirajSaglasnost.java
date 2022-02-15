@@ -1,4 +1,4 @@
-package vakcinac.io.core.requests;
+package vakcinac.io.civil.servant.models.sag;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "update-saglasnost-request")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class UpdateSaglasnostRequest {
+public class AzurirajSaglasnost {
 
     @XmlElement(name = "saglasnost-id")
     private String saglasnostId;
@@ -55,7 +55,7 @@ public class UpdateSaglasnostRequest {
 
     @Override
     public String toString() {
-        return "UpdateSaglasnostRequest{" +
+        return "AzurirajSaglasnost{" +
                 "saglasnostId='" + saglasnostId + '\'' +
                 ", jmbgLekara='" + jmbgLekara + '\'' +
                 ", dijagnoza='" + dijagnoza + '\'' +
