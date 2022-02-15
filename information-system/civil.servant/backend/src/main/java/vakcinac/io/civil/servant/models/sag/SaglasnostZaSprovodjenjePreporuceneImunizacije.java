@@ -517,6 +517,7 @@ public class SaglasnostZaSprovodjenjePreporuceneImunizacije {
         "lekar",
         "obrazac"
     })
+    @XmlRootElement(name = "evidencija-o-vakcinaciji")
     public static class EvidencijaOVakcinaciji {
 
         @XmlElement(name = "zdravstvena-ustanova", required = true)
