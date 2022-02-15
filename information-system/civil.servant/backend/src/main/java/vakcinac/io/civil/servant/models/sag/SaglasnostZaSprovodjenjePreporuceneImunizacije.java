@@ -11,16 +11,13 @@ package vakcinac.io.civil.servant.models.sag;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlSchemaType;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import javax.xml.namespace.QName;
 
 import vakcinac.io.core.annotations.RegisterExistEntity;
 import vakcinac.io.core.annotations.RegisterXmlScheme;
@@ -244,6 +241,13 @@ public class SaglasnostZaSprovodjenjePreporuceneImunizacije {
     @XmlAttribute(name = "typeof")
     @XmlSchemaType(name = "anySimpleType")
     protected String typeof;
+    @XmlAnyAttribute
+    private Map<QName, String> otherAttributes = new HashMap<QName, String>();
+
+
+    public Map<QName, String> getOtherAttributes() {
+        return otherAttributes;
+    }
 
     /**
      * Gets the value of the link property.
@@ -510,6 +514,7 @@ public class SaglasnostZaSprovodjenjePreporuceneImunizacije {
      * 
      * 
      */
+    @XmlRootElement(name = "evidencija-o-vakcinaciji")
     @XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
         "zdravstvenaUstanova",
@@ -517,7 +522,6 @@ public class SaglasnostZaSprovodjenjePreporuceneImunizacije {
         "lekar",
         "obrazac"
     })
-    @XmlRootElement(name = "evidencija-o-vakcinaciji")
     public static class EvidencijaOVakcinaciji {
 
         @XmlElement(name = "zdravstvena-ustanova", required = true)

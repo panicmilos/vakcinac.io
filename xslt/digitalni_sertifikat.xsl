@@ -172,7 +172,7 @@
                     <strong>Име и презиме / Name and surname:</strong>
                 </td>
                 <td>
-                    <xsl:value-of select="os:ime"/>&#160;<xsl:value-of select="os:prezime"/>
+                    <xsl:value-of select="x:ime"/>&#160;<xsl:value-of select="x:prezime"/>
                 </td>
             </tr>
             <tr>
@@ -181,7 +181,7 @@
                 </td>
                 <td>
                     <xsl:choose>
-                        <xsl:when test="os:pol = 0">
+                        <xsl:when test="x:pol = 0">
                             Женско/Female
                         </xsl:when>
                         <xsl:otherwise>
@@ -203,7 +203,14 @@
                     <strong>ЈМБГ / Personal No. / EBS:</strong>
                 </td>
                 <td>
-                    <xsl:value-of select="os:jmbg"/>
+                    <xsl:choose>
+                        <xsl:when test="x:jmbg != ''">
+                            <xsl:value-of select="x:jmbg"/>
+                        </xsl:when>
+                        <xsl:when test="x:ebs != ''">
+                            <xsl:value-of select="x:ebs"/>
+                        </xsl:when>
+                    </xsl:choose>
                 </td>
             </tr>
             <tr>
@@ -211,7 +218,9 @@
                     <strong>Број пасоша / Passport No.</strong>
                 </td>
                 <td>
-                    <xsl:value-of select="x:br-pasosa"/>
+                    <xsl:if test="x:br-pasosa != ''">
+                        <xsl:value-of select="x:br-pasosa"/>
+                    </xsl:if>
                 </td>
             </tr>
         </table>

@@ -56,13 +56,26 @@ public class StanjeVakcinaService extends BaseService<StanjeVakcina> {
 			
 			return stanjeVakcine;
 		} else {
-			StanjeVakcina stanjeVakcina = read("stanje-vakcina");
-			StanjeVakcina.StanjeVakcine stanjeVakcine = stanjeVakcina.getStanjeVakcine().stream().filter(stanje -> stanje.getVakcina().equals(vaccineId)).findFirst().get();
-			stanjeVakcine.setDostupno(stanjeVakcine.getDostupno().add(BigInteger.valueOf(amount)));
-			baseRepository.update("stanje-vakcina", String.format("//vakcina[text()='%s']/../*:dostupno", vaccineId), stanjeVakcine.getDostupno());
-			
-			return stanjeVakcine;
+			return changeStockFor(vaccineId, amount);
 		}
+	}
+	
+	public StanjeVakcina.StanjeVakcine incStockFor(String vaccineId) throws XMLDBException {
+		return changeStockFor(vaccineId, 1);
+	}
+	
+	public StanjeVakcina.StanjeVakcine decStockFor(String vaccineId) throws XMLDBException {
+		return changeStockFor(vaccineId, -1);
+	}
+	
+	public StanjeVakcina.StanjeVakcine changeStockFor(String vaccineId, int amount) throws XMLDBException {
+		StanjeVakcina stanjeVakcina = read("stanje-vakcina");
+		StanjeVakcina.StanjeVakcine stanjeVakcine = stanjeVakcina.getStanjeVakcine().stream().filter(stanje -> stanje.getVakcina().equals(vaccineId)).findFirst().get();
+		stanjeVakcine.setDostupno(stanjeVakcine.getDostupno().add(BigInteger.valueOf(amount)));
+		baseRepository.update("stanje-vakcina", String.format("//vakcina[text()='%s']/../*:dostupno", vaccineId), stanjeVakcine.getDostupno());
+		
+		return stanjeVakcine;
+
 	}
 
 

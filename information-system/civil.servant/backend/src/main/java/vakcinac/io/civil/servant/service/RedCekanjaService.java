@@ -5,6 +5,7 @@ import org.springframework.web.context.annotation.RequestScope;
 import org.xmldb.api.base.XMLDBException;
 
 import vakcinac.io.civil.servant.models.red.RedCekanja;
+import vakcinac.io.civil.servant.models.term.Termin;
 import vakcinac.io.civil.servant.repository.RedCekanjaRepository;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
 import vakcinac.io.core.services.BaseService;
@@ -15,9 +16,12 @@ import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 @RequestScope
 public class RedCekanjaService extends BaseService<RedCekanja> {
 
+	private TerminService terminService;
 	
-	public RedCekanjaService(RedCekanjaRepository redCekanjaRepository, CivilServantJenaRepository jenaRepository) throws Exception {
+	public RedCekanjaService(TerminService terminService, RedCekanjaRepository redCekanjaRepository, CivilServantJenaRepository jenaRepository) throws Exception {
 		super(redCekanjaRepository, jenaRepository);
+		
+		this.terminService = terminService;
 		
 		create(new RedCekanja());
 	}
@@ -50,6 +54,26 @@ public class RedCekanjaService extends BaseService<RedCekanja> {
 		baseRepository.remove("red-cekanja", String.format("//*:red-cekanja/gradjanin-u-redu[%d]", index));
 				
 		return existingRedCekanja.getGradjaninURedu().get(index - 1);
+	}
+	
+	public void tryToAssignTermins() throws Exception {
+		RedCekanja existingRedCekanja = read("red-cekanja");
+
+		int numberOfDeleted = 0;
+		
+		for (RedCekanja.GradjaninURedu gradjaninURedu : existingRedCekanja.getGradjaninURedu()) {
+			Termin rightTermin = terminService.findAvaiableTermin(gradjaninURedu);
+			
+			if (rightTermin == null) {
+				continue;
+			}
+			
+			terminService.create(rightTermin);
+			
+			int index = existingRedCekanja.getGradjaninURedu().indexOf(gradjaninURedu);
+			remove(index + 1 - numberOfDeleted);
+			numberOfDeleted++;		
+		}
 	}
 	
 }
