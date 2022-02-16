@@ -112,7 +112,14 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
 
         potvrda.getPodaciOVakcinaciji().getPodaciODozama().getPrimljenaDoza().add(primljenaDoza);
         updateMetadata(id, potvrda);
+
         baseRepository.append(id, "//*:podaci-o-dozama", serializedObj);
+
+        JaxBParser saglasnostParser = JaxBParserFactory.newInstanceFor(PotvrdaOIzvrsenojVakcinaciji.class, Boolean.FALSE);
+        serializedObj = saglasnostParser.marshall(potvrda);
+
+        jenaRepository.updateData(potvrda.getAbout(), serializedObj, "/potvrda");
+
 
         return potvrda;
     }

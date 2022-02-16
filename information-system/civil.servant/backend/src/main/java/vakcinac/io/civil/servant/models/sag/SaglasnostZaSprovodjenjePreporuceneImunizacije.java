@@ -249,6 +249,7 @@ public class SaglasnostZaSprovodjenjePreporuceneImunizacije {
         return otherAttributes;
     }
 
+
     /**
      * Gets the value of the link property.
      * 
