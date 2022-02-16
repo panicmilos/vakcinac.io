@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="https://www.vakcinac-io.rs/red-cekanja" 
+  xmlns="https://www.vakcinac-io.rs/red-cekanja"
+  xmlns:os="https://www.vakcinac-io.rs/osnovna-sema" 
+  elementFormDefault="qualified">
+  <xsd:import namespace="https://www.vakcinac-io.rs/osnovna-sema" schemaLocation="osnovna_sema.xsd"/>
+
+  <xsd:element name="red-cekanja">
+    <xsd:complexType>
+      <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+        
+        <xsd:element name="gradjanin-u-redu">
+          <xsd:complexType>
+            <xsd:sequence>
+
+              <xsd:element name="minimalno-vreme" type="os:TdateString"></xsd:element>
+
+              <xsd:element name="vakcine">
+                <xsd:complexType>
+                  <xsd:sequence minOccurs="1" maxOccurs="unbounded">
+                    <xsd:element name="vakcina" type="os:Tproizvodjac"></xsd:element>
+                  </xsd:sequence>
+                </xsd:complexType>
+              </xsd:element>
+
+              <xsd:choice minOccurs="1" maxOccurs="1">
+                <xsd:element name="jmbg" type="os:Tjmbg"></xsd:element>   
+                <xsd:element name="broj-pasosa-ebs" type="os:Tpasos"></xsd:element>      
+              </xsd:choice>
+
+            </xsd:sequence>
+          </xsd:complexType>
+        </xsd:element>
+      
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+</xsd:schema>
