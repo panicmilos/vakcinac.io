@@ -32,6 +32,7 @@ public class IzjavaController extends ControllerBase {
 	
 	@PostMapping
 	public ResponseEntity<IzjavaInteresovanjaZaVakcinisanje> apply(@RequestBody CreateIzjavaRequest createIzjavaRequest) throws XMLDBException, IOException {
+		validate(createIzjavaRequest);
 		
 		IzjavaInteresovanjaZaVakcinisanje izjava = IzjavaInteresovanjaZaVakcinisanjeFactory.create(createIzjavaRequest);
 		

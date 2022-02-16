@@ -28,7 +28,8 @@ public class ZahtevController extends ControllerBase {
 
 	@PostMapping
 	public ResponseEntity<ZahtevZaIzdavanjeZelenogSertifikata> apply(@RequestBody CreateZahtevRequest createZahtevRequest) throws Exception {
-		
+		validate(createZahtevRequest);
+
 		ZahtevZaIzdavanjeZelenogSertifikata zahtev = mapper.map(createZahtevRequest, ZahtevZaIzdavanjeZelenogSertifikata.class);
 		
 		ZahtevZaIzdavanjeZelenogSertifikata createdZahtev = zahtevService.create(zahtev);

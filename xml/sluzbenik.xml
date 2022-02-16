@@ -9,14 +9,14 @@
     xmlns:rdfos="https://www.vakcinac-io.rs/rdfs/deljeno/"
     xmlns:rdfsl="https://www.vakcinac-io.rs/rdfs/sluzbenik/"
 
-    about="https://www.vakcinac-io.rs/sluzbenik/2204542354123"
+    about="https://www.vakcinac-io.rs/sluzbenici/2204542354123"
     typeof="rdfos:Sluzbenik"
 >
 
-    <os:meta property="rdfdg:saJMBG" datatype="os:Tjmbg">2204542354123</os:meta>
-    <os:meta property="rdfdg:seZove" datatype="xsd:string">Ivan</os:meta>
-    <os:meta property="rdfdg:seRodio" datatype="xsd:dateTime">1973-04-11</os:meta>
-    <os:meta property="rdfdg:jePola" datatype="os:Pol">0</os:meta>
+    <os:meta property="rdfos:saJMBG" datatype="xsd:string">2204542354123</os:meta>
+    <os:meta property="rdfos:seZove" datatype="xsd:string">Ivan</os:meta>
+    <os:meta property="rdfos:seRodio" datatype="xsd:dateTime">1973-04-11</os:meta>
+    <os:meta property="rdfos:jePola" datatype="xsd:int">0</os:meta>
 
     <os:ime>Ivan</os:ime>
     <os:prezime>Ivic</os:prezime>
