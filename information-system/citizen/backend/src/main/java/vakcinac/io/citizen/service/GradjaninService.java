@@ -50,21 +50,34 @@ public class GradjaninService implements UserDetailsService {
 		return authorities;
     }
 	
-	public Tgradjanin create(Tgradjanin gradjanin) throws IOException {
-		validate(gradjanin);
-		
+	public Tgradjanin create(Tgradjanin gradjanin) throws IOException {		
 		if (gradjanin instanceof DomaciGradjanin) {
+			DomaciGradjanin domaciGradjanin = (DomaciGradjanin) gradjanin;
+			validate(domaciGradjanin.getJmbg(), domaciGradjanin);
+			
 			return domaciGradjaninService.create((DomaciGradjanin) gradjanin);
 		}
 		else {
+			StraniGradjanin straniGradjanin = (StraniGradjanin) gradjanin;
+			String id = straniGradjanin.getIdentifikacioniDokument() == 0 ? straniGradjanin.getBrojPasosa() : straniGradjanin.getEbs();
+			if (id == null || id.isEmpty()) {
+				throw new BadLogicException("Identifikacioni broj nije validan.");
+			}
+			validate(id, straniGradjanin);
+			
 			return straniGradjaninService.create((StraniGradjanin) gradjanin);
 		}
 	}
 	
-	private void validate(Tgradjanin gradjanin) {
+	private void validate(String id, Tgradjanin gradjanin) {
 		Tgradjanin existingGradjaninByKorisnickoIme = findByKorisnickoIme(gradjanin.getKorisnickoIme());
 		if (existingGradjaninByKorisnickoIme != null) {
 			throw new BadLogicException("Građanin sa korisničkim imenom već postoji.");
+		}
+		
+		Tgradjanin existingGradjaninById = findById(id);
+		if (existingGradjaninById != null) {
+			throw new BadLogicException("Građanin sa id već postoji.");
 		}
 	}
 	 

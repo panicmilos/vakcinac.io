@@ -21,4 +21,10 @@ public class DateUtils {
 	public static LocalDate fromXMLToLocalDate(XMLGregorianCalendar date) {
 		return LocalDate.of(date.getYear(), date.getMonth(), date.getDay());
 	}
+	
+	public static String fromXMLToString(XMLGregorianCalendar date) {
+		LocalDate localDate = fromXMLToLocalDate(date);
+		
+		return LocalDateUtils.toXMLDateString(localDate);
+	}
 }

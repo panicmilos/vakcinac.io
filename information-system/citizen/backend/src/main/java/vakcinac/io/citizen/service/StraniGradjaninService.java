@@ -11,12 +11,9 @@ import vakcinac.io.citizen.models.sgradj.StraniGradjanin;
 import vakcinac.io.citizen.repository.StraniGradjaninRepository;
 import vakcinac.io.citizen.repository.jena.CitizenJenaRepository;
 import vakcinac.io.core.Constants;
-import vakcinac.io.core.exceptions.BadLogicException;
-import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.factories.TmetaFactory;
 import vakcinac.io.core.services.BaseService;
 import vakcinac.io.core.utils.DateUtils;
-import vakcinac.io.core.utils.LocalDateUtils;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 
@@ -30,8 +27,6 @@ public class StraniGradjaninService extends BaseService<StraniGradjanin> {
 	
 	public StraniGradjanin create(StraniGradjanin straniGradjanin) throws IOException {
 		String id = straniGradjanin.getIdentifikacioniDokument() == 0 ? straniGradjanin.getBrojPasosa() : straniGradjanin.getEbs();
-		
-		validate(id, straniGradjanin);
 		
 		fillOutRdf(id, straniGradjanin);
 		
@@ -47,7 +42,7 @@ public class StraniGradjaninService extends BaseService<StraniGradjanin> {
 		straniGradjanin.setAbout(String.format("%s/gradjani/%s", Constants.ROOT_URL, id));
 		straniGradjanin.setTypeof("rdfos:StraniGradjanin");
 		
-		String datumRodjenja = LocalDateUtils.toXMLDateString(DateUtils.fromXMLToLocalDate(straniGradjanin.getDatumRodjenja()));
+		String datumRodjenja = DateUtils.fromXMLToString(straniGradjanin.getDatumRodjenja());
 		
 		straniGradjanin.getMeta().add(TmetaFactory.create("rdfos:seZove", "xsd:string", straniGradjanin.getIme()));
 		straniGradjanin.getMeta().add(TmetaFactory.create("rdfos:seRodio", "xsd:date", datumRodjenja));
@@ -70,16 +65,5 @@ public class StraniGradjaninService extends BaseService<StraniGradjanin> {
 		String XQueryExpression = String.format("collection('/db/strani-gradjani')//*:strani-gradjanin/*:korisnicko-ime[text() = '%s']/..", korisnickoIme);
 		
 		return findFirstByXQuery(XQueryExpression, StraniGradjanin.class);
-	}
-	
-	private void validate(String id, StraniGradjanin straniGradjanin) {
-		if (id == null || id.isEmpty()) {
-			throw new BadLogicException("Identifikacioni broj nije validan.");
-		}
-		
-		StraniGradjanin existingStraniGradjanin = read(id);
-		if (existingStraniGradjanin != null) {
-			throw new MissingEntityException("Građanin već postoji.");
-		}
 	}
 }

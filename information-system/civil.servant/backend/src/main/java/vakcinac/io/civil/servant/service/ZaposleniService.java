@@ -1,5 +1,6 @@
 package vakcinac.io.civil.servant.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class ZaposleniService implements UserDetailsService {
 		return authorities;
     }
 	
-	public Tzaposleni create(Tzaposleni zaposleni) {
+	public Tzaposleni create(Tzaposleni zaposleni) throws IOException {
 		validate(zaposleni);
 		
 		if (zaposleni instanceof Sluzbenik) {
@@ -64,6 +65,11 @@ public class ZaposleniService implements UserDetailsService {
 		Tzaposleni existingZaposleniByKorisnickoIme = findByKorisnickoIme(zaposleni.getKorisnickoIme());
 		if (existingZaposleniByKorisnickoIme != null) {
 			throw new BadLogicException("Zaposleni sa korisničkim imenom već postoji.");
+		}
+		
+		Tzaposleni existingZaposleniByJmbg = findById(zaposleni.getJmbg());
+		if (existingZaposleniByJmbg != null) {
+			throw new BadLogicException("Zaposleni sa jmbg već postoji.");
 		}
 	}
 	

@@ -11,11 +11,9 @@ import vakcinac.io.citizen.models.dgradj.DomaciGradjanin;
 import vakcinac.io.citizen.repository.DomaciGradjaninRepository;
 import vakcinac.io.citizen.repository.jena.CitizenJenaRepository;
 import vakcinac.io.core.Constants;
-import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.factories.TmetaFactory;
 import vakcinac.io.core.services.BaseService;
 import vakcinac.io.core.utils.DateUtils;
-import vakcinac.io.core.utils.LocalDateUtils;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 
@@ -29,8 +27,6 @@ public class DomaciGradjaninService extends BaseService<DomaciGradjanin> {
 	
 	public DomaciGradjanin create(DomaciGradjanin domaciGradjanin) throws IOException {
 		String id = domaciGradjanin.getJmbg();
-		
-		validate(id, domaciGradjanin);
 		
 		fillOutRdf(id, domaciGradjanin);
 		
@@ -46,7 +42,7 @@ public class DomaciGradjaninService extends BaseService<DomaciGradjanin> {
 		domaciGradjanin.setAbout(String.format("%s/gradjani/%s", Constants.ROOT_URL, id));
 		domaciGradjanin.setTypeof("rdfos:DomaciGradjanin");
 		
-		String datumRodjenja = LocalDateUtils.toXMLDateString(DateUtils.fromXMLToLocalDate(domaciGradjanin.getDatumRodjenja()));
+		String datumRodjenja = DateUtils.fromXMLToString(domaciGradjanin.getDatumRodjenja());
 		
 		domaciGradjanin.getMeta().add(TmetaFactory.create("rdfos:saJMBG", "xsd:string", domaciGradjanin.getJmbg()));
 		domaciGradjanin.getMeta().add(TmetaFactory.create("rdfos:seZove", "xsd:string", domaciGradjanin.getIme()));
@@ -67,12 +63,5 @@ public class DomaciGradjaninService extends BaseService<DomaciGradjanin> {
 		String XQueryExpression = String.format("collection('/db/domaci-gradjani')//*:domaci-gradjanin/*:korisnicko-ime[text() = '%s']/..", korisnickoIme);
 		
 		return findFirstByXQuery(XQueryExpression, DomaciGradjanin.class);
-	}
-	
-	private void validate(String id, DomaciGradjanin domaciGradjanin) {
-		DomaciGradjanin existingDomaciGradjanin = read(id);
-		if (existingDomaciGradjanin != null) {
-			throw new MissingEntityException("Građanin već postoji.");
-		}
 	}
 }
