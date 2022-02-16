@@ -15,4 +15,6 @@ public class RegexPatterns {
 	
 	public static String SERIJA_PATTERN = "[a-zA-Z0-9]{6}";
 
+	public static String POTVRDA_ID_PATTERN = "[0-9]{6}-[0-9]{6}";
+
 }

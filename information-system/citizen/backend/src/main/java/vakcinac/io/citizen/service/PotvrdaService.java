@@ -39,6 +39,9 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
     @Autowired
     private GradjaninService gradjaninService;
 
+    @Autowired
+    private VakcinaService vakcinaService;
+
     protected PotvrdaService(ExistRepository<PotvrdaOIzvrsenojVakcinaciji> baseRepository, JenaRepository jenaRepository) {
         super(baseRepository, jenaRepository);
     }
@@ -64,6 +67,7 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
     
     @Override
      public PotvrdaOIzvrsenojVakcinaciji create(PotvrdaOIzvrsenojVakcinaciji potvrda) throws Exception {
+        validateVakcina(potvrda.getPodaciOVakcinaciji().getPodaciODozama().getPrimljenaDoza().get(0).getSerija());
 
         String id = getValidPotvrdaId();
 
@@ -79,6 +83,12 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
         jenaRepository.insert(serializedObj, "/potvrda");
 
         return create(id, serializedObj);
+    }
+
+    private void validateVakcina(String serija) {
+        if (vakcinaService.getVakcina(serija) == null) {
+            throw new MissingEntityException("Vakcina ne postoji.");
+        }
     }
 
     private void fillOutRdf(String potvrdaId, PotvrdaOIzvrsenojVakcinaciji potvrda) throws XMLDBException, IOException {
@@ -126,6 +136,8 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
     }
 
     public PotvrdaOIzvrsenojVakcinaciji addDoza(String id, String serija) throws XMLDBException, IOException {
+        validateVakcina(id);
+
         PotvrdaOIzvrsenojVakcinaciji potvrda = read(id);
 
         PotvrdaOIzvrsenojVakcinaciji.PodaciOVakcinaciji.PodaciODozama.PrimljenaDoza primljenaDoza = new PotvrdaOIzvrsenojVakcinaciji.PodaciOVakcinaciji.PodaciODozama.PrimljenaDoza();

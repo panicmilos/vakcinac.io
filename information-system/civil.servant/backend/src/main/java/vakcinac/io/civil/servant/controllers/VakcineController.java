@@ -35,6 +35,9 @@ public class VakcineController extends ControllerBase {
 		super(mapper, validator);
 	}
 
+	public ResponseEntity<Vakcina> getVakcina(String serija) {
+		return ResponseEntity.ok(vakcinaService.read(serija));
+	}
 	
 	@PostMapping
 	public ResponseEntity<Vakcina> createVakcina(@RequestBody CreateVakcinaRequest createVakcinaRequest) {
