@@ -1,11 +1,19 @@
 package vakcinac.io.civil.servant.service;
 
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Optional;
+
+import javax.xml.namespace.QName;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 import org.xmldb.api.base.XMLDBException;
+
 import vakcinac.io.civil.servant.models.sag.AzurirajSaglasnost;
 import vakcinac.io.civil.servant.models.sag.SaglasnostZaSprovodjenjePreporuceneImunizacije;
 import vakcinac.io.civil.servant.models.sag.Tlekar;
+import vakcinac.io.civil.servant.models.term.Termin;
 import vakcinac.io.civil.servant.models.zrad.ZdravstveniRadnik;
 import vakcinac.io.civil.servant.repository.SaglasnostRepository;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
@@ -23,11 +31,6 @@ import vakcinac.io.core.utils.LocalDateUtils;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 
-import javax.xml.namespace.QName;
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.Optional;
-
 @Service
 @RequestScope
 public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePreporuceneImunizacije> {
@@ -36,11 +39,13 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
 
     private ZaposleniService zaposleniService;
 
+    private TerminService terminService;
     private PotvrdaService potvrdaService;
 
-    public SaglasnostService(GradjaninService gradjaninService, CivilServantJenaRepository jenaRepository, SaglasnostRepository saglasnostRepository, ZaposleniService zaposleniService) {
+    public SaglasnostService(TerminService terminService, GradjaninService gradjaninService, CivilServantJenaRepository jenaRepository, SaglasnostRepository saglasnostRepository, ZaposleniService zaposleniService) {
         super(saglasnostRepository, jenaRepository);
 
+        this.terminService = terminService;
         this.gradjaninService = gradjaninService;
         this.zaposleniService = zaposleniService;
     }
@@ -51,9 +56,12 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
         String gradjaninId = getGradjaninId(saglasnost);
 
         Tgradjanin gradjanin = gradjaninService.read(gradjaninId);
-
         if(gradjanin == null) {
             throw new MissingEntityException("Gradjan sa datim identifikatorm ne postoji.");
+        }
+        
+        if (!canApplySaglasnost(gradjaninId)) {
+			throw new BadLogicException("Trenutno nije moguće poslati saglasnost za vakcinisanje.");
         }
 
         fillOutPacijent(saglasnost, gradjanin);
@@ -68,6 +76,30 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
         jenaRepository.insert(serializedObj, "/saglasnosti");
 
         return create(id, serializedObj);
+    }
+    
+    private boolean canApplySaglasnost(String gradjaninId) throws XMLDBException, IOException {        
+        if (!terminService.hasActiveTermin(gradjaninId)) {
+        	return false;
+        }
+        
+        String lastSaglasnostId = jenaRepository.readLatestSubject("/saglasnosti", "<https://www.vakcinac-io.rs/rdfs/saglasnost/za>", String.format("<https://www.vakcinac-io.rs/gradjani/%s>", gradjaninId));
+        if (lastSaglasnostId == null) {
+        	return true;
+        }
+        
+        System.out.println(lastSaglasnostId);
+        String[] tokens = lastSaglasnostId.split("/");
+        String id = String.join("_", tokens[tokens.length - 2], tokens[tokens.length - 1]);
+        System.out.println();
+        SaglasnostZaSprovodjenjePreporuceneImunizacije lastSaglasnost = read(id);
+        
+        Termin lastTermin = terminService.findLastTermin(gradjaninId);
+        if (lastTermin == null) {
+        	return false;
+        }
+        
+        return lastTermin.getVreme().toLocalDate().isAfter(lastSaglasnost.getDatumIzdavanja());
     }
 
     private void fillOutVakcine(SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost, String gradjaninId) {

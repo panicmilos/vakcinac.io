@@ -11,7 +11,6 @@ import org.xmldb.api.base.XMLDBException;
 
 import vakcinac.io.civil.servant.models.izj.IzjavaInteresovanjaZaVakcinisanje;
 import vakcinac.io.civil.servant.models.red.RedCekanja.GradjaninURedu;
-import vakcinac.io.civil.servant.models.red.RedCekanja.GradjaninURedu.Vakcine;
 import vakcinac.io.civil.servant.repository.IzjavaRepository;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
 import vakcinac.io.core.Constants;

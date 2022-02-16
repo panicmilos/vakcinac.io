@@ -1,6 +1,5 @@
 package vakcinac.io.civil.servant.controllers;
 
-import org.apache.jena.query.QuerySolution;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
 import vakcinac.io.civil.servant.service.RedCekanjaService;
 import vakcinac.io.civil.servant.service.TerminService;
-import vakcinac.io.core.repository.jena.CloseableResultSet;
 
 @Controller
 @RequestMapping("/test")
