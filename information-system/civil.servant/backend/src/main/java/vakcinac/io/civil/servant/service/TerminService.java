@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.xmldb.api.base.ResourceIterator;
@@ -30,6 +31,8 @@ public class TerminService extends BaseService<Termin> {
 	private VakcinaService vakcinaService;
 	private StanjeVakcinaService stanjeVakcinaService;
 	
+	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd");
+	
 	public TerminService(StanjeVakcinaService stanjeVakcinaService, VakcinaService vakcinaService, TerminRepository terminRepository, CivilServantJenaRepository jenaRepository) {
 		super(terminRepository, jenaRepository);
 		
@@ -40,14 +43,11 @@ public class TerminService extends BaseService<Termin> {
 
 	@Override
 	public Termin create(Termin termin) throws Exception {
-		LocalDateTime terminTime = termin.getVreme();
-		int period = ((terminTime.getHour() * 60 + terminTime.getMinute()) - 540) / 10;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd");
-
+		String id = createTerminId(termin);
+		
         stanjeVakcinaService.decStockFor(termin.getVakcina());
         
-        int numberOfTerminsInPeriod = baseRepository.count(formatter.format(terminTime), String.format("termin_%d", period));
-		return create(formatter.format(terminTime), String.format("termin_%d_%d", period, numberOfTerminsInPeriod), termin);
+		return create(formatter.format(termin.getVreme()), id, termin);
 	}
 	
 	public Termin findLastTermin(String citizenId) throws XMLDBException, IOException {
@@ -87,7 +87,28 @@ public class TerminService extends BaseService<Termin> {
 		return TerminFactory.create(gradjaninURedu.getJmbg(), gradjaninURedu.getBrojPasosaEbs(), rightVakcina.getSerija(), findRightTerminPeriod(gradjaninURedu));
 	}
 	
-	public void updateTerminStatus(String terminId, boolean realizovan) throws XMLDBException {
+	private String createTerminId(Termin termin) throws XMLDBException, IOException {
+		LocalDateTime terminTime = termin.getVreme();
+		int period = ((terminTime.getHour() * 60 + terminTime.getMinute()) - 540) / 10;
+        
+        int numberOfTerminsInPeriod = baseRepository.count(formatter.format(terminTime), String.format("termin_%d", period));
+        
+        return String.format("termin_%d_%d", period, numberOfTerminsInPeriod);
+	}
+	
+	public void updateNonHeldTerminiStatus() throws XMLDBException, IOException {
+		LocalDateTime maxDateTime = LocalDateTime.now().minusHours(1);
+		LocalDate currentDate = LocalDate.now();
+		
+		List<Termin> termini = terminRepository.findNotHeldTerminiForDate(maxDateTime.toString(), formatter.format(currentDate));
+		for(Termin termin: termini) {
+			String id = createTerminId(termin);
+			
+			updateTerminStatus(id, false);
+		}
+	}
+	
+	private void updateTerminStatus(String terminId, boolean realizovan) throws XMLDBException {
 		Termin termin = read(terminId);
 		if (termin == null) {
 			throw new MissingEntityException("Termin ne postoji");
@@ -129,7 +150,6 @@ public class TerminService extends BaseService<Termin> {
 
 	private LocalDateTime findRightTerminPeriod(RedCekanja.GradjaninURedu gradjaninURedu) throws XMLDBException, IOException {
 		LocalDate iterator = LocalDateUtils.max(gradjaninURedu.getMinimalnoVreme(), LocalDate.now());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd");
 
 		while (true) {
 			int terminPeriod = terminRepository.findTermin(5, formatter.format(iterator));
