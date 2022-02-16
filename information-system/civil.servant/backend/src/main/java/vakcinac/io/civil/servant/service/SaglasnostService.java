@@ -46,15 +46,14 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
     @Override
     public SaglasnostZaSprovodjenjePreporuceneImunizacije create(SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost) throws Exception {
 
-        String gradjaninId = "";
-
-        if (saglasnost.getPacijent().getDrzavljanstvo().getDomace() != null) {
-            gradjaninId = saglasnost.getPacijent().getDrzavljanstvo().getDomace().getJmbg();
-        } else {
-            gradjaninId = saglasnost.getPacijent().getDrzavljanstvo().getStrano().getBrojPasosaEbs();
-        }
+        String gradjaninId = getGradjaninId(saglasnost);
 
         Tgradjanin gradjanin = gradjaninService.read(gradjaninId);
+
+        if(gradjanin == null) {
+            throw new MissingEntityException("Gradjan sa datim identifikatorm ne postoji.");
+        }
+
         fillOutPacijent(saglasnost, gradjanin);
         fillOutRdf(gradjaninId, saglasnost);
 
@@ -66,6 +65,23 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
         jenaRepository.insert(serializedObj, "/saglasnosti");
 
         return create(id, serializedObj);
+    }
+
+    private String getGradjaninId(SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost) {
+        String gradjaninId = "";
+
+        SaglasnostZaSprovodjenjePreporuceneImunizacije.Pacijent.Drzavljanstvo.Domace domace = saglasnost.getPacijent().getDrzavljanstvo().getDomace();
+        SaglasnostZaSprovodjenjePreporuceneImunizacije.Pacijent.Drzavljanstvo.Strano strano = saglasnost.getPacijent().getDrzavljanstvo().getStrano();
+
+        if (domace != null && !domace.getJmbg().trim().isEmpty()) {
+            gradjaninId = domace.getJmbg();
+        } else if(strano != null && !strano.getBrojPasosaEbs().trim().isEmpty()){
+            gradjaninId = strano.getBrojPasosaEbs();
+        } else {
+            throw new MissingEntityException("Gradjanin mora imati jmbg, ebs ili broj pasosa.");
+        }
+
+        return gradjaninId;
     }
 
     private void fillOutRdf(String gradjaninId, SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost) throws XMLDBException, IOException {
