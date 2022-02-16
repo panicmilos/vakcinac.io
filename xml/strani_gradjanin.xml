@@ -5,7 +5,22 @@
     xsi:schemaLocation="https://www.vakcinac-io.rs/strani-gradjanin ../xsd/strani_gradjanin.xsd"
     xmlns="https://www.vakcinac-io.rs/strani-gradjanin"
     xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
+
+    xmlns:rdfos="https://www.vakcinac-io.rs/rdfs/deljeno/"
+    xmlns:rdfsg="https://www.vakcinac-io.rs/rdfs/strani-gradjanin/"
+
+    about="https://www.vakcinac-io.rs/gradjanin/123541236"
+    typeof="rdfos:StraniGradjanin"
 >
+
+    <os:meta property="rdfsg:saId" datatype="xsd:string">2312918273972</os:meta>
+    <os:meta property="rdfsg:seZove" datatype="xsd:string">Mirko</os:meta>
+    <os:meta property="rdfsg:seRodio" datatype="xsd:dateTime">1999-11-04</os:meta>
+    <os:meta property="rdfsg:imaRoditelja" datatype="xsd:string">Savo</os:meta>
+    <os:meta property="rdfsg:jePola" datatype="os:Pol">0</os:meta>
+    <os:meta property="rdfsg:izDrzave" datatype="xsd:string">Engleska</os:meta>
+    <os:meta property="rdfsg:boraviURS" datatype="xsd:boolean">false</os:meta>
+
     <os:ime>Mirko</os:ime>
     <os:prezime>Miric</os:prezime>
     <os:korisnicko-ime>miki</os:korisnicko-ime>
