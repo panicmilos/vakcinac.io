@@ -55,7 +55,7 @@ public class PDFTransformer {
 	
 			return pdfResult.toByteArray();
 		}
-		catch (TransformerException | FOPException  e) {
+		catch (TransformerException | FOPException e) {
 			e.printStackTrace();
 		}
 		

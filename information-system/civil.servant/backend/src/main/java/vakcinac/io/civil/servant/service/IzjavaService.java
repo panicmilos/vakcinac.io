@@ -10,9 +10,12 @@ import org.springframework.web.context.annotation.RequestScope;
 import org.xmldb.api.base.XMLDBException;
 
 import vakcinac.io.civil.servant.models.izj.IzjavaInteresovanjaZaVakcinisanje;
+import vakcinac.io.civil.servant.models.red.RedCekanja.GradjaninURedu;
+import vakcinac.io.civil.servant.models.red.RedCekanja.GradjaninURedu.Vakcine;
 import vakcinac.io.civil.servant.repository.IzjavaRepository;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
 import vakcinac.io.core.Constants;
+import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.factories.TlinkFactory;
 import vakcinac.io.core.factories.TmetaFactory;
 import vakcinac.io.core.models.os.Tgradjanin;
@@ -25,18 +28,34 @@ import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 public class IzjavaService extends BaseService<IzjavaInteresovanjaZaVakcinisanje> {
 
 	private GradjaninService gradjaninService;
+	private TerminService terminService;
+	private RedCekanjaService redCekanjaService;
+	private PotvrdaService potvrdaService;
 	
-	public IzjavaService(IzjavaRepository izjavaRepository, GradjaninService gradjaninService, CivilServantJenaRepository jenaRepository) {
+	public IzjavaService(
+			GradjaninService gradjaninService,
+			TerminService terminService,
+			RedCekanjaService redCekanjaService,
+			PotvrdaService potvrdaService,
+			IzjavaRepository izjavaRepository,
+			CivilServantJenaRepository jenaRepository) {
 		super(izjavaRepository, jenaRepository);
 		
 		this.gradjaninService = gradjaninService;
+		this.terminService = terminService;
+		this.redCekanjaService = redCekanjaService;
+		this.potvrdaService = potvrdaService;
 	}
 
 	@Override
 	public IzjavaInteresovanjaZaVakcinisanje create(IzjavaInteresovanjaZaVakcinisanje izjava) throws XMLDBException, IOException {
-
+		
 		String jmbg = izjava.getPodnosilacIzjave().getPodnosilac().getJmbg();
 		Tgradjanin gradjanin = gradjaninService.read(jmbg);
+		
+		if (terminService.hasActiveTermin(jmbg) || redCekanjaService.isInRow(jmbg) || potvrdaService.getNumberOfVakcine(jmbg) == 3) {
+			throw new BadLogicException("Trenutno nije moguće iskazati interesovanje za vakcinacijom.");
+		}
 		
 		fillRestOfIzjava(izjava, gradjanin);
 		
@@ -46,6 +65,9 @@ public class IzjavaService extends BaseService<IzjavaInteresovanjaZaVakcinisanje
 		JaxBParser parser = JaxBParserFactory.newInstanceFor(IzjavaInteresovanjaZaVakcinisanje.class);
 		String serializedObj = parser.marshall(izjava);
 		jenaRepository.insert(serializedObj, "/izjava");
+		
+		GradjaninURedu gradjaninURedu = GradjaninUReduFactory.create(jmbg, izjava, 1);
+		redCekanjaService.add(gradjaninURedu);
 
 		return create(id, serializedObj);
 	}

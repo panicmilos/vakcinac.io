@@ -55,10 +55,12 @@ public class TestController {
     public ResponseEntity<?> test2412() throws Exception {
     	
     	
-		try (CloseableResultSet set = jena.read("/zahtevi", "?s <https://www.vakcinac-io.rs/rdfs/zahtev/za> <https://www.vakcinac-io.rs/gradjani/2312918273921>")) {
-			QuerySolution querySolution = set.next();
-			System.out.println(querySolution.get("s"));
-		}
+		
+		System.out.println(redCekanja.isInRow("214124412121"));
+		System.out.println(redCekanja.isInRow("214124412122"));
+		
+		System.out.println(termin.hasActiveTermin("214124412124"));
+		System.out.println(termin.hasActiveTermin("214124412126"));
 
 		return ResponseEntity.ok(null);
 

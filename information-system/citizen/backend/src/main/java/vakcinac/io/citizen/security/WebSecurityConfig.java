@@ -48,6 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/saglasnosti").permitAll()
                 .antMatchers("/potvrde").permitAll()
                 .antMatchers("/potvrde/dodaj-dozu").permitAll()
+                .antMatchers("/potvrde/gradjanin/*").permitAll()
                 .antMatchers("/potvrde/aggregate/doses").permitAll()
                 .antMatchers("/potvrde/aggregate/types").permitAll()
                 .antMatchers("/zahtevi").permitAll()
