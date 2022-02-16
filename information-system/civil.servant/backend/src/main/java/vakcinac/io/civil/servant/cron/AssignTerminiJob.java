@@ -9,17 +9,17 @@ import org.springframework.stereotype.Component;
 import vakcinac.io.civil.servant.service.RedCekanjaService;
 
 @Component
-public class AssignTerminsJob {
+public class AssignTerminiJob {
 	
 	private RedCekanjaService redCekanjaService;
 	
 	@Autowired
-	public AssignTerminsJob(RedCekanjaService redCekanjaService) {
+	public AssignTerminiJob(RedCekanjaService redCekanjaService) {
 		this.redCekanjaService = redCekanjaService;
 	}
 	
 	@Scheduled(fixedDelay = 10, initialDelay = 5, timeUnit = TimeUnit.MINUTES)
-	public void AssignTermins() throws Exception {
+	public void AssignTermini() throws Exception {
 		redCekanjaService.tryToAssignTermins();
 	}
 
