@@ -104,6 +104,8 @@ public class TerminService extends BaseService<Termin> {
 		for(Termin termin: termini) {
 			String id = createTerminId(termin);
 			
+			stanjeVakcinaService.addToStockFor(termin.getVakcina(), 1);
+			
 			updateTerminStatus(id, false);
 		}
 	}
