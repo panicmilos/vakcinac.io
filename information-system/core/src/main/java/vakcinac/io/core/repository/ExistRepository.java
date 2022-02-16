@@ -150,7 +150,7 @@ public abstract class ExistRepository<T> implements Closeable {
 		String notFormattedXQuery = new String(encoded, StandardCharsets.UTF_8);
 		
 		String formattedXQuery = String.format(notFormattedXQuery, args);
-		
+
 		return executeRetrieveUsingXQuery(formattedXQuery);
 	}
 	

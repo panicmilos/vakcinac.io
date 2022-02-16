@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
+import org.xmldb.api.base.ResourceIterator;
 import org.xmldb.api.base.XMLDBException;
 
 import vakcinac.io.civil.servant.factories.TerminFactory;
@@ -16,6 +17,7 @@ import vakcinac.io.civil.servant.models.term.Termin;
 import vakcinac.io.civil.servant.models.vak.Vakcina;
 import vakcinac.io.civil.servant.repository.TerminRepository;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
+import vakcinac.io.core.Constants;
 import vakcinac.io.core.services.BaseService;
 import vakcinac.io.core.utils.LocalDateUtils;
 
@@ -45,6 +47,14 @@ public class TerminService extends BaseService<Termin> {
         
         int numberOfTerminsInPeriod = baseRepository.count(formatter.format(terminTime), String.format("termin_%d", period));
 		return create(formatter.format(terminTime), String.format("termin_%d_%d", period, numberOfTerminsInPeriod), termin);
+	}
+	
+	public boolean hasActiveTermin(String citizenId) throws XMLDBException, IOException {
+		LocalDateTime dateTime = LocalDateTime.now();
+		
+		ResourceIterator iterator = baseRepository.retrieveUsingXQuery(String.format("%s/data/xquery/has_active_termin.xqy", Constants.ROOT_RESOURCE), dateTime.toString(), citizenId);
+		
+		return iterator.hasMoreResources();
 	}
 	
 	public Termin findAvaiableTermin(RedCekanja.GradjaninURedu gradjaninURedu) throws XMLDBException, IOException {

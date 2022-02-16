@@ -56,6 +56,14 @@ public class RedCekanjaService extends BaseService<RedCekanja> {
 		return existingRedCekanja.getGradjaninURedu().get(index - 1);
 	}
 	
+	public boolean isInRow(String citizenId) throws XMLDBException {
+		
+		boolean isNationalCitizenInRow = baseRepository.contains("red-cekanja", String.format("//*:red-cekanja//*:jmbg[text() = '%s']", citizenId));
+		boolean isForeignCitizenInRow = baseRepository.contains("red-cekanja", String.format("//*:red-cekanja//*:broj-pasosa-ebs[text() = '%s']", citizenId));
+
+		return isNationalCitizenInRow || isForeignCitizenInRow;
+	}
+	
 	public void tryToAssignTermins() throws Exception {
 		RedCekanja existingRedCekanja = read("red-cekanja");
 
