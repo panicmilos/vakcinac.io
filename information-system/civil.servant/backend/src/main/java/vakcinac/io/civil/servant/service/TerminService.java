@@ -22,6 +22,8 @@ import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.Constants;
 import vakcinac.io.core.services.BaseService;
 import vakcinac.io.core.utils.LocalDateUtils;
+import vakcinac.io.core.utils.parsers.JaxBParser;
+import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 
 @Service
 @RequestScope
@@ -48,6 +50,21 @@ public class TerminService extends BaseService<Termin> {
         stanjeVakcinaService.decStockFor(termin.getVakcina());
         
 		return create(formatter.format(termin.getVreme()), id, termin);
+	}
+	
+	public Termin findLastTermin(String citizenId) throws XMLDBException, IOException {
+		LocalDateTime dateTime = LocalDateTime.now();
+		
+		ResourceIterator iterator = baseRepository.retrieveUsingXQuery(String.format("%s/data/xquery/find_last_termin_for_citizen.xqy", Constants.ROOT_RESOURCE), dateTime.toString(), citizenId);
+		
+		if (!iterator.hasMoreResources()) {
+			return null;
+		}
+		
+		String serializedTermin = iterator.nextResource().getContent().toString();
+		
+		JaxBParser parser = JaxBParserFactory.newInstanceFor(Termin.class);
+		return parser.unmarshall(serializedTermin);
 	}
 	
 	public boolean hasActiveTermin(String citizenId) throws XMLDBException, IOException {
