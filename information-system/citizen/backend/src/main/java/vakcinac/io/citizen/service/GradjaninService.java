@@ -44,7 +44,7 @@ public class GradjaninService implements UserDetailsService {
     }
 	
 	private List<GrantedAuthority> getGradjaninAuthorities(Tgradjanin gradjanin) {
-		String role = gradjanin instanceof DomaciGradjanin ? "Domaci" : "Strani";
+		String role = gradjanin instanceof DomaciGradjanin ? "DomaciGradjanin" : "StraniGradjanin";
 		GrantedAuthority grantedAuthority = new Authority("ROLE_" + role);
 		
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
