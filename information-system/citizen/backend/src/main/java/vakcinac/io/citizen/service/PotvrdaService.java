@@ -112,6 +112,10 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
         potvrda.getMeta().add(TmetaFactory.create("rdfpoiv:brojDoza", "xsd:integer", potvrda.getBrojPrimljenihDoza().toString()));
         potvrda.getMeta().add(TmetaFactory.create("rdfos:izdat", "xsd:date", LocalDateUtils.toXMLDateString(LocalDate.now())));
 
+        addGeneralAttributes(potvrda);
+    }
+
+    private void addGeneralAttributes(PotvrdaOIzvrsenojVakcinaciji potvrda) {
         potvrda.getOtherAttributes().put(QName.valueOf("xmlns:xsd"), "http://www.w3.org/2001/XMLSchema#");
         potvrda.getOtherAttributes().put(QName.valueOf("xmlns:rdfos"), "https://www.vakcinac-io.rs/rdfs/deljeno/");
         potvrda.getOtherAttributes().put(QName.valueOf("xmlns:rdfpoiv"), "https://www.vakcinac-io.rs/rdfs/potvrda/");
@@ -135,7 +139,9 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
         String serializedObj = parser.marshall(primljenaDoza);
 
         potvrda.getPodaciOVakcinaciji().getPodaciODozama().getPrimljenaDoza().add(primljenaDoza);
+
         updateMetadata(id, potvrda);
+        addGeneralAttributes(potvrda);
 
         baseRepository.append(id, "//*:podaci-o-dozama", serializedObj);
 
@@ -143,7 +149,6 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
         serializedObj = saglasnostParser.marshall(potvrda);
 
         jenaRepository.updateData(potvrda.getAbout(), serializedObj, "/potvrda");
-
 
         return potvrda;
     }
