@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.web.context.annotation.RequestScope;
 import org.xmldb.api.base.Resource;
 import org.xmldb.api.base.ResourceIterator;
 import org.xmldb.api.base.XMLDBException;
@@ -14,8 +13,6 @@ import vakcinac.io.civil.servant.models.term.Termin;
 import vakcinac.io.core.Constants;
 import vakcinac.io.core.repository.ExistRepository;
 import vakcinac.io.core.repository.exist.CloseableResource;
-import vakcinac.io.core.utils.parsers.JaxBParser;
-import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 
 @Repository
 public class TerminRepository extends ExistRepository<Termin> {
@@ -24,17 +21,15 @@ public class TerminRepository extends ExistRepository<Termin> {
 		super(Termin.class);
 	}
 	
-	public List<Termin> findNotHeldTerminiForDate(String maxDateTime, String currentDate) throws XMLDBException, IOException {
-		List<Termin> termini = new ArrayList<>();
-		ResourceIterator iterator = retrieveUsingXQuery(Constants.ROOT_RESOURCE + "/data/xquery/find_non_held_termini_for_date.xqy", currentDate, maxDateTime);
+	public List<String> findNotHeldTerminiForDate(String maxDateTime, String currentDate) throws XMLDBException, IOException {
+		List<String> termini = new ArrayList<>();
+		ResourceIterator iterator = retrieveUsingXQuery(Constants.ROOT_RESOURCE + "/data/xquery/find_non_held_termini_for_date.xqy", maxDateTime, currentDate);
 		
 		while(iterator.hasMoreResources()) {
 			Resource resource = iterator.nextResource();
 			
-			JaxBParser parser = JaxBParserFactory.newInstanceFor(Termin.class);
-			Termin termin = parser.unmarshall(resource.getContent().toString());
-			
-			termini.add(termin);
+			String terminDocument = resource.getContent().toString();
+			termini.add(terminDocument.split("\\.")[0]);
 		}
 		
 		return termini;

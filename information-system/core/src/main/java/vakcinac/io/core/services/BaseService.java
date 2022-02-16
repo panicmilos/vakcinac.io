@@ -24,6 +24,10 @@ public abstract class BaseService<T> {
 		return baseRepository.retrieve(id);
 	}
 	
+	public T read(String additionalCollectionUri, String id) throws IOException, XMLDBException {
+		return baseRepository.retrieve(additionalCollectionUri, id);
+	}
+	
 	public int count(String graphUri, Object ...args) throws IOException {
 		return jenaRepository.count(graphUri, args);
 	}
