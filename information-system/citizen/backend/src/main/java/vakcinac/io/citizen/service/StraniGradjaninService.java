@@ -66,4 +66,10 @@ public class StraniGradjaninService extends BaseService<StraniGradjanin> {
 		
 		return findFirstByXQuery(XQueryExpression, StraniGradjanin.class);
 	}
+	
+	public StraniGradjanin findByEmail(String email) {
+		String XQueryExpression = String.format("collection('/db/strani-gradjani')//*:strani-gradjanin/*:email[text() = '%s']/..", email);
+		
+		return findFirstByXQuery(XQueryExpression, StraniGradjanin.class);
+	}
 }

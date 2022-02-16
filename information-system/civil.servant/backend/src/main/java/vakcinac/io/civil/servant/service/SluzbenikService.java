@@ -63,4 +63,10 @@ public class SluzbenikService extends BaseService<Sluzbenik> {
 		
 		return findFirstByXQuery(XQueryExpression, Sluzbenik.class);
 	}
+	
+	public Sluzbenik findByEmail(String email) {
+		String XQueryExpression = String.format("collection('/db/sluzbenici')//*:sluzbenik/*:email[text() = '%s']/..", email);
+		
+		return findFirstByXQuery(XQueryExpression, Sluzbenik.class);
+	}
 }
