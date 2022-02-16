@@ -80,14 +80,19 @@ public class JenaRepository implements Closeable {
 	}
 	
 
-	public String readLatestSubject(String graph, String p, String o) {
-		try(CloseableResultSet set = read(graph, String.format("?s %s %s", p, o))) {
-			String subject = "";
-			while (set.hasNext()) {
-				QuerySolution querySolution = set.next();
-				subject = querySolution.get("s").toString();
+	public String readLatestSubject(String graphUri, String p, String o) {
+
+		String sparqlCondition = String.format("?s %s %s", p, o);
+		String sparqlQuery = SparqlUtils.selectOrderedData(connectionProperties.dataEndpoint + graphUri, sparqlCondition, "<https://www.vakcinac-io.rs/rdfs/deljeno/izdat>", "?date");
+		QueryExecution query = QueryExecutionFactory.sparqlService(connectionProperties.queryEndpoint, sparqlQuery);
+		ResultSet resultSet = query.execSelect();
+
+		try(CloseableResultSet set = new CloseableResultSet(resultSet, query)) {
+			if(!set.hasNext()) {
+				return null;
 			}
-			return subject;
+
+			return set.next().get("?s").toString();
 		}
 	}
 	
@@ -104,7 +109,7 @@ public class JenaRepository implements Closeable {
 		return 0;
 	}
 	
-	public void updateData(String about, String xml, String graphUri) {
+	public void updateData(String about, String xml, String graphUri) throws IOException {
 		deleteData(about, graphUri);
 		insert(xml, graphUri);
 	}
