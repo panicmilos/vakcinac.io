@@ -51,6 +51,12 @@ public class AuthenticationService {
         String jwt = generateJwt(korisnickoIme, lozinka, id);
 
         return new AuthenticatedGradjaninResponse(korisnickoIme, jwt);
+    }   
+    
+    public String getCurrentGradjaninUsername() {
+    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	
+    	return authentication.getName();
     }
 
     private String generateJwt(String korisnickoIme, String lozinka, String gradjaninId) {

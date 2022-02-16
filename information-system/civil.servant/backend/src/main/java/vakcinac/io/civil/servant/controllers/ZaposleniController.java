@@ -52,7 +52,7 @@ public class ZaposleniController extends ControllerBase {
 	
 	@PreAuthorize("hasAnyRole('Sluzbenik', 'ZdravstveniRadnik')")
 	@GetMapping("korisnicko-ime/{korisnickoIme}")
-	public ResponseEntity<UserDetails> getGradjaninByKorisnickoIme(@PathVariable("korisnickoIme") String korisnickoIme) {
+	public ResponseEntity<UserDetails> getZaposleniByKorisnickoIme(@PathVariable("korisnickoIme") String korisnickoIme) {
 		UserDetails zaposleni = zaposleniService.loadUserByUsername(korisnickoIme);
 		if (zaposleni == null) {
 			throw new MissingEntityException(String.format("Zaposleni sa željenim korisničkim imenom (%s) ne postoji.", korisnickoIme));

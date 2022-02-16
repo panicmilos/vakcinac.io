@@ -6,6 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,9 +18,11 @@ import vakcinac.io.citizen.models.dgradj.DomaciGradjanin;
 import vakcinac.io.citizen.models.sgradj.StraniGradjanin;
 import vakcinac.io.citizen.requests.CreateDomaciGradjaninRequest;
 import vakcinac.io.citizen.requests.CreateStraniGradjaninRequest;
+import vakcinac.io.citizen.service.AuthenticationService;
 import vakcinac.io.citizen.service.GradjaninService;
 import vakcinac.io.citizen.validators.CitizenValidator;
 import vakcinac.io.core.controllers.ControllerBase;
+import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.models.os.Tgradjanin;
 
@@ -28,11 +31,13 @@ import vakcinac.io.core.models.os.Tgradjanin;
 public class GradjaniController extends ControllerBase {
 	
 	private GradjaninService gradjaninService;
+	private AuthenticationService authService;
 	
 	@Autowired
-	public GradjaniController(ModelMapper mapper, CitizenValidator validator, GradjaninService gradjaninService) {
+	public GradjaniController(ModelMapper mapper, CitizenValidator validator, GradjaninService gradjaninService, AuthenticationService authService) {
 		super(mapper, validator);
 		this.gradjaninService = gradjaninService;
+		this.authService = authService;
 	}
 	
 	@GetMapping("/{id}")
@@ -66,5 +71,21 @@ public class GradjaniController extends ControllerBase {
 		StraniGradjanin createdStraniGradjanin = (StraniGradjanin) gradjaninService.create(straniGradjanin);
 		
 		return ResponseEntity.ok(createdStraniGradjanin);
+	}
+	
+	@PreAuthorize("hasAnyRole('DomaciGradjanin', 'StraniGradjanin')")
+	@GetMapping("korisnicko-ime/{korisnickoIme}")
+	public ResponseEntity<UserDetails> getGradjaninByKorisnickoIme(@PathVariable("korisnickoIme") String korisnickoIme) {
+		UserDetails gradjanin = gradjaninService.loadUserByUsername(korisnickoIme);
+		if (gradjanin == null) {
+			throw new MissingEntityException(String.format("Građanin sa željenim korisničkim imenom (%s) ne postoji.", korisnickoIme));
+		}
+
+		String currentUserUsername = authService.getCurrentGradjaninUsername();
+		if (!currentUserUsername.equals(gradjanin.getUsername())) {
+			throw new BadLogicException("Možete pristupiti samo svojim podacima.");
+		}
+
+		return ResponseEntity.ok(gradjanin);
 	}
 }
