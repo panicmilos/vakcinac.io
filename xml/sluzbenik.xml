@@ -15,7 +15,7 @@
 
     <os:meta property="rdfos:saJMBG" datatype="xsd:string">2204542354123</os:meta>
     <os:meta property="rdfos:seZove" datatype="xsd:string">Ivan</os:meta>
-    <os:meta property="rdfos:seRodio" datatype="xsd:dateTime">1973-04-11</os:meta>
+    <os:meta property="rdfos:seRodio" datatype="xsd:date">1973-04-11</os:meta>
     <os:meta property="rdfos:jePola" datatype="xsd:int">0</os:meta>
 
     <os:ime>Ivan</os:ime>

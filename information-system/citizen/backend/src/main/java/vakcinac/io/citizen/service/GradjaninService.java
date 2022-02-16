@@ -1,5 +1,6 @@
 package vakcinac.io.citizen.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class GradjaninService implements UserDetailsService {
 		return authorities;
     }
 	
-	public Tgradjanin create(Tgradjanin gradjanin) {
+	public Tgradjanin create(Tgradjanin gradjanin) throws IOException {
 		validate(gradjanin);
 		
 		if (gradjanin instanceof DomaciGradjanin) {

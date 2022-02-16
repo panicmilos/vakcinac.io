@@ -104,7 +104,7 @@ public class JenaRepository implements Closeable {
 		return 0;
 	}
 	
-	public void updateData(String about, String xml, String graphUri) {
+	public void updateData(String about, String xml, String graphUri) throws IOException {
 		deleteData(about, graphUri);
 		insert(xml, graphUri);
 	}

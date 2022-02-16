@@ -14,7 +14,7 @@
 >
 
     <os:meta property="rdfos:seZove" datatype="xsd:string">Mirko</os:meta>
-    <os:meta property="rdfos:seRodio" datatype="xsd:dateTime">1999-11-04</os:meta>
+    <os:meta property="rdfos:seRodio" datatype="xsd:date">1999-11-04</os:meta>
     <os:meta property="rdfos:jePola" datatype="xsd:int">0</os:meta>
     <os:meta property="rdfsg:saId" datatype="xsd:string">2312918273972</os:meta>
     <os:meta property="rdfsg:imaRoditelja" datatype="xsd:string">Savo</os:meta>
