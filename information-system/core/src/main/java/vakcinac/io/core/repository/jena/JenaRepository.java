@@ -18,6 +18,7 @@ import org.apache.jena.update.UpdateProcessor;
 import org.apache.jena.update.UpdateRequest;
 
 import vakcinac.io.core.Constants;
+import vakcinac.io.core.results.link.Links;
 import vakcinac.io.core.utils.JenaAuthenticationUtils;
 import vakcinac.io.core.utils.JenaAuthenticationUtils.JenaConnectionProperties;
 import vakcinac.io.core.utils.SparqlUtils;
@@ -107,6 +108,41 @@ public class JenaRepository implements Closeable {
 		}
 		
 		return 0;
+	}
+	
+	public Links findReferencing(String about, String graphUri) throws IOException {
+		byte[] encoded = Files.readAllBytes(Paths.get(Constants.ROOT_RESOURCE + "/data/sparql/referencing.sparql"));
+		String notFormattedSparqlCondition = new String(encoded, StandardCharsets.UTF_8);
+		
+		String formattedSparqlCondition = String.format(notFormattedSparqlCondition, connectionProperties.dataEndpoint + graphUri, about);
+
+		return findLinks(formattedSparqlCondition);
+	}
+	
+	public Links findReferencedBy(String about) throws IOException {
+		byte[] encoded = Files.readAllBytes(Paths.get(Constants.ROOT_RESOURCE + "/data/sparql/referenced_by.sparql"));
+		String notFormattedSparqlCondition = new String(encoded, StandardCharsets.UTF_8);
+		
+		String formattedSparqlCondition = String.format(notFormattedSparqlCondition, about);
+
+		return findLinks(formattedSparqlCondition);
+	}
+	
+	private Links findLinks(String sparqlQuery) {
+		System.out.println(sparqlQuery);
+
+		QueryExecution query = QueryExecutionFactory.sparqlService(connectionProperties.queryEndpoint, sparqlQuery);
+		ResultSet resultSet = query.execSelect();
+		
+		Links links = new Links();
+		try (CloseableResultSet set = new CloseableResultSet(resultSet, query)) {
+			while (set.hasNext()) {
+				QuerySolution querySolution = set.next();
+				links.getLink().add(querySolution.get("link").toString());
+			}
+		}
+		
+		return links;
 	}
 	
 	public void updateData(String about, String xml, String graphUri) throws IOException {

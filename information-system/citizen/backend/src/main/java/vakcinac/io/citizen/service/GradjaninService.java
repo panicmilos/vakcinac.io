@@ -6,11 +6,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 
@@ -18,6 +17,8 @@ import vakcinac.io.citizen.models.dgradj.DomaciGradjanin;
 import vakcinac.io.citizen.models.sgradj.StraniGradjanin;
 import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.models.os.Tgradjanin;
+import vakcinac.io.core.security.Authority;
+import vakcinac.io.core.security.User;
 
 @Service
 @RequestScope
@@ -25,11 +26,13 @@ public class GradjaninService implements UserDetailsService {
 	
 	private DomaciGradjaninService domaciGradjaninService;
 	private StraniGradjaninService straniGradjaninService;
+	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
-	public GradjaninService(DomaciGradjaninService domaciGradjaninService, StraniGradjaninService straniGradjaninService) {
+	public GradjaninService(DomaciGradjaninService domaciGradjaninService, StraniGradjaninService straniGradjaninService, PasswordEncoder passwordEncoder) {
 		this.domaciGradjaninService = domaciGradjaninService;
 		this.straniGradjaninService = straniGradjaninService;
+		this.passwordEncoder = passwordEncoder;
 	}
 	
 	@Override
@@ -42,7 +45,7 @@ public class GradjaninService implements UserDetailsService {
 	
 	private List<GrantedAuthority> getGradjaninAuthorities(Tgradjanin gradjanin) {
 		String role = gradjanin instanceof DomaciGradjanin ? "Domaci" : "Strani";
-		GrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_" + role);
+		GrantedAuthority grantedAuthority = new Authority("ROLE_" + role);
 		
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 		authorities.add(grantedAuthority);
@@ -51,6 +54,8 @@ public class GradjaninService implements UserDetailsService {
     }
 	
 	public Tgradjanin create(Tgradjanin gradjanin) throws IOException {		
+		gradjanin.setLozinka(passwordEncoder.encode(gradjanin.getLozinka()));
+		
 		if (gradjanin instanceof DomaciGradjanin) {
 			DomaciGradjanin domaciGradjanin = (DomaciGradjanin) gradjanin;
 			validate(domaciGradjanin.getJmbg(), domaciGradjanin);
