@@ -1,18 +1,10 @@
 package vakcinac.io.citizen.service;
 
-import java.io.IOException;
-import java.math.BigInteger;
-import java.time.LocalDate;
-import java.util.Optional;
-
-import javax.xml.namespace.QName;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 import org.xmldb.api.base.ResourceIterator;
 import org.xmldb.api.base.XMLDBException;
-
 import vakcinac.io.citizen.models.pot.PotvrdaOIzvrsenojVakcinaciji;
 import vakcinac.io.core.Constants;
 import vakcinac.io.core.exceptions.MissingEntityException;
@@ -23,6 +15,7 @@ import vakcinac.io.core.models.os.Tlink;
 import vakcinac.io.core.models.os.Tmeta;
 import vakcinac.io.core.repository.ExistRepository;
 import vakcinac.io.core.repository.exist.CloseableResource;
+import vakcinac.io.core.repository.jena.CloseableResultSet;
 import vakcinac.io.core.repository.jena.JenaRepository;
 import vakcinac.io.core.results.agres.AggregateResult;
 import vakcinac.io.core.services.BaseService;
@@ -30,6 +23,12 @@ import vakcinac.io.core.utils.LocalDateUtils;
 import vakcinac.io.core.utils.RandomUtils;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
+
+import javax.xml.namespace.QName;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.time.LocalDate;
+import java.util.Optional;
 
 
 @Service
@@ -63,6 +62,25 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
             JaxBParser parser = JaxBParserFactory.newInstanceFor(AggregateResult.class);
 	        return parser.unmarshall(resource.getContent().toString());
         }
+    }
+
+    public PotvrdaOIzvrsenojVakcinaciji.PodaciOVakcinaciji readVakcinePotvrdePoGradjanu(String gradjaninId) {
+
+        String gradjaninUrl = String.format("<%s/gradjani/%s>", Constants.ROOT_URL, gradjaninId);
+
+        String potvrdaAbout = "";
+        try(CloseableResultSet set = jenaRepository.read("/potvrda", String.format("?s %s %s", "<https://www.vakcinac-io.rs/rdfs/potvrda/za>", gradjaninUrl))) {
+            if(!set.hasNext()) {
+                throw new MissingEntityException("Potvrda za zadatog gradjanina ne postoji.");
+            }
+
+            potvrdaAbout = set.next().get("?s").toString();
+        }
+
+        String[] potvrdaSplit = potvrdaAbout.split("/");
+
+        PotvrdaOIzvrsenojVakcinaciji potvrda = read(potvrdaSplit[potvrdaSplit.length-1]);
+        return potvrda.getPodaciOVakcinaciji();
     }
     
     @Override

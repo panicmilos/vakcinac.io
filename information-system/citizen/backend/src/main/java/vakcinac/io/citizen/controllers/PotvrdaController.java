@@ -1,21 +1,21 @@
 package vakcinac.io.citizen.controllers;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import vakcinac.io.citizen.factories.PotvrdaOIzvrsenojVakcinacijiFactory;
 import vakcinac.io.citizen.models.pot.PotvrdaOIzvrsenojVakcinaciji;
 import vakcinac.io.citizen.service.PotvrdaService;
 import vakcinac.io.core.controllers.ControllerBase;
+import vakcinac.io.core.models.os.InformacijeOPrimljenimDozamaIzPotvrde;
+import vakcinac.io.core.models.os.PrimljenaDozaIzPotvrde;
 import vakcinac.io.core.requests.AddDozaRequest;
 import vakcinac.io.core.requests.CreatePotvrdaRequest;
 import vakcinac.io.core.results.agres.AggregateResult;
@@ -68,5 +68,29 @@ public class PotvrdaController extends ControllerBase {
         PotvrdaOIzvrsenojVakcinaciji updatedPotvrda = potvrdaService.addDoza(request.getPotvrdaId(), request.getSerija());
 
         return ResponseEntity.ok(updatedPotvrda);
+    }
+
+    @GetMapping(path = "gradjanin/{gradjaninId}/doze")
+    public ResponseEntity<InformacijeOPrimljenimDozamaIzPotvrde> primljeneDoze(@PathVariable String gradjaninId) throws Exception {
+
+        PotvrdaOIzvrsenojVakcinaciji.PodaciOVakcinaciji info = potvrdaService.readVakcinePotvrdePoGradjanu(gradjaninId);
+
+        List<PrimljenaDozaIzPotvrde> doze = info.getPodaciODozama().getPrimljenaDoza().stream().map(doza ->
+            new PrimljenaDozaIzPotvrde() {
+            {
+                setDatum(doza.getDatum());
+                setRedniBroj(doza.getRedniBroj());
+                setSerija(doza.getSerija());
+            }
+        }).collect(Collectors.toList());
+
+        InformacijeOPrimljenimDozamaIzPotvrde informacijeOPrimljenimDozamaIzPotvrde = new InformacijeOPrimljenimDozamaIzPotvrde();
+        informacijeOPrimljenimDozamaIzPotvrde.setNazivVakcine(info.getNazivVakcine());
+        informacijeOPrimljenimDozamaIzPotvrde.setZdravstvenaUstanova(info.getZdravstvenaUstanova());
+        informacijeOPrimljenimDozamaIzPotvrde.setPrimljenaDozaIzPotvrde(doze);
+
+        System.out.println(doze.size());
+
+        return ResponseEntity.ok(informacijeOPrimljenimDozamaIzPotvrde);
     }
 }

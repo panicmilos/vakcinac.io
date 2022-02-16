@@ -1,9 +1,9 @@
 package vakcinac.io.core.requests;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import vakcinac.io.core.requests.helpers.UpdateSaglasnostDoza;
+
+import javax.xml.bind.annotation.*;
+import java.util.List;
 
 @XmlRootElement(name = "update-saglasnost-request")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -20,6 +20,10 @@ public class UpdateSaglasnostRequest {
 
     @XmlElement(name = "odluka-komisije")
     private Boolean odlukaKomisije;
+
+    @XmlElementWrapper(name = "doze")
+    @XmlElement(name = "doza")
+    private List<UpdateSaglasnostDoza> doze;
 
     public String getSaglasnostId() {
         return saglasnostId;
