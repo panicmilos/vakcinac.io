@@ -33,15 +33,25 @@ public abstract class ExistRepository<T> implements Closeable {
 
 	public ExistRepository(Class<?> forClass) throws IOException, XMLDBException {
 		this.forClass = forClass;
-
-		ExistEntitiesRegistry collectionUriRegistry = new ExistEntitiesRegistry();
-		collectionUri = collectionUriRegistry.getCollectionUriFor(forClass);
-		
-		collection = new CloseableCollection(collectionUri);
-		collection.setProperty(OutputKeys.INDENT, "yes");
+	}
+	
+	private void openConnection() {
+		if (collection == null) {
+			try {
+				ExistEntitiesRegistry collectionUriRegistry = new ExistEntitiesRegistry();
+				collectionUri = collectionUriRegistry.getCollectionUriFor(forClass);
+				
+				collection = new CloseableCollection(collectionUri);
+				collection.setProperty(OutputKeys.INDENT, "yes");
+			} catch (IOException | XMLDBException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public T store(String id, T obj) {
+		openConnection();
+		
 		try (CloseableResource resource = new CloseableResource(collection.createResource(id + ".xml", XMLResource.RESOURCE_TYPE))) {
 
 			JaxBParser parser = JaxBParserFactory.newInstanceFor(forClass);
@@ -58,6 +68,8 @@ public abstract class ExistRepository<T> implements Closeable {
 	}
 	
 	public T store(String additionalCollectionUri, String id, T obj) throws IOException, XMLDBException {
+		openConnection();
+		
 		try (CloseableCollection collection = new CloseableCollection(String.format("%s/%s", collectionUri, additionalCollectionUri))) {
 			try (CloseableResource resource = new CloseableResource(collection.createResource(id + ".xml", XMLResource.RESOURCE_TYPE))) {
 	
@@ -76,6 +88,8 @@ public abstract class ExistRepository<T> implements Closeable {
 	}
 	
 	public T store(String id, String serializedObj) {
+		openConnection();
+		
 		try (CloseableResource resource = new CloseableResource(collection.createResource(id + ".xml", XMLResource.RESOURCE_TYPE))) {
 
 			resource.setContent(serializedObj);
@@ -88,6 +102,8 @@ public abstract class ExistRepository<T> implements Closeable {
 	}
 
 	public T retrieve(String id) {
+		openConnection();
+		
 		try (CloseableResource resource = new CloseableResource(collection.getResource(id + ".xml"))) {
 			if (resource.getRealResource() == null) {
 				System.out.format("[ERROR] Document with id: %s can not be found!\n", id);
@@ -104,7 +120,7 @@ public abstract class ExistRepository<T> implements Closeable {
 
 	}
 	
-	public boolean contains(String id, String xPathExpression) throws XMLDBException {
+	public boolean contains(String id, String xPathExpression) throws XMLDBException {		
 		String xQueryExpression = String.format("doc(\"/%s/%s\")%s", collectionUri, id + ".xml", xPathExpression);
 
 		ResourceIterator iterator = executeRetrieveUsingXQuery(xQueryExpression);
@@ -115,7 +131,7 @@ public abstract class ExistRepository<T> implements Closeable {
         return false;
 	}
 	
-	public int count(String id) throws XMLDBException, IOException {
+	public int count(String id) throws XMLDBException, IOException {		
 		ResourceIterator iterator = retrieveUsingXQuery(Constants.ROOT_RESOURCE + "/data/xquery/count.xqy", collectionUri, id);
 		
 		try (CloseableResource resource = new CloseableResource(iterator.nextResource())) {
@@ -125,7 +141,7 @@ public abstract class ExistRepository<T> implements Closeable {
 		}
 	}
 	
-	public int count(String additionalCollectionUri, String id) throws XMLDBException, IOException {
+	public int count(String additionalCollectionUri, String id) throws XMLDBException, IOException  {		
 		ResourceIterator iterator = retrieveUsingXQuery(Constants.ROOT_RESOURCE + "/data/xquery/count.xqy", String.format("%s/%s", collectionUri, additionalCollectionUri), id);
 		
 		try (CloseableResource resource = new CloseableResource(iterator.nextResource())) {
@@ -135,7 +151,7 @@ public abstract class ExistRepository<T> implements Closeable {
 		}
 	}
 	
-	public ResourceIterator retrieveUsingXQuery(String xQueryExpression) throws XMLDBException {
+	public ResourceIterator retrieveUsingXQuery(String xQueryExpression) throws XMLDBException {		
 		return executeRetrieveUsingXQuery(xQueryExpression);
 	}
 	
@@ -163,6 +179,8 @@ public abstract class ExistRepository<T> implements Closeable {
 	}
 	
 	private ResourceIterator executeRetrieveUsingXQuery(String xQueryExpression) throws XMLDBException {
+		openConnection();
+		
 		TargetNamespaceRegistry registry = new TargetNamespaceRegistry();
 		
 		XQueryService xqueryService = collection.getXQueryService(registry.getTargetNamespaceFor(forClass));
@@ -173,6 +191,8 @@ public abstract class ExistRepository<T> implements Closeable {
 	}
 	
 	public void insertBefore(String id, String contextPath, String serializedObj) throws XMLDBException {
+		openConnection();
+		
 		TargetNamespaceRegistry registry = new TargetNamespaceRegistry();
 		
 		XUpdateQueryService xqueryService = collection.getXUpdateQueryService();
@@ -183,6 +203,8 @@ public abstract class ExistRepository<T> implements Closeable {
 	}
 	
 	public void insertAfter(String id, String contextPath, String serializedObj) throws XMLDBException {
+		openConnection();
+		
 		TargetNamespaceRegistry registry = new TargetNamespaceRegistry();
 		
 		XUpdateQueryService xqueryService = collection.getXUpdateQueryService();
@@ -193,6 +215,8 @@ public abstract class ExistRepository<T> implements Closeable {
 	}
 	
 	public void append(String id, String contextPath, String serializedObj) throws XMLDBException {
+		openConnection();
+		
 		TargetNamespaceRegistry registry = new TargetNamespaceRegistry();
 		
 		XUpdateQueryService xqueryService = collection.getXUpdateQueryService();
@@ -203,6 +227,8 @@ public abstract class ExistRepository<T> implements Closeable {
 	}
 	
 	public void update(String id, String contextPath, Object obj) throws XMLDBException {
+		openConnection();
+		
 		TargetNamespaceRegistry registry = new TargetNamespaceRegistry();
 		
 		XUpdateQueryService xqueryService = collection.getXUpdateQueryService();
@@ -215,6 +241,8 @@ public abstract class ExistRepository<T> implements Closeable {
 	}
 	
 	public T remove(String id) {
+		openConnection();
+		
 		try (CloseableResource resource = new CloseableResource(collection.getResource(id + ".xml"))) {
 
 			if (resource.getRealResource() == null) {
@@ -235,6 +263,8 @@ public abstract class ExistRepository<T> implements Closeable {
 	}
 	
 	public void remove(String id, String contextPath) throws XMLDBException {
+		openConnection();
+		
 		TargetNamespaceRegistry registry = new TargetNamespaceRegistry();
 		
 		XUpdateQueryService xqueryService = collection.getXUpdateQueryService();

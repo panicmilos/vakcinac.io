@@ -1,17 +1,23 @@
 package vakcinac.io.civil.servant;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.xmldb.api.DatabaseManager;
 import org.xmldb.api.base.Database;
+
+import vakcinac.io.civil.servant.models.red.RedCekanja;
+import vakcinac.io.civil.servant.service.RedCekanjaService;
 import vakcinac.io.core.Constants;
 import vakcinac.io.core.utils.ExistAuthenticationUtils;
 
 @SpringBootApplication
+@EnableScheduling
 public class Application implements CommandLineRunner {
 
 	@Value("${root.package}")
@@ -25,6 +31,9 @@ public class Application implements CommandLineRunner {
 		return new ModelMapper();
 	}
 
+	@Autowired
+	RedCekanjaService redCekanjaService;
+	
 	public static void main(String[] args) { SpringApplication.run(Application.class, args); }
 
 	@Override
@@ -49,6 +58,8 @@ public class Application implements CommandLineRunner {
 			DatabaseManager.registerDatabase(database);
 
 			System.out.println("eXist database driver initialized.");
+			
+			redCekanjaService.create(new RedCekanja());
 		} catch (Exception e) {
 			System.out.println("[ERROR] An error has occured while trying to initialize eXist database drive.");
 		}

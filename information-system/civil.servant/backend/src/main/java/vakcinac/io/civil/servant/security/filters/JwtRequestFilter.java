@@ -73,10 +73,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         	String role = jwtUtil.extractRoleFromToken(jwt);
             UserDetails userDetails = null;
             try {
-            	if (Roles.CITIZEN_ROLES.contains(role)) {
+            	if (Roles.CIVIL_ROLES.contains(role)) {
             		userDetails = userService.loadUserByUsername(username);
             	}
-            	else if (Roles.CIVIL_ROLES.contains(role)) {
+            	else if (Roles.CITIZEN_ROLES.contains(role)) {
             		HttpHeaders headers = new HttpHeaders();
             		headers.set("Authorization", "Bearer " + jwt); 
             		HttpEntity<?> entity = new HttpEntity<>(headers);
