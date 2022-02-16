@@ -1,9 +1,18 @@
 package vakcinac.io.citizen.service;
 
+import java.io.IOException;
+import java.math.BigInteger;
+import java.time.LocalDate;
+import java.util.Optional;
+
+import javax.xml.namespace.QName;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
+import org.xmldb.api.base.ResourceIterator;
 import org.xmldb.api.base.XMLDBException;
+
 import vakcinac.io.citizen.models.pot.PotvrdaOIzvrsenojVakcinaciji;
 import vakcinac.io.core.Constants;
 import vakcinac.io.core.exceptions.MissingEntityException;
@@ -13,18 +22,14 @@ import vakcinac.io.core.models.os.Tgradjanin;
 import vakcinac.io.core.models.os.Tlink;
 import vakcinac.io.core.models.os.Tmeta;
 import vakcinac.io.core.repository.ExistRepository;
+import vakcinac.io.core.repository.exist.CloseableResource;
 import vakcinac.io.core.repository.jena.JenaRepository;
+import vakcinac.io.core.results.agres.AggregateResult;
 import vakcinac.io.core.services.BaseService;
 import vakcinac.io.core.utils.LocalDateUtils;
 import vakcinac.io.core.utils.RandomUtils;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
-
-import javax.xml.namespace.QName;
-import java.io.IOException;
-import java.math.BigInteger;
-import java.time.LocalDate;
-import java.util.Optional;
 
 
 @Service
@@ -37,9 +42,28 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
     protected PotvrdaService(ExistRepository<PotvrdaOIzvrsenojVakcinaciji> baseRepository, JenaRepository jenaRepository) {
         super(baseRepository, jenaRepository);
     }
-
+    
+    public AggregateResult aggregateByDose(LocalDate startDate, LocalDate endDate) throws XMLDBException, IOException {
+    	return aggregate("aggregate-doses", startDate, endDate);
+    }
+    
+    public AggregateResult aggregateByTypes(LocalDate startDate, LocalDate endDate) throws XMLDBException, IOException {
+    	return aggregate("aggregate-types", startDate, endDate);
+    }
+    
+    private AggregateResult aggregate(String fileName, LocalDate startDate, LocalDate endDate) throws XMLDBException, IOException {
+    	ResourceIterator iterator = baseRepository.retrieveUsingXQuery(String.format("%s/data/xquery/%s.xqy", Constants.ROOT_RESOURCE, fileName), startDate, endDate);
+    		
+        try (CloseableResource resource = new CloseableResource()) {
+    		resource.setRealResource(iterator.nextResource());
+            
+            JaxBParser parser = JaxBParserFactory.newInstanceFor(AggregateResult.class);
+	        return parser.unmarshall(resource.getContent().toString());
+        }
+    }
+    
     @Override
-    public PotvrdaOIzvrsenojVakcinaciji create(PotvrdaOIzvrsenojVakcinaciji potvrda) throws Exception {
+     public PotvrdaOIzvrsenojVakcinaciji create(PotvrdaOIzvrsenojVakcinaciji potvrda) throws Exception {
 
         String id = getValidPotvrdaId();
 

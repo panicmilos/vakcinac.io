@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="https://www.vakcinac-io.rs/aggregate-result" 
+    xmlns="https://www.vakcinac-io.rs/aggregate-result"
+    elementFormDefault="qualified">
+
+    <xsd:element name="aggregate-result">
+      <xsd:complexType>
+        <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+
+          <xsd:element name="group">
+            <xsd:complexType>
+              <xsd:simpleContent>
+                <xsd:extension base="xsd:nonNegativeInteger">
+                  <xsd:attribute name="by" type="xsd:string" use="required" />
+                </xsd:extension>
+              </xsd:simpleContent>
+            </xsd:complexType>
+
+          </xsd:element>
+
+        </xsd:sequence>
+      </xsd:complexType>  
+
+    </xsd:element>
+</xsd:schema>
