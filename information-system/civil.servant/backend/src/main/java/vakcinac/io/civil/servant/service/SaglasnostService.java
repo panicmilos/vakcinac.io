@@ -1,15 +1,8 @@
 package vakcinac.io.civil.servant.service;
 
-import java.io.IOException;
-import java.time.LocalDate;
-import java.util.Optional;
-
-import javax.xml.namespace.QName;
-
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 import org.xmldb.api.base.XMLDBException;
-
 import vakcinac.io.civil.servant.models.sag.AzurirajSaglasnost;
 import vakcinac.io.civil.servant.models.sag.SaglasnostZaSprovodjenjePreporuceneImunizacije;
 import vakcinac.io.civil.servant.models.sag.Tlekar;
@@ -17,9 +10,11 @@ import vakcinac.io.civil.servant.models.zrad.ZdravstveniRadnik;
 import vakcinac.io.civil.servant.repository.SaglasnostRepository;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
 import vakcinac.io.core.Constants;
+import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.factories.TlinkFactory;
 import vakcinac.io.core.factories.TmetaFactory;
+import vakcinac.io.core.models.os.InformacijeOPrimljenimDozamaIzPotvrde;
 import vakcinac.io.core.models.os.Tgradjanin;
 import vakcinac.io.core.models.os.Tlink;
 import vakcinac.io.core.models.os.Tmeta;
@@ -28,6 +23,11 @@ import vakcinac.io.core.utils.LocalDateUtils;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 
+import javax.xml.namespace.QName;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Optional;
+
 @Service
 @RequestScope
 public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePreporuceneImunizacije> {
@@ -35,6 +35,8 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
     private GradjaninService gradjaninService;
 
     private ZaposleniService zaposleniService;
+
+    private PotvrdaService potvrdaService;
 
     public SaglasnostService(GradjaninService gradjaninService, CivilServantJenaRepository jenaRepository, SaglasnostRepository saglasnostRepository, ZaposleniService zaposleniService) {
         super(saglasnostRepository, jenaRepository);
@@ -55,6 +57,7 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
         }
 
         fillOutPacijent(saglasnost, gradjanin);
+//        fillOutVakcine(saglasnost, )
         fillOutRdf(gradjaninId, saglasnost);
 
         JaxBParser parser = JaxBParserFactory.newInstanceFor(SaglasnostZaSprovodjenjePreporuceneImunizacije.class);
@@ -65,6 +68,11 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
         jenaRepository.insert(serializedObj, "/saglasnosti");
 
         return create(id, serializedObj);
+    }
+
+    private void fillOutVakcine(SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost, String gradjaninId) {
+        InformacijeOPrimljenimDozamaIzPotvrde info = potvrdaService.getVakcine(gradjaninId);
+        System.out.println(info);
     }
 
     private String getGradjaninId(SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost) {
@@ -78,7 +86,7 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
         } else if(strano != null && !strano.getBrojPasosaEbs().trim().isEmpty()){
             gradjaninId = strano.getBrojPasosaEbs();
         } else {
-            throw new MissingEntityException("Gradjanin mora imati jmbg, ebs ili broj pasosa.");
+            throw new BadLogicException("Gradjanin mora imati jmbg, ebs ili broj pasosa.");
         }
 
         return gradjaninId;
