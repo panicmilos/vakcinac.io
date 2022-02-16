@@ -1,5 +1,7 @@
 package vakcinac.io.civil.servant.controllers;
 
+import java.io.IOException;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +45,7 @@ public class ZaposleniController extends ControllerBase {
 	}
 	
 	@PostMapping("/sluzbenik")
-	public ResponseEntity<Sluzbenik> createSluzbenik(@RequestBody CreateSluzbenikRequest createSluzbenikRequest) {
+	public ResponseEntity<Sluzbenik> createSluzbenik(@RequestBody CreateSluzbenikRequest createSluzbenikRequest) throws IOException {
 		validate(createSluzbenikRequest);
 		
 		Sluzbenik sluzbenik = (Sluzbenik) map(createSluzbenikRequest, Sluzbenik.class);
@@ -54,7 +56,7 @@ public class ZaposleniController extends ControllerBase {
 	}
 	
 	@PostMapping("/zdravstveni-radnik")
-	public ResponseEntity<ZdravstveniRadnik> createStraniGradjanin(@RequestBody CreateZdravstveniRadnikRequest createZdravstveniRadnikRequest) {
+	public ResponseEntity<ZdravstveniRadnik> createStraniGradjanin(@RequestBody CreateZdravstveniRadnikRequest createZdravstveniRadnikRequest) throws IOException {
 		validate(createZdravstveniRadnikRequest);
 		
 		ZdravstveniRadnik zdravstveniRadnik = (ZdravstveniRadnik) map(createZdravstveniRadnikRequest, ZdravstveniRadnik.class);

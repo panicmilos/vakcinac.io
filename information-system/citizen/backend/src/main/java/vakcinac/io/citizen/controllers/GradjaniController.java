@@ -1,9 +1,10 @@
 package vakcinac.io.citizen.controllers;
 
+import java.io.IOException;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,7 +46,7 @@ public class GradjaniController extends ControllerBase {
 	}
 	
 	@PostMapping("/domaci")
-	public ResponseEntity<DomaciGradjanin> createDomaciGradjanin(@RequestBody CreateDomaciGradjaninRequest createDomaciGradjaninRequest) {
+	public ResponseEntity<DomaciGradjanin> createDomaciGradjanin(@RequestBody CreateDomaciGradjaninRequest createDomaciGradjaninRequest) throws IOException {
 		validate(createDomaciGradjaninRequest);
 		
 		DomaciGradjanin domaciGradjanin = (DomaciGradjanin) map(createDomaciGradjaninRequest, DomaciGradjanin.class);
@@ -56,7 +57,7 @@ public class GradjaniController extends ControllerBase {
 	}
 	
 	@PostMapping("/strani")
-	public ResponseEntity<StraniGradjanin> createStraniGradjanin(@RequestBody CreateStraniGradjaninRequest createStraniGradjaninRequest) {
+	public ResponseEntity<StraniGradjanin> createStraniGradjanin(@RequestBody CreateStraniGradjaninRequest createStraniGradjaninRequest) throws IOException {
 		validate(createStraniGradjaninRequest);
 		
 		StraniGradjanin straniGradjanin = (StraniGradjanin) map(createStraniGradjaninRequest, StraniGradjanin.class);

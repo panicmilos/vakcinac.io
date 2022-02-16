@@ -208,6 +208,9 @@ public abstract class ExistRepository<T> implements Closeable {
 		XUpdateQueryService xqueryService = collection.getXUpdateQueryService();
 		String nonFormattetUpdate = XUpdateTemplate.getUpdate(registry.getTargetNamespaceFor(forClass));
 		String formattedUpdate = String.format(nonFormattetUpdate, contextPath, obj.toString());
+
+		System.out.println(formattedUpdate);
+
 		xqueryService.updateResource(id + ".xml", formattedUpdate);
 	}
 	

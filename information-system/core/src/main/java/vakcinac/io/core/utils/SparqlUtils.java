@@ -24,8 +24,10 @@ public class SparqlUtils {
 	
 
 	/* Simple SPARQL query on a named graph */
-	private static final String SELECT_NAMED_GRAPH_TEMPLATE = "SELECT * FROM <%1$s> WHERE { %2$s }";
-	
+	private static final String SELECT_NAMED_GRAPH_TEMPLATE = "SELECT * FROM <%1$s> WHERE { %2$s. }";
+
+	/* Simple SPARQL query on a named graph */
+	private static final String SELECT_NAMED_GRAPH_ORDERED_TEMPLATE = "SELECT * FROM <%1$s> WHERE { %2$s. ?s %3$s %4$s } ORDERBY DESC(%4$s)";
 	
 	/* Plain text RDF serialization format */
 	public static final String NTRIPLES = "N-TRIPLES";
@@ -57,5 +59,9 @@ public class SparqlUtils {
 	
 	public static String selectData(String graphURI, String sparqlCondition) {
 		return String.format(SELECT_NAMED_GRAPH_TEMPLATE, graphURI, sparqlCondition);
+	}
+
+	public static String selectOrderedData(String graphURI, String sparqlCondition, String orderedBy, String variable) {
+		return String.format(SELECT_NAMED_GRAPH_ORDERED_TEMPLATE, graphURI, sparqlCondition, orderedBy, variable);
 	}
 }

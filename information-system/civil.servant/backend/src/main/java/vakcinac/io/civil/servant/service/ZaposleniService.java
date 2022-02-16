@@ -1,5 +1,6 @@
 package vakcinac.io.civil.servant.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class ZaposleniService implements UserDetailsService {
 		return authorities;
     }
 	
-	public Tzaposleni create(Tzaposleni zaposleni) {
+	public Tzaposleni create(Tzaposleni zaposleni) throws IOException {
 		validate(zaposleni);
 		
 		if (zaposleni instanceof Sluzbenik) {
@@ -63,7 +64,17 @@ public class ZaposleniService implements UserDetailsService {
 	private void validate(Tzaposleni zaposleni) {
 		Tzaposleni existingZaposleniByKorisnickoIme = findByKorisnickoIme(zaposleni.getKorisnickoIme());
 		if (existingZaposleniByKorisnickoIme != null) {
-			throw new BadLogicException("Zaposleni sa korisničkim imenom već postoji.");
+			throw new BadLogicException("Zaposleni sa unesenim korisničkim imenom već postoji.");
+		}
+		
+		Tzaposleni existingZaposleniByJmbg = findById(zaposleni.getJmbg());
+		if (existingZaposleniByJmbg != null) {
+			throw new BadLogicException("Zaposleni sa unesenim jmbg već postoji.");
+		}
+		
+		Tzaposleni existingZaposleniByEmail = findByEmail(zaposleni.getEmail());
+		if (existingZaposleniByEmail != null) {
+			throw new BadLogicException("Zaposleni sa unesenim email-om već postoji.");
 		}
 	}
 	
@@ -74,6 +85,20 @@ public class ZaposleniService implements UserDetailsService {
 		}
 		
 		Tzaposleni zdravstveniRadnik = zdravstveniRadnikService.findByKorisnickoIme(korisnickoIme);
+		if (zdravstveniRadnik != null) {
+			return zdravstveniRadnik;
+		}
+		
+		return null;
+	}
+	
+	public Tzaposleni findByEmail(String email) {
+		Tzaposleni sluzbenik = sluzbenikService.findByEmail(email);
+		if (sluzbenik != null) {
+			return sluzbenik;
+		}
+		
+		Tzaposleni zdravstveniRadnik = zdravstveniRadnikService.findByEmail(email);
 		if (zdravstveniRadnik != null) {
 			return zdravstveniRadnik;
 		}

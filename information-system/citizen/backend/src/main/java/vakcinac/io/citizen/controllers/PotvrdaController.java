@@ -52,6 +52,7 @@ public class PotvrdaController extends ControllerBase {
     
     @PostMapping
     public ResponseEntity<PotvrdaOIzvrsenojVakcinaciji> apply(@RequestBody CreatePotvrdaRequest request) throws Exception {
+        validate(request);
 
         PotvrdaOIzvrsenojVakcinaciji potvrda = PotvrdaOIzvrsenojVakcinacijiFactory.create(request);
 
@@ -62,6 +63,7 @@ public class PotvrdaController extends ControllerBase {
 
     @PostMapping(path = "dodaj-dozu")
     public ResponseEntity<PotvrdaOIzvrsenojVakcinaciji> addDoza(@RequestBody AddDozaRequest request) throws Exception {
+        validate(request);
 
         PotvrdaOIzvrsenojVakcinaciji updatedPotvrda = potvrdaService.addDoza(request.getPotvrdaId(), request.getSerija());
 

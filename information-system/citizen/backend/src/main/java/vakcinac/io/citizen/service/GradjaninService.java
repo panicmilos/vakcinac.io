@@ -1,5 +1,6 @@
 package vakcinac.io.citizen.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,21 +50,39 @@ public class GradjaninService implements UserDetailsService {
 		return authorities;
     }
 	
-	public Tgradjanin create(Tgradjanin gradjanin) {
-		validate(gradjanin);
-		
+	public Tgradjanin create(Tgradjanin gradjanin) throws IOException {		
 		if (gradjanin instanceof DomaciGradjanin) {
+			DomaciGradjanin domaciGradjanin = (DomaciGradjanin) gradjanin;
+			validate(domaciGradjanin.getJmbg(), domaciGradjanin);
+			
 			return domaciGradjaninService.create((DomaciGradjanin) gradjanin);
 		}
 		else {
+			StraniGradjanin straniGradjanin = (StraniGradjanin) gradjanin;
+			String id = straniGradjanin.getIdentifikacioniDokument() == 0 ? straniGradjanin.getBrojPasosa() : straniGradjanin.getEbs();
+			if (id == null || id.isEmpty()) {
+				throw new BadLogicException("Identifikacioni broj nije validan.");
+			}
+			validate(id, straniGradjanin);
+			
 			return straniGradjaninService.create((StraniGradjanin) gradjanin);
 		}
 	}
 	
-	private void validate(Tgradjanin gradjanin) {
+	private void validate(String id, Tgradjanin gradjanin) {
 		Tgradjanin existingGradjaninByKorisnickoIme = findByKorisnickoIme(gradjanin.getKorisnickoIme());
 		if (existingGradjaninByKorisnickoIme != null) {
-			throw new BadLogicException("Građanin sa korisničkim imenom već postoji.");
+			throw new BadLogicException("Građanin sa unesenim korisničkim imenom već postoji.");
+		}
+		
+		Tgradjanin existingGradjaninById = findById(id);
+		if (existingGradjaninById != null) {
+			throw new BadLogicException("Građanin sa unesenim id-em već postoji.");
+		}
+		
+		Tgradjanin existingGradjaninByEmail = findByEmail(gradjanin.getEmail());
+		if (existingGradjaninByEmail != null) {
+			throw new BadLogicException("Građanin sa unesenim email-om već postoji.");
 		}
 	}
 	 
@@ -74,6 +93,20 @@ public class GradjaninService implements UserDetailsService {
 		}
 		
 		Tgradjanin straniGradjanin = straniGradjaninService.findByKorisnickoIme(korisnickoIme);
+		if (straniGradjanin != null) {
+			return straniGradjanin;
+		}
+		
+		return null;
+	}
+	
+	public Tgradjanin findByEmail(String email) {
+		Tgradjanin domaciGradjanin = domaciGradjaninService.findByEmail(email);
+		if (domaciGradjanin != null) {
+			return domaciGradjanin;
+		}
+		
+		Tgradjanin straniGradjanin = straniGradjaninService.findByEmail(email);
 		if (straniGradjanin != null) {
 			return straniGradjanin;
 		}
