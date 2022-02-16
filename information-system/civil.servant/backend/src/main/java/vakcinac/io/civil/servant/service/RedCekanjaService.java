@@ -1,7 +1,6 @@
 package vakcinac.io.civil.servant.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.RequestScope;
 import org.xmldb.api.base.XMLDBException;
 
 import vakcinac.io.civil.servant.models.red.RedCekanja;
@@ -13,7 +12,6 @@ import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 
 @Service
-@RequestScope
 public class RedCekanjaService extends BaseService<RedCekanja> {
 
 	private TerminService terminService;
@@ -22,8 +20,6 @@ public class RedCekanjaService extends BaseService<RedCekanja> {
 		super(redCekanjaRepository, jenaRepository);
 		
 		this.terminService = terminService;
-		
-		create(new RedCekanja());
 	}
 
 	@Override
