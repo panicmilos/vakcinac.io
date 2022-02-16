@@ -42,6 +42,7 @@ public class SaglasnostController extends ControllerBase {
 
     @PutMapping
     public ResponseEntity<SaglasnostZaSprovodjenjePreporuceneImunizacije> update(@RequestBody UpdateSaglasnostRequest updateSaglasnostRequest) throws Exception {
+        validate(updateSaglasnostRequest);
 
         AzurirajSaglasnost noviPodaci = mapper.map(updateSaglasnostRequest, AzurirajSaglasnost.class);
         SaglasnostZaSprovodjenjePreporuceneImunizacije updatedSaglasnost = saglasnostService.update(noviPodaci);

@@ -1,0 +1,14 @@
+SELECT ?link
+FROM <%1$s>
+WHERE {
+  <%2$s> ?p ?link
+  FILTER (?p IN
+    (
+      <https://www.vakcinac-io.rs/rdfs/digitalni-sertifikat/naOsnovuZahteva>,
+      <https://www.vakcinac-io.rs/rdfs/digitalni-sertifikat/saPotvrdom>,
+      <https://www.vakcinac-io.rs/rdfs/potvrda/naOsnovuInteresovanja>,
+      <https://www.vakcinac-io.rs/rdfs/potvrda/saSaglasnoscu>,
+      <https://www.vakcinac-io.rs/rdfs/saglasnost/naOsnovuInteresovanja>
+    )
+  )
+}

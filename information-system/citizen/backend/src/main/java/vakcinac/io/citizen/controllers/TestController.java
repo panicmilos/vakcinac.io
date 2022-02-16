@@ -34,6 +34,7 @@ import vakcinac.io.core.Constants;
 import vakcinac.io.core.CoreClass;
 import vakcinac.io.core.repository.exist.CloseableResource;
 import vakcinac.io.core.repository.jena.RdfObject;
+import vakcinac.io.core.results.link.Links;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 import vakcinac.io.core.utils.transformers.PDFTransformer;
@@ -71,6 +72,13 @@ public class TestController {
 		classRegistry = new HashMap<Integer, Class<?>>();
 		classRegistry.put(1, DigitalniSertifikat.class);
 		classRegistry.put(4, PotvrdaOIzvrsenojVakcinaciji.class);
+	}
+	
+	@GetMapping(path="links")
+	public ResponseEntity<Links> links() throws XMLDBException, IOException {
+
+
+		return ResponseEntity.ok(jenaRepository.findReferencing("https://www.vakcinac-io.rs/saglasnost/2312918273111/1", "/saglasnost"));
 	}
 	
 	@GetMapping(path="xquery")
