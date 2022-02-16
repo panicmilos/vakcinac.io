@@ -30,7 +30,8 @@ public class SertifikatController extends ControllerBase {
     @PreAuthorize("hasAnyRole('Sluzbenik')")
 	@PostMapping
 	public ResponseEntity<DigitalniSertifikat> apply(@RequestBody CreateSertifikatRequest createSertifikatRequest) throws Exception {
-		
+    	validate(createSertifikatRequest);
+    	
 		DigitalniSertifikat sertifikat = mapper.map(createSertifikatRequest, DigitalniSertifikat.class);
 		
 		DigitalniSertifikat createdSertifikat = sertifikatService.create(sertifikat);

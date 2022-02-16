@@ -32,7 +32,8 @@ public class SertifikatController extends ControllerBase {
 	}
 	
 	@PostMapping
-	public ResponseEntity<DigitalniSertifikat> apply(@RequestBody CreateSertifikatRequest createSertifikatRequest) throws XMLDBException, IOException {
+	public ResponseEntity<DigitalniSertifikat> apply(@RequestBody CreateSertifikatRequest createSertifikatRequest) throws XMLDBException, IOException {		
+	   	validate(createSertifikatRequest);
 		
 		DigitalniSertifikat sertifikat = DigitalniSertifikatFactory.create(createSertifikatRequest);
 		
