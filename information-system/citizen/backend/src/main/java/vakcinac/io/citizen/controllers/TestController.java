@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.xml.bind.JAXB;
 
@@ -30,8 +32,11 @@ import vakcinac.io.citizen.models.pot.PotvrdaOIzvrsenojVakcinaciji;
 import vakcinac.io.citizen.repository.DigitalniSertifikatRepository;
 import vakcinac.io.citizen.repository.PotvrdaRepository;
 import vakcinac.io.citizen.repository.jena.CitizenJenaRepository;
+import vakcinac.io.citizen.service.MailingService;
 import vakcinac.io.core.Constants;
 import vakcinac.io.core.CoreClass;
+import vakcinac.io.core.mail.MailAttachment;
+import vakcinac.io.core.mail.MailContent;
 import vakcinac.io.core.repository.exist.CloseableResource;
 import vakcinac.io.core.repository.jena.RdfObject;
 import vakcinac.io.core.results.link.Links;
@@ -208,6 +213,25 @@ public class TestController {
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<String> proxyResponse = restTemplate.getForEntity("http://localhost:8881/test/proxy-test", String.class);
 		return proxyResponse;
+	}
+
+	@Autowired
+	MailingService mailingService;
+
+	@GetMapping(path = "mail-test")
+	public ResponseEntity<String> mailTest() {
+		List<MailAttachment> attachs = new ArrayList<MailAttachment>();
+		MailAttachment a = new MailAttachment();
+		a.setFilename("test.txt");
+		a.setPath("https://isobarot.com");
+		attachs.add(a);
+		MailContent mailContent = new MailContent();
+		mailContent.setTo("test@isobarot.com");
+		mailContent.setSubject("Zoran");
+		mailContent.setText("This is a test");
+		mailContent.setAttachments(attachs);
+		mailingService.Send(mailContent);
+		return null;
 	}
 	
 }

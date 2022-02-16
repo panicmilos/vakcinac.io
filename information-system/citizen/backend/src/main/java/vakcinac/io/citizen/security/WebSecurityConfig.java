@@ -56,6 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/sertifikati/count").permitAll()
                 .antMatchers("/test/jena/*").permitAll()
                 .antMatchers("/test/links").permitAll()
+                .antMatchers("/test/mail-test").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint).and()
