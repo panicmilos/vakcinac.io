@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,12 +21,16 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
 import vakcinac.io.citizen.security.utils.JwtUtil;
+import vakcinac.io.core.Roles;
+import vakcinac.io.core.exceptions.BadLogicException;
+import vakcinac.io.core.security.User;
 
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
@@ -32,6 +40,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Value("${jwt.token.prefix}")
     public String tokenPrefix;
+    
+	@Value("${sluzbenik.url}")
+	private String sluzbenikUrl;
 
     private final UserDetailsService userService;
     private final JwtUtil jwtUtil;
@@ -59,9 +70,30 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails;
+        	String role = jwtUtil.extractRoleFromToken(jwt);
+            UserDetails userDetails = null;
             try {
-                userDetails = userService.loadUserByUsername(username);
+            	if (Roles.CITIZEN_ROLES.contains(role)) {
+            		userDetails = userService.loadUserByUsername(username);
+            	}
+            	else if (Roles.CIVIL_ROLES.contains(role)) {
+            		HttpHeaders headers = new HttpHeaders();
+            		headers.set("Authorization", "Bearer " + jwt); 
+            		HttpEntity<?> entity = new HttpEntity<>(headers);
+	        	   
+            		RestTemplate restTemplate = new RestTemplate();
+            		String url = String.format("%s/zaposleni/korisnicko-ime/%s", sluzbenikUrl, username);
+            		try {
+                		ResponseEntity<User> response = restTemplate.exchange(url, HttpMethod.GET, entity, User.class);
+                		userDetails = response.getBody();
+            		} catch (Exception e) {
+            			throw new BadLogicException(String.format("Ne postoji korisnik sa zadatim korisničkim imenom.", role));
+            		}
+	    	       
+            	}
+            	else {
+            		throw new BadLogicException(String.format("Ne postoji uloga %s.", role));
+            	}
 
                 if (Boolean.TRUE.equals(jwtUtil.validateToken(jwt, userDetails))) {
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =

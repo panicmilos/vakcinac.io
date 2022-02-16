@@ -45,11 +45,16 @@ public class AuthenticationService {
     }
     
     public String getCurrentWorkerId() {
-    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    	String korisnickoIme = authentication.getName();
+    	String korisnickoIme = getCurrentWorkerUsername();
     	
     	Tzaposleni zaposleni = zaposleniService.findByKorisnickoIme(korisnickoIme);
     	return zaposleni.getJmbg();
+    }
+    
+    public String getCurrentWorkerUsername() {
+    	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    	
+    	return authentication.getName();
     }
 
     private String generateJwt(String korisnickoIme, String lozinka, String zaposleniId) {
