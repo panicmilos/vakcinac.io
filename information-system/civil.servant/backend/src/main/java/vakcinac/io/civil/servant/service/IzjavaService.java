@@ -3,12 +3,13 @@ package vakcinac.io.civil.servant.service;
 import java.io.IOException;
 import java.time.LocalDate;
 
+import javax.xml.namespace.QName;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 import org.xmldb.api.base.XMLDBException;
 
 import vakcinac.io.civil.servant.models.izj.IzjavaInteresovanjaZaVakcinisanje;
-import vakcinac.io.civil.servant.models.sag.SaglasnostZaSprovodjenjePreporuceneImunizacije;
 import vakcinac.io.civil.servant.repository.IzjavaRepository;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
 import vakcinac.io.core.Constants;
@@ -16,11 +17,8 @@ import vakcinac.io.core.factories.TlinkFactory;
 import vakcinac.io.core.factories.TmetaFactory;
 import vakcinac.io.core.models.os.Tgradjanin;
 import vakcinac.io.core.services.BaseService;
-import vakcinac.io.core.utils.LocalDateUtils;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
-
-import javax.xml.namespace.QName;
 
 @Service
 @RequestScope

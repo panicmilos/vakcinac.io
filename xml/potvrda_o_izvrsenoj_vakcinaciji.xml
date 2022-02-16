@@ -8,7 +8,7 @@
   xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
 
   xmlns:rdfos="https://www.vakcinac-io.rs/rdfs/deljeno/"
-  xmlns:rdfpoiv="https://www.vakcinac-io.rs/rdfs/digitalni-sertifikat/"
+  xmlns:rdfpoiv="https://www.vakcinac-io.rs/rdfs/potvrda/"
 
   about="https://www.vakcinac-io.rs/potvrda/123451-512534"
   typeof="rdfos:PotvrdaOVakcinisanjuDokument"
