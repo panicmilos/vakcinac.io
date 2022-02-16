@@ -1,7 +1,6 @@
 package vakcinac.io.civil.servant.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 import org.xmldb.api.base.XMLDBException;
@@ -17,15 +16,18 @@ import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.factories.TlinkFactory;
 import vakcinac.io.core.factories.TmetaFactory;
-import vakcinac.io.core.models.os.*;
+import vakcinac.io.core.models.os.InformacijeOPrimljenimDozamaIzPotvrde;
+import vakcinac.io.core.models.os.Tgradjanin;
+import vakcinac.io.core.models.os.Tlink;
+import vakcinac.io.core.models.os.Tmeta;
 import vakcinac.io.core.services.BaseService;
-import vakcinac.io.core.utils.HttpUtils;
 import vakcinac.io.core.utils.LocalDateUtils;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 
 import javax.xml.namespace.QName;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -64,7 +66,6 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
         }
 
         fillOutPacijent(saglasnost, gradjanin);
-        fillOutVakcine(saglasnost, gradjaninId);
         fillOutRdf(gradjaninId, saglasnost);
 
         JaxBParser parser = JaxBParserFactory.newInstanceFor(SaglasnostZaSprovodjenjePreporuceneImunizacije.class);
@@ -86,12 +87,20 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
         }
 
         List<SaglasnostZaSprovodjenjePreporuceneImunizacije.EvidencijaOVakcinaciji.Obrazac.PrimljeneVakcine> saglasnostDoze = saglasnost.getEvidencijaOVakcinaciji().getObrazac().getPrimljeneVakcine();
-        for (int i = 0; i < info.getPrimljenaDozaIzPotvrde().size(); i++) {
-            System.out.println(info.getPrimljenaDozaIzPotvrde().get(i).getRedniBroj());
-//            for (int j = 0; j < saglasnostDoze.size(); j++) {
-//
-//            }
+
+        if (saglasnostDoze.size() > 2) {
+            throw new BadLogicException("Gradjanin je vec primio tri vakcince.");
         }
+
+        if (saglasnostDoze.size() > 0) {
+            for (int i = 0; i < info.getPrimljenaDozaIzPotvrde().size(); i++) {
+                saglasnostDoze.get(i).setNaziv(info.getNazivVakcine());
+                saglasnostDoze.get(i).setBroj(new BigInteger(String.valueOf(i)));
+                saglasnostDoze.get(i).setProizvodjac(info.getNazivVakcine());
+                saglasnostDoze.get(i).setDatumDavanjaVakcine(info.getPrimljenaDozaIzPotvrde().get(i).getDatum());
+            }
+        }
+
     }
 
     private String getGradjaninId(SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost) {
@@ -152,8 +161,23 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
         String id = String.format("%s_%d", noviPodaci.getSaglasnostId(), baseRepository.count(noviPodaci.getSaglasnostId()));
         SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost = read(id);
 
+        String test = "2312918273111";
+        System.out.println(String.format("Da li je ovo isto %s == %s:", test, noviPodaci.getSaglasnostId()));
+        System.out.println(test.equals(noviPodaci.getSaglasnostId()));
+
+        if (noviPodaci.getSaglasnostId() == null) {
+            throw new MissingEntityException("Saglasnost za datog gradjanina ne postoji.");
+        }
+
         fillOutEvidencija(saglasnost, noviPodaci);
         addGeneralAttributes(saglasnost);
+
+        Optional<Tlink> noviLink = saglasnost.getLink().stream()
+                .filter(link -> link.getRel().equals("rdfsi:za"))
+                .findFirst();
+
+        String[] parts = noviLink.get().getHref().split("/");
+        fillOutVakcine(saglasnost, parts[parts.length-1]);
 
         JaxBParser saglasnostParser = JaxBParserFactory.newInstanceFor(SaglasnostZaSprovodjenjePreporuceneImunizacije.class, Boolean.FALSE);
         String serializedObj = saglasnostParser.marshall(saglasnost);
