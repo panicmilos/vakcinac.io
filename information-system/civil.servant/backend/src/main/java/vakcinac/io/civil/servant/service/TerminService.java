@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.RequestScope;
 import org.xmldb.api.base.ResourceIterator;
 import org.xmldb.api.base.XMLDBException;
 
@@ -17,15 +16,14 @@ import vakcinac.io.civil.servant.models.term.Termin;
 import vakcinac.io.civil.servant.models.vak.Vakcina;
 import vakcinac.io.civil.servant.repository.TerminRepository;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
-import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.Constants;
+import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.services.BaseService;
 import vakcinac.io.core.utils.LocalDateUtils;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 
 @Service
-@RequestScope
 public class TerminService extends BaseService<Termin> {
 	
 	private TerminRepository terminRepository;
@@ -76,15 +74,16 @@ public class TerminService extends BaseService<Termin> {
 	}
 	
 	public Termin findAvaiableTermin(RedCekanja.GradjaninURedu gradjaninURedu) throws XMLDBException, IOException {
+
 		if (!isRightTime(gradjaninURedu)) {
 			return null;
 		}
-				
+
 		Vakcina rightVakcina = findRightVaccine(gradjaninURedu);
 		if (rightVakcina == null) {
 			return null;
 		}
-		
+
 		return TerminFactory.create(gradjaninURedu.getJmbg(), gradjaninURedu.getBrojPasosaEbs(), rightVakcina.getSerija(), findRightTerminPeriod(gradjaninURedu));
 	}
 	
@@ -101,7 +100,7 @@ public class TerminService extends BaseService<Termin> {
 		LocalDate currentTime = LocalDate.now();
 		LocalDate minTime = gradjaninURedu.getMinimalnoVreme();
 		
-		return minTime.isAfter(currentTime);
+		return minTime.isBefore(currentTime);
 	}
 	
 	private Vakcina findRightVaccine(RedCekanja.GradjaninURedu gradjaninURedu) {

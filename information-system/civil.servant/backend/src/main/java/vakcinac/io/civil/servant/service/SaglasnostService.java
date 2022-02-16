@@ -86,7 +86,7 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
         return create(id, serializedObj);
     }
     
-    private boolean canApplySaglasnost(String gradjaninId) throws XMLDBException, IOException {        
+    private boolean canApplySaglasnost(String gradjaninId) throws XMLDBException, IOException {
         if (!terminService.hasActiveTermin(gradjaninId)) {
         	return false;
         }
@@ -95,11 +95,9 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
         if (lastSaglasnostId == null) {
         	return true;
         }
-        
-        System.out.println(lastSaglasnostId);
+                
         String[] tokens = lastSaglasnostId.split("/");
         String id = String.join("_", tokens[tokens.length - 2], tokens[tokens.length - 1]);
-        System.out.println();
         SaglasnostZaSprovodjenjePreporuceneImunizacije lastSaglasnost = read(id);
         
         Termin lastTermin = terminService.findLastTermin(gradjaninId);
@@ -115,7 +113,7 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
         InformacijeOPrimljenimDozamaIzPotvrde info = potvrdaService.getVakcine(gradjaninId);
 
         if (info == null) {
-            throw new MissingEntityException("Ne postoji potvrda za datog gradjanina.");
+            return;
         }
 
         List<SaglasnostZaSprovodjenjePreporuceneImunizacije.EvidencijaOVakcinaciji.Obrazac.PrimljeneVakcine> saglasnostDoze = saglasnost.getEvidencijaOVakcinaciji().getObrazac().getPrimljeneVakcine();

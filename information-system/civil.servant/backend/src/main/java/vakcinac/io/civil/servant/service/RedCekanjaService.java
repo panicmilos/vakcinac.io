@@ -67,7 +67,7 @@ public class RedCekanjaService extends BaseService<RedCekanja> {
 		
 		for (RedCekanja.GradjaninURedu gradjaninURedu : existingRedCekanja.getGradjaninURedu()) {
 			Termin rightTermin = terminService.findAvaiableTermin(gradjaninURedu);
-			
+
 			if (rightTermin == null) {
 				continue;
 			}

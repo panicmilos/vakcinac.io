@@ -71,7 +71,7 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
         String potvrdaAbout = "";
         try(CloseableResultSet set = jenaRepository.read("/potvrda", String.format("?s %s %s", "<https://www.vakcinac-io.rs/rdfs/potvrda/za>", gradjaninUrl))) {
             if(!set.hasNext()) {
-                throw new MissingEntityException("Potvrda za zadatog gradjanina ne postoji.");
+                return null;
             }
 
             potvrdaAbout = set.next().get("?s").toString();
