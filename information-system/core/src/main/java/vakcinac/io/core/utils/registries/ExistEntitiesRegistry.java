@@ -20,13 +20,13 @@ public class ExistEntitiesRegistry {
 
 		for(Class<?> xmlClass : xmlClasses) {
 			RegisterExistEntity registerEntityAnnotation = xmlClass.getAnnotation(RegisterExistEntity.class);
-
-			registry.put(xmlClass.getCanonicalName(), registerEntityAnnotation.collectionUri());
+			registry.put(xmlClass.getName(), registerEntityAnnotation.collectionUri());
 		}
 	}
 	
 	public String getCollectionUriFor(Class<?> forClass) {
-		return registry.get(forClass.getCanonicalName());
+
+		return registry.get(forClass.getName());
 	}
 
 }
