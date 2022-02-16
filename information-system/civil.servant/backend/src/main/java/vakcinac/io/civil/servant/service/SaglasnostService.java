@@ -2,10 +2,12 @@ package vakcinac.io.civil.servant.service;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import javax.xml.namespace.QName;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 import org.xmldb.api.base.XMLDBException;
@@ -17,6 +19,7 @@ import vakcinac.io.civil.servant.models.term.Termin;
 import vakcinac.io.civil.servant.models.zrad.ZdravstveniRadnik;
 import vakcinac.io.civil.servant.repository.SaglasnostRepository;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
+import vakcinac.io.civil.servant.security.JwtStore;
 import vakcinac.io.core.Constants;
 import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.exceptions.MissingEntityException;
@@ -42,12 +45,17 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
     private TerminService terminService;
     private PotvrdaService potvrdaService;
 
-    public SaglasnostService(TerminService terminService, GradjaninService gradjaninService, CivilServantJenaRepository jenaRepository, SaglasnostRepository saglasnostRepository, ZaposleniService zaposleniService) {
+    private JwtStore jwtStore;
+
+    @Autowired
+    public SaglasnostService(GradjaninService gradjaninService, TerminService terminService,  CivilServantJenaRepository jenaRepository, SaglasnostRepository saglasnostRepository, ZaposleniService zaposleniService, PotvrdaService potvrdaService, JwtStore jwtStore) {
         super(saglasnostRepository, jenaRepository);
 
         this.terminService = terminService;
         this.gradjaninService = gradjaninService;
         this.zaposleniService = zaposleniService;
+        this.potvrdaService = potvrdaService;
+        this.jwtStore = jwtStore;
     }
 
     @Override
@@ -65,7 +73,7 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
         }
 
         fillOutPacijent(saglasnost, gradjanin);
-//        fillOutVakcine(saglasnost, )
+        fillOutVakcine(saglasnost, gradjaninId);
         fillOutRdf(gradjaninId, saglasnost);
 
         JaxBParser parser = JaxBParserFactory.newInstanceFor(SaglasnostZaSprovodjenjePreporuceneImunizacije.class);
@@ -103,8 +111,20 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
     }
 
     private void fillOutVakcine(SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost, String gradjaninId) {
+
         InformacijeOPrimljenimDozamaIzPotvrde info = potvrdaService.getVakcine(gradjaninId);
-        System.out.println(info);
+
+        if (info == null) {
+            throw new MissingEntityException("Ne postoji potvrda za datog gradjanina.");
+        }
+
+        List<SaglasnostZaSprovodjenjePreporuceneImunizacije.EvidencijaOVakcinaciji.Obrazac.PrimljeneVakcine> saglasnostDoze = saglasnost.getEvidencijaOVakcinaciji().getObrazac().getPrimljeneVakcine();
+        for (int i = 0; i < info.getPrimljenaDozaIzPotvrde().size(); i++) {
+            System.out.println(info.getPrimljenaDozaIzPotvrde().get(i).getRedniBroj());
+//            for (int j = 0; j < saglasnostDoze.size(); j++) {
+//
+//            }
+        }
     }
 
     private String getGradjaninId(SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost) {
@@ -182,7 +202,7 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
         Optional<Tmeta> novaMeta = saglasnost.getMeta().stream()
                 .filter(meta -> meta.getProperty().equals("rdfos:izmenjen"))
                 .findFirst();
-        novaMeta.ifPresent(izdatMeta -> izdatMeta.setValue(LocalDateUtils.toXMLDateString(LocalDate.now())));
+        novaMeta.ifPresent(izmenjenMeta -> izmenjenMeta.setValue(LocalDateUtils.toXMLDateString(LocalDate.now())));
 
         Optional<Tlink> noviLink = saglasnost.getLink().stream()
                 .filter(link -> link.getRel().equals("rdfsi:vakcinisanOd"))

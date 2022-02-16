@@ -26,7 +26,7 @@ public class ExistEntitiesRegistry {
 	}
 	
 	public String getCollectionUriFor(Class<?> forClass) {
-		return registry.get(forClass.getCanonicalName());
+		return registry.get(forClass.getName());
 	}
 
 }

@@ -17,6 +17,7 @@ import vakcinac.io.civil.servant.models.term.Termin;
 import vakcinac.io.civil.servant.models.vak.Vakcina;
 import vakcinac.io.civil.servant.repository.TerminRepository;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
+import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.Constants;
 import vakcinac.io.core.services.BaseService;
 import vakcinac.io.core.utils.LocalDateUtils;
@@ -85,6 +86,15 @@ public class TerminService extends BaseService<Termin> {
 		}
 		
 		return TerminFactory.create(gradjaninURedu.getJmbg(), gradjaninURedu.getBrojPasosaEbs(), rightVakcina.getSerija(), findRightTerminPeriod(gradjaninURedu));
+	}
+	
+	public void updateTerminStatus(String terminId, boolean realizovan) throws XMLDBException {
+		Termin termin = read(terminId);
+		if (termin == null) {
+			throw new MissingEntityException("Termin ne postoji");
+		}
+		
+		baseRepository.update(terminId, "//*:realizovan", realizovan);
 	}
 	
 	private boolean isRightTime(RedCekanja.GradjaninURedu gradjaninURedu) {

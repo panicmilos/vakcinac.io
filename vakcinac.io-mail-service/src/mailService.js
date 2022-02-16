@@ -9,7 +9,7 @@ class MailService {
       secure: false,
       auth: {
         user: 'contact@vakcinac.io',
-        pass: '<password>',
+        pass: 'vakcinac.io',
       },
     });
   }
