@@ -23,6 +23,10 @@ public abstract class BaseService<T> {
 	public T read(String id) {
 		return baseRepository.retrieve(id);
 	}
+	
+	public int count(String graphUri, Object ...args) throws IOException {
+		return jenaRepository.count(graphUri, args);
+	}
 		
 	public abstract T create(T obj) throws Exception;
 	
@@ -37,7 +41,6 @@ public abstract class BaseService<T> {
 	protected T create(String id, String serializedObj) {
 		return baseRepository.store(id, serializedObj);
 	}
-
 	
 	public T delete(String id) {
 		return baseRepository.remove(id);
