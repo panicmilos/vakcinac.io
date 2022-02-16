@@ -97,7 +97,7 @@ public class TerminService extends BaseService<Termin> {
 	}
 	
 	public void updateNonHeldTerminiStatus() throws XMLDBException, IOException {
-		LocalDateTime maxDateTime = LocalDateTime.now().minusHours(1);
+		LocalDateTime maxDateTime = LocalDateTime.now();
 		LocalDate currentDate = LocalDate.now();
 		
 		List<Termin> termini = terminRepository.findNotHeldTerminiForDate(maxDateTime.toString(), formatter.format(currentDate));
