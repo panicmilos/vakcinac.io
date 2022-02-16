@@ -7,6 +7,7 @@ import org.xmldb.api.base.XMLDBException;
 import vakcinac.io.civil.servant.models.sag.AzurirajSaglasnost;
 import vakcinac.io.civil.servant.models.sag.SaglasnostZaSprovodjenjePreporuceneImunizacije;
 import vakcinac.io.civil.servant.models.sag.Tlekar;
+import vakcinac.io.civil.servant.models.term.Termin;
 import vakcinac.io.civil.servant.models.zrad.ZdravstveniRadnik;
 import vakcinac.io.civil.servant.repository.SaglasnostRepository;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
@@ -40,14 +41,16 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
 
     private ZaposleniService zaposleniService;
 
+    private TerminService terminService;
     private PotvrdaService potvrdaService;
 
     private JwtStore jwtStore;
 
     @Autowired
-    public SaglasnostService(GradjaninService gradjaninService, CivilServantJenaRepository jenaRepository, SaglasnostRepository saglasnostRepository, ZaposleniService zaposleniService, PotvrdaService potvrdaService, JwtStore jwtStore) {
+    public SaglasnostService(GradjaninService gradjaninService, TerminService terminService,  CivilServantJenaRepository jenaRepository, SaglasnostRepository saglasnostRepository, ZaposleniService zaposleniService, PotvrdaService potvrdaService, JwtStore jwtStore) {
         super(saglasnostRepository, jenaRepository);
 
+        this.terminService = terminService;
         this.gradjaninService = gradjaninService;
         this.zaposleniService = zaposleniService;
         this.potvrdaService = potvrdaService;
@@ -60,9 +63,12 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
         String gradjaninId = getGradjaninId(saglasnost);
 
         Tgradjanin gradjanin = gradjaninService.read(gradjaninId);
-
         if(gradjanin == null) {
             throw new MissingEntityException("Gradjan sa datim identifikatorm ne postoji.");
+        }
+        
+        if (!canApplySaglasnost(gradjaninId)) {
+			throw new BadLogicException("Trenutno nije moguće poslati saglasnost za vakcinisanje.");
         }
 
         fillOutPacijent(saglasnost, gradjanin);
@@ -77,13 +83,35 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
 
         return create(id, serializedObj);
     }
+    
+    private boolean canApplySaglasnost(String gradjaninId) throws XMLDBException, IOException {
+        if (!terminService.hasActiveTermin(gradjaninId)) {
+        	return false;
+        }
+        
+        String lastSaglasnostId = jenaRepository.readLatestSubject("/saglasnosti", "<https://www.vakcinac-io.rs/rdfs/saglasnost/za>", String.format("<https://www.vakcinac-io.rs/gradjani/%s>", gradjaninId));
+        if (lastSaglasnostId == null) {
+        	return true;
+        }
+                
+        String[] tokens = lastSaglasnostId.split("/");
+        String id = String.join("_", tokens[tokens.length - 2], tokens[tokens.length - 1]);
+        SaglasnostZaSprovodjenjePreporuceneImunizacije lastSaglasnost = read(id);
+        
+        Termin lastTermin = terminService.findLastTermin(gradjaninId);
+        if (lastTermin == null) {
+        	return false;
+        }
+        
+        return lastTermin.getVreme().toLocalDate().isAfter(lastSaglasnost.getDatumIzdavanja());
+    }
 
     private void fillOutVakcine(SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost, String gradjaninId) {
 
         InformacijeOPrimljenimDozamaIzPotvrde info = potvrdaService.getVakcine(gradjaninId);
 
         if (info == null) {
-            throw new MissingEntityException("Ne postoji potvrda za datog gradjanina.");
+            return;
         }
 
         List<SaglasnostZaSprovodjenjePreporuceneImunizacije.EvidencijaOVakcinaciji.Obrazac.PrimljeneVakcine> saglasnostDoze = saglasnost.getEvidencijaOVakcinaciji().getObrazac().getPrimljeneVakcine();

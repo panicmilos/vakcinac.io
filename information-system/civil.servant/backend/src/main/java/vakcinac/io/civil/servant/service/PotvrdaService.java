@@ -5,19 +5,15 @@ import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.annotation.RequestScope;
 
-import vakcinac.io.civil.servant.repository.SaglasnostRepository;
-import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
 import vakcinac.io.civil.servant.security.JwtStore;
 import vakcinac.io.core.models.os.InformacijeOPrimljenimDozamaIzPotvrde;
 import vakcinac.io.core.results.agres.AggregateResult;
-import vakcinac.io.core.security.User;
 import vakcinac.io.core.utils.HttpUtils;
 
 @Service
@@ -50,7 +46,6 @@ public class PotvrdaService {
     }
 
     public InformacijeOPrimljenimDozamaIzPotvrde getVakcine(String gradjaninId) {
-
         HttpEntity<?> httpEntity = HttpUtils.configureHeader(jwtStore.getJwt());
 
         RestTemplate restTemplate = new RestTemplate();
@@ -60,6 +55,11 @@ public class PotvrdaService {
     }
 
     public int getNumberOfVakcine(String gradjaninId) {
-    	return getVakcine(gradjaninId).getPrimljenaDozaIzPotvrde().size();
+    	InformacijeOPrimljenimDozamaIzPotvrde info = getVakcine(gradjaninId);
+    	if (info == null) {
+    		return 0;
+    	}
+    	
+    	return info.getPrimljenaDozaIzPotvrde().size();
     }
 }

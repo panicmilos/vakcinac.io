@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.RequestScope;
 import org.xmldb.api.base.ResourceIterator;
 import org.xmldb.api.base.XMLDBException;
 
@@ -17,18 +17,21 @@ import vakcinac.io.civil.servant.models.term.Termin;
 import vakcinac.io.civil.servant.models.vak.Vakcina;
 import vakcinac.io.civil.servant.repository.TerminRepository;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
-import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.Constants;
+import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.services.BaseService;
 import vakcinac.io.core.utils.LocalDateUtils;
+import vakcinac.io.core.utils.parsers.JaxBParser;
+import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 
 @Service
-@RequestScope
 public class TerminService extends BaseService<Termin> {
 	
 	private TerminRepository terminRepository;
 	private VakcinaService vakcinaService;
 	private StanjeVakcinaService stanjeVakcinaService;
+	
+	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd");
 	
 	public TerminService(StanjeVakcinaService stanjeVakcinaService, VakcinaService vakcinaService, TerminRepository terminRepository, CivilServantJenaRepository jenaRepository) {
 		super(terminRepository, jenaRepository);
@@ -40,14 +43,26 @@ public class TerminService extends BaseService<Termin> {
 
 	@Override
 	public Termin create(Termin termin) throws Exception {
-		LocalDateTime terminTime = termin.getVreme();
-		int period = ((terminTime.getHour() * 60 + terminTime.getMinute()) - 540) / 10;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd");
-
+		String id = createTerminId(termin);
+		
         stanjeVakcinaService.decStockFor(termin.getVakcina());
         
-        int numberOfTerminsInPeriod = baseRepository.count(formatter.format(terminTime), String.format("termin_%d", period));
-		return create(formatter.format(terminTime), String.format("termin_%d_%d", period, numberOfTerminsInPeriod), termin);
+		return create(formatter.format(termin.getVreme()), id, termin);
+	}
+	
+	public Termin findLastTermin(String citizenId) throws XMLDBException, IOException {
+		LocalDateTime dateTime = LocalDateTime.now();
+		
+		ResourceIterator iterator = baseRepository.retrieveUsingXQuery(String.format("%s/data/xquery/find_last_termin_for_citizen.xqy", Constants.ROOT_RESOURCE), dateTime.toString(), citizenId);
+		
+		if (!iterator.hasMoreResources()) {
+			return null;
+		}
+		
+		String serializedTermin = iterator.nextResource().getContent().toString();
+		
+		JaxBParser parser = JaxBParserFactory.newInstanceFor(Termin.class);
+		return parser.unmarshall(serializedTermin);
 	}
 	
 	public boolean hasActiveTermin(String citizenId) throws XMLDBException, IOException {
@@ -59,19 +74,43 @@ public class TerminService extends BaseService<Termin> {
 	}
 	
 	public Termin findAvaiableTermin(RedCekanja.GradjaninURedu gradjaninURedu) throws XMLDBException, IOException {
+
 		if (!isRightTime(gradjaninURedu)) {
 			return null;
 		}
-				
+
 		Vakcina rightVakcina = findRightVaccine(gradjaninURedu);
 		if (rightVakcina == null) {
 			return null;
 		}
-		
+
 		return TerminFactory.create(gradjaninURedu.getJmbg(), gradjaninURedu.getBrojPasosaEbs(), rightVakcina.getSerija(), findRightTerminPeriod(gradjaninURedu));
 	}
 	
-	public void updateTerminStatus(String terminId, boolean realizovan) throws XMLDBException {
+	private String createTerminId(Termin termin) throws XMLDBException, IOException {
+		LocalDateTime terminTime = termin.getVreme();
+		int period = ((terminTime.getHour() * 60 + terminTime.getMinute()) - 540) / 10;
+        
+        int numberOfTerminsInPeriod = baseRepository.count(formatter.format(terminTime), String.format("termin_%d", period));
+        
+        return String.format("termin_%d_%d", period, numberOfTerminsInPeriod);
+	}
+	
+	public void updateNonHeldTerminiStatus() throws XMLDBException, IOException {
+		LocalDateTime maxDateTime = LocalDateTime.now();
+		LocalDate currentDate = LocalDate.now();
+		
+		List<Termin> termini = terminRepository.findNotHeldTerminiForDate(maxDateTime.toString(), formatter.format(currentDate));
+		for(Termin termin: termini) {
+			String id = createTerminId(termin);
+			
+			stanjeVakcinaService.addToStockFor(termin.getVakcina(), 1);
+			
+			updateTerminStatus(id, false);
+		}
+	}
+	
+	private void updateTerminStatus(String terminId, boolean realizovan) throws XMLDBException {
 		Termin termin = read(terminId);
 		if (termin == null) {
 			throw new MissingEntityException("Termin ne postoji");
@@ -84,7 +123,7 @@ public class TerminService extends BaseService<Termin> {
 		LocalDate currentTime = LocalDate.now();
 		LocalDate minTime = gradjaninURedu.getMinimalnoVreme();
 		
-		return minTime.isAfter(currentTime);
+		return minTime.isBefore(currentTime);
 	}
 	
 	private Vakcina findRightVaccine(RedCekanja.GradjaninURedu gradjaninURedu) {
@@ -113,7 +152,6 @@ public class TerminService extends BaseService<Termin> {
 
 	private LocalDateTime findRightTerminPeriod(RedCekanja.GradjaninURedu gradjaninURedu) throws XMLDBException, IOException {
 		LocalDate iterator = LocalDateUtils.max(gradjaninURedu.getMinimalnoVreme(), LocalDate.now());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd");
 
 		while (true) {
 			int terminPeriod = terminRepository.findTermin(5, formatter.format(iterator));
