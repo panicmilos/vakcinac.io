@@ -46,7 +46,6 @@ public class PotvrdaService {
     }
 
     public InformacijeOPrimljenimDozamaIzPotvrde getVakcine(String gradjaninId) {
-
         HttpEntity<?> httpEntity = HttpUtils.configureHeader(jwtStore.getJwt());
 
         RestTemplate restTemplate = new RestTemplate();
@@ -56,6 +55,11 @@ public class PotvrdaService {
     }
 
     public int getNumberOfVakcine(String gradjaninId) {
-    	return getVakcine(gradjaninId).getPrimljenaDozaIzPotvrde().size();
+    	InformacijeOPrimljenimDozamaIzPotvrde info = getVakcine(gradjaninId);
+    	if (info == null) {
+    		return 0;
+    	}
+    	
+    	return info.getPrimljenaDozaIzPotvrde().size();
     }
 }

@@ -3,7 +3,6 @@ package vakcinac.io.civil.servant.service;
 import java.math.BigInteger;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.RequestScope;
 import org.xmldb.api.base.XMLDBException;
 
 import vakcinac.io.civil.servant.factories.StanjeVakcineFactory;
@@ -17,7 +16,6 @@ import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 
 @Service
-@RequestScope
 public class StanjeVakcinaService extends BaseService<StanjeVakcina> {
 
 	private VakcinaService vakcinaService;
@@ -25,8 +23,6 @@ public class StanjeVakcinaService extends BaseService<StanjeVakcina> {
 	public StanjeVakcinaService(VakcinaService vakcinaService, StanjeVakcinaRepository stanjeVakcinaRepository, CivilServantJenaRepository jenaRepository) {
 		super(stanjeVakcinaRepository, jenaRepository);
 		this.vakcinaService = vakcinaService;
-		
-		create(new StanjeVakcina());
 	}
 
 	@Override

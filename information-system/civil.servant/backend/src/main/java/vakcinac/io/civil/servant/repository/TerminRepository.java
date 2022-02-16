@@ -18,7 +18,6 @@ import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 
 @Repository
-@RequestScope
 public class TerminRepository extends ExistRepository<Termin> {
 
 	public TerminRepository() throws IOException, XMLDBException {

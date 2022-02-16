@@ -12,7 +12,9 @@ import org.xmldb.api.DatabaseManager;
 import org.xmldb.api.base.Database;
 
 import vakcinac.io.civil.servant.models.red.RedCekanja;
+import vakcinac.io.civil.servant.models.stanj.StanjeVakcina;
 import vakcinac.io.civil.servant.service.RedCekanjaService;
+import vakcinac.io.civil.servant.service.StanjeVakcinaService;
 import vakcinac.io.core.Constants;
 import vakcinac.io.core.utils.ExistAuthenticationUtils;
 
@@ -32,8 +34,11 @@ public class Application implements CommandLineRunner {
 	}
 
 	@Autowired
-	RedCekanjaService redCekanjaService;
+	private RedCekanjaService redCekanjaService;
 	
+	@Autowired
+	private StanjeVakcinaService stanjeVakcinaService;
+
 	public static void main(String[] args) { SpringApplication.run(Application.class, args); }
 
 	@Override
@@ -60,6 +65,7 @@ public class Application implements CommandLineRunner {
 			System.out.println("eXist database driver initialized.");
 			
 			redCekanjaService.create(new RedCekanja());
+			stanjeVakcinaService.create(new StanjeVakcina());
 		} catch (Exception e) {
 			System.out.println("[ERROR] An error has occured while trying to initialize eXist database drive.");
 		}
