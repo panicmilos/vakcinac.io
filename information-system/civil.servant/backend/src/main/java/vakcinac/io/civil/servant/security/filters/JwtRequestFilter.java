@@ -27,6 +27,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureException;
+import vakcinac.io.civil.servant.security.JwtStore;
 import vakcinac.io.civil.servant.security.utils.JwtUtil;
 import vakcinac.io.core.Roles;
 import vakcinac.io.core.exceptions.BadLogicException;
@@ -46,11 +47,13 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     private final UserDetailsService userService;
     private final JwtUtil jwtUtil;
+    private final JwtStore store;
 
     @Autowired
-    public JwtRequestFilter(@Qualifier("zaposleniService") UserDetailsService userService, JwtUtil jwtUtil) {
+    public JwtRequestFilter(@Qualifier("zaposleniService") UserDetailsService userService, JwtUtil jwtUtil, JwtStore store) {
         this.userService = userService;
         this.jwtUtil = jwtUtil;
+        this.store = store;
     }
 
     @Override
@@ -71,6 +74,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
         	String role = jwtUtil.extractRoleFromToken(jwt);
+            store.setJwt(jwt);
             UserDetails userDetails = null;
             try {
             	if (Roles.CIVIL_ROLES.contains(role)) {
