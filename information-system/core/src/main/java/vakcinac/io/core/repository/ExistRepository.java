@@ -148,9 +148,12 @@ public abstract class ExistRepository<T> implements Closeable {
         return false;
 	}
 	
-	public int count(String id) throws XMLDBException, IOException {		
+	public int count(String id) throws XMLDBException, IOException {
+
+		openConnection();
+
 		ResourceIterator iterator = retrieveUsingXQuery(Constants.ROOT_RESOURCE + "/data/xquery/count.xqy", collectionUri, id);
-		
+
 		try (CloseableResource resource = new CloseableResource(iterator.nextResource())) {
 			String content = resource.getContent().toString();
 
@@ -158,7 +161,10 @@ public abstract class ExistRepository<T> implements Closeable {
 		}
 	}
 	
-	public int count(String additionalCollectionUri, String id) throws XMLDBException, IOException  {		
+	public int count(String additionalCollectionUri, String id) throws XMLDBException, IOException  {
+
+		openConnection();
+
 		ResourceIterator iterator = retrieveUsingXQuery(Constants.ROOT_RESOURCE + "/data/xquery/count.xqy", String.format("%s/%s", collectionUri, additionalCollectionUri), id);
 		
 		try (CloseableResource resource = new CloseableResource(iterator.nextResource())) {
@@ -184,6 +190,7 @@ public abstract class ExistRepository<T> implements Closeable {
 		
 		String formattedXQuery = String.format(notFormattedXQuery, args);
 
+		System.out.println(formattedXQuery);
 		return executeRetrieveUsingXQuery(formattedXQuery);
 	}
 	
