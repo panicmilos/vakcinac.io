@@ -63,4 +63,10 @@ public class ZdravstveniRadnikService extends BaseService<ZdravstveniRadnik> {
 		
 		return findFirstByXQuery(XQueryExpression, ZdravstveniRadnik.class);
 	}
+	
+	public ZdravstveniRadnik findByEmail(String email) {
+		String XQueryExpression = String.format("collection('/db/zdravstveni-radnici')//*:zdravstveni-radnik/*:email[text() = '%s']/..", email);
+		
+		return findFirstByXQuery(XQueryExpression, ZdravstveniRadnik.class);
+	}
 }

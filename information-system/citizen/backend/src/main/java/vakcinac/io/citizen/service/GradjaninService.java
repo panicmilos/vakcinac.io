@@ -72,12 +72,17 @@ public class GradjaninService implements UserDetailsService {
 	private void validate(String id, Tgradjanin gradjanin) {
 		Tgradjanin existingGradjaninByKorisnickoIme = findByKorisnickoIme(gradjanin.getKorisnickoIme());
 		if (existingGradjaninByKorisnickoIme != null) {
-			throw new BadLogicException("Građanin sa korisničkim imenom već postoji.");
+			throw new BadLogicException("Građanin sa unesenim korisničkim imenom već postoji.");
 		}
 		
 		Tgradjanin existingGradjaninById = findById(id);
 		if (existingGradjaninById != null) {
-			throw new BadLogicException("Građanin sa id već postoji.");
+			throw new BadLogicException("Građanin sa unesenim id-em već postoji.");
+		}
+		
+		Tgradjanin existingGradjaninByEmail = findByEmail(gradjanin.getEmail());
+		if (existingGradjaninByEmail != null) {
+			throw new BadLogicException("Građanin sa unesenim email-om već postoji.");
 		}
 	}
 	 
@@ -88,6 +93,20 @@ public class GradjaninService implements UserDetailsService {
 		}
 		
 		Tgradjanin straniGradjanin = straniGradjaninService.findByKorisnickoIme(korisnickoIme);
+		if (straniGradjanin != null) {
+			return straniGradjanin;
+		}
+		
+		return null;
+	}
+	
+	public Tgradjanin findByEmail(String email) {
+		Tgradjanin domaciGradjanin = domaciGradjaninService.findByEmail(email);
+		if (domaciGradjanin != null) {
+			return domaciGradjanin;
+		}
+		
+		Tgradjanin straniGradjanin = straniGradjaninService.findByEmail(email);
 		if (straniGradjanin != null) {
 			return straniGradjanin;
 		}

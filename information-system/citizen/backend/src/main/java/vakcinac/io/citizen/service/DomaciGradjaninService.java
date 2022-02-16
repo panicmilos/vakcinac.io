@@ -64,4 +64,10 @@ public class DomaciGradjaninService extends BaseService<DomaciGradjanin> {
 		
 		return findFirstByXQuery(XQueryExpression, DomaciGradjanin.class);
 	}
+	
+	public DomaciGradjanin findByEmail(String email) {
+		String XQueryExpression = String.format("collection('/db/domaci-gradjani')//*:domaci-gradjanin/*:email[text() = '%s']/..", email);
+		
+		return findFirstByXQuery(XQueryExpression, DomaciGradjanin.class);
+	}
 }
