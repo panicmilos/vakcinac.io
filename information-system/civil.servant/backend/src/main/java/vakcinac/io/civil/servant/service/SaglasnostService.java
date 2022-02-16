@@ -17,6 +17,7 @@ import vakcinac.io.civil.servant.models.zrad.ZdravstveniRadnik;
 import vakcinac.io.civil.servant.repository.SaglasnostRepository;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
 import vakcinac.io.core.Constants;
+import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.factories.TlinkFactory;
 import vakcinac.io.core.factories.TmetaFactory;
 import vakcinac.io.core.models.os.Tgradjanin;
@@ -45,15 +46,14 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
     @Override
     public SaglasnostZaSprovodjenjePreporuceneImunizacije create(SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost) throws Exception {
 
-        String gradjaninId = "";
-
-        if (saglasnost.getPacijent().getDrzavljanstvo().getDomace() != null) {
-            gradjaninId = saglasnost.getPacijent().getDrzavljanstvo().getDomace().getJmbg();
-        } else {
-            gradjaninId = saglasnost.getPacijent().getDrzavljanstvo().getStrano().getBrojPasosaEbs();
-        }
+        String gradjaninId = getGradjaninId(saglasnost);
 
         Tgradjanin gradjanin = gradjaninService.read(gradjaninId);
+
+        if(gradjanin == null) {
+            throw new MissingEntityException("Gradjan sa datim identifikatorm ne postoji.");
+        }
+
         fillOutPacijent(saglasnost, gradjanin);
         fillOutRdf(gradjaninId, saglasnost);
 
@@ -67,6 +67,23 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
         return create(id, serializedObj);
     }
 
+    private String getGradjaninId(SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost) {
+        String gradjaninId = "";
+
+        SaglasnostZaSprovodjenjePreporuceneImunizacije.Pacijent.Drzavljanstvo.Domace domace = saglasnost.getPacijent().getDrzavljanstvo().getDomace();
+        SaglasnostZaSprovodjenjePreporuceneImunizacije.Pacijent.Drzavljanstvo.Strano strano = saglasnost.getPacijent().getDrzavljanstvo().getStrano();
+
+        if (domace != null && !domace.getJmbg().trim().isEmpty()) {
+            gradjaninId = domace.getJmbg();
+        } else if(strano != null && !strano.getBrojPasosaEbs().trim().isEmpty()){
+            gradjaninId = strano.getBrojPasosaEbs();
+        } else {
+            throw new MissingEntityException("Gradjanin mora imati jmbg, ebs ili broj pasosa.");
+        }
+
+        return gradjaninId;
+    }
+
     private void fillOutRdf(String gradjaninId, SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost) throws XMLDBException, IOException {
 
         String id =  String.format("%s/%d", gradjaninId, baseRepository.count(gradjaninId) + 1);
@@ -76,29 +93,46 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
 
         saglasnost.setDatumIzdavanja(LocalDate.now());
 
-        saglasnost.getLink().add(TlinkFactory.create("rdfsi:naOsnovuInteresovanja", String.format("%s/interesovanje/%s/%d", Constants.ROOT_URL, gradjaninId, 1), "rdfos:IzjavaInteresovanjaZaVakcinisanjeDokument"));
-        saglasnost.getLink().add(TlinkFactory.create("rdfsi:za", String.format("%s/gradjani/%s", Constants.ROOT_URL, gradjaninId, 1), "rdfos:Gradjanin"));
-        saglasnost.getLink().add(TlinkFactory.create("rdfsi:vakcinisanOd", "", "rdfos:ZdravstveniRadnik"));
+        String za = String.format("%s/gradjani/%s", Constants.ROOT_URL, gradjaninId);
+
+        String interesovanje = getRelatedInteresovanje(za);
+        if(interesovanje == null || interesovanje.trim().isEmpty()) {
+            throw new MissingEntityException(String.format("No interesovanje for gradjanin %s", za));
+        }
+
+        saglasnost.getLink().add(TlinkFactory.create("rdfsi:naOsnovuInteresovanja", interesovanje, "rdfos:IzjavaInteresovanjaZaVakcinisanjeDokument"));
+        saglasnost.getLink().add(TlinkFactory.create("rdfsi:za", za, "rdfos:Gradjanin"));
+        saglasnost.getLink().add(TlinkFactory.create("rdfsi:vakcinisanOd", "https://www.vakcinac-io.rs/none", "rdfos:ZdravstveniRadnik"));
 
         saglasnost.getMeta().add(TmetaFactory.create("rdfos:izdat", "xsd:date", LocalDateUtils.toXMLDateString(LocalDate.now())));
         saglasnost.getMeta().add(TmetaFactory.create("rdfos:izmenjen", "xsd:date", LocalDateUtils.toXMLDateString(LocalDate.now())));
 
+        addGeneralAttributes(saglasnost);
+    }
+
+    private void addGeneralAttributes(SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost) {
         saglasnost.getOtherAttributes().put(QName.valueOf("xmlns:xsd"), "http://www.w3.org/2001/XMLSchema#");
         saglasnost.getOtherAttributes().put(QName.valueOf("xmlns:rdfos"), "https://www.vakcinac-io.rs/rdfs/deljeno/");
         saglasnost.getOtherAttributes().put(QName.valueOf("xmlns:rdfsi"), "https://www.vakcinac-io.rs/rdfs/saglasnost/");
     }
 
+    private String getRelatedInteresovanje(String za) {
+        return jenaRepository.readLatestSubject("/izjava", "<https://www.vakcinac-io.rs/rdfs/interesovanje/za>", String.format("<%s>", za));
+    }
+
     public SaglasnostZaSprovodjenjePreporuceneImunizacije update(AzurirajSaglasnost noviPodaci) throws Exception {
 
-        String fileName = String.format("%s_%d", noviPodaci.getSaglasnostId(), baseRepository.count(noviPodaci.getSaglasnostId()));
-        SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost = read(fileName);
+        String id = String.format("%s_%d", noviPodaci.getSaglasnostId(), baseRepository.count(noviPodaci.getSaglasnostId()));
+        SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost = read(id);
 
         fillOutEvidencija(saglasnost, noviPodaci);
+        addGeneralAttributes(saglasnost);
 
-        JaxBParser parser = JaxBParserFactory.newInstanceFor(SaglasnostZaSprovodjenjePreporuceneImunizacije.EvidencijaOVakcinaciji.class, Boolean.FALSE);
-        String serializedObj = parser.marshall(saglasnost.getEvidencijaOVakcinaciji());
+        JaxBParser saglasnostParser = JaxBParserFactory.newInstanceFor(SaglasnostZaSprovodjenjePreporuceneImunizacije.class, Boolean.FALSE);
+        String serializedObj = saglasnostParser.marshall(saglasnost);
 
-        baseRepository.update(fileName, "/*:evidencija-o-vakcinaciji", serializedObj);
+        baseRepository.store(id, serializedObj);
+        jenaRepository.updateData(saglasnost.getAbout(), serializedObj, "/saglasnosti");
 
         return saglasnost;
     }
@@ -115,30 +149,18 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
                 .findFirst();
         noviLink.ifPresent(vakcinisanOd -> vakcinisanOd.setHref(String.format("%s/zdravstveniRadnici/%s", Constants.ROOT_URL, lekarJmbg)));
 
-        try {
-
-            JaxBParser metaParser = JaxBParserFactory.newInstanceFor(Tmeta.class, Boolean.FALSE);
-            String serializedObj = metaParser.marshall(novaMeta.get());
-            baseRepository.update(fileName, "//*:meta[@property='rdfsi:izmenjen']", serializedObj);
-
-            JaxBParser linkParser = JaxBParserFactory.newInstanceFor(Tlink.class, Boolean.FALSE);
-            String serializedLink = linkParser.marshall(noviLink.get());
-            baseRepository.update(fileName, "//*:link[@rel='rdfsi:vakcinisanOd']", serializedLink);
-
-        } catch (XMLDBException e) {
-        }
-
     }
 
     private void fillOutEvidencija(SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost, AzurirajSaglasnost noviPodaci) throws XMLDBException, IOException {
-        SaglasnostZaSprovodjenjePreporuceneImunizacije.EvidencijaOVakcinaciji.Obrazac.PrivremeneKontraindikacije privremeneKontraindikacije = new SaglasnostZaSprovodjenjePreporuceneImunizacije.EvidencijaOVakcinaciji.Obrazac.PrivremeneKontraindikacije();
 
+        SaglasnostZaSprovodjenjePreporuceneImunizacije.EvidencijaOVakcinaciji.Obrazac.PrivremeneKontraindikacije privremeneKontraindikacije = new SaglasnostZaSprovodjenjePreporuceneImunizacije.EvidencijaOVakcinaciji.Obrazac.PrivremeneKontraindikacije();
         privremeneKontraindikacije.setDatumUtvrdjivanja(LocalDate.now());
         privremeneKontraindikacije.setDijagnoza(noviPodaci.getDijagnoza());
         privremeneKontraindikacije.setOdlukaKomisije(noviPodaci.getOdlukaKomisije());
 
         saglasnost.getEvidencijaOVakcinaciji().setObrazac(new SaglasnostZaSprovodjenjePreporuceneImunizacije.EvidencijaOVakcinaciji.Obrazac());
         saglasnost.getEvidencijaOVakcinaciji().getObrazac().setPrivremeneKontraindikacije(privremeneKontraindikacije);
+        saglasnost.getEvidencijaOVakcinaciji().getObrazac().getPrimljeneVakcine();
 
         ZdravstveniRadnik lekar = (ZdravstveniRadnik) zaposleniService.findById(noviPodaci.getJmbgLekara());
         fillOutLekar(saglasnost, lekar);

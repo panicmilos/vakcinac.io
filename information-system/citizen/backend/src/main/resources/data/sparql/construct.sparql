@@ -1,0 +1,5 @@
+CONSTRUCT { ?subject ?predicate ?object }
+FROM <%1$s>
+WHERE {
+  ?subject ?predicate ?object
+}

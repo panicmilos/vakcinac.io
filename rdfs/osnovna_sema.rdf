@@ -43,4 +43,9 @@
 
   <rdf:Property rdf:ID="izdat"></rdf:Property>
 
+  <rdf:Property rdf:ID="saJMBG"></rdf:Property>
+  <rdf:Property rdf:ID="seZove"></rdf:Property>
+  <rdf:Property rdf:ID="seRodio"></rdf:Property>
+  <rdf:Property rdf:ID="jePola"></rdf:Property>
+
 </rdf:RDF>

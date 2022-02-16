@@ -5,7 +5,20 @@
     xsi:schemaLocation="https://www.vakcinac-io.rs/domaci-gradjanin ../xsd/domaci_gradjanin.xsd"
     xmlns="https://www.vakcinac-io.rs/domaci-gradjanin"
     xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
->
+   
+    xmlns:rdfos="https://www.vakcinac-io.rs/rdfs/deljeno/"
+    xmlns:rdfdg="https://www.vakcinac-io.rs/rdfs/domaci-gradjanin/"
+
+    about="https://www.vakcinac-io.rs/gradjani/2312918273972"
+    typeof="rdfos:DomaciGradjanin"
+>   
+
+    <os:meta property="rdfos:saJMBG" datatype="xsd:string">2312918273972</os:meta>
+    <os:meta property="rdfos:seZove" datatype="xsd:string">Petar</os:meta>
+    <os:meta property="rdfos:seRodio" datatype="xsd:dateTime">1999-03-09</os:meta>
+    <os:meta property="rdfos:jePola" datatype="xsd:int">0</os:meta>
+    <os:meta property="rdfdg:imaRoditelja" datatype="xsd:string">Djuro</os:meta>
+
     <os:ime>Petar</os:ime>
     <os:prezime>Peric</os:prezime>
     <os:korisnicko-ime>perica</os:korisnicko-ime>

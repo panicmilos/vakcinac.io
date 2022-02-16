@@ -98,6 +98,8 @@
 
     <xsd:complexType name="Tosoba">
         <xsd:sequence>
+            <xsd:element name="meta" type="Tmeta" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+
             <xsd:element name="ime" type="xsd:string"></xsd:element>
             <xsd:element name="prezime" type="xsd:string"></xsd:element>
         </xsd:sequence>
@@ -123,6 +125,9 @@
                     <xsd:element name="pol" type="Tpol"></xsd:element>
                     <xsd:element name="email" type="Temail"></xsd:element>
                 </xsd:sequence>
+
+                <xsd:attributeGroup ref="rdfMainDocument"></xsd:attributeGroup>
+                <xsd:anyAttribute />
             </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>

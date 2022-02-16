@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="https://www.vakcinac-io.rs/termin" 
+  xmlns="https://www.vakcinac-io.rs/termin"
+  xmlns:os="https://www.vakcinac-io.rs/osnovna-sema" 
+  elementFormDefault="qualified">
+  <xsd:import namespace="https://www.vakcinac-io.rs/osnovna-sema" schemaLocation="osnovna_sema.xsd"/>
+
+  <xsd:element name="termin">
+    <xsd:complexType>
+      <xsd:sequence>
+
+        <xsd:element name="vreme" type="os:TdateTimeString"></xsd:element>
+        
+        <xsd:choice minOccurs="1" maxOccurs="1">
+          <xsd:element name="jmbg" type="os:Tjmbg"></xsd:element>   
+          <xsd:element name="broj-pasosa-ebs" type="os:Tpasos"></xsd:element>      
+        </xsd:choice>
+
+        <xsd:element name="vakcina" type="xsd:string"></xsd:element>
+
+        <xsd:element name="realizovan" type="xsd:boolean" nillable="true"></xsd:element>
+
+      </xsd:sequence>
+    </xsd:complexType>  
+  </xsd:element>
+
+</xsd:schema>

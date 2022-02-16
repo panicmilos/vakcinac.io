@@ -1,16 +1,30 @@
 package vakcinac.io.citizen.controllers;
 
-import org.apache.jena.query.ResultSetFormatter;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.StringReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+
+import javax.xml.bind.JAXB;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.xmldb.api.base.ResourceIterator;
 import org.xmldb.api.base.XMLDBException;
+
 import vakcinac.io.citizen.models.dig.DigitalniSertifikat;
 import vakcinac.io.citizen.models.pot.PotvrdaOIzvrsenojVakcinaciji;
 import vakcinac.io.citizen.repository.DigitalniSertifikatRepository;
@@ -19,19 +33,11 @@ import vakcinac.io.citizen.repository.jena.CitizenJenaRepository;
 import vakcinac.io.core.Constants;
 import vakcinac.io.core.CoreClass;
 import vakcinac.io.core.repository.exist.CloseableResource;
-import vakcinac.io.core.repository.jena.CloseableResultSet;
+import vakcinac.io.core.repository.jena.RdfObject;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 import vakcinac.io.core.utils.transformers.PDFTransformer;
 import vakcinac.io.core.utils.transformers.XHTMLTransformer;
-
-import javax.xml.bind.JAXB;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.StringReader;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.HashMap;
 
 @Controller
 @RequestMapping("/test")
@@ -137,9 +143,8 @@ public class TestController {
 		jenaRepository.insert(fileContent, "/" + graphUri);
 		
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		try (CloseableResultSet set = jenaRepository.read("/" + graphUri)) {
-			ResultSetFormatter.outputAsXML(out, set);
-		}
+	 RdfObject m = jenaRepository.construct("/" + graphUri, Constants.ROOT_RESOURCE + "/data/sparql/construct.sparql", "http://localhost:3030/CitizenDataset/data/kt3");
+		m.toString("RDF/JSON");
 		
 		return ResponseEntity.ok(new String(out.toByteArray()));
 	}

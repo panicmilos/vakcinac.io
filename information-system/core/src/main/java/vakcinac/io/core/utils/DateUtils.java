@@ -10,11 +10,15 @@ public class DateUtils {
 			return false;
 		}
 		
-		LocalDate localDate = LocalDate.of(date.getYear(), date.getMonth(), date.getDay());
+		LocalDate localDate = fromXMLToLocalDate(date);
 		if (!localDate.isBefore(LocalDate.now())) {
 			return false;
 		}
 		
 		return true;
+	}
+	
+	public static LocalDate fromXMLToLocalDate(XMLGregorianCalendar date) {
+		return LocalDate.of(date.getYear(), date.getMonth(), date.getDay());
 	}
 }

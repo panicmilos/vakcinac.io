@@ -5,7 +5,19 @@
     xsi:schemaLocation="https://www.vakcinac-io.rs/zdravstveni-radnik ../xsd/zdravstveni_radnik.xsd"
     xmlns="https://www.vakcinac-io.rs/zdravstveni-radnik"
     xmlns:os="https://www.vakcinac-io.rs/osnovna-sema"
+         
+    xmlns:rdfos="https://www.vakcinac-io.rs/rdfs/deljeno/"
+    xmlns:rdfzr="https://www.vakcinac-io.rs/rdfs/zdravstveni-radnik/"
+
+    about="https://www.vakcinac-io.rs/zdravstveni-radnici/2204542354123"
+    typeof="rdfos:ZdravstveniRadnik"
 >
+
+    <os:meta property="rdfos:saJMBG" datatype="xsd:string">2204542354123</os:meta>
+    <os:meta property="rdfos:seZove" datatype="xsd:string">Ivan</os:meta>
+    <os:meta property="rdfos:seRodio" datatype="xsd:dateTime">1973-04-11</os:meta>
+    <os:meta property="rdfos:jePola" datatype="xsd:int">0</os:meta>
+
     <os:ime>Ivko</os:ime>
     <os:prezime>Banjac</os:prezime>
     <os:korisnicko-ime>ivica</os:korisnicko-ime>
