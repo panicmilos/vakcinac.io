@@ -38,7 +38,7 @@ public class VakcineController extends ControllerBase {
 	
 	@PostMapping
 	public ResponseEntity<Vakcina> createVakcina(@RequestBody CreateVakcinaRequest createVakcinaRequest) {
-//		validate(createVakcinaRequest);
+		validate(createVakcinaRequest);
 
 		Vakcina vakcina = (Vakcina) map(createVakcinaRequest, Vakcina.class);
 		
@@ -49,12 +49,9 @@ public class VakcineController extends ControllerBase {
 	
 	@PutMapping("/{vaccineId}/stock")
 	public ResponseEntity<StanjeVakcina.StanjeVakcine> changeStock(@PathVariable("vaccineId") String vaccineId, @RequestBody AddVakcinaStockRequest addVakcinaStockRequest) throws XMLDBException {
-//		validate(changeVakcinaStockRequest);
+		validate(addVakcinaStockRequest);
 		
 		return ResponseEntity.ok(stanjeVakcinaService.addToStockFor(vaccineId, addVakcinaStockRequest.getAmount()));
-	
-
-		
 	}
 	
 }

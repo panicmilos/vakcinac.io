@@ -28,6 +28,7 @@ public class IzjavaController extends ControllerBase {
 
 	@PostMapping
 	public ResponseEntity<IzjavaInteresovanjaZaVakcinisanje> apply(@RequestBody CreateIzjavaRequest createIzjavaRequest) throws Exception {
+		validate(createIzjavaRequest);
 		
 		IzjavaInteresovanjaZaVakcinisanje izjava = mapper.map(createIzjavaRequest, IzjavaInteresovanjaZaVakcinisanje.class);
 		

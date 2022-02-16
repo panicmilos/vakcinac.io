@@ -121,7 +121,7 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
         return jenaRepository.readLatestSubject("/izjava", "<https://www.vakcinac-io.rs/rdfs/interesovanje/za>", String.format("<%s>", za));
     }
 
-    public PotvrdaOIzvrsenojVakcinaciji addDoza(String id, String serija) throws XMLDBException {
+    public PotvrdaOIzvrsenojVakcinaciji addDoza(String id, String serija) throws XMLDBException, IOException {
         PotvrdaOIzvrsenojVakcinaciji potvrda = read(id);
 
         PotvrdaOIzvrsenojVakcinaciji.PodaciOVakcinaciji.PodaciODozama.PrimljenaDoza primljenaDoza = new PotvrdaOIzvrsenojVakcinaciji.PodaciOVakcinaciji.PodaciODozama.PrimljenaDoza();
