@@ -135,19 +135,15 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
         int brDoza = potvrda.getPodaciOVakcinaciji().getPodaciODozama().getPrimljenaDoza().size();
         primljenaDoza.setRedniBroj(new BigInteger(String.valueOf(brDoza + 1)));
 
-        JaxBParser parser = JaxBParserFactory.newInstanceFor(PotvrdaOIzvrsenojVakcinaciji.PodaciOVakcinaciji.PodaciODozama.PrimljenaDoza.class, Boolean.FALSE);
-        String serializedObj = parser.marshall(primljenaDoza);
-
         potvrda.getPodaciOVakcinaciji().getPodaciODozama().getPrimljenaDoza().add(primljenaDoza);
 
         updateMetadata(id, potvrda);
         addGeneralAttributes(potvrda);
 
-        baseRepository.append(id, "//*:podaci-o-dozama", serializedObj);
-
         JaxBParser saglasnostParser = JaxBParserFactory.newInstanceFor(PotvrdaOIzvrsenojVakcinaciji.class, Boolean.FALSE);
-        serializedObj = saglasnostParser.marshall(potvrda);
+        String serializedObj = saglasnostParser.marshall(potvrda);
 
+        baseRepository.store(id, serializedObj);
         jenaRepository.updateData(potvrda.getAbout(), serializedObj, "/potvrda");
 
         return potvrda;
@@ -172,26 +168,6 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
                 .filter(meta -> meta.getProperty().equals("rdfpoiv:izmenjen"))
                 .findFirst();
         izmenjenMeta.ifPresent(meta -> meta.setValue(String.valueOf(brDoza)));
-
-
-        try {
-
-            JaxBParser metaParser = JaxBParserFactory.newInstanceFor(Tmeta.class, Boolean.FALSE);
-
-            String serializedObj = metaParser.marshall(brojDozaMeta.get());
-            baseRepository.update(fileName, "//*:meta[@property='rdfpoiv:brojDoza']", serializedObj);
-
-            serializedObj = metaParser.marshall(izmenjenMeta.get());
-            baseRepository.update(fileName, "//*:meta[@property='rdfpoiv:izmenjen']", serializedObj);
-
-            JaxBParser linkParser = JaxBParserFactory.newInstanceFor(Tlink.class, Boolean.FALSE);
-
-            serializedObj = linkParser.marshall(saglasnostLink);
-            baseRepository.append(fileName, "/*:potvrda-o-izvrsenoj-vakcinaciji", serializedObj);
-
-
-        } catch (XMLDBException e) {
-        }
 
     }
 
