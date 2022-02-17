@@ -19,7 +19,7 @@ public class IzjavaService {
 		ResponseEntity<Object> response = restTemplate.postForEntity(String.format("%s/izjave", sluzbenikUrl), izjava, Object.class);
 	
 		if (response.getStatusCode() == HttpStatus.BAD_REQUEST) {
-			throw new BadLogicException("Trenutno nije moguće iskazati interesovanje za vakcinacijom.");
+			throw new BadLogicException("Nije moguće iskazati dato interesovanje za vakcinacijom.");
 		}
 		
 		return izjava;
