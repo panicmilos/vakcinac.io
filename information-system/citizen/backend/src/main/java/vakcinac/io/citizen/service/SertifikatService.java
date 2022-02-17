@@ -26,6 +26,7 @@ import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.factories.TlinkFactory;
 import vakcinac.io.core.factories.TmetaFactory;
 import vakcinac.io.core.models.os.Tgradjanin;
+import vakcinac.io.core.results.link.Links;
 import vakcinac.io.core.services.BaseService;
 import vakcinac.io.core.utils.DateUtils;
 import vakcinac.io.core.utils.LocalDateUtils;
@@ -51,6 +52,16 @@ public class SertifikatService extends BaseService<DigitalniSertifikat> {
 	@Override
 	public DigitalniSertifikat read(String id) {
 		return baseRepository.retrieve(id.replace('/', '-'));
+	}
+	
+	@Override
+	protected Links findReferencing(String id) throws Exception {
+		return jenaRepository.findReferencing(String.format("%s/digitalni-sertifikat/%s", Constants.ROOT_URL, id.replace('-', '/')), "/sertifikat");
+	}
+
+	@Override
+	protected Links findReferencedBy(String id) throws Exception {
+		return jenaRepository.findReferencedBy(String.format("%s/digitalni-sertifikat/%s", Constants.ROOT_URL, id.replace('-', '/')));
 	}
 	
 	@Override

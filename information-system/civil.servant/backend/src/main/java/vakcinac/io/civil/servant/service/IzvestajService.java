@@ -16,6 +16,7 @@ import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
 import vakcinac.io.core.Constants;
 import vakcinac.io.core.factories.TmetaFactory;
 import vakcinac.io.core.results.agres.AggregateResult;
+import vakcinac.io.core.results.link.Links;
 import vakcinac.io.core.services.BaseService;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
@@ -43,6 +44,16 @@ public class IzvestajService extends BaseService<IzvestajOImunizaciji> {
 		this.izjavaService = izjavaService;
 		this.sertifikatService = sertifikatService;
 		this.potvrdaService = potvrdaService;
+	}
+	
+	@Override
+	protected Links findReferencing(String id) throws Exception {
+		return null;
+	}
+
+	@Override
+	protected Links findReferencedBy(String id) throws Exception {
+		return null;
 	}
 
 	@Override

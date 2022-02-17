@@ -43,6 +43,7 @@ public class PotvrdaService {
 	private JenaRepository jenaRepository;
 	
     private JwtStore jwtStore;
+	private RestTemplate restTemplate;
 
     @Autowired
     public PotvrdaService(
@@ -51,13 +52,15 @@ public class PotvrdaService {
     		VakcinaService vakcinaService,
     		RedCekanjaService redCekanjaService,
     		JenaRepository jenaRepository,
-    		JwtStore jwtStore) {
+    		JwtStore jwtStore,
+    		RestTemplate restTemplate) {
         this.terminService = terminService;
         this.saglasnostService = saglasnostService;
         this.vakcinaService = vakcinaService;
         this.redCekanjaService = redCekanjaService;
         this.jenaRepository = jenaRepository;
         this.jwtStore = jwtStore;
+		this.restTemplate = restTemplate;
     }
 
 	public AggregateResult aggregateByDoses(LocalDate startDate, LocalDate endDate) {
@@ -70,17 +73,31 @@ public class PotvrdaService {
 	
 	private AggregateResult aggregate(String by, LocalDate startDate, LocalDate endDate) {
 		HttpEntity<?> httpEntity = HttpUtils.configureHeader(jwtStore.getJwt());
-		
-        RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<AggregateResult> response = restTemplate.exchange(String.format("%s/potvrde/aggregate/%s?startDate=%s&endDate=%s", gradjaninUrl, by, startDate, endDate), HttpMethod.GET, httpEntity, AggregateResult.class);
         
         return response.getBody();
     }
+	
+	public Object readPlain(String id) {
+        HttpEntity<?> httpEntity = HttpUtils.configureHeader(jwtStore.getJwt());
+        
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/potvrde/%s/preview", gradjaninUrl, id), HttpMethod.GET, httpEntity, String.class);
+
+        return response.getBody();
+	}
+
+	public Object readPreview(String id, String type) {
+        HttpEntity<?> httpEntity = HttpUtils.configureHeader(jwtStore.getJwt());
+        
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/potvrde/%s/preview?type=%s", gradjaninUrl, id, type), HttpMethod.GET, httpEntity, String.class);
+
+        return response.getBody();
+	}
 
     public InformacijeOPrimljenimDozamaIzPotvrde getVakcine(String gradjaninId) {
         HttpEntity<?> httpEntity = HttpUtils.configureHeader(jwtStore.getJwt());
-
-        RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<InformacijeOPrimljenimDozamaIzPotvrde> response = restTemplate.exchange(String.format("%s/potvrde/gradjanin/%s/doze", gradjaninUrl, gradjaninId), HttpMethod.GET, httpEntity, InformacijeOPrimljenimDozamaIzPotvrde.class);
 
         return response.getBody();
@@ -97,8 +114,6 @@ public class PotvrdaService {
 
     private KreiranjePotvrde create(KreiranjePotvrde request) {
         HttpEntity<?> httpEntity = HttpUtils.configureHeaderWithBody(request, jwtStore.getJwt());
-
-        RestTemplate restTemplate = new RestTemplate();
         restTemplate.exchange(String.format("%s/potvrde", gradjaninUrl), HttpMethod.POST, httpEntity, Object.class);
 
         return request;
@@ -106,8 +121,6 @@ public class PotvrdaService {
 
     private DodajDozu dodajDozu(DodajDozu request) {
         HttpEntity<?> httpEntity = HttpUtils.configureHeaderWithBody(request, jwtStore.getJwt());
-
-        RestTemplate restTemplate = new RestTemplate();
         restTemplate.exchange(String.format("%s/potvrde/dodaj-dozu", gradjaninUrl), HttpMethod.POST, httpEntity, Object.class);
 
         return request;
@@ -169,4 +182,6 @@ public class PotvrdaService {
     	
     	return map.get(proizvodjac);
     }
+
+	
 }

@@ -6,11 +6,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.web.client.RestTemplate;
 import org.xmldb.api.DatabaseManager;
 import org.xmldb.api.base.Database;
 
+import vakcinac.io.civil.servant.exceptions.RestTemplateResponseErrorHandler;
 import vakcinac.io.civil.servant.models.red.RedCekanja;
 import vakcinac.io.civil.servant.models.stanj.StanjeVakcina;
 import vakcinac.io.civil.servant.service.RedCekanjaService;
@@ -28,16 +31,26 @@ public class Application implements CommandLineRunner {
 	@Value("${root.resource}")
 	private String rootResource;
 	
-	@Bean
-	public ModelMapper getModelMapper() {
-		return new ModelMapper();
-	}
-
 	@Autowired
 	private RedCekanjaService redCekanjaService;
 	
 	@Autowired
 	private StanjeVakcinaService stanjeVakcinaService;
+	
+    @Autowired 
+    private RestTemplateBuilder builder;
+    
+	@Bean
+	public ModelMapper getModelMapper() {
+		return new ModelMapper();
+	}
+	
+	@Bean
+	public RestTemplate getRestTemplate() {
+		return builder
+	           .errorHandler(new RestTemplateResponseErrorHandler())
+	           .build();
+	}
 
 	public static void main(String[] args) { SpringApplication.run(Application.class, args); }
 

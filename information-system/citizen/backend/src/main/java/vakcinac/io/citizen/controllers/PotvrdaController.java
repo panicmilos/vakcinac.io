@@ -27,7 +27,7 @@ import vakcinac.io.core.results.agres.AggregateResult;
 import vakcinac.io.core.validators.ObjectValidator;
 
 @Controller
-@RequestMapping("potvrde")
+@RequestMapping(path = "potvrde", produces = { "application/xml" })
 public class PotvrdaController extends ControllerBase {
 
     @Autowired
@@ -53,6 +53,17 @@ public class PotvrdaController extends ControllerBase {
 		LocalDate endDate = LocalDate.parse(endDateS);
 
         return ResponseEntity.ok(potvrdaService.aggregateByTypes(startDate, endDate));
+    }
+    
+    
+    @GetMapping("/{id}/preview")
+    public ResponseEntity<?> preview(@PathVariable String id, @RequestParam(required = false) String type) throws Exception {
+    	
+    	if (type == null) {
+    		return ResponseEntity.ok(potvrdaService.readPlain(id));
+    	}
+    	
+    	return ResponseEntity.ok(potvrdaService.readPreview(id, type));
     }
     
     @PostMapping
