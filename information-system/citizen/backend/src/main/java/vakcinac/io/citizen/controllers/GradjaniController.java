@@ -25,6 +25,7 @@ import vakcinac.io.core.controllers.ControllerBase;
 import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.models.os.Tgradjanin;
+import vakcinac.io.core.results.doc.CitizenDocumentsResult;
 
 @Controller
 @RequestMapping("/gradjani")
@@ -49,6 +50,18 @@ public class GradjaniController extends ControllerBase {
 		}
 		
 		return ResponseEntity.ok(gradjanin);
+	}
+	
+	@GetMapping("/{id}/documents")
+	public ResponseEntity<CitizenDocumentsResult> getDocumentsForGradjanin(@PathVariable("id") String id) throws IOException {
+				
+		return ResponseEntity.ok(gradjaninService.getDocumentsFor(id));
+	}
+	
+	@GetMapping("/{id}/documents/all")
+	public ResponseEntity<CitizenDocumentsResult> getAllDocumentsForGradjanin(@PathVariable("id") String id) throws IOException {
+				
+		return ResponseEntity.ok(gradjaninService.getAllDocumentsFor(id));
 	}
 
 	@PostMapping("/domaci")

@@ -17,4 +17,11 @@ declare function local:search($keyword as xs:string)
     functx:distinct-nodes($rezultat)
 };
 
-local:search("%s")
+<documents>
+{
+    for $document in local:search("%s")
+        let $about := $document//@about/string()
+        let $createdAt := $document//*:meta[@property = 'rdfos:izdat']/text()
+        return <document createdAt="{$createdAt}">{$about}</document>
+}
+</documents>
