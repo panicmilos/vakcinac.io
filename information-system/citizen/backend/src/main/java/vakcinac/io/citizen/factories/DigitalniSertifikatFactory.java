@@ -55,6 +55,9 @@ public class DigitalniSertifikatFactory {
 		String izdao = String.format("%s/sluzbenici/%s", Constants.ROOT_URL, createSertifikatRequest.getSluzbenikId());
 		sertifikat.getLink().add(TlinkFactory.create("rdfds:izdao", izdao, "rdfos:Sluzbenik"));
 		
+		String zahtev = createSertifikatRequest.getZahtev();
+		sertifikat.getLink().add(TlinkFactory.create("rdfds:naOsnovuZahteva", zahtev, "rdfos:ZahtevZaDigitalniSertifikatDokument"));
+		
 		return sertifikat;
 	}
 }

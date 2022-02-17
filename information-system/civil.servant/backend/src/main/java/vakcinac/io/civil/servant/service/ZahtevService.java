@@ -62,6 +62,14 @@ public class ZahtevService extends BaseService<ZahtevZaIzdavanjeZelenogSertifika
 		return create(id, serializedObj);
 	}
 	
+	public void saveUpdatedZahtev(String id, ZahtevZaIzdavanjeZelenogSertifikata zahtev) throws IOException {
+	   JaxBParser zahtevParser = JaxBParserFactory.newInstanceFor(ZahtevZaIzdavanjeZelenogSertifikata.class);
+       String serializedObj = zahtevParser.marshall(zahtev);
+       
+       jenaRepository.updateData(zahtev.getAbout(), serializedObj, "/zahtevi");
+       baseRepository.store(id, serializedObj);
+	}
+	
 	private void fillRestOfZahtev(ZahtevZaIzdavanjeZelenogSertifikata zahtev, Tgradjanin gradjanin) {
 		zahtev.getPodnosilacZahteva().setIme(gradjanin.getIme());
 		zahtev.getPodnosilacZahteva().setPrezime(gradjanin.getPrezime());

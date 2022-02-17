@@ -19,6 +19,11 @@ public class CreateSertifikatValidator extends AbstractValidator<CreateSertifika
             .must(StringPredicate.stringEmptyOrNull().negate())
             .withMessage("Id građanina je obavezan.")
             .withFieldName("GradjaninId");
+        
+        ruleFor(CreateSertifikatRequest::getZahtev)
+	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .withMessage("Zahtev je obavezan.")
+	        .withFieldName("Zahtev");
 
         ruleFor(CreateSertifikatRequest::getCitizenIdentification)
             .must(ComparablePredicate.betweenInclusive(0, 2))
