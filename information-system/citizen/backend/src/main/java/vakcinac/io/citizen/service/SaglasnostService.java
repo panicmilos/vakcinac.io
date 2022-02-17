@@ -44,11 +44,22 @@ public class SaglasnostService {
         return response.getBody();
     }
 	
+	public Object extractRdf(String id, String type) {
+		HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
+        
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/saglasnosti/%s/rdf?type=%s", sluzbenikUrl, id, type), HttpMethod.GET, httpEntity, String.class);
+
+        return response.getBody();
+	}
+	
     public SaglasnostZaSprovodjenjePreporuceneImunizacije create(SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost) {
 		HttpEntity<?> httpEntity = HttpUtils.configureHeaderWithBody(saglasnost, store.getJwt());
         restTemplate.exchange(String.format("%s/saglasnosti", sluzbenikUrl), HttpMethod.POST, httpEntity, Object.class);
         
         return saglasnost;
     }
+
+	
 
 }

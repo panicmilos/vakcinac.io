@@ -29,6 +29,7 @@ import vakcinac.io.core.models.os.InformacijeOPrimljenimDozamaIzPotvrde;
 import vakcinac.io.core.models.os.Tgradjanin;
 import vakcinac.io.core.models.os.Tlink;
 import vakcinac.io.core.models.os.Tmeta;
+import vakcinac.io.core.repository.jena.RdfObject;
 import vakcinac.io.core.results.link.Links;
 import vakcinac.io.core.services.BaseService;
 import vakcinac.io.core.utils.LocalDateUtils;
@@ -65,6 +66,17 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
 	protected Links findReferencedBy(String id) throws Exception {
 		return jenaRepository.findReferencedBy(String.format("%s/saglasnost/%s", Constants.ROOT_URL, id.replace("_", "/")));
 	}
+	
+	public Object extractRdf(String id, String type) throws IOException {
+		 RdfObject rdf = jenaRepository.construct("/saglasnosti", Constants.ROOT_RESOURCE + "/data/sparql/construct.sparql", String.format("%s/saglasnost/%s", Constants.ROOT_URL, id));
+		 
+		 if (type.equals("JSON")) {
+			 return rdf.toString("RDF/JSON");
+		 }
+		 
+		 return rdf.toString("N-TRIPLE");
+	}
+
 
     @Override
     public SaglasnostZaSprovodjenjePreporuceneImunizacije create(SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost) throws Exception {
@@ -269,5 +281,4 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
         saglasnost.getPacijent().getLicneInformacije().setPrezime(gradjanin.getPrezime());
         saglasnost.getPacijent().getLicneInformacije().setPol(gradjanin.getPol());
     }
-
 }

@@ -45,6 +45,13 @@ public class IzjavaController extends ControllerBase {
     	return ResponseEntity.ok(izjavaService.readPreview(id, type));
     }
 	
+	@GetMapping(path = "/{id1}/{id2}/rdf", produces = "text/plain")
+    public ResponseEntity<?> extractRdf(@PathVariable String id1, @PathVariable String id2, @RequestParam(required = false) String type) throws Exception {
+    	String id = id1 + "/" + id2;
+
+    	return ResponseEntity.ok(izjavaService.extractRdf(id, type));
+    }
+	
 	@PreAuthorize("hasAnyRole('DomaciGradjanin', 'StraniGradjanin')")
 	@PostMapping
 	public ResponseEntity<IzjavaInteresovanjaZaVakcinisanje> apply(@RequestBody CreateIzjavaRequest createIzjavaRequest) throws XMLDBException, IOException {
