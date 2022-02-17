@@ -48,6 +48,13 @@ public class SertifikatController extends ControllerBase {
     	return ResponseEntity.ok(sertifikatService.readPreview(id, type));
     }
 	
+	@GetMapping(path = "/{id1}/{id2}/rdf", produces = "text/plain")
+    public ResponseEntity<?> extractRdf(@PathVariable String id1, @PathVariable String id2, @RequestParam(required = false) String type) throws Exception {
+    	String id = id1 + "/" + id2;
+
+    	return ResponseEntity.ok(sertifikatService.extractRdf(id, type));
+    }
+
 	@GetMapping(path = "/count")
 	public ResponseEntity<CountResponse> count(@RequestParam(name="startDate") String startDateS, @RequestParam(name="endDate") String endDateS) throws IOException {
 		

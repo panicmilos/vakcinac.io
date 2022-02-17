@@ -64,6 +64,15 @@ public class SertifikatService {
         return response.getBody();
 	}
 	
+	public Object extractRdf(String id, String type) {
+        HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
+        
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/sertifikati/%s/rdf?type=%s", gradjaninUrl, id, type), HttpMethod.GET, httpEntity, String.class);
+
+        return response.getBody();
+	}
+	
 	public DigitalniSertifikat create(DigitalniSertifikat digitalniSertifikat) throws IOException {	
 		validate(digitalniSertifikat);
 		

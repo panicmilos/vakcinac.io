@@ -156,10 +156,10 @@ public class TestController {
 		jenaRepository.insert(fileContent, "/" + graphUri);
 		
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-	 RdfObject m = jenaRepository.construct("/" + graphUri, Constants.ROOT_RESOURCE + "/data/sparql/construct.sparql", "http://localhost:3030/CitizenDataset/data/kt3");
+	 RdfObject m = jenaRepository.construct("/" + graphUri, Constants.ROOT_RESOURCE + "/data/sparql/construct.sparql", "https://www.vakcinac-io.rs/saglasnost/2312918273921/2");
 		m.toString("RDF/JSON");
 		
-		return ResponseEntity.ok(new String(out.toByteArray()));
+		return ResponseEntity.ok(m.toString("RDF/JSON"));
 	}
 	
 	@GetMapping(path="xsl/{documentNum}")

@@ -25,6 +25,7 @@ import vakcinac.io.core.repository.ExistRepository;
 import vakcinac.io.core.repository.exist.CloseableResource;
 import vakcinac.io.core.repository.jena.CloseableResultSet;
 import vakcinac.io.core.repository.jena.JenaRepository;
+import vakcinac.io.core.repository.jena.RdfObject;
 import vakcinac.io.core.results.agres.AggregateResult;
 import vakcinac.io.core.results.link.Links;
 import vakcinac.io.core.services.BaseService;
@@ -75,12 +76,21 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
 	}
 
 	@Override
-	protected Links findReferencedBy(String id) throws IOException {
+	protected Links findReferencedBy(String id) throws Exception {
         String about = String.format("%s/potvrda/%s", Constants.ROOT_URL, id);
 
 		return jenaRepository.findReferencedBy(about);
 	}
-
+	
+	public String extractRdf(String id, Object type) throws Exception {
+		 RdfObject rdf = jenaRepository.construct("/potvrda", Constants.ROOT_RESOURCE + "/data/sparql/construct.sparql", String.format("%s/potvrda/%s", Constants.ROOT_URL, id));
+		 
+		 if (type.equals("JSON")) {
+			 return rdf.toString("RDF/JSON");
+		 }
+		 
+		 return rdf.toString("N-TRIPLE");
+	}
 
     public PotvrdaOIzvrsenojVakcinaciji.PodaciOVakcinaciji readVakcinePotvrdePoGradjanu(String gradjaninId) {
 
@@ -266,5 +276,7 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
     private String generatePotvrdaId() {
         return String.format("%s-%s", RandomUtils.generateRandomNumericString(6), RandomUtils.generateRandomNumericString(6));
     }
+
+	
 
 }
