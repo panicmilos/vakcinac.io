@@ -12,4 +12,13 @@ public class HttpUtils {
 
         return entity;
     }
+
+    public static HttpEntity<?> configureHeaderWithBody(Object body, String jwt) {
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + jwt);
+        HttpEntity<?> entity = new HttpEntity<>(body, headers);
+
+        return entity;
+    }
 }
