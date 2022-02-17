@@ -42,6 +42,25 @@ public class SertifikatService {
 		this.authenticationService = authenticationService;
 		this.zahtevService = zahtevService;
 	}
+
+	
+	public Object readPlain(String id) {
+        HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
+        
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/sertifikati/%s/preview", gradjaninUrl, id), HttpMethod.GET, httpEntity, String.class);
+
+        return response.getBody();
+	}
+
+	public Object readPreview(String id, String type) {
+        HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
+        
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/sertifikati/%s/preview?type=%s", gradjaninUrl, id, type), HttpMethod.GET, httpEntity, String.class);
+
+        return response.getBody();
+	}
 	
 	public DigitalniSertifikat create(DigitalniSertifikat digitalniSertifikat) throws IOException {	
 		validate(digitalniSertifikat);

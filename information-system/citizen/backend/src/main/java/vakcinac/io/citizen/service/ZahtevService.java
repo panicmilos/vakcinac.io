@@ -40,4 +40,22 @@ public class ZahtevService {
 		return zahtev;
 
 	}
+
+	public Object readPlain(String id) {
+		HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
+        
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/zahtevi/%s/preview", sluzbenikUrl, id), HttpMethod.GET, httpEntity, String.class);
+
+        return response.getBody();
+	}
+
+	public Object readPreview(String id, String type) {
+		HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
+        
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/zahtevi/%s/preview?type=%s", sluzbenikUrl, id, type), HttpMethod.GET, httpEntity, String.class);
+
+        return response.getBody();
+	}
 }

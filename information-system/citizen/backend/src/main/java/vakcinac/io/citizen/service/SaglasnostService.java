@@ -26,6 +26,24 @@ public class SaglasnostService {
 		this.store = store;
 	}
 
+	public Object readPlain(String id) {
+		HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
+	        
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/saglasnosti/%s/preview", sluzbenikUrl, id), HttpMethod.GET, httpEntity, String.class);
+
+        return response.getBody();
+    }
+
+	public Object readPreview(String id, String type) {
+		HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
+	        
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/saglasnosti/%s/preview?type=%s", sluzbenikUrl, id, type), HttpMethod.GET, httpEntity, String.class);
+
+        return response.getBody();
+    }
+	
     public SaglasnostZaSprovodjenjePreporuceneImunizacije create(SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost) {
 		HttpEntity<?> httpEntity = HttpUtils.configureHeaderWithBody(saglasnost, store.getJwt());
     	

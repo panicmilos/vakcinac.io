@@ -13,7 +13,7 @@ public class RegexPatterns {
 	
 	public static String BR_FIKS_PATTERN = "0[0-9]{8,9}";
 	
-	public static String SERIJA_PATTERN = "[a-zA-Z0-9]{6}";
+	public static String SERIJA_PATTERN = "[a-zA-Z0-9]{7}";
 
 	public static String POTVRDA_ID_PATTERN = "[0-9]{6}-[0-9]{6}";
 

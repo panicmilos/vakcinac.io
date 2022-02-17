@@ -29,6 +29,7 @@ import vakcinac.io.core.models.os.InformacijeOPrimljenimDozamaIzPotvrde;
 import vakcinac.io.core.models.os.Tgradjanin;
 import vakcinac.io.core.models.os.Tlink;
 import vakcinac.io.core.models.os.Tmeta;
+import vakcinac.io.core.results.link.Links;
 import vakcinac.io.core.services.BaseService;
 import vakcinac.io.core.utils.LocalDateUtils;
 import vakcinac.io.core.utils.parsers.JaxBParser;
@@ -54,6 +55,16 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
         this.zaposleniService = zaposleniService;
         this.potvrdaService = potvrdaService;
     }
+    
+    @Override
+	protected Links findReferencing(String id) throws Exception {
+    	return jenaRepository.findReferencing(String.format("%s/saglasnost/%s", Constants.ROOT_URL, id.replace("_", "/")), "/saglasnosti");
+	}		
+
+	@Override
+	protected Links findReferencedBy(String id) throws Exception {
+		return jenaRepository.findReferencedBy(String.format("%s/saglasnost/%s", Constants.ROOT_URL, id.replace("_", "/")));
+	}
 
     @Override
     public SaglasnostZaSprovodjenjePreporuceneImunizacije create(SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost) throws Exception {
@@ -258,4 +269,5 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
         saglasnost.getPacijent().getLicneInformacije().setPrezime(gradjanin.getPrezime());
         saglasnost.getPacijent().getLicneInformacije().setPol(gradjanin.getPol());
     }
+
 }

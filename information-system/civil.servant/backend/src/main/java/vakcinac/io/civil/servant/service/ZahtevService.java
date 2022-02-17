@@ -16,6 +16,7 @@ import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.factories.TlinkFactory;
 import vakcinac.io.core.factories.TmetaFactory;
 import vakcinac.io.core.models.os.Tgradjanin;
+import vakcinac.io.core.results.link.Links;
 import vakcinac.io.core.services.BaseService;
 import vakcinac.io.core.utils.LocalDateUtils;
 import vakcinac.io.core.utils.parsers.JaxBParser;
@@ -32,6 +33,16 @@ public class ZahtevService extends BaseService<ZahtevZaIzdavanjeZelenogSertifika
 		
 		this.gradjaninService = gradjaninService;
 		this.potvrdaService = potvrdaService;
+	}
+	
+	@Override
+	protected Links findReferencing(String id) throws Exception {
+    	return jenaRepository.findReferencing(String.format("%s/zahtev/%s", Constants.ROOT_URL, id.replace("_", "/")), "/zahtevi");
+	}		
+
+	@Override
+	protected Links findReferencedBy(String id) throws Exception {
+		return jenaRepository.findReferencedBy(String.format("%s/zahtev/%s", Constants.ROOT_URL, id.replace("_", "/")));
 	}
 
 	@Override

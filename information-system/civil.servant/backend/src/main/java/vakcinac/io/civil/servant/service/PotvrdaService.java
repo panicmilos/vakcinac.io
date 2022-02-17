@@ -74,6 +74,24 @@ public class PotvrdaService {
 
         return response.getBody();
     }
+	
+	public Object readPlain(String id) {
+        HttpEntity<?> httpEntity = HttpUtils.configureHeader(jwtStore.getJwt());
+        
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/potvrde/%s/preview", gradjaninUrl, id), HttpMethod.GET, httpEntity, String.class);
+
+        return response.getBody();
+	}
+
+	public Object readPreview(String id, String type) {
+        HttpEntity<?> httpEntity = HttpUtils.configureHeader(jwtStore.getJwt());
+        
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/potvrde/%s/preview?type=%s", gradjaninUrl, id, type), HttpMethod.GET, httpEntity, String.class);
+
+        return response.getBody();
+	}
 
     public InformacijeOPrimljenimDozamaIzPotvrde getVakcine(String gradjaninId) {
         HttpEntity<?> httpEntity = HttpUtils.configureHeader(jwtStore.getJwt());
@@ -167,4 +185,6 @@ public class PotvrdaService {
     	
     	return map.get(proizvodjac);
     }
+
+	
 }
