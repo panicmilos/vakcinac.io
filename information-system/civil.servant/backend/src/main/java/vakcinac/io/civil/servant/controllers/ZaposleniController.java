@@ -58,7 +58,7 @@ public class ZaposleniController extends ControllerBase {
 			throw new MissingEntityException(String.format("Zaposleni sa željenim korisničkim imenom (%s) ne postoji.", korisnickoIme));
 		}
 		
-		String currentUserUsername = authService.getCurrentUserUsername();
+		String currentUserUsername = authService.getCurrentWorkerUsername();
 		if (!currentUserUsername.equals(zaposleni.getUsername())) {
 			throw new BadLogicException("Možete pristupiti samo svojim podacima.");
 		}

@@ -3,7 +3,7 @@ xquery version "3.1";
 declare namespace dig="https://www.vakcinac-io.rs/digitalni-sertifikat";
 import module namespace functx="http://www.functx.com";
 
-declare function local:search-dig($keyword as xs:string)
+declare function local:search($keyword as xs:string)
 {
     let $kolekcija := collection("/db/digitalni-sertifikati")
     let $sertifikati :=
@@ -17,4 +17,11 @@ declare function local:search-dig($keyword as xs:string)
     functx:distinct-nodes($sertifikati)
 };
 
-local:search-dig("%s")
+<documents>
+{
+    for $document in local:search("%s")
+        let $about := $document//@about/string()
+        let $createdAt := $document//*:meta[@property = 'rdfos:izdat']/text()
+        return <document createdAt="{$createdAt}">{$about}</document>
+}
+</documents>

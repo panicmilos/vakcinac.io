@@ -64,9 +64,4 @@ public class IzjavaController extends ControllerBase {
 		return ResponseEntity.ok(createdIzjava);
 	}
 	
-	@GetMapping("/za")
-	public ResponseEntity<String> getIzjavaZa(@RequestParam String za) {
-		return ResponseEntity.ok(izjavaService.getIzjavaZa(za));
-	}
-	
 }

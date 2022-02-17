@@ -13,10 +13,10 @@ public class CreatePotvrdaValidator extends AbstractValidator<CreatePotvrdaReque
 
         ruleFor(CreatePotvrdaRequest::getJmbgOsobe)
                 .must(StringUtils::notNullOrEmpty)
-                .withMessage("Id je obavezan.")
-                .must(CreatePotvrdaValidator::isIdValid)
-                .withMessage("Id nije u dobrom formatu.")
-                .withFieldName("Id");
+                .withMessage("Jmbg je obavezan.")
+                .must(StringPredicate.stringMatches(RegexPatterns.JMBG_PATTERN))
+                .withMessage("Jmbg nije u dobrom formatu.")
+                .withFieldName("Jmbg");
 
         ruleFor(CreatePotvrdaRequest::getNazivVakcine)
                 .must(StringUtils::notNullOrEmpty)
@@ -30,14 +30,5 @@ public class CreatePotvrdaValidator extends AbstractValidator<CreatePotvrdaReque
                 .withMessage("Serija nije u dobrom formatu.")
                 .withFieldName("Serija");
     }
-    
-	private static boolean isIdValid(String podnosilac) {
-		if (podnosilac.matches(RegexPatterns.JMBG_PATTERN) || podnosilac.matches(RegexPatterns.EBS_PATTERN) || 
-				podnosilac.matches(RegexPatterns.PASOS_PATTERN)) {
-			return true;
-		}
-		
-		return false;
-	}
 
 }

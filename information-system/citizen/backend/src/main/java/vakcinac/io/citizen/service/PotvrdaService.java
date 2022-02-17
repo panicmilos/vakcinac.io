@@ -8,20 +8,13 @@ import java.util.Optional;
 import javax.xml.namespace.QName;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.annotation.RequestScope;
 import org.xmldb.api.base.ResourceIterator;
 import org.xmldb.api.base.XMLDBException;
 
 import vakcinac.io.citizen.models.pot.PotvrdaOIzvrsenojVakcinaciji;
-import vakcinac.io.citizen.security.JwtStore;
 import vakcinac.io.core.Constants;
-import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.factories.TlinkFactory;
 import vakcinac.io.core.factories.TmetaFactory;
@@ -36,7 +29,6 @@ import vakcinac.io.core.repository.jena.RdfObject;
 import vakcinac.io.core.results.agres.AggregateResult;
 import vakcinac.io.core.results.link.Links;
 import vakcinac.io.core.services.BaseService;
-import vakcinac.io.core.utils.HttpUtils;
 import vakcinac.io.core.utils.LocalDateUtils;
 import vakcinac.io.core.utils.RandomUtils;
 import vakcinac.io.core.utils.parsers.JaxBParser;
@@ -47,23 +39,11 @@ import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 @RequestScope
 public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
 
-    @Value("${sluzbenik.url}")
-    private String sluzbenikUrl;
-	
     @Autowired
     private GradjaninService gradjaninService;
 
     @Autowired
     private VakcinaService vakcinaService;
-    
-    @Autowired
-	private AuthenticationService authenticationService;
-    
-    @Autowired
-    private JwtStore jwtStore;
-    
-    @Autowired
-    private RestTemplate restTemplate;
 
     protected PotvrdaService(ExistRepository<PotvrdaOIzvrsenojVakcinaciji> baseRepository, JenaRepository jenaRepository) {
         super(baseRepository, jenaRepository);
@@ -151,14 +131,6 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
         potvrda.setQrKod(String.format("%s/potvrda/%s", Constants.ROOT_URL, id));
 
         Tgradjanin gradjanin = gradjaninService.findById(potvrda.getPodaciOVakcinisanom().getJmbg());
-        if (gradjanin == null) {
-        	throw new MissingEntityException("Građanin ne postoji.");
-        }
-        
-        String currentUserUsername = authenticationService.getCurrentUserUsername();
-    	if (!gradjanin.getKorisnickoIme().equals(currentUserUsername)) {
-			throw new BadLogicException("Nije napraviti potvrdu za drugu osobu.");
-		}
 
         fillOutPodaciOVakcinisanom(potvrda, gradjanin);
         fillOutRdf(id, potvrda);
@@ -192,7 +164,7 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
 
         String interesovanje = getRelatedInteresovanje(za);
         if(interesovanje == null || interesovanje.trim().isEmpty()) {
-            throw new MissingEntityException("Ne postoji interesovanje za gradjanina");
+            throw new MissingEntityException(String.format("No interesovanje for gradjanin %s", za));
         }
 
         String saglasnost = getRelatedSaglasnost(za);
@@ -217,10 +189,7 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
     }
 
     private String getRelatedInteresovanje(String za) {
-		HttpEntity<?> httpEntity = HttpUtils.configureHeader(jwtStore.getJwt());
-		ResponseEntity<String> response = restTemplate.exchange(String.format("%s/izjave/za?za=%s", sluzbenikUrl, za), HttpMethod.GET, httpEntity, String.class);
-        
-		return response.getBody();
+        return jenaRepository.readLatestSubject("/izjava", "<https://www.vakcinac-io.rs/rdfs/interesovanje/za>", String.format("<%s>", za));
     }
 
     public PotvrdaOIzvrsenojVakcinaciji addDoza(String gradjaninId, String serija) throws XMLDBException, IOException {
@@ -278,12 +247,10 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
     }
 
     private String getRelatedSaglasnost(String za) {
-    	HttpEntity<?> httpEntity = HttpUtils.configureHeader(jwtStore.getJwt());
-		ResponseEntity<String> response = restTemplate.exchange(String.format("%s/saglasnosti/za?za=%s", sluzbenikUrl, za), HttpMethod.GET, httpEntity, String.class);
-        
-		String saglasnost = response.getBody();
+        String saglasnost =  jenaRepository.readLatestSubject("/saglasnosti", "<https://www.vakcinac-io.rs/rdfs/saglasnost/za>", String.format("<%s>", za));
+
         if(saglasnost == null || saglasnost.trim().isEmpty()) {
-            throw new MissingEntityException(String.format("Ne postoji saglasnost za gradjanina", za));
+            throw new MissingEntityException(String.format("No saglasnost for gradjanin %s", za));
         }
 
         return saglasnost;
