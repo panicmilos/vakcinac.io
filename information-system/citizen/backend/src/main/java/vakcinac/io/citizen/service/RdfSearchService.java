@@ -29,7 +29,7 @@ public class RdfSearchService extends SearchService {
     }
 
     @Override
-    protected List<String> search(String graph, List<LogicalExpression> predicates) {
+    protected List<String> search(String graph, LogicalExpression predicates) {
         return null;
     }
 

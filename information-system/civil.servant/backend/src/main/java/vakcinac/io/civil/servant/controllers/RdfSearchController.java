@@ -24,7 +24,7 @@ public class RdfSearchController {
     @PostMapping
     public ResponseEntity<SearchResult> search(@RequestBody MetaSearchRequest request) {
         SearchResult searchResult = new SearchResult();
-        searchResult.setResults(rdfSearchService.search(request.getGraph(), request.getExpressions()));
+        searchResult.setResults(rdfSearchService.search(request.getGraph(), request.getExpression()));
         return ResponseEntity.ok(searchResult);
     }
 

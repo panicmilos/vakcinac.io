@@ -23,11 +23,8 @@ public abstract class SearchService {
     protected static final String XSD_STRING = "xsd:string";
     protected static final String LINK = "link";
 
-    protected static final String DATE_COMPARISON_TEMPLATE = "(%s %s '%s'^^%s)";
-    protected static final String INTEGER_COMPARISON_TEMPLATE = "(%s %s %s)";
-
     protected abstract void initRegistry();
-    protected abstract List<String> search(String graph, List<LogicalExpression> expressions);
+    protected abstract List<String> search(String graph, LogicalExpression expression);
 
     protected JenaRepository jenaRepository;
 
@@ -36,7 +33,7 @@ public abstract class SearchService {
         initRegistry();
     }
 
-    protected String formatQuery(String graph, List<LogicalExpression> expressions) {
+    protected String formatQuery(String graph, LogicalExpression rootExpression) {
 
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(PREFIXES);
@@ -49,10 +46,32 @@ public abstract class SearchService {
             filterBuilder.append(String.format("%s %s;\n", predicateUrlRegistry.get(key), key));
         }
 
-        for (LogicalExpression logicalExpression : expressions) {
-            String formattedExpression = buildExpression(logicalExpression);
-            filterBuilder.append(formattedExpression);
+        ArrayList<String> expressionStrings = new ArrayList<>();
+
+        if (rootExpression.getOperators().size() != rootExpression.getExpressions().size() - 1 && !rootExpression.getOperators().contains("not")) {
+            throw new BadLogicException("Neodgovarajuci broj logickih operatora");
         }
+
+        String wrapper = "FILTER (%s) .\n";
+
+        if (!rootExpression.getOperators().isEmpty() && rootExpression.getOperators().get(0).equals("not")) {
+            popOperator(rootExpression.getOperators());
+            wrapper = "FILTER (!(%s)) .\n";
+        }
+
+        for (LogicalExpression logicalExpression : rootExpression.getExpressions()) {
+            if (!rootExpression.getOperators().isEmpty() && rootExpression.getOperators().get(0).equals("not")) {
+                expressionStrings.add(popOperator(rootExpression.getOperators()));
+            }
+            String formattedExpression = buildExpression(logicalExpression);
+            expressionStrings.add(formattedExpression);
+            if (rootExpression.getOperators().isEmpty()) {
+                continue;
+            }
+            expressionStrings.add(popOperator(rootExpression.getOperators()));
+        }
+
+        filterBuilder.append(String.format(wrapper, String.join(" ", expressionStrings)));
 
         stringBuilder.append(String.format(WHERE_TEMPLATE, filterBuilder));
         stringBuilder.append(GROUP_BY_SUBJECT);
@@ -60,40 +79,49 @@ public abstract class SearchService {
         return stringBuilder.toString();
     }
 
+    private String popOperator(List<String> operators) {
+        String operator = operators.get(0);
+        if (operator.equals("and")) {
+            operator = "&&";
+        } else if (operator.equals("or")) {
+            operator = "||";
+        } else if (operator.equals("not")) {
+            operator = "!";
+        }
+        operators.remove(0);
+        return operator;
+    }
+
     private String buildExpression(LogicalExpression expression) {
-        if (expression.getType().equals("and")) {
-            return getFilterForAndPredicates(expression.getPredicates());
-        } else {
-            return getFilterForOrPredicates(expression.getPredicates());
-        }
+        return getFilterForPredicates(expression.getPredicates(), expression.getOperators());
     }
 
-    private String getFilterForAndPredicates(List<MetaPredicate> predicates) {
-
-        if (predicates.size() < 2) {
-            throw new BadLogicException("Premalo predikata za logicko i.");
-        }
-
+    private String getFilterForPredicates(List<MetaPredicate> predicates, List<String> operators) {
         List<String> filters = new ArrayList<>();
+
+        if (operators.size() != predicates.size() - 1 && !operators.contains("not")) {
+            throw new BadLogicException("Neodgovarajuci broj logickih operatora");
+        }
+
+        String wrapper = "(%s)";
+
+        if (!operators.isEmpty() && operators.get(0).equals("not")) {
+            popOperator(operators);
+            wrapper = "!(" + wrapper + ")";
+        }
+
         for (MetaPredicate predicate : predicates) {
+            if (!operators.isEmpty() && operators.get(0).equals("not")) {
+                filters.add(popOperator(operators));
+            }
             filters.add(getFilterForPredicate(predicate));
+            if (operators.isEmpty()) {
+                continue;
+            }
+            filters.add(popOperator(operators));
         }
 
-        return String.format("(%s)", String.join(" && ", filters));
-    }
-
-    private String getFilterForOrPredicates(List<MetaPredicate> predicates) {
-
-        if (predicates.size() < 2) {
-            throw new BadLogicException("Premalo predikata za logicko ili.");
-        }
-
-        List<String> filters = new ArrayList<>();
-        for (MetaPredicate predicate : predicates) {
-            filters.add(getFilterForPredicate(predicate));
-        }
-
-        return String.format("(%s)", String.join(" || ", filters));
+        return String.format(wrapper, String.join(" ", filters));
     }
 
     private String getFilterForPredicate(MetaPredicate predicate) {

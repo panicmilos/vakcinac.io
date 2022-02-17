@@ -1,12 +1,9 @@
 package vakcinac.io.civil.servant.service;
 
-import org.apache.jena.query.QuerySolution;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
-import vakcinac.io.core.repository.jena.CloseableResultSet;
 import vakcinac.io.core.requests.helpers.LogicalExpression;
-import vakcinac.io.core.requests.helpers.MetaPredicate;
 import vakcinac.io.core.services.SearchService;
 
 import java.util.ArrayList;
@@ -36,13 +33,13 @@ public class RdfSearchService extends SearchService {
     }
 
     @Override
-    public List<String> search(String graph, List<LogicalExpression> expressions) {
+    public List<String> search(String graph, LogicalExpression expression) {
 
         if (graph.equals("izjava")) {
             graph = IZJAVA_GRAPH_URI;
         }
 
-        String sparqlQuery = formatQuery(graph, expressions);
+        String sparqlQuery = formatQuery(graph, expression);
 
         System.out.println(sparqlQuery);
 
