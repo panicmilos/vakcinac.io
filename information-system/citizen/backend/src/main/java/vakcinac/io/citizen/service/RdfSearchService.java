@@ -4,12 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 import vakcinac.io.citizen.repository.jena.CitizenJenaRepository;
-import vakcinac.io.core.repository.jena.JenaRepository;
-import vakcinac.io.core.requests.helpers.RdfPredicate;
+import vakcinac.io.core.requests.helpers.LogicalExpression;
 import vakcinac.io.core.services.SearchService;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequestScope
@@ -31,7 +29,7 @@ public class RdfSearchService extends SearchService {
     }
 
     @Override
-    protected List<String> search(String graph, List<RdfPredicate> predicates) {
+    protected List<String> search(String graph, List<LogicalExpression> predicates) {
         return null;
     }
 

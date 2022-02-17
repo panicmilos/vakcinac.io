@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class RdfPredicate {
+public class MetaPredicate {
     @XmlElement(name = "variable")
     private String variable;
     @XmlElement(name = "value")

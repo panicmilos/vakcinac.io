@@ -5,7 +5,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
 import vakcinac.io.core.repository.jena.CloseableResultSet;
-import vakcinac.io.core.requests.helpers.RdfPredicate;
+import vakcinac.io.core.requests.helpers.LogicalExpression;
+import vakcinac.io.core.requests.helpers.MetaPredicate;
 import vakcinac.io.core.services.SearchService;
 
 import java.util.ArrayList;
@@ -35,25 +36,25 @@ public class RdfSearchService extends SearchService {
     }
 
     @Override
-    public List<String> search(String graph, List<RdfPredicate> predicates) {
+    public List<String> search(String graph, List<LogicalExpression> expressions) {
 
         if (graph.equals("izjava")) {
             graph = IZJAVA_GRAPH_URI;
         }
 
-        String sparqlQuery = formatQuery(graph, predicates);
+        String sparqlQuery = formatQuery(graph, expressions);
 
         System.out.println(sparqlQuery);
 
         List<String> searchResults = new ArrayList<>();
 
-        try(CloseableResultSet set = jenaRepository.execQuery(sparqlQuery)) {
-            while (set.hasNext()) {
-                QuerySolution querySolution = set.next();
-
-                searchResults.add(querySolution.get("?s").toString());
-            }
-        }
+//        try(CloseableResultSet set = jenaRepository.execQuery(sparqlQuery)) {
+//            while (set.hasNext()) {
+//                QuerySolution querySolution = set.next();
+//
+//                searchResults.add(querySolution.get("?s").toString());
+//            }
+//        }
 
         return searchResults;
     }

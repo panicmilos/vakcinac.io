@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import vakcinac.io.civil.servant.service.RdfSearchService;
-import vakcinac.io.core.requests.RdfSearchRequest;
+import vakcinac.io.core.requests.MetaSearchRequest;
 import vakcinac.io.core.responses.SearchResult;
 
 @Controller
@@ -22,9 +22,9 @@ public class RdfSearchController {
     }
 
     @PostMapping
-    public ResponseEntity<SearchResult> search(@RequestBody RdfSearchRequest request) {
+    public ResponseEntity<SearchResult> search(@RequestBody MetaSearchRequest request) {
         SearchResult searchResult = new SearchResult();
-        searchResult.setResults(rdfSearchService.search(request.getGraph(), request.getPredicates()));
+        searchResult.setResults(rdfSearchService.search(request.getGraph(), request.getExpressions()));
         return ResponseEntity.ok(searchResult);
     }
 

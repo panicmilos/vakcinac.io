@@ -2,7 +2,8 @@ package vakcinac.io.core.services;
 
 import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.repository.jena.JenaRepository;
-import vakcinac.io.core.requests.helpers.RdfPredicate;
+import vakcinac.io.core.requests.helpers.LogicalExpression;
+import vakcinac.io.core.requests.helpers.MetaPredicate;
 
 import java.util.*;
 
@@ -22,8 +23,11 @@ public abstract class SearchService {
     protected static final String XSD_STRING = "xsd:string";
     protected static final String LINK = "link";
 
+    protected static final String DATE_COMPARISON_TEMPLATE = "(%s %s '%s'^^%s)";
+    protected static final String INTEGER_COMPARISON_TEMPLATE = "(%s %s %s)";
+
     protected abstract void initRegistry();
-    protected abstract List<String> search(String graph, List<RdfPredicate> predicates);
+    protected abstract List<String> search(String graph, List<LogicalExpression> expressions);
 
     protected JenaRepository jenaRepository;
 
@@ -32,7 +36,7 @@ public abstract class SearchService {
         initRegistry();
     }
 
-    protected String formatQuery(String graph, List<RdfPredicate> predicates) {
+    protected String formatQuery(String graph, List<LogicalExpression> expressions) {
 
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(PREFIXES);
@@ -45,8 +49,10 @@ public abstract class SearchService {
             filterBuilder.append(String.format("%s %s;\n", predicateUrlRegistry.get(key), key));
         }
 
-        String formattedExpression = buildExpression(predicates);
-        filterBuilder.append(formattedExpression);
+        for (LogicalExpression logicalExpression : expressions) {
+            String formattedExpression = buildExpression(logicalExpression);
+            filterBuilder.append(formattedExpression);
+        }
 
         stringBuilder.append(String.format(WHERE_TEMPLATE, filterBuilder));
         stringBuilder.append(GROUP_BY_SUBJECT);
@@ -54,42 +60,58 @@ public abstract class SearchService {
         return stringBuilder.toString();
     }
 
-    private String buildExpression(List<RdfPredicate> predicates) {
-        HashMap<String, List<String>> filters = new HashMap<>();
-
-        for (RdfPredicate predicate : predicates) {
-            if (!filters.containsKey(predicate.getVariable())) {
-                filters.put(predicate.getVariable(), new ArrayList<>());
-            }
-            filters.get(predicate.getVariable()).add(getFilterForPredicate(predicate));
+    private String buildExpression(LogicalExpression expression) {
+        if (expression.getType().equals("and")) {
+            return getFilterForAndPredicates(expression.getPredicates());
+        } else {
+            return getFilterForOrPredicates(expression.getPredicates());
         }
-
-        StringBuilder filterBuilder = new StringBuilder();
-        for (List<String> valueFilters : filters.values()) {
-            for (String filter : valueFilters) {
-                filterBuilder.append(filter).append(" .\n");
-            }
-        }
-
-        return filterBuilder.toString();
     }
 
-    private String getFilterForPredicate(RdfPredicate predicate) {
+    private String getFilterForAndPredicates(List<MetaPredicate> predicates) {
 
-        if(!predicateTypeRegistry.containsKey(predicate.getVariable())) {
+        if (predicates.size() < 2) {
+            throw new BadLogicException("Premalo predikata za logicko i.");
+        }
+
+        List<String> filters = new ArrayList<>();
+        for (MetaPredicate predicate : predicates) {
+            filters.add(getFilterForPredicate(predicate));
+        }
+
+        return String.format("(%s)", String.join(" && ", filters));
+    }
+
+    private String getFilterForOrPredicates(List<MetaPredicate> predicates) {
+
+        if (predicates.size() < 2) {
+            throw new BadLogicException("Premalo predikata za logicko ili.");
+        }
+
+        List<String> filters = new ArrayList<>();
+        for (MetaPredicate predicate : predicates) {
+            filters.add(getFilterForPredicate(predicate));
+        }
+
+        return String.format("(%s)", String.join(" || ", filters));
+    }
+
+    private String getFilterForPredicate(MetaPredicate predicate) {
+
+        if (!predicateTypeRegistry.containsKey(predicate.getVariable())) {
             throw new BadLogicException(String.format("Nije podrzana pretraga po varijabli %s", predicate.getVariable()));
         }
 
         if (predicateTypeRegistry.get(predicate.getVariable()).equals(XSD_STRING) || predicateTypeRegistry.get(predicate.getVariable()).equals(LINK)) {
-            return String.format("FILTER %s(lcase(str(%s)), lcase(str('%s')))", predicate.getOperator(), predicate.getVariable(), predicate.getValue());
+            return String.format("%s(lcase(str(%s)), lcase(str('%s')))", predicate.getOperator(), predicate.getVariable(), predicate.getValue());
         }
 
         if (predicateTypeRegistry.get(predicate.getVariable()).equals(XSD_INTEGER)) {
-            return String.format("FILTER (?%s %s %s)", predicate.getVariable(), predicate.getOperator(), predicate.getValue());
+            return String.format("(%s %s %s)", predicate.getVariable(), predicate.getOperator(), predicate.getValue());
         }
 
         if (predicateTypeRegistry.get(predicate.getVariable()).equals(XSD_DATE)) {
-            return String.format("FILTER (?%s %s '%s'^^%s)", predicate.getVariable(), predicate.getOperator(), predicate.getValue(), XSD_DATE);
+            return String.format("(%s %s '%s'^^%s)", predicate.getVariable(), predicate.getOperator(), predicate.getValue(), XSD_DATE);
         }
 
         return "";
