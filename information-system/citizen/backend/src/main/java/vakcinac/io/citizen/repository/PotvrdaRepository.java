@@ -10,6 +10,9 @@ import org.xmldb.api.base.XMLDBException;
 import vakcinac.io.citizen.models.pot.PotvrdaOIzvrsenojVakcinaciji;
 import vakcinac.io.core.Constants;
 import vakcinac.io.core.repository.ExistRepository;
+import vakcinac.io.core.results.doc.QueryDocumentsResult;
+import vakcinac.io.core.utils.parsers.JaxBParser;
+import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 
 @Repository
 @RequestScope
@@ -19,8 +22,17 @@ public class PotvrdaRepository extends ExistRepository<PotvrdaOIzvrsenojVakcinac
 		super(PotvrdaOIzvrsenojVakcinaciji.class);
 	}
 
-	public ResourceIterator search(String query) throws XMLDBException, IOException {
-		return retrieveUsingXQuery(Constants.ROOT_RESOURCE + "/data/xquery/pot-ser.xqy", query);
+	public QueryDocumentsResult search(String query) throws XMLDBException, IOException {
+		ResourceIterator iterator = retrieveUsingXQuery(Constants.ROOT_RESOURCE + "/data/xquery/pot-ser.xqy", query);
+		
+		if (!iterator.hasMoreResources()) {
+			return new QueryDocumentsResult();
+		}
+		
+		String serializedDocuments = iterator.nextResource().getContent().toString();
+		
+		JaxBParser parser = JaxBParserFactory.newInstanceFor(QueryDocumentsResult.class);
+		return parser.unmarshall(serializedDocuments);
 	}
 
 }

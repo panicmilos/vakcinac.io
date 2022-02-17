@@ -6,9 +6,13 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.context.annotation.RequestScope;
 import org.xmldb.api.base.ResourceIterator;
 import org.xmldb.api.base.XMLDBException;
+
 import vakcinac.io.civil.servant.models.izj.IzjavaInteresovanjaZaVakcinisanje;
 import vakcinac.io.core.Constants;
 import vakcinac.io.core.repository.ExistRepository;
+import vakcinac.io.core.results.doc.QueryDocumentsResult;
+import vakcinac.io.core.utils.parsers.JaxBParser;
+import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 
 
 @Repository
@@ -19,7 +23,16 @@ public class IzjavaRepository extends ExistRepository<IzjavaInteresovanjaZaVakci
 		super(IzjavaInteresovanjaZaVakcinisanje.class);
 	}
 
-	public ResourceIterator search(String query) throws XMLDBException, IOException {
-		return retrieveUsingXQuery(Constants.ROOT_RESOURCE + "/data/xquery/izj-ser.xqy", query);
+	public QueryDocumentsResult search(String query) throws XMLDBException, IOException {
+		ResourceIterator iterator = retrieveUsingXQuery(Constants.ROOT_RESOURCE + "/data/xquery/izj-ser.xqy", query);
+		
+		if (!iterator.hasMoreResources()) {
+			return new QueryDocumentsResult();
+		}
+		
+		String serializedDocuments = iterator.nextResource().getContent().toString();
+		
+		JaxBParser parser = JaxBParserFactory.newInstanceFor(QueryDocumentsResult.class);
+		return parser.unmarshall(serializedDocuments);
 	}
 }

@@ -100,7 +100,6 @@ public class JenaRepository implements Closeable {
 		String sparqlCondition = String.format("?s %s %s", p, o);
 		String sparqlQuery = SparqlUtils.selectOrderedData(connectionProperties.dataEndpoint + graphUri, sparqlCondition, "<https://www.vakcinac-io.rs/rdfs/deljeno/izdat>", "?date");
 
-		System.out.println(sparqlQuery);
 		QueryExecution query = QueryExecutionFactory.sparqlService(connectionProperties.queryEndpoint, sparqlQuery);
 		ResultSet resultSet = query.execSelect();
 
@@ -184,8 +183,6 @@ public class JenaRepository implements Closeable {
 	}
 	
 	private Links findLinks(String sparqlQuery) {
-		System.out.println(sparqlQuery);
-
 		QueryExecution query = QueryExecutionFactory.sparqlService(connectionProperties.queryEndpoint, sparqlQuery);
 		ResultSet resultSet = query.execSelect();
 		
