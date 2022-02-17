@@ -68,8 +68,9 @@ public class SertifikatController extends ControllerBase {
 	
     @PreAuthorize("hasAnyRole('Sluzbenik')")
 	@PostMapping
-	public ResponseEntity<DigitalniSertifikat> approve(@RequestBody CreateSertifikatRequest createSertifikatRequest) throws XMLDBException, IOException {
-		
+	public ResponseEntity<DigitalniSertifikat> approve(@RequestBody CreateSertifikatRequest createSertifikatRequest) throws XMLDBException, IOException {    	
+    	validate(createSertifikatRequest);
+    	
 		DigitalniSertifikat sertifikat = DigitalniSertifikatFactory.create(createSertifikatRequest);
 		
 		DigitalniSertifikat createdSertifikat = sertifikatService.create(sertifikat);

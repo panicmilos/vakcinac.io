@@ -76,7 +76,10 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
 		 
 		 return rdf.toString("N-TRIPLE");
 	}
-
+	
+	public String getSaglasnostZa(String za) {
+    	return jenaRepository.readLatestSubject("/saglasnosti", "<https://www.vakcinac-io.rs/rdfs/saglasnost/za>", String.format("<%s>", za));
+	}
 
     @Override
     public SaglasnostZaSprovodjenjePreporuceneImunizacije create(SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost) throws Exception {

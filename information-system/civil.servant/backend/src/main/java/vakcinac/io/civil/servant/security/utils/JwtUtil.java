@@ -41,6 +41,12 @@ public class JwtUtil {
 
         return role.replace("ROLE_", "");
     }
+    
+    public String extractCustomClaimFromToken(String token, String claim) {
+        Claims claims = getAllClaimsFromToken(token);
+        
+        return claims.get(claim).toString();
+    }
 
     public String extractRoleFromSecurityContextHolder() {
         Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
@@ -89,6 +95,10 @@ public class JwtUtil {
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {
+    	if (userDetails == null) {
+    		return false;
+    	}
+    	
         String username = extractUsernameFromToken(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }

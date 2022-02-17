@@ -2,7 +2,8 @@ package vakcinac.io.core.services;
 
 import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.repository.jena.JenaRepository;
-import vakcinac.io.core.requests.helpers.RdfPredicate;
+import vakcinac.io.core.requests.helpers.LogicalExpression;
+import vakcinac.io.core.requests.helpers.MetaPredicate;
 
 import java.util.*;
 
@@ -23,7 +24,7 @@ public abstract class SearchService {
     protected static final String LINK = "link";
 
     protected abstract void initRegistry();
-    protected abstract List<String> search(String graph, List<RdfPredicate> predicates);
+    protected abstract List<String> search(String graph, LogicalExpression expression);
 
     protected JenaRepository jenaRepository;
 
@@ -32,7 +33,7 @@ public abstract class SearchService {
         initRegistry();
     }
 
-    protected String formatQuery(String graph, List<RdfPredicate> predicates) {
+    protected String formatQuery(String graph, LogicalExpression rootExpression) {
 
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(PREFIXES);
@@ -45,8 +46,32 @@ public abstract class SearchService {
             filterBuilder.append(String.format("%s %s;\n", predicateUrlRegistry.get(key), key));
         }
 
-        String formattedExpression = buildExpression(predicates);
-        filterBuilder.append(formattedExpression);
+        ArrayList<String> expressionStrings = new ArrayList<>();
+
+        if (rootExpression.getOperators().size() != rootExpression.getExpressions().size() - 1 && !rootExpression.getOperators().contains("not")) {
+            throw new BadLogicException("Neodgovarajuci broj logickih operatora");
+        }
+
+        String wrapper = "FILTER (%s) .\n";
+
+        if (!rootExpression.getOperators().isEmpty() && rootExpression.getOperators().get(0).equals("not")) {
+            popOperator(rootExpression.getOperators());
+            wrapper = "FILTER (!(%s)) .\n";
+        }
+
+        for (LogicalExpression logicalExpression : rootExpression.getExpressions()) {
+            if (!rootExpression.getOperators().isEmpty() && rootExpression.getOperators().get(0).equals("not")) {
+                expressionStrings.add(popOperator(rootExpression.getOperators()));
+            }
+            String formattedExpression = buildExpression(logicalExpression);
+            expressionStrings.add(formattedExpression);
+            if (rootExpression.getOperators().isEmpty()) {
+                continue;
+            }
+            expressionStrings.add(popOperator(rootExpression.getOperators()));
+        }
+
+        filterBuilder.append(String.format(wrapper, String.join(" ", expressionStrings)));
 
         stringBuilder.append(String.format(WHERE_TEMPLATE, filterBuilder));
         stringBuilder.append(GROUP_BY_SUBJECT);
@@ -54,42 +79,67 @@ public abstract class SearchService {
         return stringBuilder.toString();
     }
 
-    private String buildExpression(List<RdfPredicate> predicates) {
-        HashMap<String, List<String>> filters = new HashMap<>();
-
-        for (RdfPredicate predicate : predicates) {
-            if (!filters.containsKey(predicate.getVariable())) {
-                filters.put(predicate.getVariable(), new ArrayList<>());
-            }
-            filters.get(predicate.getVariable()).add(getFilterForPredicate(predicate));
+    private String popOperator(List<String> operators) {
+        String operator = operators.get(0);
+        if (operator.equals("and")) {
+            operator = "&&";
+        } else if (operator.equals("or")) {
+            operator = "||";
+        } else if (operator.equals("not")) {
+            operator = "!";
         }
-
-        StringBuilder filterBuilder = new StringBuilder();
-        for (List<String> valueFilters : filters.values()) {
-            for (String filter : valueFilters) {
-                filterBuilder.append(filter).append(" .\n");
-            }
-        }
-
-        return filterBuilder.toString();
+        operators.remove(0);
+        return operator;
     }
 
-    private String getFilterForPredicate(RdfPredicate predicate) {
+    private String buildExpression(LogicalExpression expression) {
+        return getFilterForPredicates(expression.getPredicates(), expression.getOperators());
+    }
 
-        if(!predicateTypeRegistry.containsKey(predicate.getVariable())) {
+    private String getFilterForPredicates(List<MetaPredicate> predicates, List<String> operators) {
+        List<String> filters = new ArrayList<>();
+
+        if (operators.size() != predicates.size() - 1 && !operators.contains("not")) {
+            throw new BadLogicException("Neodgovarajuci broj logickih operatora");
+        }
+
+        String wrapper = "(%s)";
+
+        if (!operators.isEmpty() && operators.get(0).equals("not")) {
+            popOperator(operators);
+            wrapper = "!(" + wrapper + ")";
+        }
+
+        for (MetaPredicate predicate : predicates) {
+            if (!operators.isEmpty() && operators.get(0).equals("not")) {
+                filters.add(popOperator(operators));
+            }
+            filters.add(getFilterForPredicate(predicate));
+            if (operators.isEmpty()) {
+                continue;
+            }
+            filters.add(popOperator(operators));
+        }
+
+        return String.format(wrapper, String.join(" ", filters));
+    }
+
+    private String getFilterForPredicate(MetaPredicate predicate) {
+
+        if (!predicateTypeRegistry.containsKey(predicate.getVariable())) {
             throw new BadLogicException(String.format("Nije podrzana pretraga po varijabli %s", predicate.getVariable()));
         }
 
         if (predicateTypeRegistry.get(predicate.getVariable()).equals(XSD_STRING) || predicateTypeRegistry.get(predicate.getVariable()).equals(LINK)) {
-            return String.format("FILTER %s(lcase(str(%s)), lcase(str('%s')))", predicate.getOperator(), predicate.getVariable(), predicate.getValue());
+            return String.format("%s(lcase(str(%s)), lcase(str('%s')))", predicate.getOperator(), predicate.getVariable(), predicate.getValue());
         }
 
         if (predicateTypeRegistry.get(predicate.getVariable()).equals(XSD_INTEGER)) {
-            return String.format("FILTER (?%s %s %s)", predicate.getVariable(), predicate.getOperator(), predicate.getValue());
+            return String.format("(%s %s %s)", predicate.getVariable(), predicate.getOperator(), predicate.getValue());
         }
 
         if (predicateTypeRegistry.get(predicate.getVariable()).equals(XSD_DATE)) {
-            return String.format("FILTER (?%s %s '%s'^^%s)", predicate.getVariable(), predicate.getOperator(), predicate.getValue(), XSD_DATE);
+            return String.format("(%s %s '%s'^^%s)", predicate.getVariable(), predicate.getOperator(), predicate.getValue(), XSD_DATE);
         }
 
         return "";

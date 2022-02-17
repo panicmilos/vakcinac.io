@@ -12,10 +12,10 @@ public class AddDozaValidator extends AbstractValidator<AddDozaRequest> {
     public void rules() {
         ruleFor(AddDozaRequest::getJmbg)
                 .must(StringUtils::notNullOrEmpty)
-                .withMessage("Jmbg je obavezan.")
-                .must(StringPredicate.stringMatches(RegexPatterns.JMBG_PATTERN))
-                .withMessage("Jmbg nije u dobrom formatu.")
-                .withFieldName("Jmbg");
+                .withMessage("Id je obavezan.")
+                .must(AddDozaValidator::isIdValid)
+                .withMessage("Id nije u dobrom formatu.")
+                .withFieldName("Id");
 
 
         ruleFor(AddDozaRequest::getSerija)
@@ -25,5 +25,14 @@ public class AddDozaValidator extends AbstractValidator<AddDozaRequest> {
                 .withMessage("Serija nije u dobrom formatu.")
                 .withFieldName("Serija");
     }
+    
+	private static boolean isIdValid(String podnosilac) {
+		if (podnosilac.matches(RegexPatterns.JMBG_PATTERN) || podnosilac.matches(RegexPatterns.EBS_PATTERN) || 
+				podnosilac.matches(RegexPatterns.PASOS_PATTERN)) {
+			return true;
+		}
+		
+		return false;
+	}
 
 }
