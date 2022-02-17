@@ -67,7 +67,7 @@ public class IzvestajService extends BaseService<IzvestajOImunizaciji> {
 		izvestaj.getMeta().add(TmetaFactory.create("rdfioi:periodOd", "xsd:date", izvestaj.getOd().toString()));
 		izvestaj.getMeta().add(TmetaFactory.create("rdfioi:periodDo", "xsd:date", izvestaj.getDo().toString()));
 		izvestaj.getMeta().add(TmetaFactory.create("rdfioi:ukupnoDoza", "xsd:integer", izvestaj.getStatistikaDoza().getUkupnoIzdatihDoza().toString()));
-		izvestaj.getMeta().add(TmetaFactory.create("rdfos:izdat", "xsd:integer", izvestaj.getIzdato().toString()));
+		izvestaj.getMeta().add(TmetaFactory.create("rdfos:izdat", "xsd:date", izvestaj.getIzdato().toString()));
 		
 		izvestaj.getOtherAttributes().put(QName.valueOf("xmlns:xsd"), "http://www.w3.org/2001/XMLSchema#");
 		izvestaj.getOtherAttributes().put(QName.valueOf("xmlns:rdfos"), "https://www.vakcinac-io.rs/rdfs/deljeno/");

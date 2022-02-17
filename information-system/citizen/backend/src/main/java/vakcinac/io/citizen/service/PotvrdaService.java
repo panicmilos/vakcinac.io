@@ -1,11 +1,18 @@
 package vakcinac.io.citizen.service;
 
-import org.apache.jena.query.ResultSet;
+import java.io.IOException;
+import java.math.BigInteger;
+import java.time.LocalDate;
+import java.util.Optional;
+
+import javax.xml.namespace.QName;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 import org.xmldb.api.base.ResourceIterator;
 import org.xmldb.api.base.XMLDBException;
+
 import vakcinac.io.citizen.models.pot.PotvrdaOIzvrsenojVakcinaciji;
 import vakcinac.io.core.Constants;
 import vakcinac.io.core.exceptions.MissingEntityException;
@@ -24,13 +31,6 @@ import vakcinac.io.core.utils.LocalDateUtils;
 import vakcinac.io.core.utils.RandomUtils;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
-
-import javax.xml.namespace.QName;
-import java.io.IOException;
-import java.math.BigInteger;
-
-import java.time.LocalDate;
-import java.util.Optional;
 
 
 @Service
@@ -169,9 +169,6 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
     public PotvrdaOIzvrsenojVakcinaciji addDoza(String gradjaninId, String serija) throws XMLDBException, IOException {
         validateVakcina(serija);
 
-        String gradjaninUri = String.format("<%s/gradjani/%s>", Constants.ROOT_URL, gradjaninId);
-        ResultSet potvrdaSet = jenaRepository.read("/potvrda", String.format("?s %s %s", "<https://www.vakcinac-io.rs/rdfs/potvrda/za>", gradjaninUri));
-
         String potvrdaId = getPotvrdaIdByGradjaninId(gradjaninId);
 
         PotvrdaOIzvrsenojVakcinaciji potvrda = read(potvrdaId);
@@ -219,7 +216,7 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
         Optional<Tmeta> izmenjenMeta = potvrda.getMeta().stream()
                 .filter(meta -> meta.getProperty().equals("rdfpoiv:izmenjen"))
                 .findFirst();
-        izmenjenMeta.ifPresent(meta -> meta.setValue(String.valueOf(brDoza)));
+        izmenjenMeta.ifPresent(meta -> meta.setValue(String.valueOf(LocalDate.now())));
 
     }
 

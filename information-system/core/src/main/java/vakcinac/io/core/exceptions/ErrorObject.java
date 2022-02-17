@@ -3,12 +3,27 @@ package vakcinac.io.core.exceptions;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.springframework.http.HttpStatus;
 
+@XmlRootElement(name = "error")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ErrorObject {
+	
+	@XmlElement
 	private String message;
+	
+	@XmlElement
 	private Object payload;
+	
+	@XmlElement
 	private HttpStatus code;
+
+	@XmlElement
 	private ZonedDateTime timestamp;
 	
 	public ErrorObject() {}
