@@ -11,8 +11,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.annotation.RequestScope;
 
+import vakcinac.io.civil.servant.models.pot.DodajDozu;
+import vakcinac.io.civil.servant.models.pot.KreiranjePotvrde;
 import vakcinac.io.civil.servant.security.JwtStore;
+import vakcinac.io.core.Constants;
 import vakcinac.io.core.models.os.InformacijeOPrimljenimDozamaIzPotvrde;
+import vakcinac.io.core.requests.AddDozaRequest;
+import vakcinac.io.core.requests.CreatePotvrdaRequest;
 import vakcinac.io.core.results.agres.AggregateResult;
 import vakcinac.io.core.utils.HttpUtils;
 
@@ -61,5 +66,23 @@ public class PotvrdaService {
     	}
     	
     	return info.getPrimljenaDozaIzPotvrde().size();
+    }
+
+    public KreiranjePotvrde create(KreiranjePotvrde request) {
+        HttpEntity<?> httpEntity = HttpUtils.configureHeaderWithBody(request, jwtStore.getJwt());
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<KreiranjePotvrde> response = restTemplate.exchange(String.format("%s/potvrde", gradjaninUrl), HttpMethod.POST, httpEntity, KreiranjePotvrde.class);
+
+        return response.getBody();
+    }
+
+    public DodajDozu dodajDozu(DodajDozu request) {
+        HttpEntity<?> httpEntity = HttpUtils.configureHeaderWithBody(request, jwtStore.getJwt());
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<DodajDozu> response = restTemplate.exchange(String.format("%s/potvrde/dodaj-dozu", gradjaninUrl), HttpMethod.POST, httpEntity, DodajDozu.class);
+
+        return response.getBody();
     }
 }

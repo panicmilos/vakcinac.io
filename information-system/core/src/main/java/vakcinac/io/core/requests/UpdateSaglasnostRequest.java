@@ -23,7 +23,7 @@ public class UpdateSaglasnostRequest {
 
     @XmlElementWrapper(name = "doze")
     @XmlElement(name = "doza")
-    private List<UpdateSaglasnostDoza> doze;
+    private List<UpdateSaglasnostDoza> testovi;
 
     public String getSaglasnostId() {
         return saglasnostId;

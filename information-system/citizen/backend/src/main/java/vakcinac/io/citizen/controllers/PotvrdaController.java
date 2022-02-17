@@ -70,7 +70,7 @@ public class PotvrdaController extends ControllerBase {
     public ResponseEntity<PotvrdaOIzvrsenojVakcinaciji> addDoza(@RequestBody AddDozaRequest request) throws Exception {
         validate(request);
 
-        PotvrdaOIzvrsenojVakcinaciji updatedPotvrda = potvrdaService.addDoza(request.getPotvrdaId(), request.getSerija());
+        PotvrdaOIzvrsenojVakcinaciji updatedPotvrda = potvrdaService.addDoza(request.getJmbg(), request.getSerija());
 
         return ResponseEntity.ok(updatedPotvrda);
     }

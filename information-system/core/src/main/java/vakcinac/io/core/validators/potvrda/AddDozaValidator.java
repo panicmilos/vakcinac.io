@@ -10,12 +10,12 @@ public class AddDozaValidator extends AbstractValidator<AddDozaRequest> {
 
     @Override
     public void rules() {
-        ruleFor(AddDozaRequest::getPotvrdaId)
+        ruleFor(AddDozaRequest::getJmbg)
                 .must(StringUtils::notNullOrEmpty)
-                .withMessage("Potvrda je obavezna.")
-                .must(StringPredicate.stringMatches(RegexPatterns.POTVRDA_ID_PATTERN))
-                .withMessage("Potvrda nije u dobrom formatu.")
-                .withFieldName("Potvrda");
+                .withMessage("Jmbg je obavezan.")
+                .must(StringPredicate.stringMatches(RegexPatterns.JMBG_PATTERN))
+                .withMessage("Jmbg nije u dobrom formatu.")
+                .withFieldName("Jmbg");
 
 
         ruleFor(AddDozaRequest::getSerija)

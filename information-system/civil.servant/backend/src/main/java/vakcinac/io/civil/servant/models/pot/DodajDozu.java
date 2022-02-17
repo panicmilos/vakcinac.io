@@ -1,4 +1,4 @@
-package vakcinac.io.core.requests;
+package vakcinac.io.civil.servant.models.pot;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -7,7 +7,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "add-doza-request")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class AddDozaRequest {
+public class DodajDozu {
 
     @XmlElement(name = "jmbg")
     private String jmbg;
