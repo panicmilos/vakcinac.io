@@ -18,6 +18,8 @@ import org.apache.jena.update.UpdateProcessor;
 import org.apache.jena.update.UpdateRequest;
 
 import vakcinac.io.core.Constants;
+import vakcinac.io.core.factories.CitizenDocumentFactory;
+import vakcinac.io.core.results.doc.CitizenDocumentsResult;
 import vakcinac.io.core.results.link.Links;
 import vakcinac.io.core.utils.JenaAuthenticationUtils;
 import vakcinac.io.core.utils.JenaAuthenticationUtils.JenaConnectionProperties;
@@ -85,7 +87,7 @@ public class JenaRepository implements Closeable {
 		String notFormattedSparqlCondition = new String(encoded, StandardCharsets.UTF_8);
 		
 		String formattedSparqlCondition = String.format(notFormattedSparqlCondition, connectionProperties.dataEndpoint + graphUri, args[0]);
-
+		
 		QueryExecution query = QueryExecutionFactory.sparqlService(connectionProperties.queryEndpoint, formattedSparqlCondition);
 		Model model = query.execConstruct();
 				
@@ -136,6 +138,32 @@ public class JenaRepository implements Closeable {
 		
 		return 0;
 	}
+	
+	public CitizenDocumentsResult findDocumentsFor(String jmbg) throws IOException {
+		byte[] encoded = Files.readAllBytes(Paths.get(Constants.ROOT_RESOURCE + "/data/sparql/documents_for.sparql"));
+		String notFormattedSparqlCondition = new String(encoded, StandardCharsets.UTF_8);
+		
+		String formattedSparqlCondition = String.format(notFormattedSparqlCondition, jmbg);
+
+		QueryExecution query = QueryExecutionFactory.sparqlService(connectionProperties.queryEndpoint, formattedSparqlCondition);
+		ResultSet resultSet = query.execSelect();
+
+		CitizenDocumentsResult result = new CitizenDocumentsResult();
+		
+		try(CloseableResultSet set = new CloseableResultSet(resultSet, query)) {
+			while (set.hasNext()) {
+				QuerySolution querySolution = set.next();
+				
+				String document = querySolution.get("document").asResource().toString();
+				String createdAt = querySolution.get("createdAt").asLiteral().toString();
+
+				result.getCitizenDocument().add(CitizenDocumentFactory.create(document, createdAt));
+			}
+		}
+		
+		return result;
+	}
+	
 	
 	public Links findReferencing(String about, String graphUri) throws IOException {
 		byte[] encoded = Files.readAllBytes(Paths.get(Constants.ROOT_RESOURCE + "/data/sparql/referencing.sparql"));
