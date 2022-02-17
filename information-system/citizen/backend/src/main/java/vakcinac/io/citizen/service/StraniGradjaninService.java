@@ -11,9 +11,11 @@ import vakcinac.io.citizen.models.sgradj.StraniGradjanin;
 import vakcinac.io.citizen.repository.StraniGradjaninRepository;
 import vakcinac.io.citizen.repository.jena.CitizenJenaRepository;
 import vakcinac.io.core.Constants;
+import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.factories.TmetaFactory;
 import vakcinac.io.core.services.BaseService;
 import vakcinac.io.core.utils.DateUtils;
+import vakcinac.io.core.utils.StringUtils;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 
@@ -26,6 +28,8 @@ public class StraniGradjaninService extends BaseService<StraniGradjanin> {
 	}
 	
 	public StraniGradjanin create(StraniGradjanin straniGradjanin) throws IOException {
+		validate(straniGradjanin);
+		
 		String id = straniGradjanin.getIdentifikacioniDokument() == 0 ? straniGradjanin.getBrojPasosa() : straniGradjanin.getEbs();
 		
 		fillOutRdf(id, straniGradjanin);
@@ -36,6 +40,15 @@ public class StraniGradjaninService extends BaseService<StraniGradjanin> {
 	    jenaRepository.insert(serializedObj, "/gradjani");
 		
 		return create(id, straniGradjanin);
+	}
+	
+	private void validate(StraniGradjanin straniGradjanin) {
+		boolean pasosNotEmpty = StringUtils.notNullOrEmpty(straniGradjanin.getBrojPasosa());
+		boolean ebsNotEmpty = StringUtils.notNullOrEmpty(straniGradjanin.getEbs());
+		
+		if (pasosNotEmpty && ebsNotEmpty) {
+			throw new BadLogicException("Moguće je uneti samo jedan dokument: pasoš ili ebs.");
+		}
 	}
 	
 	private void fillOutRdf(String id, StraniGradjanin straniGradjanin) {

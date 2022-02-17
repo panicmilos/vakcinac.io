@@ -73,4 +73,9 @@ public class SaglasnostController extends ControllerBase {
 
         return ResponseEntity.ok(updatedSaglasnost);
     }
+    
+	@GetMapping("/za")
+	public ResponseEntity<String> getSaglasnostZa(@RequestParam String za) {
+		return ResponseEntity.ok(saglasnostService.getSaglasnostZa(za));
+	}
 }

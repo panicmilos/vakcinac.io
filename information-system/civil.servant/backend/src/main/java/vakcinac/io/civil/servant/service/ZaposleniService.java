@@ -39,6 +39,10 @@ public class ZaposleniService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Tzaposleni zaposleni = findByKorisnickoIme(username);
         List<GrantedAuthority> authorities = getGradjaninAuthorities(zaposleni);
+        
+        if (zaposleni == null) {
+        	return null;
+        }
 
         return new User(zaposleni.getKorisnickoIme(), zaposleni.getLozinka(), authorities);
     }

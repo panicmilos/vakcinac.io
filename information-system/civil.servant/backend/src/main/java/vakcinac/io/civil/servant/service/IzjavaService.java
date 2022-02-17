@@ -36,12 +36,14 @@ public class IzjavaService extends BaseService<IzjavaInteresovanjaZaVakcinisanje
 	private TerminService terminService;
 	private RedCekanjaService redCekanjaService;
 	private PotvrdaService potvrdaService;
+	private AuthenticationService authenticationService;
 	
 	public IzjavaService(
 			GradjaninService gradjaninService,
 			TerminService terminService,
 			RedCekanjaService redCekanjaService,
 			PotvrdaService potvrdaService,
+			AuthenticationService authenticationService,
 			IzjavaRepository izjavaRepository,
 			CivilServantJenaRepository jenaRepository) {
 		super(izjavaRepository, jenaRepository);
@@ -50,6 +52,11 @@ public class IzjavaService extends BaseService<IzjavaInteresovanjaZaVakcinisanje
 		this.terminService = terminService;
 		this.redCekanjaService = redCekanjaService;
 		this.potvrdaService = potvrdaService;
+		this.authenticationService = authenticationService;
+	}
+	
+	public String getIzjavaZa(String za) {
+		return jenaRepository.readLatestSubject("/izjava", "<https://www.vakcinac-io.rs/rdfs/interesovanje/za>", String.format("<%s>", za));
 	}
 
 	@Override
@@ -77,6 +84,11 @@ public class IzjavaService extends BaseService<IzjavaInteresovanjaZaVakcinisanje
 		
 		String jmbg = izjava.getPodnosilacIzjave().getPodnosilac().getJmbg();
 		Tgradjanin gradjanin = gradjaninService.read(jmbg);
+		String currentUserUsername = authenticationService.getCurrentUserUsername();
+		
+		if (!gradjanin.getKorisnickoIme().equals(currentUserUsername)) {
+			throw new BadLogicException("Nije moguće iskazati interesovanje za drugu osobu.");
+		}
 		
 		if (terminService.hasActiveTermin(jmbg) || redCekanjaService.isInRow(jmbg) || potvrdaService.getNumberOfVakcine(jmbg) == 3) {
 			throw new BadLogicException("Trenutno nije moguće iskazati interesovanje za vakcinacijom.");
