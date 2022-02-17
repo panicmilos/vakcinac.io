@@ -18,7 +18,8 @@ public class CreateSertifikatRequest {
 	@XmlElement(name = "gradjanin-id")
     private String gradjaninId;
 	
-    private String sluzbenikId;
+	@XmlElement(name = "zahtev")
+	private String zahtev;
 	
 	@XmlElement(name = "vrsta-identifikacije")
 	private Integer citizenIdentification;
@@ -29,6 +30,8 @@ public class CreateSertifikatRequest {
 	@XmlElementWrapper(name = "testovi")
 	@XmlElement(name = "test")
 	private List<SertifikatTest> testovi;
+	
+    private String sluzbenikId;
 
 	public CreateSertifikatRequest() {
 		testovi = new ArrayList<SertifikatTest>();
@@ -40,6 +43,14 @@ public class CreateSertifikatRequest {
 
 	public void setGradjaninId(String gradjaninId) {
 		this.gradjaninId = gradjaninId;
+	}
+	
+	public String getZahtev() {
+		return zahtev;
+	}
+	
+	public void setZahtev(String zahtev) {
+		this.zahtev = zahtev;
 	}
 	
 	public String getSluzbenikId() {
