@@ -32,13 +32,15 @@ public class SertifikatService {
 	private String gradjaninUrl;
 	
 	private JwtStore store;
+	private RestTemplate restTemplate;
 	
 	private AuthenticationService authenticationService;
 	private ZahtevService zahtevService;
 	
 	@Autowired
-	public SertifikatService(JwtStore store, AuthenticationService authenticationService, ZahtevService zahtevService) {
+	public SertifikatService(JwtStore store, RestTemplate restTemplate, AuthenticationService authenticationService, ZahtevService zahtevService) {
 		this.store = store;
+		this.restTemplate = restTemplate;
 		this.authenticationService = authenticationService;
 		this.zahtevService = zahtevService;
 	}
@@ -66,8 +68,6 @@ public class SertifikatService {
 		validate(digitalniSertifikat);
 		
 		HttpEntity<?> httpEntity = HttpUtils.configureHeaderWithBody(digitalniSertifikat, store.getJwt());
-				
-		RestTemplate restTemplate = new RestTemplate();
 		restTemplate.exchange(String.format("%s/sertifikati", gradjaninUrl), HttpMethod.POST, httpEntity, Object.class);
 		
 		return digitalniSertifikat;
@@ -85,8 +85,8 @@ public class SertifikatService {
 	}
 	
 	public int count(LocalDate startDate, LocalDate endDate) {
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<CountResponse> response = restTemplate.getForEntity(String.format("%s/sertifikati/count?startDate=%s&endDate=%s", gradjaninUrl, startDate, endDate), CountResponse.class);
+		HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
+        ResponseEntity<CountResponse> response = restTemplate.exchange(String.format("%s/sertifikati/count?startDate=%s&endDate=%s", gradjaninUrl, startDate, endDate), HttpMethod.GET, httpEntity, CountResponse.class);
 
         return response.getBody().getValue();
     }

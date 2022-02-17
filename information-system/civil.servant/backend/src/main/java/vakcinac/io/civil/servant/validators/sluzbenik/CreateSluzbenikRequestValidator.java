@@ -6,6 +6,7 @@ import br.com.fluentvalidator.predicate.StringPredicate;
 import vakcinac.io.civil.servant.requests.CreateSluzbenikRequest;
 import vakcinac.io.core.utils.DateUtils;
 import vakcinac.io.core.utils.RegexPatterns;
+import vakcinac.io.core.utils.StringUtils;
 import vakcinac.io.core.validators.RegisteredValidator;
 
 @RegisteredValidator(forType = CreateSluzbenikRequest.class)
@@ -14,22 +15,22 @@ public class CreateSluzbenikRequestValidator extends AbstractValidator<CreateSlu
 	@Override
     public void rules() {
 		ruleFor(CreateSluzbenikRequest::getIme)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Ime je obavezno.")
 	        .withFieldName("Ime");
 
 		ruleFor(CreateSluzbenikRequest::getPrezime)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Prezime je obavezno.")
 	        .withFieldName("Prezime");
 		
 		ruleFor(CreateSluzbenikRequest::getKorisnickoIme)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Korisnicko ime je obavezno.")
 	        .withFieldName("KorisnickoIme");
 		
 		ruleFor(CreateSluzbenikRequest::getLozinka)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Lozinka je obavezna.")
 	        .withFieldName("Lozinka");
 		
@@ -44,14 +45,14 @@ public class CreateSluzbenikRequestValidator extends AbstractValidator<CreateSlu
 	        .withFieldName("Pol");
 		
 		ruleFor(CreateSluzbenikRequest::getEmail)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Email je obavezan.")
 	        .must(StringPredicate.stringMatches(RegexPatterns.EMAIL_PATTERN))
 	        .withMessage("Email nije u dobrom formatu.")
 	        .withFieldName("Email");
 		
 		ruleFor(CreateSluzbenikRequest::getJmbg)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Jmbg je obavezan.")
 	        .must(StringPredicate.stringMatches(RegexPatterns.JMBG_PATTERN))
 	        .withMessage("Jmbg nije u dobrom formatu.")

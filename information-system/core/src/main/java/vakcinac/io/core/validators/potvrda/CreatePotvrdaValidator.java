@@ -24,7 +24,7 @@ public class CreatePotvrdaValidator extends AbstractValidator<CreatePotvrdaReque
                 .withFieldName("NazivVakcine");
 
         ruleFor(CreatePotvrdaRequest::getSerija)
-                .must(StringPredicate.stringEmptyOrNull().negate())
+                .must(StringUtils::notNullOrEmpty)
                 .withMessage("Serija je obavezana.")
                 .must(StringPredicate.stringMatches(RegexPatterns.SERIJA_PATTERN))
                 .withMessage("Serija nije u dobrom formatu.")

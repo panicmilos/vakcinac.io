@@ -6,6 +6,7 @@ import br.com.fluentvalidator.predicate.StringPredicate;
 import vakcinac.io.citizen.requests.CreateStraniGradjaninRequest;
 import vakcinac.io.core.utils.DateUtils;
 import vakcinac.io.core.utils.RegexPatterns;
+import vakcinac.io.core.utils.StringUtils;
 import vakcinac.io.core.validators.RegisteredValidator;
 
 @RegisteredValidator(forType= CreateStraniGradjaninRequest.class)
@@ -13,22 +14,22 @@ public class CreateStraniGradjaninValidator extends AbstractValidator<CreateStra
 	@Override
     public void rules() {
 		ruleFor(CreateStraniGradjaninRequest::getIme)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Ime je obavezno.")
 	        .withFieldName("Ime");
 
 		ruleFor(CreateStraniGradjaninRequest::getPrezime)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Prezime je obavezno.")
 	        .withFieldName("Prezime");
 		
 		ruleFor(CreateStraniGradjaninRequest::getKorisnickoIme)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Korisnicko ime je obavezno.")
 	        .withFieldName("KorisnickoIme");
 		
 		ruleFor(CreateStraniGradjaninRequest::getLozinka)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Lozinka je obavezna.")
 	        .withFieldName("Lozinka");
 		
@@ -43,34 +44,34 @@ public class CreateStraniGradjaninValidator extends AbstractValidator<CreateStra
 	        .withFieldName("Pol");
 		
 		ruleFor(CreateStraniGradjaninRequest::getEmail)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Email je obavezan.")
 	        .must(StringPredicate.stringMatches(RegexPatterns.EMAIL_PATTERN))
 	        .withMessage("Email nije u dobrom formatu.")
 	        .withFieldName("Email");
 		
 		ruleFor(CreateStraniGradjaninRequest::getImeRoditelja)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Ime roditelja je obavezno.")
 	        .withFieldName("ImeRoditelja");
 		
 		ruleFor(CreateStraniGradjaninRequest::getMestoRodjenja)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Mesto rodjenja je obavezno.")
 	        .withFieldName("MestoRodjenja");
 			
 		ruleFor(CreateStraniGradjaninRequest::getAdresa)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Adresa je obavezna.")
 	        .withFieldName("Adresa");
 		
 		ruleFor(CreateStraniGradjaninRequest::getMesto)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Mesto je obavezno.")
 	        .withFieldName("Mesto");
 		
 		ruleFor(CreateStraniGradjaninRequest::getOpstina)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Opstina je obavezna.")
 	        .withFieldName("Opstina");
 		
@@ -90,13 +91,13 @@ public class CreateStraniGradjaninValidator extends AbstractValidator<CreateStra
 	        .withFieldName("Ebs");
 		
 		ruleFor(CreateStraniGradjaninRequest::getDrzava)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Drzava je obavezna.")
 	        .withFieldName("Drzava");
 	}
 	
 	private static boolean isBrojPasosaValid(String brojPasosa) {
-		if (brojPasosa == null || brojPasosa.isEmpty()) {
+		if (StringUtils.nullOrEmpty(brojPasosa)) {
 			return true;
 		}
 		
@@ -104,7 +105,7 @@ public class CreateStraniGradjaninValidator extends AbstractValidator<CreateStra
 	}
 	
 	private static boolean isEbsValid(String ebs) {
-		if (ebs == null || ebs.isEmpty()) {
+		if (StringUtils.nullOrEmpty(ebs)) {
 			return true;
 		}
 		

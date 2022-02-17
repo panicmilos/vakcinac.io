@@ -6,6 +6,7 @@ import br.com.fluentvalidator.predicate.StringPredicate;
 import vakcinac.io.citizen.requests.CreateDomaciGradjaninRequest;
 import vakcinac.io.core.utils.DateUtils;
 import vakcinac.io.core.utils.RegexPatterns;
+import vakcinac.io.core.utils.StringUtils;
 import vakcinac.io.core.validators.RegisteredValidator;
 
 @RegisteredValidator(forType= CreateDomaciGradjaninRequest.class)
@@ -14,22 +15,22 @@ public class CreateDomaciGradjaninValidator extends AbstractValidator<CreateDoma
 	@Override
     public void rules() {
 		ruleFor(CreateDomaciGradjaninRequest::getIme)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Ime je obavezno.")
 	        .withFieldName("Ime");
 
 		ruleFor(CreateDomaciGradjaninRequest::getPrezime)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Prezime je obavezno.")
 	        .withFieldName("Prezime");
 		
 		ruleFor(CreateDomaciGradjaninRequest::getKorisnickoIme)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Korisnicko ime je obavezno.")
 	        .withFieldName("KorisnickoIme");
 		
 		ruleFor(CreateDomaciGradjaninRequest::getLozinka)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Lozinka je obavezna.")
 	        .withFieldName("Lozinka");
 		
@@ -44,53 +45,53 @@ public class CreateDomaciGradjaninValidator extends AbstractValidator<CreateDoma
 	        .withFieldName("Pol");
 		
 		ruleFor(CreateDomaciGradjaninRequest::getEmail)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Email je obavezan.")
 	        .must(StringPredicate.stringMatches(RegexPatterns.EMAIL_PATTERN))
 	        .withMessage("Email nije u dobrom formatu.")
 	        .withFieldName("Email");
 		
 		ruleFor(CreateDomaciGradjaninRequest::getImeRoditelja)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Ime roditelja je obavezno.")
 	        .withFieldName("ImeRoditelja");
 		
 		ruleFor(CreateDomaciGradjaninRequest::getMestoRodjenja)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Mesto rodjenja je obavezno.")
 	        .withFieldName("MestoRodjenja");
 			
 		ruleFor(CreateDomaciGradjaninRequest::getAdresa)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Adresa je obavezna.")
 	        .withFieldName("Adresa");
 		
 		ruleFor(CreateDomaciGradjaninRequest::getMesto)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Mesto je obavezno.")
 	        .withFieldName("Mesto");
 		
 		ruleFor(CreateDomaciGradjaninRequest::getOpstina)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Opstina je obavezna.")
 	        .withFieldName("Opstina");
 		
 		ruleFor(CreateDomaciGradjaninRequest::getJmbg)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Jmbg je obavezan.")
 	        .must(StringPredicate.stringMatches(RegexPatterns.JMBG_PATTERN))
 	        .withMessage("Jmbg nije u dobrom formatu.")
 	        .withFieldName("Jmbg");
 		
 		ruleFor(CreateDomaciGradjaninRequest::getBrojMobilnogTelefona)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Broj mobilnog telefona je obavezan.")
 	        .must(StringPredicate.stringMatches(RegexPatterns.BR_MOB_PATTERN))
 	        .withMessage("Broj mobilnog telefona nije u dobrom formatu.")
 	        .withFieldName("BrojMobilnogTelefona");
 		
 		ruleFor(CreateDomaciGradjaninRequest::getBrojFiksnogTelefona)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Broj fiksnog telefona je obavezan.")
 	        .must(StringPredicate.stringMatches(RegexPatterns.BR_FIKS_PATTERN))
 	        .withMessage("Broj fiksnog telefona nije u dobrom formatu.")
