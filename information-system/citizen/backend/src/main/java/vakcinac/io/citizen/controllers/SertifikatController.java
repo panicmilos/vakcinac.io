@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,8 +47,9 @@ public class SertifikatController extends ControllerBase {
 		return ResponseEntity.ok(new CountResponse(numOfSertifikat));
 	}
 	
+    @PreAuthorize("hasAnyRole('Sluzbenik')")
 	@PostMapping
-	public ResponseEntity<DigitalniSertifikat> apply(@RequestBody CreateSertifikatRequest createSertifikatRequest) throws XMLDBException, IOException {
+	public ResponseEntity<DigitalniSertifikat> approve(@RequestBody CreateSertifikatRequest createSertifikatRequest) throws XMLDBException, IOException {
 		
 		DigitalniSertifikat sertifikat = DigitalniSertifikatFactory.create(createSertifikatRequest);
 		

@@ -7,6 +7,7 @@ import br.com.fluentvalidator.predicate.ComparablePredicate;
 import br.com.fluentvalidator.predicate.StringPredicate;
 import vakcinac.io.core.requests.CreateIzjavaRequest;
 import vakcinac.io.core.utils.RegexPatterns;
+import vakcinac.io.core.utils.StringUtils;
 import vakcinac.io.core.validators.RegisteredValidator;
 
 @RegisteredValidator(forType = CreateIzjavaRequest.class)
@@ -21,28 +22,28 @@ public class CreateIzjavaValidator extends AbstractValidator<CreateIzjavaRequest
 	        .withFieldName("Drzavljanstvo");
         
 		ruleFor(CreateIzjavaRequest::getPodnosilac)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Podnosilac je obavezan.")
 	        .must(StringPredicate.stringMatches(RegexPatterns.JMBG_PATTERN))
 	        .withMessage("Podnosilac nije u dobrom formatu.")
 	        .withFieldName("Podnosilac");
 		
 		ruleFor(CreateIzjavaRequest::getBrojMobilnogTelefona)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Broj mobilnog telefona je obavezan.")
 	        .must(StringPredicate.stringMatches(RegexPatterns.BR_MOB_PATTERN))
 	        .withMessage("Broj mobilnog telefona nije u dobrom formatu.")
 	        .withFieldName("BrojMobilnogTelefona");
 	
 		ruleFor(CreateIzjavaRequest::getBrojFiksnogTelefona)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Broj fiksnog telefona je obavezan.")
 	        .must(StringPredicate.stringMatches(RegexPatterns.BR_FIKS_PATTERN))
 	        .withMessage("Broj fiksnog telefona nije u dobrom formatu.")
 	        .withFieldName("BrojFiksnogTelefona");
 
 		ruleFor(CreateIzjavaRequest::getOpstina)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Opstina je obavezna.")
 	        .withFieldName("Opstina");
 		

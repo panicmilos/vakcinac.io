@@ -19,7 +19,20 @@ public class GradjaninUReduFactory {
 		gradjaninURedu.setVakcine(vakcine);
 		
 		return gradjaninURedu;
-
+	}
+	
+	public static GradjaninURedu create(String jmbg, int proizvodjac, int waitingDays) {
+		GradjaninURedu gradjaninURedu = new GradjaninURedu();
+		
+		gradjaninURedu.setJmbg(jmbg);
+		gradjaninURedu.setMinimalnoVreme(LocalDate.now().plusDays(waitingDays));
+		
+		GradjaninURedu.Vakcine vakcine = new GradjaninURedu.Vakcine();
+		vakcine.getVakcina().add(proizvodjac);
+		
+		gradjaninURedu.setVakcine(vakcine);
+		
+		return gradjaninURedu;
 	}
 
 }

@@ -101,12 +101,6 @@ public class SertifikatService extends BaseService<DigitalniSertifikat> {
 		
 		sertifikat.getLink().add(TlinkFactory.create("rdfds:za", za, "rdfos:Gradjanin"));
 		
-		String zahtev = getRelatedZahtev(za);
-        if(zahtev == null || zahtev.trim().isEmpty()) {
-            throw new MissingEntityException(String.format("Ne postoji zahtev za digitalni sertifikat za građanina %s", za));
-        }	
-		sertifikat.getLink().add(TlinkFactory.create("rdfds:naOsnovuZahteva", zahtev, "rdfos:ZahtevZaDigitalniSertifikatDokument"));
-		
 		String potvrda = getRelatedPotvrda(za);
 		if(potvrda == null || potvrda.trim().isEmpty()) {
             throw new MissingEntityException(String.format("Ne postoji potvrda za građanina %s", za));
@@ -146,10 +140,6 @@ public class SertifikatService extends BaseService<DigitalniSertifikat> {
 		}
 		
 		sertifikat.setVakcinacije(vakcinacije);
-	}
-	
-	private String getRelatedZahtev(String za) {	
-		return jenaRepository.readLatestSubject("/zahtevi", String.format("<%s/rdfs/zahtev/za>", Constants.ROOT_URL), String.format("<%s>", za));
 	}
 	
 	private String getRelatedPotvrda(String za) {

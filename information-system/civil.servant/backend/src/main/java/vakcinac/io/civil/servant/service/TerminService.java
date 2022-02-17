@@ -58,10 +58,18 @@ public class TerminService extends BaseService<Termin> {
         return String.format("termin_%d_%d", period, numberOfTerminsInPeriod);
 	}
 	
+	public Termin findLastRealizedTermin(String citizenId) throws XMLDBException, IOException {
+		return executeFindLastTermin(citizenId, "find_last_realized_termin_for_citizen");
+	}
+	
 	public Termin findLastTermin(String citizenId) throws XMLDBException, IOException {
+		return executeFindLastTermin(citizenId, "find_last_termin_for_citizen");
+	}
+	
+	private Termin executeFindLastTermin(String citizenId, String fileName) throws XMLDBException, IOException {
 		LocalDateTime dateTime = LocalDateTime.now();
 		
-		ResourceIterator iterator = baseRepository.retrieveUsingXQuery(String.format("%s/data/xquery/find_last_termin_for_citizen.xqy", Constants.ROOT_RESOURCE), dateTime.toString(), citizenId);
+		ResourceIterator iterator = baseRepository.retrieveUsingXQuery(String.format("%s/data/xquery/%s.xqy", Constants.ROOT_RESOURCE, fileName), dateTime.toString(), citizenId);
 		
 		if (!iterator.hasMoreResources()) {
 			return null;
@@ -71,6 +79,18 @@ public class TerminService extends BaseService<Termin> {
 		
 		JaxBParser parser = JaxBParserFactory.newInstanceFor(Termin.class);
 		return parser.unmarshall(serializedTermin);
+	}
+	
+	public String findLastTerminName(String citizenId) throws XMLDBException, IOException {
+		LocalDateTime dateTime = LocalDateTime.now();
+		
+		ResourceIterator iterator = baseRepository.retrieveUsingXQuery(String.format("%s/data/xquery/%s.xqy", Constants.ROOT_RESOURCE, "find_last_termin_name_for_citizen"), dateTime.toString(), citizenId);
+		
+		if (!iterator.hasMoreResources()) {
+			return null;
+		}
+		
+		return iterator.nextResource().getContent().toString();
 	}
 	
 	public boolean hasActiveTermin(String citizenId) throws XMLDBException, IOException {
@@ -110,7 +130,7 @@ public class TerminService extends BaseService<Termin> {
 		}
 	}
 	
-	private void updateTerminStatus(String additionalCollectionUri, String terminId, boolean realizovan) throws XMLDBException, IOException {		
+	public void updateTerminStatus(String additionalCollectionUri, String terminId, boolean realizovan) throws XMLDBException, IOException {		
 		baseRepository.update(additionalCollectionUri, terminId, "//*:realizovan", realizovan);
 		baseRepository.update(additionalCollectionUri, terminId, "//*:realizovan/@xsi:nil", false);
 	}

@@ -2,6 +2,8 @@ package vakcinac.io.civil.servant.service;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 
@@ -17,6 +19,7 @@ import vakcinac.io.core.Constants;
 import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.factories.TlinkFactory;
 import vakcinac.io.core.factories.TmetaFactory;
+import vakcinac.io.core.models.os.InformacijeOPrimljenimDozamaIzPotvrde;
 import vakcinac.io.core.models.os.Tgradjanin;
 import vakcinac.io.core.services.BaseService;
 import vakcinac.io.core.utils.LocalDateUtils;
@@ -57,6 +60,15 @@ public class IzjavaService extends BaseService<IzjavaInteresovanjaZaVakcinisanje
 			throw new BadLogicException("Trenutno nije moguće iskazati interesovanje za vakcinacijom.");
 		}
 		
+		if (potvrdaService.getNumberOfVakcine(jmbg) != 0) {
+			InformacijeOPrimljenimDozamaIzPotvrde info = potvrdaService.getVakcine(jmbg);
+			Integer rightProizvodjac = getVakcinaProizvodjac(info.getNazivVakcine());
+			
+			if (rightProizvodjac != izjava.getInformacijeOPrimanjuVakcine().getProizvodjaci().getProizvodjac().get(0)) {
+				throw new BadLogicException("Sve vakcine moraju biti od istog proizvodjaca.");
+			}
+		}
+		
 		fillRestOfIzjava(izjava, gradjanin);
 		
 		String id = String.format("%s_%d", jmbg, baseRepository.count(jmbg) + 1);
@@ -71,6 +83,17 @@ public class IzjavaService extends BaseService<IzjavaInteresovanjaZaVakcinisanje
 
 		return create(id, serializedObj);
 	}
+	
+    private Integer getVakcinaProizvodjac(String nazivVakcine) {
+    	Map<String, Integer> map = new HashMap<>();
+    	map.put("Pfizer-BioNTech", 0);
+    	map.put("Sputnik V", 1);
+    	map.put("Sinopharm", 2);
+    	map.put("AstraZeneca", 3);
+    	map.put("Moderna", 4);
+    	
+    	return map.get(nazivVakcine);
+    }
 
 	private void fillOutRdf(String gradjaninId, IzjavaInteresovanjaZaVakcinisanje izjava) throws XMLDBException, IOException {
 

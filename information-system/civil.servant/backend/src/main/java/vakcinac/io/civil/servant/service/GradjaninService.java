@@ -2,7 +2,8 @@ package vakcinac.io.civil.servant.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -27,8 +28,10 @@ public class GradjaninService {
 	}
 
 	public Tgradjanin read(String id) {
+		HttpEntity<?> httpEntity = HttpUtils.configureHeader(jwtStore.getJwt());
+		
 		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<Tgradjanin> response = restTemplate.getForEntity(String.format("%s/gradjani/%s", gradjaninUrl, id), Tgradjanin.class);
+		ResponseEntity<Tgradjanin> response = restTemplate.exchange(String.format("%s/gradjani/%s", gradjaninUrl, id), HttpMethod.GET, httpEntity, Tgradjanin.class);
 		
 		if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
 			throw new MissingEntityException("Građanin sa željenim id ne postoji.");

@@ -19,4 +19,5 @@ declare function local:constructDateTime($dateTime as xs:string) as xs:dateTime 
 	order by $dateTime
     let $jmbg := $termin//*:jmbg/text()
 	where $jmbg = $citizenId
-    return $termin)[last()]
+	let $documentName := util:document-name($termin)
+    return $documentName)[last()]
