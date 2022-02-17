@@ -63,11 +63,15 @@ public class ZahtevService extends BaseService<ZahtevZaIzdavanjeZelenogSertifika
 	}
 	
 	public void saveUpdatedZahtev(String id, ZahtevZaIzdavanjeZelenogSertifikata zahtev) throws IOException {
-	   JaxBParser zahtevParser = JaxBParserFactory.newInstanceFor(ZahtevZaIzdavanjeZelenogSertifikata.class);
-       String serializedObj = zahtevParser.marshall(zahtev);
-       
-       jenaRepository.updateData(zahtev.getAbout(), serializedObj, "/zahtevi");
-       baseRepository.store(id, serializedObj);
+		zahtev.getOtherAttributes().put(QName.valueOf("xmlns:xsd"), "http://www.w3.org/2001/XMLSchema#");
+		zahtev.getOtherAttributes().put(QName.valueOf("xmlns:rdfos"), "https://www.vakcinac-io.rs/rdfs/deljeno/");
+		zahtev.getOtherAttributes().put(QName.valueOf("xmlns:rdfzzizs"), "https://www.vakcinac-io.rs/rdfs/zahtev/");
+		
+		JaxBParser zahtevParser = JaxBParserFactory.newInstanceFor(ZahtevZaIzdavanjeZelenogSertifikata.class);
+		String serializedObj = zahtevParser.marshall(zahtev);
+		   
+		jenaRepository.updateData(zahtev.getAbout(), serializedObj, "/zahtevi");
+		baseRepository.store(id, serializedObj);
 	}
 	
 	private void fillRestOfZahtev(ZahtevZaIzdavanjeZelenogSertifikata zahtev, Tgradjanin gradjanin) {

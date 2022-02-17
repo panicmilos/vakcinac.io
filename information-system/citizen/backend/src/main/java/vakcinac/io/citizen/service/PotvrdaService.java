@@ -202,7 +202,6 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
 
         int brDoza = potvrda.getPodaciOVakcinaciji().getPodaciODozama().getPrimljenaDoza().size();
         String za = String.format("%s/gradjani/%s", Constants.ROOT_URL, potvrda.getPodaciOVakcinisanom().getJmbg());
-        System.out.println(za);
 
         String saglasnost = getRelatedSaglasnost(za);
         Tlink saglasnostLink = TlinkFactory.create("rdfpoiv:saSaglasnoscu",  saglasnost, "rdfos:SaglasnostImunizacijeDokument");
@@ -212,6 +211,7 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
                 .filter(meta -> meta.getProperty().equals("rdfpoiv:brojDoza"))
                 .findFirst();
         brojDozaMeta.ifPresent(meta -> meta.setValue(String.valueOf(brDoza)));
+        potvrda.setBrojPrimljenihDoza(BigInteger.valueOf(brDoza));
 
         Optional<Tmeta> izmenjenMeta = potvrda.getMeta().stream()
                 .filter(meta -> meta.getProperty().equals("rdfpoiv:izmenjen"))

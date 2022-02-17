@@ -57,9 +57,7 @@ public class SertifikatService {
 	public DeclineZahtev decline(DeclineZahtev declineZahtev) throws IOException {
 		String zahtevId = declineZahtev.getZahtev();
 		ZahtevZaIzdavanjeZelenogSertifikata zahtev = validateZahtev(zahtevId);
-		
-		zahtev.setRazlog(declineZahtev.getRazlog());
-		
+				
 		String sluzbenikId = authenticationService.getCurrentWorkerId();
 		
 		updateZahtev(zahtevId, zahtev, false, sluzbenikId);
@@ -85,11 +83,12 @@ public class SertifikatService {
 		String sluzbenikId = authenticationService.getCurrentWorkerId();
 		digitalniSertifikat.setSluzbenikId(sluzbenikId);
 		
-		updateZahtev(zahtevId, zahtev, false, sluzbenikId);
+		updateZahtev(zahtevId, zahtev, true, sluzbenikId);
 	}
 	
 	private ZahtevZaIzdavanjeZelenogSertifikata validateZahtev(String zahtevId) {
-		ZahtevZaIzdavanjeZelenogSertifikata zahtev = zahtevService.read(zahtevId);	
+		String zahtevName = zahtevId.replace("/", "_");
+		ZahtevZaIzdavanjeZelenogSertifikata zahtev = zahtevService.read(zahtevName);	
 		if (zahtev == null) {
 			throw new MissingEntityException("Zahtev ne postoji.");
 		}
@@ -105,10 +104,11 @@ public class SertifikatService {
 	}
 	
 	private void updateZahtev(String id, ZahtevZaIzdavanjeZelenogSertifikata zahtev, boolean prihvacen, String sluzbenikId) throws IOException {
+		String zahtevName = id.replace("/", "_");
 		updateLink(zahtev, sluzbenikId);
 		updateMeta(zahtev, prihvacen);
 		
-		zahtevService.saveUpdatedZahtev(id, zahtev);
+		zahtevService.saveUpdatedZahtev(zahtevName, zahtev);
 	}
 	
 	private void updateLink(ZahtevZaIzdavanjeZelenogSertifikata zahtev, String sluzbenikId) {
