@@ -1,6 +1,5 @@
 package vakcinac.io.citizen.service;
 
-import org.apache.jena.query.ResultSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
@@ -167,10 +166,7 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
     }
 
     public PotvrdaOIzvrsenojVakcinaciji addDoza(String gradjaninId, String serija) throws XMLDBException, IOException {
-        validateVakcina(serija);
-
-        String gradjaninUri = String.format("<%s/gradjani/%s>", Constants.ROOT_URL, gradjaninId);
-        ResultSet potvrdaSet = jenaRepository.read("/potvrda", String.format("?s %s %s", "<https://www.vakcinac-io.rs/rdfs/potvrda/za>", gradjaninUri));
+        validateVakcina(serija);        
 
         String potvrdaId = getPotvrdaIdByGradjaninId(gradjaninId);
 

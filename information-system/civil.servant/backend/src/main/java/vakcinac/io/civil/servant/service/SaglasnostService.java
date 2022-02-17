@@ -11,7 +11,6 @@ import vakcinac.io.civil.servant.models.term.Termin;
 import vakcinac.io.civil.servant.models.zrad.ZdravstveniRadnik;
 import vakcinac.io.civil.servant.repository.SaglasnostRepository;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
-import vakcinac.io.civil.servant.security.JwtStore;
 import vakcinac.io.core.Constants;
 import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.exceptions.MissingEntityException;
@@ -44,17 +43,15 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
     private TerminService terminService;
     private PotvrdaService potvrdaService;
 
-    private JwtStore jwtStore;
 
     @Autowired
-    public SaglasnostService(GradjaninService gradjaninService, TerminService terminService,  CivilServantJenaRepository jenaRepository, SaglasnostRepository saglasnostRepository, ZaposleniService zaposleniService, PotvrdaService potvrdaService, JwtStore jwtStore) {
+    public SaglasnostService(GradjaninService gradjaninService, TerminService terminService,  CivilServantJenaRepository jenaRepository, SaglasnostRepository saglasnostRepository, ZaposleniService zaposleniService, PotvrdaService potvrdaService) {
         super(saglasnostRepository, jenaRepository);
 
         this.terminService = terminService;
         this.gradjaninService = gradjaninService;
         this.zaposleniService = zaposleniService;
         this.potvrdaService = potvrdaService;
-        this.jwtStore = jwtStore;
     }
 
     @Override

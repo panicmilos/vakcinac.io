@@ -14,10 +14,7 @@ import org.springframework.web.context.annotation.RequestScope;
 import vakcinac.io.civil.servant.models.pot.DodajDozu;
 import vakcinac.io.civil.servant.models.pot.KreiranjePotvrde;
 import vakcinac.io.civil.servant.security.JwtStore;
-import vakcinac.io.core.Constants;
 import vakcinac.io.core.models.os.InformacijeOPrimljenimDozamaIzPotvrde;
-import vakcinac.io.core.requests.AddDozaRequest;
-import vakcinac.io.core.requests.CreatePotvrdaRequest;
 import vakcinac.io.core.results.agres.AggregateResult;
 import vakcinac.io.core.utils.HttpUtils;
 
