@@ -48,18 +48,18 @@
           flex-wrap: wrap;
         }
 
-        .form-content > div {
+        .form-content div {
           flex: 100%;
           display: flex;
           margin-bottom: 5px;
         }
 
-        .form-content > div > .dots-underline {
+        .form-content div .dots-underline {
           flex: 50%;
           margin-left: 5px;
         }
 
-        .form-content > div > .dots-reason {
+        .form-content div .dots-reason {
           flex: 50%;
         }
 
@@ -88,7 +88,7 @@
           margin-top: 10%;
         }
 
-        .end-container > div {
+        .end-container div {
           flex: 50%;
         }
 
