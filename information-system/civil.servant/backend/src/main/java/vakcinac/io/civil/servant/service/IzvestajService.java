@@ -13,7 +13,10 @@ import vakcinac.io.civil.servant.factories.IzvestajOImunizacijiFactory;
 import vakcinac.io.civil.servant.models.izv.IzvestajOImunizaciji;
 import vakcinac.io.civil.servant.repository.IzvestajRepository;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
+import vakcinac.io.civil.servant.security.JwtStore;
+import vakcinac.io.civil.servant.security.utils.JwtUtil;
 import vakcinac.io.core.Constants;
+import vakcinac.io.core.factories.TlinkFactory;
 import vakcinac.io.core.factories.TmetaFactory;
 import vakcinac.io.core.repository.jena.RdfObject;
 import vakcinac.io.core.results.agres.AggregateResult;
@@ -30,12 +33,16 @@ public class IzvestajService extends BaseService<IzvestajOImunizaciji> {
 	private IzjavaService izjavaService;
 	private SertifikatService sertifikatService;
 	private PotvrdaService potvrdaService;
+    private JwtUtil jwtUtil;
+    private JwtStore jwtStore;
 	
 	public IzvestajService(
 			ZahtevService zahtevService,
 			IzjavaService izjavaService,
 			SertifikatService sertifikatService,
 			PotvrdaService potvrdaService,
+			JwtUtil jwtUtil,
+			JwtStore jwtStore,
 			IzvestajRepository izvestajRepository,
 			CivilServantJenaRepository jenaRepository
 	) {
@@ -45,6 +52,8 @@ public class IzvestajService extends BaseService<IzvestajOImunizaciji> {
 		this.izjavaService = izjavaService;
 		this.sertifikatService = sertifikatService;
 		this.potvrdaService = potvrdaService;
+		this.jwtUtil = jwtUtil;
+		this.jwtStore = jwtStore;
 	}
 	
 	@Override
@@ -95,9 +104,16 @@ public class IzvestajService extends BaseService<IzvestajOImunizaciji> {
 		izvestaj.getOtherAttributes().put(QName.valueOf("xmlns:rdfos"), "https://www.vakcinac-io.rs/rdfs/deljeno/");
 		izvestaj.getOtherAttributes().put(QName.valueOf("xmlns:rdfioi"), "https://www.vakcinac-io.rs/rdfs/izvestaj/");
 		
-		//TODO: NEkako ucitati sluzbenika?
-		
+		String sluzbenikId = getSluzbenikId();
+		izvestaj.getLink().add(TlinkFactory.create("rdfioi:izdao",  String.format("%s/sluzbenici/%s", Constants.ROOT_URL, sluzbenikId), "rdfos:Sluzbenik"));		
 	}
+	
+    private String getSluzbenikId() {
+    	String jwt = jwtStore.getJwt();
+    	String sluzbenikId = jwtUtil.extractCustomClaimFromToken(jwt, "ZaposleniId");
+    	
+    	return sluzbenikId;
+    }
 
 	public IzvestajOImunizaciji generate(LocalDate startDate, LocalDate endDate) throws IOException {
 		int numOfZahtev = zahtevService.count("/zahtevi", startDate, endDate);

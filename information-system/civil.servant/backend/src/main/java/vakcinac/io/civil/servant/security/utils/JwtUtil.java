@@ -41,6 +41,12 @@ public class JwtUtil {
 
         return role.replace("ROLE_", "");
     }
+    
+    public String extractCustomClaimFromToken(String token, String claim) {
+        Claims claims = getAllClaimsFromToken(token);
+        
+        return claims.get(claim).toString();
+    }
 
     public String extractRoleFromSecurityContextHolder() {
         Collection<? extends GrantedAuthority> authorities = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
