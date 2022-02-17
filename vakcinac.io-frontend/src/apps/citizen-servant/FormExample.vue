@@ -6,12 +6,26 @@
       :uischema="uischema"
       @submit="onSubmit"
     />
+    <Table>
+      <TableHead :columnNames="tableHead"></TableHead>
+      <TableBody>
+        <TableRow
+          v-for="(test, i) in tests" 
+          :key="i" 
+          :values="test"
+        />
+      </TableBody>
+    </Table>
   </div>
 </template>
 
 <script>
 import { defineComponent } from "@vue/composition-api";
 import Form from "../../components/Form.vue";
+import Table from "../../components/Table/Table.vue";
+import TableBody from "../../components/Table/TableBody.vue";
+import TableHead from "../../components/Table/TableHead.vue";
+import TableRow from "../../components/Table/TableRow.vue";
 
 const schema = {
   properties: {
@@ -97,7 +111,11 @@ const uischema = {
 export default defineComponent({
   name: "App",
   components: {
-    Form
+    Form,
+    Table,
+    TableHead,
+    TableBody,
+    TableRow
   },
   data() {
     return {
@@ -108,6 +126,13 @@ export default defineComponent({
         recurrence: "Daily",
         rating: 3
       },
+      tableHead: ['Naziv Test', 'Naziv'],
+      tests: [
+        ['test', '1'],
+        ['test', '1'],
+        ['test', '1'],
+        ['test', '1'],
+      ],
       schema,
       uischema
     };

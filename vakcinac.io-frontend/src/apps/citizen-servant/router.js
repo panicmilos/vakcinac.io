@@ -1,12 +1,12 @@
 import Router from 'vue-router';
-import FormExample from './FormExample'
+import Login from '../../components/Login/Login'
 import Test from './Test'
 
 const baseRoutes = [
   {
-    path: '/home',
-    name: 'home',
-    component: FormExample,
+    path: '/',
+    name: 'login',
+    component: Login,
   },
   {
     path: '/photos',
@@ -16,7 +16,7 @@ const baseRoutes = [
   {
     path: '*',
     redirect: {
-      name: 'home',
+      name: 'login',
     },
   },
 ];
