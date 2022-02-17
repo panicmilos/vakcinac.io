@@ -39,5 +39,4 @@ public class CreatePotvrdaValidator extends AbstractValidator<CreatePotvrdaReque
 		
 		return false;
 	}
-
 }

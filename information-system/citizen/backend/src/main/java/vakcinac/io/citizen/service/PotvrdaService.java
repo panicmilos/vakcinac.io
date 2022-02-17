@@ -20,8 +20,8 @@ import org.xmldb.api.base.XMLDBException;
 
 import vakcinac.io.citizen.models.pot.PotvrdaOIzvrsenojVakcinaciji;
 import vakcinac.io.citizen.security.JwtStore;
+import vakcinac.io.citizen.security.utils.JwtUtil;
 import vakcinac.io.core.Constants;
-import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.factories.TlinkFactory;
 import vakcinac.io.core.factories.TmetaFactory;
@@ -57,7 +57,7 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
     private VakcinaService vakcinaService;
     
     @Autowired
-	private AuthenticationService authenticationService;
+    private JwtUtil jwtUtil;
     
     @Autowired
     private JwtStore jwtStore;
@@ -154,11 +154,6 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
         if (gradjanin == null) {
         	throw new MissingEntityException("Građanin ne postoji.");
         }
-        
-        String currentUserUsername = authenticationService.getCurrentUserUsername();
-    	if (!gradjanin.getKorisnickoIme().equals(currentUserUsername)) {
-			throw new BadLogicException("Nije napraviti potvrdu za drugu osobu.");
-		}
 
         fillOutPodaciOVakcinisanom(potvrda, gradjanin);
         fillOutRdf(id, potvrda);
@@ -180,6 +175,7 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
 
         int brDoza = potvrda.getPodaciOVakcinaciji().getPodaciODozama().getPrimljenaDoza().size();
         String gradjaninId = potvrda.getPodaciOVakcinisanom().getJmbg();
+        String sluzbenikId = getSluzbenikId();
 
         potvrda.setAbout(String.format("%s/potvrda/%s", Constants.ROOT_URL, potvrdaId));
         potvrda.setTypeof("rdfos:PotvrdaOVakcinisanjuDokument");
@@ -201,7 +197,7 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
         potvrda.getLink().add(TlinkFactory.create("rdfpoiv:naOsnovuInteresovanja", interesovanje, "rdfos:IzjavaInteresovanjaZaVakcinisanjeDokument"));
 
         potvrda.getLink().add(TlinkFactory.create("rdfpoiv:za", za, "rdfos:Gradjanin"));
-        potvrda.getLink().add(TlinkFactory.create("rdfpoiv:izdao",  String.format("%s/sluzbenici/%s", Constants.ROOT_URL, gradjaninId), "rdfos:Sluzbenik"));
+        potvrda.getLink().add(TlinkFactory.create("rdfpoiv:izdao",  String.format("%s/sluzbenici/%s", Constants.ROOT_URL, sluzbenikId), "rdfos:Sluzbenik"));
 
         potvrda.getMeta().add(TmetaFactory.create("rdfpoiv:izmenjen", "xsd:date", LocalDateUtils.toXMLDateString(LocalDate.now())));
         potvrda.getMeta().add(TmetaFactory.create("rdfpoiv:brojDoza", "xsd:integer", potvrda.getBrojPrimljenihDoza().toString()));
@@ -214,6 +210,13 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
         potvrda.getOtherAttributes().put(QName.valueOf("xmlns:xsd"), "http://www.w3.org/2001/XMLSchema#");
         potvrda.getOtherAttributes().put(QName.valueOf("xmlns:rdfos"), "https://www.vakcinac-io.rs/rdfs/deljeno/");
         potvrda.getOtherAttributes().put(QName.valueOf("xmlns:rdfpoiv"), "https://www.vakcinac-io.rs/rdfs/potvrda/");
+    }
+    
+    private String getSluzbenikId() {
+    	String jwt = jwtStore.getJwt();
+    	String sluzbenikId = jwtUtil.extractCustomClaimFromToken(jwt, "ZaposleniId");
+    	
+    	return sluzbenikId;
     }
 
     private String getRelatedInteresovanje(String za) {
@@ -231,7 +234,11 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
         PotvrdaOIzvrsenojVakcinaciji potvrda = read(potvrdaId);
 
         if (potvrda == null) {
-            return null;
+        	throw new MissingEntityException("Ne postoji potvrda za građanina.");
+        }
+           
+        if (potvrda.getBrojPrimljenihDoza().compareTo(BigInteger.valueOf(3)) == 0) {
+        	throw new MissingEntityException("Potvrda ne može da sadrži više od 3 doze.");
         }
 
         PotvrdaOIzvrsenojVakcinaciji.PodaciOVakcinaciji.PodaciODozama.PrimljenaDoza primljenaDoza = new PotvrdaOIzvrsenojVakcinaciji.PodaciOVakcinaciji.PodaciODozama.PrimljenaDoza();

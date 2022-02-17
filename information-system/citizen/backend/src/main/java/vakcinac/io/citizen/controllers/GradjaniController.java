@@ -81,7 +81,7 @@ public class GradjaniController extends ControllerBase {
 			throw new MissingEntityException(String.format("Građanin sa željenim korisničkim imenom (%s) ne postoji.", korisnickoIme));
 		}
 
-		String currentUserUsername = authService.getCurrentGradjaninUsername();
+		String currentUserUsername = authService.getCurrentUserUsername();
 		if (!currentUserUsername.equals(gradjanin.getUsername())) {
 			throw new BadLogicException("Možete pristupiti samo svojim podacima.");
 		}

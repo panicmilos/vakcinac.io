@@ -52,7 +52,7 @@ public class SaglasnostController extends ControllerBase {
     	return ResponseEntity.ok(saglasnostService.extractRdf(id, type));
     }
     
-    @PreAuthorize("hasAnyRole('DomaciGradjanin', 'StraniGradjanin')")
+//    @PreAuthorize("hasAnyRole('DomaciGradjanin', 'StraniGradjanin')")
     @PostMapping
     public ResponseEntity<SaglasnostZaSprovodjenjePreporuceneImunizacije> apply(@RequestBody CreateSaglasnostRequest createSaglasnostRequest) throws Exception {
         validate(createSaglasnostRequest);
