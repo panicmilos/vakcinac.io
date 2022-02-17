@@ -58,7 +58,7 @@ public class CreateIzjavaValidator extends AbstractValidator<CreateIzjavaRequest
 				podnosilac.matches(RegexPatterns.PASOS_PATTERN)) {
 			return true;
 		}
-		
+
 		return false;
 	}
 	

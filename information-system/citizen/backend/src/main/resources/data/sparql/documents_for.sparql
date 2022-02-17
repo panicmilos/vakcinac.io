@@ -1,0 +1,20 @@
+SELECT ?document ?createdAt
+FROM <http://localhost:3030/CitizenDataset/data/potvrda>
+FROM <http://localhost:3030/CitizenDataset/data/sertifikat>
+FROM <http://localhost:3030/CitizenDataset/data/izjava>
+FROM <http://localhost:3030/CitizenDataset/data/saglasnosti>
+FROM <http://localhost:3030/CitizenDataset/data/zahtevi>
+WHERE {
+  ?document ?predicate <https://www.vakcinac-io.rs/gradjani/%1$s>.
+  ?document <https://www.vakcinac-io.rs/rdfs/deljeno/izdat> ?createdAt.
+  
+  FILTER (?predicate IN
+    (
+      <https://www.vakcinac-io.rs/rdfs/digitalni-sertifikat/za>,
+      <https://www.vakcinac-io.rs/rdfs/interesovanje/za>,
+      <https://www.vakcinac-io.rs/rdfs/potvrda/za>,
+      <https://www.vakcinac-io.rs/rdfs/saglasnost/za>,
+      <https://www.vakcinac-io.rs/rdfs/zahtev/za>
+    )
+  )
+}

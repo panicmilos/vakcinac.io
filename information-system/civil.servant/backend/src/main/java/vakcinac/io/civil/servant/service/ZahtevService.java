@@ -101,8 +101,6 @@ public class ZahtevService extends BaseService<ZahtevZaIzdavanjeZelenogSertifika
 		zahtev.getPodnosilacZahteva().setPrezime(gradjanin.getPrezime());
 		zahtev.getPodnosilacZahteva().setPol(gradjanin.getPol());
 		zahtev.getPodnosilacZahteva().setDatumRodjenja(LocalDateUtils.from(gradjanin.getDatumRodjenja()));
-		
-		// TODO: DODATI PASOS
 	}
 	
 	private void fillRdfOfZahtev(ZahtevZaIzdavanjeZelenogSertifikata zahtev) throws XMLDBException, IOException {
@@ -117,10 +115,7 @@ public class ZahtevService extends BaseService<ZahtevZaIzdavanjeZelenogSertifika
 		
 		zahtev.getOtherAttributes().put(QName.valueOf("xmlns:xsd"), "http://www.w3.org/2001/XMLSchema#");
 		zahtev.getOtherAttributes().put(QName.valueOf("xmlns:rdfos"), "https://www.vakcinac-io.rs/rdfs/deljeno/");
-		zahtev.getOtherAttributes().put(QName.valueOf("xmlns:rdfzzizs"), "https://www.vakcinac-io.rs/rdfs/zahtev/");
-		
-		//TODO: NEkako ucitati sluzbenika?
-		
+		zahtev.getOtherAttributes().put(QName.valueOf("xmlns:rdfzzizs"), "https://www.vakcinac-io.rs/rdfs/zahtev/");		
 	}
 
 	

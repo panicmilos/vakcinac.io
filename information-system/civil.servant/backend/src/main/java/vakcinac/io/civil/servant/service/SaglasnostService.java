@@ -56,7 +56,7 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
         this.zaposleniService = zaposleniService;
         this.potvrdaService = potvrdaService;
     }
-   
+    
     @Override
 	protected Links findReferencing(String id) throws Exception {
     	return jenaRepository.findReferencing(String.format("%s/saglasnost/%s", Constants.ROOT_URL, id.replace("_", "/")), "/saglasnosti");
@@ -76,8 +76,8 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
 		 
 		 return rdf.toString("N-TRIPLE");
 	}
-
-    public String getSaglasnostZa(String za) {
+	
+	public String getSaglasnostZa(String za) {
     	return jenaRepository.readLatestSubject("/saglasnosti", "<https://www.vakcinac-io.rs/rdfs/saglasnost/za>", String.format("<%s>", za));
 	}
 

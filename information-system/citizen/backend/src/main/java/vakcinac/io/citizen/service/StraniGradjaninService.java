@@ -45,7 +45,7 @@ public class StraniGradjaninService extends BaseService<StraniGradjanin> {
 	private void validate(StraniGradjanin straniGradjanin) {
 		boolean pasosNotEmpty = StringUtils.notNullOrEmpty(straniGradjanin.getBrojPasosa());
 		boolean ebsNotEmpty = StringUtils.notNullOrEmpty(straniGradjanin.getEbs());
-		
+
 		if (pasosNotEmpty && ebsNotEmpty) {
 			throw new BadLogicException("Moguće je uneti samo jedan dokument: pasoš ili ebs.");
 		}

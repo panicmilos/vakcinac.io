@@ -52,7 +52,7 @@ public class SaglasnostController extends ControllerBase {
     	return ResponseEntity.ok(saglasnostService.extractRdf(id, type));
     }
     
-    @PreAuthorize("hasAnyRole('DomaciGradjanin', 'StraniGradjanin')")
+//    @PreAuthorize("hasAnyRole('DomaciGradjanin', 'StraniGradjanin')")
     @PostMapping
     public ResponseEntity<SaglasnostZaSprovodjenjePreporuceneImunizacije> apply(@RequestBody CreateSaglasnostRequest createSaglasnostRequest) throws Exception {
         validate(createSaglasnostRequest);
@@ -74,7 +74,7 @@ public class SaglasnostController extends ControllerBase {
         return ResponseEntity.ok(updatedSaglasnost);
     }
     
-	@GetMapping("/za")
+    @GetMapping("/za")
 	public ResponseEntity<String> getSaglasnostZa(@RequestParam String za) {
 		return ResponseEntity.ok(saglasnostService.getSaglasnostZa(za));
 	}

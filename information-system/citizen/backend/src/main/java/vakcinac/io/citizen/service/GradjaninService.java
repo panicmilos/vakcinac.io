@@ -5,33 +5,57 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.annotation.RequestScope;
 
 import vakcinac.io.citizen.models.dgradj.DomaciGradjanin;
 import vakcinac.io.citizen.models.sgradj.StraniGradjanin;
+import vakcinac.io.citizen.security.JwtStore;
 import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.models.os.Tgradjanin;
+import vakcinac.io.core.repository.jena.JenaRepository;
+import vakcinac.io.core.results.doc.CitizenDocumentsResult;
 import vakcinac.io.core.security.Authority;
 import vakcinac.io.core.security.User;
+import vakcinac.io.core.utils.HttpUtils;
 
 @Service
 @RequestScope
 public class GradjaninService implements UserDetailsService {
 	
+	@Value("${sluzbenik.url}")
+	private String sluzbenikUrl;
+
 	private DomaciGradjaninService domaciGradjaninService;
 	private StraniGradjaninService straniGradjaninService;
+	private JenaRepository jenaRepository;
+	private JwtStore jwtStore;
+	private RestTemplate restTemplate;
 	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
-	public GradjaninService(DomaciGradjaninService domaciGradjaninService, StraniGradjaninService straniGradjaninService, PasswordEncoder passwordEncoder) {
+	public GradjaninService(
+			DomaciGradjaninService domaciGradjaninService,
+			StraniGradjaninService straniGradjaninService,
+			JenaRepository jenaRepository,
+			JwtStore jwtStore,
+			RestTemplate restTemplate,
+			PasswordEncoder passwordEncoder) {
 		this.domaciGradjaninService = domaciGradjaninService;
 		this.straniGradjaninService = straniGradjaninService;
+		this.jenaRepository = jenaRepository;
+		this.jwtStore = jwtStore;
+		this.restTemplate = restTemplate;
 		this.passwordEncoder = passwordEncoder;
 	}
 	
@@ -43,7 +67,7 @@ public class GradjaninService implements UserDetailsService {
         if (gradjanin == null) {
         	return null;
         }
-        
+
         return new User(gradjanin.getKorisnickoIme(), gradjanin.getLozinka(), accountAuthorities);
     }
 	
@@ -56,6 +80,26 @@ public class GradjaninService implements UserDetailsService {
         
 		return authorities;
     }
+	
+	public CitizenDocumentsResult getDocumentsFor(String jmbg) throws IOException {
+		return jenaRepository.findDocumentsFor(jmbg);
+	}
+	
+	public CitizenDocumentsResult getAllDocumentsFor(String jmbg) throws IOException {
+		CitizenDocumentsResult remoteDocuments = getAllRemoteDocumentsFor(jmbg);
+		CitizenDocumentsResult localDocuments = getDocumentsFor(jmbg);
+		
+		localDocuments.getCitizenDocument().addAll(remoteDocuments.getCitizenDocument());
+		
+		return localDocuments;
+	}
+	
+	private CitizenDocumentsResult getAllRemoteDocumentsFor(String jmbg) throws IOException {
+		HttpEntity<?> httpEntity = HttpUtils.configureHeader(jwtStore.getJwt());
+		ResponseEntity<CitizenDocumentsResult> response = restTemplate.exchange(String.format("%s/gradjani/%s/documents", sluzbenikUrl, jmbg), HttpMethod.GET, httpEntity, CitizenDocumentsResult.class);
+		
+		return response.getBody();
+	}
 	
 	public Tgradjanin create(Tgradjanin gradjanin) throws IOException {		
 		gradjanin.setLozinka(passwordEncoder.encode(gradjanin.getLozinka()));

@@ -85,7 +85,7 @@ public class IzjavaService extends BaseService<IzjavaInteresovanjaZaVakcinisanje
 		String jmbg = izjava.getPodnosilacIzjave().getPodnosilac().getJmbg();
 		Tgradjanin gradjanin = gradjaninService.read(jmbg);
 		String currentUserUsername = authenticationService.getCurrentUserUsername();
-		
+
 		if (!gradjanin.getKorisnickoIme().equals(currentUserUsername)) {
 			throw new BadLogicException("Nije moguće iskazati interesovanje za drugu osobu.");
 		}

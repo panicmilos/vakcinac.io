@@ -43,7 +43,7 @@ public class ZaposleniService implements UserDetailsService {
         if (zaposleni == null) {
         	return null;
         }
-
+        
         return new User(zaposleni.getKorisnickoIme(), zaposleni.getLozinka(), authorities);
     }
 	
