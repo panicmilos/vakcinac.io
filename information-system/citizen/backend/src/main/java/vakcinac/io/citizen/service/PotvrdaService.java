@@ -177,7 +177,7 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
         PotvrdaOIzvrsenojVakcinaciji potvrda = read(potvrdaId);
 
         if (potvrda == null) {
-            throw new MissingEntityException("Potvrda nije pronadjena.");
+            return null;
         }
 
         PotvrdaOIzvrsenojVakcinaciji.PodaciOVakcinaciji.PodaciODozama.PrimljenaDoza primljenaDoza = new PotvrdaOIzvrsenojVakcinaciji.PodaciOVakcinaciji.PodaciODozama.PrimljenaDoza();
