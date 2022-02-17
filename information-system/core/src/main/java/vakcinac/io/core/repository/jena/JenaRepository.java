@@ -60,7 +60,12 @@ public class JenaRepository implements Closeable {
 		byte[] encoded = Files.readAllBytes(Paths.get(filePath));
 		String notFormattedSparqlCondition = new String(encoded, StandardCharsets.UTF_8);
 		
-		String formattedSparqlCondition = String.format(notFormattedSparqlCondition, connectionProperties.dataEndpoint + graphUri, args[0], args[1]);
+		String formattedSparqlCondition = "";
+		if (args.length == 2) {
+			formattedSparqlCondition = String.format(notFormattedSparqlCondition, connectionProperties.dataEndpoint + graphUri, args[0], args[1]);
+		} else {
+			formattedSparqlCondition = String.format(notFormattedSparqlCondition, connectionProperties.dataEndpoint + graphUri, args[0], args[1], args[2]);
+		}
 
 		QueryExecution query = QueryExecutionFactory.sparqlService(connectionProperties.queryEndpoint, formattedSparqlCondition);
 		ResultSet resultSet = query.execSelect();
@@ -102,6 +107,19 @@ public class JenaRepository implements Closeable {
 	public int count(String graphUri, Object ...args) throws IOException {
 		
 		try(CloseableResultSet set = read(graphUri, Constants.ROOT_RESOURCE + "/data/sparql/count.sparql", args)) {
+			while (set.hasNext()) {
+				QuerySolution querySolution = set.next();
+				
+				return querySolution.get("count").asLiteral().getInt();
+			}
+		}
+		
+		return 0;
+	}
+	
+	public int countFor(String graphUri, Object ...args) throws IOException {
+		
+		try(CloseableResultSet set = read(graphUri, Constants.ROOT_RESOURCE + "/data/sparql/count_for.sparql", args)) {
 			while (set.hasNext()) {
 				QuerySolution querySolution = set.next();
 				

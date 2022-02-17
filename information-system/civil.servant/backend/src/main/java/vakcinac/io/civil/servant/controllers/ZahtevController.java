@@ -32,7 +32,7 @@ public class ZahtevController extends ControllerBase {
 	@PostMapping
 	public ResponseEntity<ZahtevZaIzdavanjeZelenogSertifikata> apply(@RequestBody CreateZahtevRequest createZahtevRequest) throws Exception {
 		validate(createZahtevRequest);
-		
+
 		ZahtevZaIzdavanjeZelenogSertifikata zahtev = ZahtevZaIzdavanjeZelenogSertifikataFactory.create(createZahtevRequest);
 
 		ZahtevZaIzdavanjeZelenogSertifikata createdZahtev = zahtevService.create(zahtev);

@@ -1,6 +1,7 @@
 package vakcinac.io.civil.servant.service;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 import javax.xml.namespace.QName;
 
@@ -11,6 +12,7 @@ import vakcinac.io.civil.servant.models.zah.ZahtevZaIzdavanjeZelenogSertifikata;
 import vakcinac.io.civil.servant.repository.ZahtevRepository;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
 import vakcinac.io.core.Constants;
+import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.factories.TlinkFactory;
 import vakcinac.io.core.factories.TmetaFactory;
 import vakcinac.io.core.models.os.Tgradjanin;
@@ -23,18 +25,29 @@ import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 public class ZahtevService extends BaseService<ZahtevZaIzdavanjeZelenogSertifikata> {
 
 	private GradjaninService gradjaninService;
+	private PotvrdaService potvrdaService;
 	
-	public ZahtevService(GradjaninService gradjaninService, ZahtevRepository zahtevRepository, CivilServantJenaRepository jenaRepository) {
+	public ZahtevService(GradjaninService gradjaninService, PotvrdaService potvrdaService, ZahtevRepository zahtevRepository, CivilServantJenaRepository jenaRepository) {
 		super(zahtevRepository, jenaRepository);
 		
 		this.gradjaninService = gradjaninService;
+		this.potvrdaService = potvrdaService;
 	}
 
 	@Override
 	public ZahtevZaIzdavanjeZelenogSertifikata create(ZahtevZaIzdavanjeZelenogSertifikata zahtev) throws Exception {
-		
 		String jmbg = zahtev.getPodnosilacZahteva().getJmbg();
 		Tgradjanin gradjanin = gradjaninService.read(jmbg);
+
+		int numOfRequests = jenaRepository.countFor("/zahtevi", String.format("%s/gradjani/%s", Constants.ROOT_URL, jmbg), LocalDate.now().minusDays(7), LocalDate.now());
+		if (numOfRequests >= 3) {
+			throw new BadLogicException("Nije moguće podneti više od 3 zahteva u roku od nedelju dana.");
+		}
+		
+		int numOfVakcines = potvrdaService.getNumberOfVakcine(jmbg);
+		if (numOfVakcines < 2) {
+			throw new BadLogicException("Morate biti vakcinisani bar dva puta.");
+		}
 		
 		fillRestOfZahtev(zahtev, gradjanin);
 		fillRdfOfZahtev(zahtev);

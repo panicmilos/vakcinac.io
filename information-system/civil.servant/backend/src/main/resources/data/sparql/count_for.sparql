@@ -1,0 +1,11 @@
+SELECT (COUNT(?s) AS ?count)
+FROM <%1$s>
+WHERE {
+	?s <https://www.vakcinac-io.rs/rdfs/deljeno/izdat> ?createdAt;
+    <https://www.vakcinac-io.rs/rdfs/zahtev/za> <%2$s>.
+	
+	FILTER (
+		?createdAt >= "%3$s"^^<http://www.w3.org/2001/XMLSchema#date> &&
+		?createdAt <= "%4$s"^^<http://www.w3.org/2001/XMLSchema#date>
+	).
+}

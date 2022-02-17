@@ -1,9 +1,18 @@
 package vakcinac.io.civil.servant.service;
 
+import java.io.IOException;
+import java.math.BigInteger;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Optional;
+
+import javax.xml.namespace.QName;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 import org.xmldb.api.base.XMLDBException;
+
 import vakcinac.io.civil.servant.models.sag.AzurirajSaglasnost;
 import vakcinac.io.civil.servant.models.sag.SaglasnostZaSprovodjenjePreporuceneImunizacije;
 import vakcinac.io.civil.servant.models.sag.Tlekar;
@@ -25,13 +34,6 @@ import vakcinac.io.core.utils.LocalDateUtils;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 
-import javax.xml.namespace.QName;
-import java.io.IOException;
-import java.math.BigInteger;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-
 @Service
 @RequestScope
 public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePreporuceneImunizacije> {
@@ -42,7 +44,6 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
 
     private TerminService terminService;
     private PotvrdaService potvrdaService;
-
 
     @Autowired
     public SaglasnostService(GradjaninService gradjaninService, TerminService terminService,  CivilServantJenaRepository jenaRepository, SaglasnostRepository saglasnostRepository, ZaposleniService zaposleniService, PotvrdaService potvrdaService) {
@@ -95,7 +96,7 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
         String id = String.join("_", tokens[tokens.length - 2], tokens[tokens.length - 1]);
         SaglasnostZaSprovodjenjePreporuceneImunizacije lastSaglasnost = read(id);
         
-        Termin lastTermin = terminService.findLastTermin(gradjaninId);
+        Termin lastTermin = terminService.findLastRealizedTermin(gradjaninId);
         if (lastTermin == null) {
         	return false;
         }
@@ -185,10 +186,6 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
 
         String id = String.format("%s_%d", noviPodaci.getSaglasnostId(), baseRepository.count(noviPodaci.getSaglasnostId()));
         SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost = read(id);
-
-        String test = "2312918273111";
-        System.out.println(String.format("Da li je ovo isto %s == %s:", test, noviPodaci.getSaglasnostId()));
-        System.out.println(test.equals(noviPodaci.getSaglasnostId()));
 
         if (noviPodaci.getSaglasnostId() == null) {
             throw new MissingEntityException("Saglasnost za datog gradjanina ne postoji.");

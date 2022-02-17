@@ -32,11 +32,11 @@ public class ZahtevService {
 		
 		RestTemplate restTemplate = new RestTemplate();
 		ResponseEntity<Object> response = restTemplate.exchange(String.format("%s/zahtevi", sluzbenikUrl), HttpMethod.POST, httpEntity, Object.class);
-		
-		if (response.getStatusCode() == HttpStatus.BAD_REQUEST) {
-			throw new BadLogicException("Trenutno nije moguće napraviti zahtev za izdavanje zelenog sertifikata.");
-		}
 	
+		if (response.getStatusCode() == HttpStatus.BAD_REQUEST) {
+			throw new BadLogicException("Nije moguće podneti više od 3 zahteva u roku od nedelju dana ili morate biti vakcinisani bar dva puta.");
+		}
+		
 		return zahtev;
 
 	}
