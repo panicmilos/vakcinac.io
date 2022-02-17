@@ -13,10 +13,10 @@ public class CreatePotvrdaValidator extends AbstractValidator<CreatePotvrdaReque
 
         ruleFor(CreatePotvrdaRequest::getJmbgOsobe)
                 .must(StringUtils::notNullOrEmpty)
-                .withMessage("Jmbg je obavezan.")
+                .withMessage("Id je obavezan.")
                 .must(CreatePotvrdaValidator::isIdValid)
-                .withMessage("Jmbg nije u dobrom formatu.")
-                .withFieldName("Jmbg");
+                .withMessage("Id nije u dobrom formatu.")
+                .withFieldName("Id");
 
         ruleFor(CreatePotvrdaRequest::getNazivVakcine)
                 .must(StringUtils::notNullOrEmpty)

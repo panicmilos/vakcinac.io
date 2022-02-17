@@ -53,7 +53,7 @@ public class AuthenticationService {
         return new AuthenticatedGradjaninResponse(korisnickoIme, jwt);
     }   
     
-    public String getCurrentGradjaninUsername() {
+    public String getCurrentUserUsername() {
     	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     	
     	return authentication.getName();

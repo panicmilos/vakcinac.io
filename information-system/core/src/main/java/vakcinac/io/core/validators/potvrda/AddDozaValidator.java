@@ -12,10 +12,10 @@ public class AddDozaValidator extends AbstractValidator<AddDozaRequest> {
     public void rules() {
         ruleFor(AddDozaRequest::getJmbg)
                 .must(StringUtils::notNullOrEmpty)
-                .withMessage("Jmbg je obavezan.")
+                .withMessage("Id je obavezan.")
                 .must(AddDozaValidator::isIdValid)
-                .withMessage("Jmbg nije u dobrom formatu.")
-                .withFieldName("Jmbg");
+                .withMessage("Id nije u dobrom formatu.")
+                .withFieldName("Id");
 
 
         ruleFor(AddDozaRequest::getSerija)
