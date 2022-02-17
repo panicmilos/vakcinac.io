@@ -12,6 +12,8 @@ public class RdfPredicate {
     private String variable;
     @XmlElement(name = "value")
     private String value;
+    @XmlElement(name = "operator")
+    private String operator;
 
     public String getVariable() {
         return variable;
@@ -27,5 +29,13 @@ public class RdfPredicate {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
     }
 }

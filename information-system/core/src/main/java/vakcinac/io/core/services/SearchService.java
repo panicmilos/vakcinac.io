@@ -1,16 +1,20 @@
 package vakcinac.io.core.services;
 
+import vakcinac.io.core.exceptions.BadLogicException;
+import vakcinac.io.core.repository.jena.JenaRepository;
+import vakcinac.io.core.requests.helpers.RdfPredicate;
+
 import java.util.*;
 
 public abstract class SearchService {
 
     protected HashMap<String, String> predicateTypeRegistry = new HashMap<>();
+    protected HashMap<String, String> predicateUrlRegistry = new HashMap<>();
 
     protected static final String PREFIXES = "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n";
-    protected static final String SELECT_TEMPLATE = "SELECT DISTINCT * FROM <%s>\n";
+    protected static final String SELECT_TEMPLATE = "SELECT DISTINCT ?s FROM <%s>\n";
     protected static final String WHERE_TEMPLATE = "WHERE { %s }\n";
     protected static final String GROUP_BY_SUBJECT = "GROUP BY ?s";
-    protected static final String GROUP_BY_PREDICATES = "GROUP BY ?p";
 
     // types
     protected static final String XSD_DATE = "xsd:date";
@@ -19,9 +23,16 @@ public abstract class SearchService {
     protected static final String LINK = "link";
 
     protected abstract void initRegistry();
-    protected abstract List<String> search(String graph, String expression, Map<String, String> predicateMap);
+    protected abstract List<String> search(String graph, List<RdfPredicate> predicates);
 
-    protected String formatQuery(String graph, String expression, Map<String, String> predicateMap) {
+    protected JenaRepository jenaRepository;
+
+    public SearchService(JenaRepository jenaRepository) {
+        this.jenaRepository = jenaRepository;
+        initRegistry();
+    }
+
+    protected String formatQuery(String graph, List<RdfPredicate> predicates) {
 
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(PREFIXES);
@@ -30,80 +41,58 @@ public abstract class SearchService {
         StringBuilder filterBuilder = new StringBuilder();
         filterBuilder.append("?s\n");
 
-        for(String key : predicateMap.keySet()) {
-            filterBuilder.append(String.format("%s %s", key, predicateMap.get(key)));
+        for(String key : predicateUrlRegistry.keySet()) {
+            filterBuilder.append(String.format("%s %s;\n", predicateUrlRegistry.get(key), key));
         }
 
-        String formattedExpression = parseExpression(expression, predicateMap);
+        String formattedExpression = buildExpression(predicates);
         filterBuilder.append(formattedExpression);
 
-        stringBuilder.append(String.format(WHERE_TEMPLATE, filterBuilder.toString()));
+        stringBuilder.append(String.format(WHERE_TEMPLATE, filterBuilder));
         stringBuilder.append(GROUP_BY_SUBJECT);
 
         return stringBuilder.toString();
     }
 
-    private String parseExpression(String expression, Map<String, String> predicateMap) {
+    private String buildExpression(List<RdfPredicate> predicates) {
         HashMap<String, List<String>> filters = new HashMap<>();
 
-        String[] lines = expression.split("\\n");
-        String currentOperator = "";
-
-        for (String line : lines) {
-
-            if (line.length() == 1) {
-                currentOperator = line;
-                continue;
+        for (RdfPredicate predicate : predicates) {
+            if (!filters.containsKey(predicate.getVariable())) {
+                filters.put(predicate.getVariable(), new ArrayList<>());
             }
-
-            List<String> lineParts = parseLine(line);
-            String filter = getFilterForLine(lineParts);
-
-            String variable = lineParts.get(0);
-
-            if (predicateMap.containsKey(variable)) {
-                filters.get(variable).add(filter);
-            } else {
-                filters.put(variable, new ArrayList<>());
-            }
-
+            filters.get(predicate.getVariable()).add(getFilterForPredicate(predicate));
         }
 
         StringBuilder filterBuilder = new StringBuilder();
         for (List<String> valueFilters : filters.values()) {
-            filterBuilder.append(String.join(".\n", valueFilters));
+            for (String filter : valueFilters) {
+                filterBuilder.append(filter).append(" .\n");
+            }
         }
 
         return filterBuilder.toString();
     }
 
-    private String getFilterForLine(List<String> lineParts) {
+    private String getFilterForPredicate(RdfPredicate predicate) {
 
-        String variable = lineParts.get(0);
-        String operator = lineParts.get(1);
-        String value = lineParts.get(2);
+        if(!predicateTypeRegistry.containsKey(predicate.getVariable())) {
+            throw new BadLogicException(String.format("Nije podrzana pretraga po varijabli %s", predicate.getVariable()));
+        }
 
-        if (predicateTypeRegistry.get(variable).equals(XSD_STRING) || predicateTypeRegistry.get(variable).equals(LINK)) {
-            return String.format("FILTER contains(lcase(str(%s)), lcase(str('%s')))", operator, value);
+        if (predicateTypeRegistry.get(predicate.getVariable()).equals(XSD_STRING) || predicateTypeRegistry.get(predicate.getVariable()).equals(LINK)) {
+            return String.format("FILTER %s(lcase(str(%s)), lcase(str('%s')))", predicate.getOperator(), predicate.getVariable(), predicate.getValue());
+        }
+
+        if (predicateTypeRegistry.get(predicate.getVariable()).equals(XSD_INTEGER)) {
+            return String.format("FILTER (?%s %s %s)", predicate.getVariable(), predicate.getOperator(), predicate.getValue());
+        }
+
+        if (predicateTypeRegistry.get(predicate.getVariable()).equals(XSD_DATE)) {
+            return String.format("FILTER (?%s %s '%s'^^%s)", predicate.getVariable(), predicate.getOperator(), predicate.getValue(), XSD_DATE);
         }
 
         return "";
-    }
-
-    private List<String> parseLine(String line) {
-
-        String[] partsArray = line.split(" ");
-        List<String> parts = Arrays.asList(partsArray);
-        int containsIndex = parts.indexOf("contains");
-
-        if (containsIndex != -1) {
-            String subString = String.join(" ", parts.subList(containsIndex, parts.size()));
-            List<String> subStringParts = parts.subList(0, containsIndex);
-            subStringParts.add(subString);
-            return subStringParts;
-        }
-
-        return parts;
     }
 
 }
