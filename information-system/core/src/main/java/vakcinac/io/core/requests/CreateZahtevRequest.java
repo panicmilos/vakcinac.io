@@ -11,6 +11,9 @@ public class CreateZahtevRequest {
 
     @XmlElement(name = "podnosilac")
     private String podnosilac;
+    
+    @XmlElement(name = "pasos")
+    private String pasos;
 
     @XmlElement(name = "razlog")
     private String razlog;
@@ -24,6 +27,14 @@ public class CreateZahtevRequest {
 
 	public void setPodnosilac(String podnosilac) {
 		this.podnosilac = podnosilac;
+	}
+
+	public String getPasos() {
+		return pasos;
+	}
+
+	public void setPasos(String pasos) {
+		this.pasos = pasos;
 	}
 
 	public String getRazlog() {

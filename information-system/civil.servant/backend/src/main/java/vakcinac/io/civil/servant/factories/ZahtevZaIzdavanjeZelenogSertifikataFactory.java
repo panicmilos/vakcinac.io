@@ -16,6 +16,7 @@ public class ZahtevZaIzdavanjeZelenogSertifikataFactory {
 		
 		TpodnosilacZahteva podnosilac = new TpodnosilacZahteva();
 		podnosilac.setJmbg(createZahtevRequest.getPodnosilac());
+		podnosilac.setBrojPasosa(createZahtevRequest.getPasos());
 		
 		zahtev.setPodnosilacZahteva(podnosilac);
 		

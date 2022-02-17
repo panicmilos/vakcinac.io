@@ -53,7 +53,8 @@ public class SertifikatController extends ControllerBase {
     @PreAuthorize("hasAnyRole('Sluzbenik')")
 	@PostMapping("/approve")
 	public ResponseEntity<DigitalniSertifikat> approve(@RequestBody CreateSertifikatRequest createSertifikatRequest) throws Exception {
-		
+		validate(createSertifikatRequest);
+    	
 		DigitalniSertifikat sertifikat = mapper.map(createSertifikatRequest, DigitalniSertifikat.class);
 		
 		DigitalniSertifikat createdSertifikat = sertifikatService.create(sertifikat);
@@ -64,7 +65,8 @@ public class SertifikatController extends ControllerBase {
     @PreAuthorize("hasAnyRole('Sluzbenik')")
  	@PostMapping("/decline")
  	public ResponseEntity<DeclineZahtev> approve(@RequestBody DeclineZahtevRequest declineZahtevRequest) throws Exception {
- 		
+ 		validate(declineZahtevRequest);
+    	
     	DeclineZahtev decline = mapper.map(declineZahtevRequest, DeclineZahtev.class);
  		
     	DeclineZahtev declinedZahtev = sertifikatService.decline(decline);

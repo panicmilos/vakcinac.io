@@ -9,8 +9,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ZahtevZaIzdavanjeZelenogSertifikata {
 
-    @XmlElement(name = "podnosilac")
+	@XmlElement(name = "podnosilac")
     private String podnosilac;
+    
+    @XmlElement(name = "pasos")
+    private String pasos;
 
     @XmlElement(name = "razlog")
     private String razlog;
@@ -24,6 +27,14 @@ public class ZahtevZaIzdavanjeZelenogSertifikata {
 
 	public void setPodnosilac(String podnosilac) {
 		this.podnosilac = podnosilac;
+	}
+
+	public String getPasos() {
+		return pasos;
+	}
+
+	public void setPasos(String pasos) {
+		this.pasos = pasos;
 	}
 
 	public String getRazlog() {
@@ -41,5 +52,4 @@ public class ZahtevZaIzdavanjeZelenogSertifikata {
 	public void setMesto(String mesto) {
 		this.mesto = mesto;
 	}
-
 }
