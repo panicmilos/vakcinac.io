@@ -18,15 +18,15 @@ public class VakcinaService {
     private String sluzbenikUrl;
 
     private JwtStore jwtStore;
+	private RestTemplate restTemplate;
 
-    public VakcinaService(JwtStore jwtStore) {
+    public VakcinaService(JwtStore jwtStore, RestTemplate restTemplate) {
         this.jwtStore = jwtStore;
+		this.restTemplate = restTemplate;
     }
 
     public Object getVakcina(String serija) {
         HttpEntity<?> httpEntity = HttpUtils.configureHeader(jwtStore.getJwt());
-
-        RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Object> response = restTemplate.exchange(String.format("%s/vakcine?serija=%s", sluzbenikUrl, serija), HttpMethod.GET, httpEntity, Object.class);
         
         return response.getBody();
