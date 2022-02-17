@@ -39,6 +39,13 @@ public class SaglasnostController extends ControllerBase {
     	
     	return ResponseEntity.ok(saglasnostService.readPreview(id, type));
     }
+    
+    @GetMapping(path = "/{id1}/{id2}/rdf", produces = "text/plain")
+    public ResponseEntity<?> extractRdf(@PathVariable String id1, @PathVariable String id2, @RequestParam(required = false) String type) throws Exception {
+    	String id = id1 + "/" + id2;
+
+    	return ResponseEntity.ok(saglasnostService.extractRdf(id, type));
+    }
 
     @PostMapping
     public ResponseEntity<SaglasnostZaSprovodjenjePreporuceneImunizacije> apply(@RequestBody CreateSaglasnostRequest createSaglasnostRequest) throws Exception {

@@ -40,6 +40,13 @@ public class ZahtevController extends ControllerBase {
     	return ResponseEntity.ok(zahtevService.readPreview(id, type));
     }
 
+    @GetMapping(path = "/{id1}/{id2}/rdf", produces = "text/plain")
+    public ResponseEntity<?> extractRdf(@PathVariable String id1, @PathVariable String id2, @RequestParam(required = false) String type) throws Exception {
+    	String id = id1 + "/" + id2;
+
+    	return ResponseEntity.ok(zahtevService.extractRdf(id, type));
+    }
+
 	@PostMapping
 	public ResponseEntity<ZahtevZaIzdavanjeZelenogSertifikata> apply(@RequestBody CreateZahtevRequest createZahtevRequest) throws Exception {
 		validate(createZahtevRequest);

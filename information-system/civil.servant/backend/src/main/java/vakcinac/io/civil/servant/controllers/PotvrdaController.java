@@ -37,6 +37,12 @@ public class PotvrdaController extends ControllerBase {
     	
     	return ResponseEntity.ok(potvrdaService.readPreview(id, type));
     }
+    
+    @GetMapping(path = "/{id}/rdf", produces = "text/plain")
+    public ResponseEntity<?> extractRdf(@PathVariable String id, @RequestParam(required = false) String type) throws Exception {
+    	    	
+    	return ResponseEntity.ok(potvrdaService.extractRdf(id, type));
+    }
 
     @PostMapping
     public ResponseEntity<KreiranjePotvrde> vaccinated(@RequestBody VaccinateRequest request) throws Exception {

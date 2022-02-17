@@ -15,6 +15,7 @@ import vakcinac.io.civil.servant.repository.IzvestajRepository;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
 import vakcinac.io.core.Constants;
 import vakcinac.io.core.factories.TmetaFactory;
+import vakcinac.io.core.repository.jena.RdfObject;
 import vakcinac.io.core.results.agres.AggregateResult;
 import vakcinac.io.core.results.link.Links;
 import vakcinac.io.core.services.BaseService;
@@ -54,6 +55,16 @@ public class IzvestajService extends BaseService<IzvestajOImunizaciji> {
 	@Override
 	protected Links findReferencedBy(String id) throws Exception {
 		return null;
+	}
+
+	public Object extractRdf(String id, String type) throws IOException {
+		 RdfObject rdf = jenaRepository.construct("/izvestaji", Constants.ROOT_RESOURCE + "/data/sparql/construct.sparql", String.format("%s/izvestaj/%s", Constants.ROOT_URL, id));
+		 
+		 if (type.equals("JSON")) {
+			 return rdf.toString("RDF/JSON");
+		 }
+		 
+		 return rdf.toString("N-TRIPLE");
 	}
 
 	@Override

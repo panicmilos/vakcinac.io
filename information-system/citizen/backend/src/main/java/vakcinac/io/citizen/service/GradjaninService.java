@@ -39,7 +39,11 @@ public class GradjaninService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Tgradjanin gradjanin = findByKorisnickoIme(username);
         List<GrantedAuthority> accountAuthorities = getGradjaninAuthorities(gradjanin);
-
+        
+        if (gradjanin == null) {
+        	return null;
+        }
+        
         return new User(gradjanin.getKorisnickoIme(), gradjanin.getLozinka(), accountAuthorities);
     }
 	

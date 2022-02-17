@@ -51,4 +51,13 @@ public class ZahtevService {
 
         return response.getBody();
 	}
+
+	public Object extractRdf(String id, String type) {
+		HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
+        
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/zahtevi/%s/rdf?type=%s", sluzbenikUrl, id, type), HttpMethod.GET, httpEntity, String.class);
+
+        return response.getBody();
+	}
 }

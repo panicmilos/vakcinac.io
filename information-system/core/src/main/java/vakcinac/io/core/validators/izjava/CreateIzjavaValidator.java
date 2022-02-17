@@ -24,7 +24,7 @@ public class CreateIzjavaValidator extends AbstractValidator<CreateIzjavaRequest
 		ruleFor(CreateIzjavaRequest::getPodnosilac)
 	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Podnosilac je obavezan.")
-	        .must(StringPredicate.stringMatches(RegexPatterns.JMBG_PATTERN))
+	        .must(CreateIzjavaValidator::isPodnosilacValid)
 	        .withMessage("Podnosilac nije u dobrom formatu.")
 	        .withFieldName("Podnosilac");
 		
@@ -51,6 +51,15 @@ public class CreateIzjavaValidator extends AbstractValidator<CreateIzjavaRequest
 	    	.must(CreateIzjavaValidator::isProizvodjacValid)
 	        .withMessage("Neki od proizvodjača nisu validni.")
 	        .withFieldName("Proizvodjac");
+	}
+	
+	private static boolean isPodnosilacValid(String podnosilac) {
+		if (podnosilac.matches(RegexPatterns.JMBG_PATTERN) || podnosilac.matches(RegexPatterns.EBS_PATTERN) || 
+				podnosilac.matches(RegexPatterns.PASOS_PATTERN)) {
+			return true;
+		}
+		
+		return false;
 	}
 	
 	private static boolean isProizvodjacValid(List<Integer> proizvodjaci) {

@@ -38,6 +38,12 @@ public class IzvestajController extends ControllerBase {
     	return ResponseEntity.ok(izvestajService.readPreview(id, type));
     }
 
+	@GetMapping(path = "/{id}/rdf", produces = "text/plain")
+    public ResponseEntity<?> extractRdf(@PathVariable String id, @RequestParam(required = false) String type) throws Exception {
+
+    	return ResponseEntity.ok(izvestajService.extractRdf(id, type));
+    }
+	
 	@GetMapping
 	public ResponseEntity<IzvestajOImunizaciji> make(@RequestParam(name="startDate") String startDateS, @RequestParam(name="endDate") String endDateS) throws Exception {
 		

@@ -66,6 +66,12 @@ public class PotvrdaController extends ControllerBase {
     	return ResponseEntity.ok(potvrdaService.readPreview(id, type));
     }
     
+    @GetMapping("/{id}/rdf")
+    public ResponseEntity<?> extractRdf(@PathVariable String id, @RequestParam(required = false) String type) throws Exception {
+    	    	
+    	return ResponseEntity.ok(potvrdaService.extractRdf(id, type));
+    }
+    
     @PostMapping
     public ResponseEntity<PotvrdaOIzvrsenojVakcinaciji> apply(@RequestBody CreatePotvrdaRequest request) throws Exception {
         validate(request);

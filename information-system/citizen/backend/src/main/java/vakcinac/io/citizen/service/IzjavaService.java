@@ -44,11 +44,21 @@ public class IzjavaService {
         return response.getBody();
 	}
 	
+	public Object extractRdf(String id, String type) {
+        HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
+        
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/izjave/%s/rdf?type=%s", sluzbenikUrl, id, type), HttpMethod.GET, httpEntity, String.class);
+
+        return response.getBody();
+	}
+	
 	public IzjavaInteresovanjaZaVakcinisanje create(IzjavaInteresovanjaZaVakcinisanje izjava) {
 		HttpEntity<?> httpEntity = HttpUtils.configureHeaderWithBody(izjava, store.getJwt());
 		restTemplate.exchange(String.format("%s/izjave", sluzbenikUrl), HttpMethod.POST, httpEntity, Object.class);
 	
 		return izjava;
 	}
+
 
 }

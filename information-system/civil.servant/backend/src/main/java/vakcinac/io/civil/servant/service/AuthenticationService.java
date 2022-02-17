@@ -45,13 +45,13 @@ public class AuthenticationService {
     }
     
     public String getCurrentWorkerId() {
-    	String korisnickoIme = getCurrentWorkerUsername();
+    	String korisnickoIme = getCurrentUserUsername();
     	
     	Tzaposleni zaposleni = zaposleniService.findByKorisnickoIme(korisnickoIme);
     	return zaposleni.getJmbg();
     }
     
-    public String getCurrentWorkerUsername() {
+    public String getCurrentUserUsername() {
     	Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     	
     	return authentication.getName();

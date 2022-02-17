@@ -16,6 +16,7 @@ import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.factories.TlinkFactory;
 import vakcinac.io.core.factories.TmetaFactory;
 import vakcinac.io.core.models.os.Tgradjanin;
+import vakcinac.io.core.repository.jena.RdfObject;
 import vakcinac.io.core.results.link.Links;
 import vakcinac.io.core.services.BaseService;
 import vakcinac.io.core.utils.LocalDateUtils;
@@ -45,6 +46,16 @@ public class ZahtevService extends BaseService<ZahtevZaIzdavanjeZelenogSertifika
 		return jenaRepository.findReferencedBy(String.format("%s/zahtev/%s", Constants.ROOT_URL, id.replace("_", "/")));
 	}
 
+	public Object extractRdf(String id, String type) throws IOException {
+		 RdfObject rdf = jenaRepository.construct("/zahtevi", Constants.ROOT_RESOURCE + "/data/sparql/construct.sparql", String.format("%s/zahtev/%s", Constants.ROOT_URL, id));
+		 
+		 if (type.equals("JSON")) {
+			 return rdf.toString("RDF/JSON");
+		 }
+		 
+		 return rdf.toString("N-TRIPLE");
+	}
+	
 	@Override
 	public ZahtevZaIzdavanjeZelenogSertifikata create(ZahtevZaIzdavanjeZelenogSertifikata zahtev) throws Exception {
 		String jmbg = zahtev.getPodnosilacZahteva().getJmbg();
@@ -111,5 +122,7 @@ public class ZahtevService extends BaseService<ZahtevZaIzdavanjeZelenogSertifika
 		//TODO: NEkako ucitati sluzbenika?
 		
 	}
+
+	
 	
 }

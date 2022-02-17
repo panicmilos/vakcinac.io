@@ -43,6 +43,13 @@ public class SertifikatController extends ControllerBase {
     	return ResponseEntity.ok(sertifikatService.readPreview(id, type));
     }
 	
+	@GetMapping(path = "/{id1}/{id2}/rdf", produces = "text/plain")
+    public ResponseEntity<?> extractRdf(@PathVariable String id1, @PathVariable String id2, @RequestParam(required = false) String type) throws Exception {
+    	String id = id1 + "/" + id2;
+
+    	return ResponseEntity.ok(sertifikatService.extractRdf(id, type));
+    }
+	
     @PreAuthorize("hasAnyRole('Sluzbenik')")
 	@PostMapping("/approve")
 	public ResponseEntity<DigitalniSertifikat> approve(@RequestBody CreateSertifikatRequest createSertifikatRequest) throws Exception {
