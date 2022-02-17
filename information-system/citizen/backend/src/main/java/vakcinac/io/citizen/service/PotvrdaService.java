@@ -1,5 +1,6 @@
 package vakcinac.io.citizen.service;
 
+import org.apache.jena.query.ResultSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
@@ -27,6 +28,7 @@ import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 import javax.xml.namespace.QName;
 import java.io.IOException;
 import java.math.BigInteger;
+
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -66,6 +68,18 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
 
     public PotvrdaOIzvrsenojVakcinaciji.PodaciOVakcinaciji readVakcinePotvrdePoGradjanu(String gradjaninId) {
 
+        String potvrdaId = getPotvrdaIdByGradjaninId(gradjaninId);
+
+        PotvrdaOIzvrsenojVakcinaciji potvrda = read(potvrdaId);
+
+        if (potvrda == null) {
+            return null;
+        }
+
+        return potvrda.getPodaciOVakcinaciji();
+    }
+
+    private String getPotvrdaIdByGradjaninId(String gradjaninId) {
         String gradjaninUrl = String.format("<%s/gradjani/%s>", Constants.ROOT_URL, gradjaninId);
 
         String potvrdaAbout = "";
@@ -79,8 +93,7 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
 
         String[] potvrdaSplit = potvrdaAbout.split("/");
 
-        PotvrdaOIzvrsenojVakcinaciji potvrda = read(potvrdaSplit[potvrdaSplit.length-1]);
-        return potvrda.getPodaciOVakcinaciji();
+        return potvrdaSplit[potvrdaSplit.length-1];
     }
     
     @Override
@@ -153,10 +166,19 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
         return jenaRepository.readLatestSubject("/izjava", "<https://www.vakcinac-io.rs/rdfs/interesovanje/za>", String.format("<%s>", za));
     }
 
-    public PotvrdaOIzvrsenojVakcinaciji addDoza(String id, String serija) throws XMLDBException, IOException {
-        validateVakcina(id);
+    public PotvrdaOIzvrsenojVakcinaciji addDoza(String gradjaninId, String serija) throws XMLDBException, IOException {
+        validateVakcina(serija);
 
-        PotvrdaOIzvrsenojVakcinaciji potvrda = read(id);
+        String gradjaninUri = String.format("<%s/gradjani/%s>", Constants.ROOT_URL, gradjaninId);
+        ResultSet potvrdaSet = jenaRepository.read("/potvrda", String.format("?s %s %s", "<https://www.vakcinac-io.rs/rdfs/potvrda/za>", gradjaninUri));
+
+        String potvrdaId = getPotvrdaIdByGradjaninId(gradjaninId);
+
+        PotvrdaOIzvrsenojVakcinaciji potvrda = read(potvrdaId);
+
+        if (potvrda == null) {
+            throw new MissingEntityException("Potvrda nije pronadjena.");
+        }
 
         PotvrdaOIzvrsenojVakcinaciji.PodaciOVakcinaciji.PodaciODozama.PrimljenaDoza primljenaDoza = new PotvrdaOIzvrsenojVakcinaciji.PodaciOVakcinaciji.PodaciODozama.PrimljenaDoza();
         primljenaDoza.setDatum(LocalDate.now());
@@ -167,13 +189,13 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
 
         potvrda.getPodaciOVakcinaciji().getPodaciODozama().getPrimljenaDoza().add(primljenaDoza);
 
-        updateMetadata(id, potvrda);
+        updateMetadata(potvrdaId, potvrda);
         addGeneralAttributes(potvrda);
 
         JaxBParser saglasnostParser = JaxBParserFactory.newInstanceFor(PotvrdaOIzvrsenojVakcinaciji.class, Boolean.FALSE);
         String serializedObj = saglasnostParser.marshall(potvrda);
 
-        baseRepository.store(id, serializedObj);
+        baseRepository.store(potvrdaId, serializedObj);
         jenaRepository.updateData(potvrda.getAbout(), serializedObj, "/potvrda");
 
         return potvrda;

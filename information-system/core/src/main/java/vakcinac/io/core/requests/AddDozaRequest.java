@@ -9,18 +9,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AddDozaRequest {
 
-    @XmlElement(name = "potvrda-id")
-    private String potvrdaId;
+    @XmlElement(name = "jmbg")
+    private String jmbg;
 
     @XmlElement
     private String serija;
 
-    public String getPotvrdaId() {
-        return potvrdaId;
+    public String getJmbg() {
+        return jmbg;
     }
 
-    public void setPotvrdaId(String potvrdaId) {
-        this.potvrdaId = potvrdaId;
+    public void setJmbg(String jmbg) {
+        this.jmbg = jmbg;
     }
 
     public String getSerija() {
