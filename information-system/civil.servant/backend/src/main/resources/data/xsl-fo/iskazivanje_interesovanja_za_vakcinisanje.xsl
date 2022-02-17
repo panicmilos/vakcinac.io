@@ -12,7 +12,7 @@
   <xsl:variable name="fo:layout-master-set">
     <fo:layout-master-set>
       <fo:simple-page-master master-name="izjava-interesovanja-za-vakcinisanje-page">
-        <fo:region-body margin-left="1in" margin-right="1in" margin-top="0.8in" margin-bottom="0.8in" />
+        <fo:region-body margin-left="1in" margin-right="1in" margin-top="0.4in" margin-bottom="0.2in" />
       </fo:simple-page-master>
     </fo:layout-master-set>
   </xsl:variable>

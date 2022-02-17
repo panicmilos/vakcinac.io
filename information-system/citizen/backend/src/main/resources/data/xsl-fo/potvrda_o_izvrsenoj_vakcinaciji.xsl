@@ -12,7 +12,7 @@
     <xsl:variable name="fo:layout-master-set">
         <fo:layout-master-set>
             <fo:simple-page-master master-name="potvrda-o-izvrsenoj-vakcinaciji-page">
-                <fo:region-body margin="0.5in" />
+                <fo:region-body margin-top="0.2in" margin-left="0.5in" margin-right="0.5in" />
             </fo:simple-page-master>
         </fo:layout-master-set>
     </xsl:variable>
@@ -33,7 +33,7 @@
                                     <fo:table-cell>
                                         <fo:block xsl:use-attribute-sets="institute-logo">
                                             <fo:external-graphic
-                                                    src="url(institute-logo.jpg)"
+                                                    src="url(https://i.ibb.co/KW0sDXY/institute-logo.jpg)"
                                                     content-width="100px"
                                                     content-height="100px"
                                                     scaling="uniform">
