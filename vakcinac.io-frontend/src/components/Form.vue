@@ -1,11 +1,17 @@
 <template>
+<div>
   <json-forms
-    v-bind:data="data"
-    v-bind:renderers="renderers"
-    v-bind:schema="schema"
-    v-bind:uischema="uischema"
+    :data="data"
+    :renderers="renderers"
+    :schema="schema"
+    :uischema="uischema"
     @change="onChange"
   />
+  <v-card-actions>
+    <v-spacer></v-spacer>
+    <v-btn color="primary" @click.stop="onSubmit">Submit</v-btn>
+  </v-card-actions>
+</div>
 </template>
 
 <script>
@@ -27,11 +33,19 @@ export default defineComponent({
     return {
       // freeze renderers for performance gains
       renderers: Object.freeze(renderers),
+      localData: {}
     };
+  },
+  mounted() {
+    this.localData = this.data
   },
   methods: {
     onChange(event) {
-      this.$emit('submit', event);
+      this.$emit('change', event);
+      this.localData = event.data;
+    },
+    onSubmit() {
+      this.$emit('submit', this.localData);
     }
   },
 });

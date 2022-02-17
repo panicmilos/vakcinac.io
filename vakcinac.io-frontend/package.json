@@ -12,10 +12,12 @@
     "@jsonforms/vue2": "^2.5.2",
     "@jsonforms/vue2-vuetify": "^3.0.0-alpha.2",
     "@vue/composition-api": "^1.4.6",
+    "axios": "^0.26.0",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
     "vue-router": "^3.5.3",
-    "vuetify": "^2.6.3"
+    "vuetify": "^2.6.3",
+    "xml2js": "^0.4.23"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
