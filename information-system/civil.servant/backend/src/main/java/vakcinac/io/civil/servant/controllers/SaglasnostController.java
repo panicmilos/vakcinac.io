@@ -31,7 +31,7 @@ public class SaglasnostController extends ControllerBase {
 
     @PostMapping
     public ResponseEntity<SaglasnostZaSprovodjenjePreporuceneImunizacije> apply(@RequestBody CreateSaglasnostRequest createSaglasnostRequest) throws Exception {
-//        validate(createSaglasnostRequest);
+        validate(createSaglasnostRequest);
 
         SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost = SaglasnostZaSprovodjenjePreporuceneImunizacijeFactory.create(createSaglasnostRequest);
 
