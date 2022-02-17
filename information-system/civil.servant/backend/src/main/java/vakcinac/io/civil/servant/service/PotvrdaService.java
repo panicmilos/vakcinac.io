@@ -23,8 +23,8 @@ import vakcinac.io.civil.servant.models.sag.SaglasnostZaSprovodjenjePreporuceneI
 import vakcinac.io.civil.servant.models.term.Termin;
 import vakcinac.io.civil.servant.models.vak.Vakcina;
 import vakcinac.io.civil.servant.security.JwtStore;
-import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.models.os.InformacijeOPrimljenimDozamaIzPotvrde;
+import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.repository.jena.JenaRepository;
 import vakcinac.io.core.results.agres.AggregateResult;
 import vakcinac.io.core.utils.HttpUtils;

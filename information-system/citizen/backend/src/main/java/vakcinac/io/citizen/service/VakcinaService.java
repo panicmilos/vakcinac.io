@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.annotation.RequestScope;
 import vakcinac.io.citizen.security.JwtStore;
-import vakcinac.io.core.models.os.InformacijeOPrimljenimDozamaIzPotvrde;
 import vakcinac.io.core.utils.HttpUtils;
 
 @Service
@@ -25,12 +24,11 @@ public class VakcinaService {
     }
 
     public Object getVakcina(String serija) {
-
         HttpEntity<?> httpEntity = HttpUtils.configureHeader(jwtStore.getJwt());
 
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Object> response = restTemplate.exchange(String.format("%s/vakcine?serija=%s", sluzbenikUrl, serija), HttpMethod.GET, httpEntity, Object.class);
-
+        
         return response.getBody();
     }
 
