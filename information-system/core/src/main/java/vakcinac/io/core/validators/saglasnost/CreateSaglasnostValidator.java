@@ -5,6 +5,7 @@ import br.com.fluentvalidator.predicate.ComparablePredicate;
 import br.com.fluentvalidator.predicate.StringPredicate;
 import vakcinac.io.core.requests.CreateSaglasnostRequest;
 import vakcinac.io.core.utils.RegexPatterns;
+import vakcinac.io.core.utils.StringUtils;
 
 public class CreateSaglasnostValidator extends AbstractValidator<CreateSaglasnostRequest> {
 
@@ -12,7 +13,7 @@ public class CreateSaglasnostValidator extends AbstractValidator<CreateSaglasnos
     public void rules() {
 
         ruleFor(CreateSaglasnostRequest::getBrojMobilnog)
-                .must(StringPredicate.stringEmptyOrNull().negate())
+                .must(StringUtils::notNullOrEmpty)
                 .withMessage("Broj mobilnog telefona je obavezan.")
                 .must(StringPredicate.stringMatches(RegexPatterns.BR_MOB_PATTERN))
                 .withMessage("Broj mobilnog telefona nije u dobrom formatu.")
@@ -29,12 +30,12 @@ public class CreateSaglasnostValidator extends AbstractValidator<CreateSaglasnos
                 .withFieldName("Zanimanje");
 
         ruleFor(CreateSaglasnostRequest::getNazivImunoloskogLeka)
-                .must(StringPredicate.stringEmptyOrNull().negate())
+                .must(StringUtils::notNullOrEmpty)
                 .withMessage("Naziv imunoloskog leka.")
                 .withFieldName("Naziv imunoloskog leka je obavezan");
 
         ruleFor(CreateSaglasnostRequest::getNazivOpstinaSedista)
-                .must(StringPredicate.stringEmptyOrNull().negate())
+                .must(StringUtils::notNullOrEmpty)
                 .withMessage("Naziv opstine sedista je obavezan.")
                 .withFieldName("Naziv opstine sedista.");
     }

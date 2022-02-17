@@ -66,8 +66,10 @@ public class SertifikatService {
 	}
 	
 	public int count(LocalDate startDate, LocalDate endDate) {
+		HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
+		
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<CountResponse> response = restTemplate.getForEntity(String.format("%s/sertifikati/count?startDate=%s&endDate=%s", gradjaninUrl, startDate, endDate), CountResponse.class);
+        ResponseEntity<CountResponse> response = restTemplate.exchange(String.format("%s/sertifikati/count?startDate=%s&endDate=%s", gradjaninUrl, startDate, endDate), HttpMethod.GET, httpEntity, CountResponse.class);
 
         return response.getBody().getValue();
     }

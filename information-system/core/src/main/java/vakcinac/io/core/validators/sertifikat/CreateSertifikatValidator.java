@@ -5,7 +5,6 @@ import java.util.Collection;
 
 import br.com.fluentvalidator.AbstractValidator;
 import br.com.fluentvalidator.predicate.ComparablePredicate;
-import br.com.fluentvalidator.predicate.StringPredicate;
 import vakcinac.io.core.requests.CreateSertifikatRequest;
 import vakcinac.io.core.requests.helpers.SertifikatTest;
 import vakcinac.io.core.utils.StringUtils;
@@ -16,12 +15,12 @@ public class CreateSertifikatValidator extends AbstractValidator<CreateSertifika
     public void rules() {
 
         ruleFor(CreateSertifikatRequest::getGradjaninId)
-            .must(StringPredicate.stringEmptyOrNull().negate())
+            .must(StringUtils::notNullOrEmpty)
             .withMessage("Id građanina je obavezan.")
             .withFieldName("GradjaninId");
         
         ruleFor(CreateSertifikatRequest::getZahtev)
-	        .must(StringPredicate.stringEmptyOrNull().negate())
+	        .must(StringUtils::notNullOrEmpty)
 	        .withMessage("Zahtev je obavezan.")
 	        .withFieldName("Zahtev");
 

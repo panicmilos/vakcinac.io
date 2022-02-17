@@ -69,9 +69,11 @@ public class PotvrdaService {
     }
 	
 	private AggregateResult aggregate(String by, LocalDate startDate, LocalDate endDate) {
+		HttpEntity<?> httpEntity = HttpUtils.configureHeader(jwtStore.getJwt());
+		
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<AggregateResult> response = restTemplate.getForEntity(String.format("%s/potvrde/aggregate/%s?startDate=%s&endDate=%s", gradjaninUrl, by, startDate, endDate), AggregateResult.class);
-
+		ResponseEntity<AggregateResult> response = restTemplate.exchange(String.format("%s/potvrde/aggregate/%s?startDate=%s&endDate=%s", gradjaninUrl, by, startDate, endDate), HttpMethod.GET, httpEntity, AggregateResult.class);
+        
         return response.getBody();
     }
 
