@@ -22,6 +22,7 @@ import vakcinac.io.civil.servant.validators.CivilServantValidator;
 import vakcinac.io.core.controllers.ControllerBase;
 
 @Controller
+@CrossOrigin("*")
 @RequestMapping("/vakcine")
 public class VakcineController extends ControllerBase {
 	

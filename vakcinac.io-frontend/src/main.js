@@ -5,6 +5,7 @@ import VueCompositionAPI from "@vue/composition-api";
 import vuetify from "@/plugins/vuetify";
 import router from "@/plugins/vue-router";
 import axios from "axios";
+import { app } from "./cfg";
 
 Vue.config.productionTip = false;
 
@@ -21,8 +22,6 @@ axios.interceptors.request.use(config => {
   }
   return config;
 });
-
-const app = 'CitizenServant';
 
 const apps = {
   Citizen: CitizenApp,

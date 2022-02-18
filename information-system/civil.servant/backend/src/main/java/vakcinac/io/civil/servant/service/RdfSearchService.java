@@ -7,11 +7,10 @@ import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
 import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.repository.jena.CloseableResultSet;
 import vakcinac.io.core.requests.helpers.LogicalExpression;
+import vakcinac.io.core.results.doc.QueryDocumentsResult;
 import vakcinac.io.core.services.SearchService;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 @Service
 @RequestScope
@@ -28,7 +27,15 @@ public class RdfSearchService extends SearchService {
 
     //SAGLASNOST
     private HashMap<String, String> saglasnostPredicateUrlRegistry;
-    private HashMap<String, String> saglasnostPredicateTypeRegistry = new HashMap<>();
+    private HashMap<String, String> saglasnostPredicateTypeRegistry;
+
+    //SAGLASNOST
+    private HashMap<String, String> zahteviPredicateUrlRegistry;
+    private HashMap<String, String> zahteviPredicateTypeRegistry;
+
+    //IZVESTAJI
+    private HashMap<String, String> izvestajiPredicateUrlRegistry;
+    private HashMap<String, String> izvestajiPredicateTypeRegistry;
 
     public RdfSearchService(CivilServantJenaRepository jenaRepository) {
         super(jenaRepository);
@@ -47,7 +54,7 @@ public class RdfSearchService extends SearchService {
         izjavaPredicateUrlRegistry.put("?izdat", "<https://www.vakcinac-io.rs/rdfs/deljeno/izdat>");
 
         izjavaPredicateTypeRegistry.put("?opstina", LINK);
-        izjavaPredicateTypeRegistry.put("?za_interesovanje", LINK);
+        izjavaPredicateTypeRegistry.put("?za", LINK);
         izjavaPredicateTypeRegistry.put("?zeljeneVakcine", LINK);
         izjavaPredicateTypeRegistry.put("?izdat", XSD_DATE);
 
@@ -67,10 +74,42 @@ public class RdfSearchService extends SearchService {
         saglasnostPredicateTypeRegistry.put("?izdat", XSD_DATE);
         saglasnostPredicateTypeRegistry.put("?izmenjen", XSD_DATE);
 
+        // SAGLASNOST
+        zahteviPredicateUrlRegistry = new HashMap<>();
+        zahteviPredicateTypeRegistry = new HashMap<>();
+
+        saglasnostPredicateUrlRegistry.put("?naOsnovuInteresovanja", "<https://www.vakcinac-io.rs/rdfs/saglasnost/naOsnovuInteresovanja>");
+        saglasnostPredicateUrlRegistry.put("?vakcinisanOd", "<https://www.vakcinac-io.rs/rdfs/saglasnost/vakcinisanOd>");
+        saglasnostPredicateUrlRegistry.put("?za", "<https://www.vakcinac-io.rs/rdfs/saglasnost/za>");
+        saglasnostPredicateUrlRegistry.put("?izdat", "<https://www.vakcinac-io.rs/rdfs/deljeno/izdat>");
+        saglasnostPredicateUrlRegistry.put("?izmenjen", "<https://www.vakcinac-io.rs/rdfs/deljeno/izmenjen>");
+
+        saglasnostPredicateTypeRegistry.put("?naOsnovuInteresovanja", LINK);
+        saglasnostPredicateTypeRegistry.put("?vakcinisanOd", LINK);
+        saglasnostPredicateTypeRegistry.put("?za", LINK);
+        saglasnostPredicateTypeRegistry.put("?izdat", XSD_DATE);
+        saglasnostPredicateTypeRegistry.put("?izmenjen", XSD_DATE);
+
+        // IZVESTAJI
+        izvestajiPredicateUrlRegistry = new HashMap<>();
+        izvestajiPredicateTypeRegistry = new HashMap<>();
+
+        izvestajiPredicateUrlRegistry.put("?periodOd", "<https://www.vakcinac-io.rs/rdfs/izvestaj/periodDo>");
+        izvestajiPredicateUrlRegistry.put("?periodDo", "<https://www.vakcinac-io.rs/rdfs/izvestaj/periodOd>");
+        izvestajiPredicateUrlRegistry.put("?ukupnoDoza", "<https://www.vakcinac-io.rs/rdfs/izvestaj/ukupnoDoza>");
+        izvestajiPredicateUrlRegistry.put("?izdat", "<https://www.vakcinac-io.rs/rdfs/deljeno/izdat>");
+        izvestajiPredicateUrlRegistry.put("?izdao", "<https://www.vakcinac-io.rs/rdfs/izvestaj/izdao>");
+
+        izvestajiPredicateTypeRegistry.put("?periodOd", XSD_DATE);
+        izvestajiPredicateTypeRegistry.put("?periodDo", XSD_DATE);
+        izvestajiPredicateTypeRegistry.put("?ukupnoDOza", XSD_INTEGER);
+        izvestajiPredicateTypeRegistry.put("?izdat", XSD_DATE);
+        izvestajiPredicateTypeRegistry.put("?izdao", LINK);
+
     }
 
     @Override
-    public List<String> search(String graph, LogicalExpression expression) {
+    public QueryDocumentsResult search(String graph, LogicalExpression expression) {
 
         switch (graph) {
             case "izjava": {
@@ -87,14 +126,18 @@ public class RdfSearchService extends SearchService {
             }
             case "zahtevi": {
                 graph = ZAHTEVI_GRAPH_URI;
+                this.predicateUrlRegistry = zahteviPredicateUrlRegistry;
+                this.predicateTypeRegistry = zahteviPredicateTypeRegistry;
                 break;
             }
             case "izvestaj": {
                 graph = IZVESTAJI_GRAPH_URI;
+                this.predicateUrlRegistry = izjavaPredicateUrlRegistry;
+                this.predicateTypeRegistry = izjavaPredicateTypeRegistry;
                 break;
             }
             default:
-                throw new BadLogicException("");
+                throw new BadLogicException("Dati graf ne postoji");
 
         }
 
@@ -102,17 +145,21 @@ public class RdfSearchService extends SearchService {
 
         System.out.println(sparqlQuery);
 
-        List<String> searchResults = new ArrayList<>();
+        QueryDocumentsResult queryDocumentsResult = new QueryDocumentsResult();
 
         try(CloseableResultSet set = jenaRepository.execQuery(sparqlQuery)) {
             while (set.hasNext()) {
                 QuerySolution querySolution = set.next();
 
-                searchResults.add(querySolution.get("?s").toString());
+                QueryDocumentsResult.Document document = new QueryDocumentsResult.Document();
+                document.setValue(querySolution.get("?s").toString());
+                document.setCreatedAt(querySolution.get("?izdat").toString());
+
+                queryDocumentsResult.getDocument().add(document);
             }
         }
 
-        return searchResults;
+        return queryDocumentsResult;
     }
 
 }

@@ -45,7 +45,7 @@
 
     <v-toolbar-title>{{userFullName}}</v-toolbar-title>
 
-    <v-btn icon>
+    <v-btn icon @click.stop="logout">
       <v-icon>mdi-logout</v-icon>
     </v-btn>
   </v-app-bar>
@@ -65,7 +65,7 @@ export default {
     },
     userFullName: {
       type: String,
-      default: "Meetar Meereech"
+      default: ""
     },
     items: {
       type: Array,
@@ -74,7 +74,14 @@ export default {
   },
   data: () => ({
     drawer: false
-  })
+  }),
+  methods: {
+    logout() {
+      localStorage.removeItem('jwt');
+      this.$router.push('/');
+      this.$emit('logout');
+    }
+  }
 }
 </script>
 
