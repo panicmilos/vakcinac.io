@@ -23,10 +23,11 @@ import vakcinac.io.civil.servant.models.sag.SaglasnostZaSprovodjenjePreporuceneI
 import vakcinac.io.civil.servant.models.term.Termin;
 import vakcinac.io.civil.servant.models.vak.Vakcina;
 import vakcinac.io.civil.servant.security.JwtStore;
-import vakcinac.io.core.models.os.InformacijeOPrimljenimDozamaIzPotvrde;
 import vakcinac.io.core.exceptions.BadLogicException;
+import vakcinac.io.core.models.os.InformacijeOPrimljenimDozamaIzPotvrde;
 import vakcinac.io.core.repository.jena.JenaRepository;
 import vakcinac.io.core.results.agres.AggregateResult;
+import vakcinac.io.core.results.link.DocumentLinksResult;
 import vakcinac.io.core.utils.HttpUtils;
 
 @Service
@@ -87,11 +88,20 @@ public class PotvrdaService {
         return response.getBody();
 	}
 
-	public Object readPreview(String id, String type) {
+	public Object readTransformed(String id, String type) {
         HttpEntity<?> httpEntity = HttpUtils.configureHeader(jwtStore.getJwt());
         
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.exchange(String.format("%s/potvrde/query/%s?type=%s", gradjaninUrl, id, type), HttpMethod.GET, httpEntity, String.class);
+
+        return response.getBody();
+	}
+	
+	public DocumentLinksResult readLinks(String id) {
+        HttpEntity<?> httpEntity = HttpUtils.configureHeader(jwtStore.getJwt());
+        
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<DocumentLinksResult> response = restTemplate.exchange(String.format("%s/potvrde/query/%s/links", gradjaninUrl, id), HttpMethod.GET, httpEntity, DocumentLinksResult.class);
 
         return response.getBody();
 	}

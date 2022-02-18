@@ -25,6 +25,7 @@ import vakcinac.io.core.mail.MailContent;
 import vakcinac.io.core.models.os.Tgradjanin;
 import vakcinac.io.core.models.os.Tmeta;
 import vakcinac.io.core.responses.CountResponse;
+import vakcinac.io.core.results.link.DocumentLinksResult;
 import vakcinac.io.core.utils.HttpUtils;
 
 @Service
@@ -60,11 +61,20 @@ public class SertifikatService {
         return response.getBody();
 	}
 
-	public Object readPreview(String id, String type) {
+	public Object readTransformed(String id, String type) {
         HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
         
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.exchange(String.format("%s/sertifikati/query/%s?type=%s", gradjaninUrl, id, type), HttpMethod.GET, httpEntity, String.class);
+
+        return response.getBody();
+	}
+	
+	public DocumentLinksResult readLinks(String id) {
+        HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
+        
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<DocumentLinksResult> response = restTemplate.exchange(String.format("%s/sertifikati/query/%s/links", gradjaninUrl, id), HttpMethod.GET, httpEntity, DocumentLinksResult.class);
 
         return response.getBody();
 	}

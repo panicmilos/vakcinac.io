@@ -25,7 +25,14 @@ public class SertifikatQueryController {
     		return ResponseEntity.ok(sertifikatService.readPlain(id));
     	}
     	
-    	return ResponseEntity.ok(sertifikatService.readPreview(id, type));
+    	return ResponseEntity.ok(sertifikatService.readTransformed(id, type));
+    }
+	
+	@GetMapping(path = "/{id1}/{id2}/links")
+    public ResponseEntity<?> readLinks(@PathVariable String id1, @PathVariable String id2) throws Exception {
+    	String id = id1 + "/" + id2;
+
+    	return ResponseEntity.ok(sertifikatService.readLinks(id));
     }
 	
 	@GetMapping(path = "/{id1}/{id2}/rdf")

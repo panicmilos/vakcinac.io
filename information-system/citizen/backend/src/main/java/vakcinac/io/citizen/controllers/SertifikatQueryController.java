@@ -3,6 +3,7 @@ package vakcinac.io.citizen.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import vakcinac.io.citizen.service.SertifikatService;
 
 @Controller
+@CrossOrigin("*")
 @RequestMapping(path = "/sertifikati/query", produces = { "application/xml" })
 public class SertifikatQueryController {
 
@@ -25,7 +27,14 @@ public class SertifikatQueryController {
     		return ResponseEntity.ok(sertifikatService.readPlain(id));
     	}
     	
-    	return ResponseEntity.ok(sertifikatService.readPreview(id, type));
+    	return ResponseEntity.ok(sertifikatService.readTransformed(id, type));
+    }
+	
+	@GetMapping(path = "/{id1}/{id2}/links")
+    public ResponseEntity<?> readLinks(@PathVariable String id1, @PathVariable String id2) throws Exception {
+    	String id = id1 + "/" + id2;
+
+    	return ResponseEntity.ok(sertifikatService.readLinks(id));
     }
 	
 	@GetMapping(path = "/{id1}/{id2}/rdf")
@@ -33,6 +42,6 @@ public class SertifikatQueryController {
     	String id = id1 + "/" + id2;
 
     	return ResponseEntity.ok(sertifikatService.extractRdf(id, type));
-    }
+	}
 
 }

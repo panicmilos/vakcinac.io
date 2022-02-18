@@ -6,13 +6,17 @@ import org.xmldb.api.base.Resource;
 import org.xmldb.api.base.XMLDBException;
 
 import vakcinac.io.core.exceptions.MissingEntityException;
+import vakcinac.io.core.factories.DocumentLinksResultFactory;
 import vakcinac.io.core.factories.PreviewDocumentResultFactory;
 import vakcinac.io.core.repository.ExistRepository;
 import vakcinac.io.core.repository.jena.JenaRepository;
 import vakcinac.io.core.results.doc.PreviewDocumentResult;
+import vakcinac.io.core.results.link.DocumentLinksResult;
 import vakcinac.io.core.results.link.Links;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
+import vakcinac.io.core.utils.transformers.PDFTransformer;
+import vakcinac.io.core.utils.transformers.XHTMLTransformer;
 
 public abstract class BaseService<T> {
 	
@@ -40,6 +44,25 @@ public abstract class BaseService<T> {
 		}
 		
 		return obj;
+	}
+	
+	public byte[] readTransformed(String id, String type) {
+		PDFTransformer pdfTransformer = new PDFTransformer();
+		XHTMLTransformer xhtmlTransformer = new XHTMLTransformer();
+		
+		Object obj = readPlain(id);
+		if (type.equals("pdf")) {
+			return pdfTransformer.generate(obj);
+		} else {
+			return xhtmlTransformer.generate(obj);
+		}
+	}
+	
+	public DocumentLinksResult readLinks(String id) throws Exception {
+		Links referencing = findReferencing(id);
+		Links referencedBy = findReferencedBy(id);
+		
+		return DocumentLinksResultFactory.create(referencing, referencedBy);
 	}
 	
 	public PreviewDocumentResult readPreview(String id, String type) throws Exception {

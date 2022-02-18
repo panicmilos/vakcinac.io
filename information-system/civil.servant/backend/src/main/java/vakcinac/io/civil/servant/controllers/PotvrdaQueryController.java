@@ -24,7 +24,13 @@ public class PotvrdaQueryController {
 			return ResponseEntity.ok(potvrdaService.readPlain(id));
 		}
 		
-		return ResponseEntity.ok(potvrdaService.readPreview(id, type));
+		return ResponseEntity.ok(potvrdaService.readTransformed(id, type));
+	}
+	
+	@GetMapping(path = "/{id}/links")
+	public ResponseEntity<?> readLinks(@PathVariable String id) throws Exception {
+		    	
+		return ResponseEntity.ok(potvrdaService.readLinks(id));
 	}
 	
 	@GetMapping(path = "/{id}/rdf")
