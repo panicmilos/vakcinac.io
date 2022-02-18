@@ -14,9 +14,9 @@ public abstract class SearchService {
     protected HashMap<String, String> predicateUrlRegistry = new HashMap<>();
 
     protected static final String PREFIXES = "PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>\n";
-    protected static final String SELECT_TEMPLATE = "SELECT DISTINCT ?s FROM <%s>\n";
+    protected static final String SELECT_TEMPLATE = "SELECT ?s ?izdat FROM <%s>\n";
     protected static final String WHERE_TEMPLATE = "WHERE { %s }\n";
-    protected static final String GROUP_BY_SUBJECT = "GROUP BY ?s";
+    protected static final String GROUP_BY_SUBJECT = "GROUP BY ?s ?izdat";
 
     // types
     protected static final String XSD_DATE = "xsd:date";
@@ -47,32 +47,36 @@ public abstract class SearchService {
             filterBuilder.append(String.format("%s %s;\n", predicateUrlRegistry.get(key), key));
         }
 
-        ArrayList<String> expressionStrings = new ArrayList<>();
 
-        if (rootExpression.getOperators().size() != rootExpression.getExpressions().size() - 1 && !rootExpression.getOperators().contains("not")) {
-            throw new BadLogicException("Neodgovarajuci broj logickih operatora");
-        }
+        if (!rootExpression.getExpressions().isEmpty()) {
 
-        String wrapper = "FILTER (%s) .\n";
+            ArrayList<String> expressionStrings = new ArrayList<>();
 
-        if (!rootExpression.getOperators().isEmpty() && rootExpression.getOperators().get(0).equals("not")) {
-            popOperator(rootExpression.getOperators());
-            wrapper = "FILTER (!(%s)) .\n";
-        }
+            if (rootExpression.getOperators().size() != rootExpression.getExpressions().size() - 1 && !rootExpression.getOperators().contains("not")) {
+                throw new BadLogicException("Neodgovarajuci broj logickih operatora");
+            }
 
-        for (LogicalExpression logicalExpression : rootExpression.getExpressions()) {
+            String wrapper = "FILTER (%s) .\n";
+
             if (!rootExpression.getOperators().isEmpty() && rootExpression.getOperators().get(0).equals("not")) {
+                popOperator(rootExpression.getOperators());
+                wrapper = "FILTER (!(%s)) .\n";
+            }
+
+            for (LogicalExpression logicalExpression : rootExpression.getExpressions()) {
+                if (!rootExpression.getOperators().isEmpty() && rootExpression.getOperators().get(0).equals("not")) {
+                    expressionStrings.add(popOperator(rootExpression.getOperators()));
+                }
+                String formattedExpression = buildExpression(logicalExpression);
+                expressionStrings.add(formattedExpression);
+                if (rootExpression.getOperators().isEmpty()) {
+                    continue;
+                }
                 expressionStrings.add(popOperator(rootExpression.getOperators()));
             }
-            String formattedExpression = buildExpression(logicalExpression);
-            expressionStrings.add(formattedExpression);
-            if (rootExpression.getOperators().isEmpty()) {
-                continue;
-            }
-            expressionStrings.add(popOperator(rootExpression.getOperators()));
-        }
 
-        filterBuilder.append(String.format(wrapper, String.join(" ", expressionStrings)));
+            filterBuilder.append(String.format(wrapper, String.join(" ", expressionStrings)));
+        }
 
         stringBuilder.append(String.format(WHERE_TEMPLATE, filterBuilder));
         stringBuilder.append(GROUP_BY_SUBJECT);

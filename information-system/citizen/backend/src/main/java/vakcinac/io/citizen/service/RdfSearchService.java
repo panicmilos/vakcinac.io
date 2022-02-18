@@ -17,8 +17,8 @@ import java.util.HashMap;
 @RequestScope
 public class RdfSearchService extends SearchService {
 
-    private final String POTVRDA_GRAPH_URI = "http://localhost:3030/ServantDataset/data/potvrda";
-    private final String DIGITALNI_SERTIFIKAT_GRAPH_URI = "http://localhost:3030/ServantDataset/data/digitalni-sertifikat";
+    private final String POTVRDA_GRAPH_URI = "http://localhost:3030/CitizenDataset/data/potvrda";
+    private final String DIGITALNI_SERTIFIKAT_GRAPH_URI = "http://localhost:3030/CitizenDataset/data/digitalni-sertifikat";
 
     // POTVRDA
     private HashMap<String, String> potvrdaPredicateUrlRegistry;
