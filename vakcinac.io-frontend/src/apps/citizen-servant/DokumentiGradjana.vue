@@ -1,8 +1,12 @@
 <template>
   <div>
-    <Form :data="data" :schema="schema" @submit="onSubmit" />
+    <Form
+      :data="data"
+      :schema="schema"
+      @submit="onSubmit"
+    />
 
-    <DocumentsTable :documents="documents" selector="url" />
+    <DocumentsTable :documents="documents" selector="link" />
 
   </div>
 </template>
@@ -17,23 +21,18 @@ import { API_URL } from "../../cfg";
 
 const schema = {
   properties: {
-    od: {
-      type: "string",
-      format: "date",
-    },
-    do: {
-      type: "string",
-      format: "date",
-    },
-  },
+    "jmbg": {
+      type: "string"
+    }
+  }
 };
 
 export default defineComponent({
-  name: "App",
   components: {
     Form,
     DocumentsTable
   },
+
   data() {
     return {
       data: {},
@@ -41,39 +40,28 @@ export default defineComponent({
       schema,
     };
   },
+  
   methods: {
     onSubmit(data) {
-      axios
-        .get(`${API_URL}/izvestaji`, {
-          params: {
-            startDate: data.od,
-            endDate: data.do,
-          }
-        })
-        .then((r) => {
-          console.log(r);
-          this.fetchIzvestaji();
-        })
-        .catch((e) => console.log(e));
-    },
+      const { jmbg } = data;
 
-    fetchIzvestaji() {
-      axios.get(`${API_URL}/izvestaji/query`,)
+      axios.get(`${API_URL}/gradjani/${jmbg}/documents/all`,)
         .then((r) => {
           const parser = new x.Parser();
           parser.parseString(r.data, (err, res) => {
-            this.documents = res['documents']['document'];
+            this.documents = res['citizen-documents-result']['citizen-document'];
           });
         })
         .catch((e) => console.log(e));
-    }
-  },
-
-  mounted() {
-    this.fetchIzvestaji();
+    },
   }
+
 });
 </script>
 
 <style>
+button {
+  margin-right: 20px;
+}
+
 </style>

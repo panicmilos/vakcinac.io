@@ -5,6 +5,9 @@ import RegisterSluzbenik from './RegisterSluzbenik'
 import RegisterZdravstveni from './RegisterZdravstveni'
 import AddVakcine from './AddVakcine'
 import Izvestaj from './Izvestaj'
+import DokumentiGradjana from './DokumentiGradjana'
+import TextPretraga from './TextPretraga'
+import PojedinacniDokument from '../../components/Documents/PojedinacniDokument'
 
 const baseRoutes = [
   {
@@ -36,6 +39,26 @@ const baseRoutes = [
     path: '/izvestaj',
     name: 'Izvestaj',
     component: Izvestaj
+  },
+  {
+    path: '/dokumenti/gradjana',
+    name: 'DokumentiGradjana',
+    component: DokumentiGradjana
+  },
+  {
+    path: '/dokumenti/pretraga',
+    name: 'Pretraga',
+    component: TextPretraga
+  },
+  {
+    path: '/dokumenti/:path1/:path2/:path3',
+    name: 'PojedinacniDokument1',
+    component: PojedinacniDokument
+  },
+  {
+    path: '/dokumenti/:path1/:path2',
+    name: 'PojedinacniDokument2',
+    component: PojedinacniDokument
   },
   {
     path: '*',

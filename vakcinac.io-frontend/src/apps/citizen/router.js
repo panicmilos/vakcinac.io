@@ -7,7 +7,8 @@ import IzjavaInteresovanja from './IzjavaInteresovanja'
 import Saglasnost from './Saglasnost'
 import ZahtevZeleni from './ZahtevZeleni'
 import DokumentiGradjana from './DokumentiGradjana'
-import PojedinacniDokument from './PojedinacniDokument'
+import DokumentDownloader from './DokumentDownloader'
+import PojedinacniDokument from '../../components/Documents/PojedinacniDokument'
 
 const baseRoutes = [
   {
@@ -59,6 +60,16 @@ const baseRoutes = [
     path: '/dokumenti/:path1/:path2/:path3',
     name: 'PojedinacniDokument2',
     component: PojedinacniDokument
+  },
+  {
+    path: '/dokumenti/:path1/:path2/download',
+    name: 'DokumentDownloader1',
+    component: DokumentDownloader
+  },
+  {
+    path: '/dokumenti/:path1/:path2/:path3/download',
+    name: 'DokumentDownloader2',
+    component: DokumentDownloader
   },
   {
     path: '*',

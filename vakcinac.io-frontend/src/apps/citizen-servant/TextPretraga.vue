@@ -1,9 +1,12 @@
 <template>
   <div>
-    <Form :data="data" :schema="schema" @submit="onSubmit" />
+    <Form
+      :data="data"
+      :schema="schema"
+      @submit="onSubmit"
+    />
 
     <DocumentsTable :documents="documents" selector="url" />
-
   </div>
 </template>
 
@@ -17,23 +20,18 @@ import { API_URL } from "../../cfg";
 
 const schema = {
   properties: {
-    od: {
-      type: "string",
-      format: "date",
-    },
-    do: {
-      type: "string",
-      format: "date",
-    },
-  },
+    "query": {
+      type: "string"
+    }
+  }
 };
 
 export default defineComponent({
-  name: "App",
   components: {
     Form,
-    DocumentsTable
+    DocumentsTable,
   },
+
   data() {
     return {
       data: {},
@@ -41,24 +39,12 @@ export default defineComponent({
       schema,
     };
   },
+  
   methods: {
     onSubmit(data) {
-      axios
-        .get(`${API_URL}/izvestaji`, {
-          params: {
-            startDate: data.od,
-            endDate: data.do,
-          }
-        })
-        .then((r) => {
-          console.log(r);
-          this.fetchIzvestaji();
-        })
-        .catch((e) => console.log(e));
-    },
+      const { query } = data;
 
-    fetchIzvestaji() {
-      axios.get(`${API_URL}/izvestaji/query`,)
+      axios.get(`${API_URL}/documents/search?query=${query}`,)
         .then((r) => {
           const parser = new x.Parser();
           parser.parseString(r.data, (err, res) => {
@@ -67,13 +53,13 @@ export default defineComponent({
         })
         .catch((e) => console.log(e));
     }
-  },
-
-  mounted() {
-    this.fetchIzvestaji();
   }
 });
 </script>
 
 <style>
+button {
+  margin-right: 20px;
+}
+
 </style>
