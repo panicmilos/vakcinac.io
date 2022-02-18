@@ -68,12 +68,12 @@ public class IzvestajService extends BaseService<IzvestajOImunizaciji> {
 	
 	@Override
 	protected Links findReferencing(String id) throws Exception {
-		return null;
+		return new Links();
 	}
 
 	@Override
 	protected Links findReferencedBy(String id) throws Exception {
-		return null;
+		return new Links();
 	}
 
 	public Object extractRdf(String id, String type) throws IOException {

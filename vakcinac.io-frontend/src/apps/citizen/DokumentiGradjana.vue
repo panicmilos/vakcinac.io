@@ -83,7 +83,11 @@ export default defineComponent({
     findUrlParts(document) {
       const documentParts = this.formTableRow(document);
       const documentPrefixes = {
-        'Digitalni Sertifikat': 'sertifikati'
+        'Digitalni Sertifikat': 'sertifikati',
+        'Potvrda': 'potvrde',
+        'Saglasnost': 'saglasnosti',
+        'Izjava': 'izjave',
+        'Zahtev': 'zahtevi'
       };
 
       const pathPrefix = documentPrefixes[documentParts[2]];
@@ -117,4 +121,7 @@ export default defineComponent({
 </script>
 
 <style>
+button {
+  margin-right: 20px;
+}
 </style>

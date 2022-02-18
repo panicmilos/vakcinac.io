@@ -10,6 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 import vakcinac.io.citizen.models.sag.SaglasnostZaSprovodjenjePreporuceneImunizacije;
 import vakcinac.io.citizen.security.JwtStore;
+import vakcinac.io.core.results.link.DocumentLinksResult;
 import vakcinac.io.core.utils.HttpUtils;
 
 @Service
@@ -35,7 +36,7 @@ public class SaglasnostService {
         return response.getBody();
     }
 
-	public Object readPreview(String id, String type) {
+	public Object readTransformed(String id, String type) {
 		HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
 	        
         RestTemplate restTemplate = new RestTemplate();
@@ -43,6 +44,15 @@ public class SaglasnostService {
 
         return response.getBody();
     }
+	
+	public DocumentLinksResult readLinks(String id) {
+		HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
+        
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<DocumentLinksResult> response = restTemplate.exchange(String.format("%s/saglasnosti/query/%s/links", sluzbenikUrl, id), HttpMethod.GET, httpEntity, DocumentLinksResult.class);
+
+        return response.getBody();
+	}
 	
 	public Object extractRdf(String id, String type) {
 		HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
