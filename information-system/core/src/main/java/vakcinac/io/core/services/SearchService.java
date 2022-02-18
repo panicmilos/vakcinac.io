@@ -4,6 +4,7 @@ import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.repository.jena.JenaRepository;
 import vakcinac.io.core.requests.helpers.LogicalExpression;
 import vakcinac.io.core.requests.helpers.MetaPredicate;
+import vakcinac.io.core.results.doc.QueryDocumentsResult;
 
 import java.util.*;
 
@@ -24,7 +25,7 @@ public abstract class SearchService {
     protected static final String LINK = "link";
 
     protected abstract void initRegistry();
-    protected abstract List<String> search(String graph, LogicalExpression expression);
+    protected abstract QueryDocumentsResult search(String graph, LogicalExpression expression);
 
     protected JenaRepository jenaRepository;
 
