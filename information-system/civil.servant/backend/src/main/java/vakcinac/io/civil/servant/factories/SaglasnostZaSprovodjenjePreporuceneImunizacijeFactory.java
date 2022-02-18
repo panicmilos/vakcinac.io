@@ -7,8 +7,6 @@ import vakcinac.io.civil.servant.models.sag.TlicneInformacije;
 import vakcinac.io.core.models.os.Tkontakt;
 import vakcinac.io.core.requests.CreateSaglasnostRequest;
 
-import java.time.LocalDate;
-
 @Component
 public class SaglasnostZaSprovodjenjePreporuceneImunizacijeFactory {
 
