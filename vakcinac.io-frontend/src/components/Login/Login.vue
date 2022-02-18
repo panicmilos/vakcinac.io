@@ -4,7 +4,7 @@
       <v-flex xs12 sm8 md4>
         <v-card class="elevation-12">
           <v-toolbar dark color="primary">
-            <v-toolbar-title>Login form</v-toolbar-title>
+            <v-toolbar-title>Login</v-toolbar-title>
           </v-toolbar>
           <v-card-text>
             <Form
@@ -24,6 +24,8 @@
 import Form from "../Form.vue";
 import x from "xml2js";
 import axios from "axios";
+import { isLoggedIn } from '../../utils/auth';
+import { API_URL } from '../../cfg';
 const builder = new x.Builder({ headless: true, rootName: "authenticate" });
 
 const schema = {
@@ -67,9 +69,8 @@ export default {
   }),
   methods: {
     handleLogin(data) {
-      axios
-        .post(
-          "http://localhost:8880/authentication",
+      axios.post(
+          `${API_URL}/authentication`,
           builder.buildObject({
             "korisnicko-ime": data.username,
             lozinka: data.password,
@@ -80,13 +81,19 @@ export default {
             if (err) {
               throw err;
             }
-            console.log(result);
-            localStorage.setItem('jwt', result[Object.keys(result)[0]].jwt)
+            localStorage.setItem('jwt', result[Object.keys(result)[0]].jwt);
+            this.handleLoggedIn();
           });
         })
         .catch((e) => console.log(e));
     },
+    handleLoggedIn() {
+      this.$route.path === '/' && isLoggedIn() && this.$router.push('/home');
+    }
   },
+  mounted() {
+    this.handleLoggedIn();
+  }
 };
 </script>
 

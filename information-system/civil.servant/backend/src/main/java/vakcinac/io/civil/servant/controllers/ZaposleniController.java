@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +28,7 @@ import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.models.os.Tzaposleni;
 
 @Controller
+@CrossOrigin("*")
 @RequestMapping("/zaposleni")
 public class ZaposleniController extends ControllerBase {
 	

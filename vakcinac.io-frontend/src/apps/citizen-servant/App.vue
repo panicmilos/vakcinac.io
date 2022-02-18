@@ -4,13 +4,14 @@
       :items="items"
       title="vakcinac.io"
       subtitle="by PZLL"
-      userFullName="Meetar Meereech"
+      v-if="showToolbar"
+      @logout="handleLoggedIn"
     />
-    <v-content>
+    <v-main>
       <v-fade-transition mode="out-in">
         <router-view></router-view>
       </v-fade-transition>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 
@@ -18,6 +19,7 @@
 import { defineComponent } from "@vue/composition-api";
 import Sidebar from "../../components/Sidebar.vue";
 import FormExample from "./FormExample.vue";
+import { isLoggedIn } from "../../utils/auth"
 
 export default defineComponent({
   name: "App",
@@ -27,11 +29,22 @@ export default defineComponent({
   },
   data: () => ({
     items: [
-      { title: 'Dashboard', icon: 'mdi-view-dashboard', href: '/home' },
-      { title: 'Photos', icon: 'mdi-image', href: '/photos' },
-      { title: 'About', icon: 'mdi-help-box', href: '/about' },
+      { title: 'Home', icon: 'mdi-view-dashboard', href: '/home' },
+      { title: 'Register Sluzbenik', icon: 'mdi-image', href: '/register-sluzbenik' },
+      { title: 'Register Zdravstveni Radnik', icon: 'mdi-image', href: '/register-zdravstveni' },
     ],
+    showToolbar: isLoggedIn()
   }),
+  watch: {
+    $route() {
+      this.handleLoggedIn();
+    }
+  },
+  methods: {
+    handleLoggedIn() {
+      this.showToolbar = isLoggedIn();
+    }
+  }
 });
 </script>
 
