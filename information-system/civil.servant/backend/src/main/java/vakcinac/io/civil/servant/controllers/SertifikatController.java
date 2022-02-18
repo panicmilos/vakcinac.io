@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import vakcinac.io.core.controllers.ControllerBase;
 import vakcinac.io.core.requests.CreateSertifikatRequest;
 
 @Controller
+@CrossOrigin("*")
 @RequestMapping("/sertifikati")
 public class SertifikatController extends ControllerBase {
 	

@@ -1,5 +1,7 @@
 package vakcinac.io.civil.servant.controllers;
 
+import java.io.IOException;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import vakcinac.io.civil.servant.models.stanj.StanjeVakcina;
 import vakcinac.io.civil.servant.models.vak.Vakcina;
 import vakcinac.io.civil.servant.requests.AddVakcinaStockRequest;
 import vakcinac.io.civil.servant.requests.CreateVakcinaRequest;
+import vakcinac.io.civil.servant.results.vak.VakcineResult;
 import vakcinac.io.civil.servant.service.StanjeVakcinaService;
 import vakcinac.io.civil.servant.service.VakcinaService;
 import vakcinac.io.civil.servant.validators.CivilServantValidator;
@@ -52,6 +55,11 @@ public class VakcineController extends ControllerBase {
 		Vakcina createdVakcina = vakcinaService.create(vakcina);
 		
 		return ResponseEntity.ok(createdVakcina);
+	}
+
+	@GetMapping("/all")
+	public ResponseEntity<VakcineResult> getAll() throws XMLDBException, IOException {
+		return ResponseEntity.ok(vakcinaService.findAll());
 	}
 	
 	@GetMapping("/stock")
