@@ -69,6 +69,11 @@ public class ZahtevService extends BaseService<ZahtevZaIzdavanjeZelenogSertifika
 	public ZahtevZaIzdavanjeZelenogSertifikata create(ZahtevZaIzdavanjeZelenogSertifikata zahtev) throws Exception {
 		String jmbg = zahtev.getPodnosilacZahteva().getJmbg();
 		Tgradjanin gradjanin = gradjaninService.read(jmbg);
+		if (gradjanin == null) {
+			System.out.println("pusim kurac");
+		}
+
+		System.out.println("ne pusim kurac");
 
 		int numOfRequests = jenaRepository.countFor("/zahtevi", String.format("%s/gradjani/%s", Constants.ROOT_URL, jmbg), LocalDate.now().minusDays(7), LocalDate.now());
 		if (numOfRequests >= 3) {
@@ -76,9 +81,15 @@ public class ZahtevService extends BaseService<ZahtevZaIzdavanjeZelenogSertifika
 		}
 		
 		int numOfVakcines = potvrdaService.getNumberOfVakcine(jmbg);
+		System.out.println(numOfVakcines);
+
 		if (numOfVakcines < 2) {
+			System.out.println("Primam u bulju");
+
 			throw new BadLogicException("Morate biti vakcinisani bar dva puta.");
 		}
+
+		System.out.println("Prosao sam pako i ponore");
 		
 		fillRestOfZahtev(zahtev, gradjanin);
 		fillRdfOfZahtev(zahtev);

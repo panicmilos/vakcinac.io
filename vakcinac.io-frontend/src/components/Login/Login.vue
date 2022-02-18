@@ -26,6 +26,8 @@ import x from "xml2js";
 import axios from "axios";
 import { isLoggedIn } from '../../utils/auth';
 import { API_URL } from '../../cfg';
+import { errorHandle } from '../../utils/errorHandle';
+
 const builder = new x.Builder({ headless: true, rootName: "authenticate" });
 
 const schema = {
@@ -85,7 +87,7 @@ export default {
             this.handleLoggedIn();
           });
         })
-        .catch((e) => console.log(e));
+        .catch(errorHandle);
     },
     handleLoggedIn() {
       this.$route.path === '/' && isLoggedIn() && this.$router.push('/home');

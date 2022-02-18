@@ -18,6 +18,7 @@ import TableHead from "../../components/Table/TableHead.vue";
 import TableRow from "../../components/Table/TableRow.vue";
 import axios from "axios";
 import { API_URL } from "../../cfg";
+import { errorHandle } from '../../utils/errorHandle';
 
 const schema = {
   properties: {
@@ -84,13 +85,9 @@ export default defineComponent({
         )
         .then((r) => {
           console.log(r)
+          alert("Uspešna akcija!");
         })
-        .catch((e) => {
-          alert(e.response.data)
-          console.log(e)
-          console.log(e)
-          console.log(e)
-        });
+        .catch(errorHandle);
     }
   },
 });

@@ -26,6 +26,8 @@ import TableHead from "../../components/Table/TableHead.vue";
 import TableRow from "../../components/Table/TableRow.vue";
 import axios from "axios";
 import { API_URL } from "../../cfg";
+
+import { errorHandle } from '../../utils/errorHandle';
 import { proizvodjaci } from "./AddVakcine.vue"
 
 const schema = {
@@ -82,7 +84,7 @@ export default defineComponent({
           }))
         });
       })
-      .catch((e) => console.log(e));
+      .catch(errorHandle);
     },
     fetchStocks() {
       axios.get(`${API_URL}/vakcine/stock`)
@@ -98,7 +100,7 @@ export default defineComponent({
           this.fetchVakcine();
         });
       })
-      .catch((e) => console.log(e));
+      .catch(errorHandle);
     },
     formTableRow(vakcina) {
       return [proizvodjaci[vakcina['ns2:proizvodjac']], vakcina['ns2:serija'], this.stocks[vakcina['ns2:serija']] ?? "0"];
@@ -112,8 +114,9 @@ export default defineComponent({
         .put(`${API_URL}/vakcine/${data.vakcina}/stock`, obj)
         .then(() => {
           this.fetchStocks();
+          alert("Uspešna akcija!");
         })
-        .catch((e) => console.log(e));
+        .catch(errorHandle);
     },
   },
 });

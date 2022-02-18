@@ -5,6 +5,7 @@
       :schema="schema"
       @submit="onSubmit"
     />
+     <vue-editor v-model="content" :editorToolbar="customToolbar"></vue-editor>
   </div>
 </template>
 
@@ -18,6 +19,9 @@ import TableHead from "../../components/Table/TableHead.vue";
 import TableRow from "../../components/Table/TableRow.vue";
 import axios from "axios";
 import { API_URL } from "../../cfg";
+import { VueEditor } from 'vue2-quill-editor'
+
+import { errorHandle } from '../../utils/errorHandle';
 import { getGradjaninId } from "../../utils/auth";
 
 const schema = {
@@ -44,7 +48,8 @@ export default defineComponent({
     Table,
     TableHead,
     TableBody,
-    TableRow
+    TableRow,
+    VueEditor
   },
   data() {
     return {
@@ -52,11 +57,16 @@ export default defineComponent({
         podnosilac: getGradjaninId()
       },
       schema,
+      content: null,
+      customToolbar: [
+            ['bold', 'italic', 'underline'],
+          ]
     };
   },
   methods: {
     onSubmit(data) {
       const builder = new x.Builder({ headless: true, rootName: "zahtev-za-izdavanje-zelenog-sertifikata" });
+      data.razlog = this.content;
       const obj = builder.buildObject(data);
       console.log(obj);
       axios.post(
@@ -65,8 +75,9 @@ export default defineComponent({
         )
         .then((r) => {
           console.log(r)
+          alert("Uspešna akcija!");
         })
-        .catch((e) => console.log(e));
+        .catch(errorHandle);
     }
   },
 });

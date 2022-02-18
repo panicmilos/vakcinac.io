@@ -19,6 +19,8 @@ import DocumentsTable from "../../components/Documents/DocumentsTable.vue";
 import axios from "axios";
 import { API_URL } from "../../cfg";
 
+import { errorHandle } from '../../utils/errorHandle';
+
 const schema = {
   properties: {
     "jmbg": {
@@ -52,7 +54,7 @@ export default defineComponent({
             this.documents = res['citizen-documents-result']['citizen-document'];
           });
         })
-        .catch((e) => console.log(e));
+        .catch(errorHandle);
     },
   }
 

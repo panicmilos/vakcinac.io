@@ -10,6 +10,8 @@ import { defineComponent } from "@vue/composition-api";
 import DocumentsTable from "../../components/Documents/DocumentsTable.vue";
 import axios from "axios";
 import { API_URL } from "../../cfg";
+
+import { errorHandle } from '../../utils/errorHandle';
 import { getGradjaninId } from "../../utils/auth";
 
 export default defineComponent({
@@ -30,7 +32,7 @@ export default defineComponent({
           this.documents = res['citizen-documents-result']['citizen-document'];
         });
       })
-      .catch((e) => console.log(e));
+      .catch(errorHandle);
   }
 });
 </script>

@@ -3,7 +3,7 @@
     <td class="" v-for="(value, index) in values" :key="index">
       <component :is="tableCellComponent(value)" :props="value" />
     </td>
-    <td v-if="renderActions" class="other-left">
+    <td v-if="renderActions">
       <slot />
     </td>
   </tr>
@@ -46,8 +46,6 @@ export default {
 td {
   white-space: normal !important;
   overflow-wrap: break-word;
-}
-.other-left {
-  text-align: right
+  text-align: center
 }
 </style>

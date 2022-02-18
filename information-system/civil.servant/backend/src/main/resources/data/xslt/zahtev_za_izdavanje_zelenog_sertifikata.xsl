@@ -135,7 +135,7 @@
 
           <p>Разлог за подношење захтева:</p>
           <div>
-            <span class="dots-reason"><xsl:value-of select="x:razlog" /></span>
+            <span class="dots-reason">xml-je-odrvatno-los</span>
           </div>
           <span class="hint">(навести што прецизнији разлог за подношење захтева за издавање дигиталног пасоша)</span>
         </div>

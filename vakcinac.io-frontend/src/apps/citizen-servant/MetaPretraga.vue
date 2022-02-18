@@ -18,6 +18,8 @@ import { defineComponent } from "@vue/composition-api";
 import Form from "../../components/Form.vue";
 import axios from "axios";
 import { API_URL } from "../../cfg";
+
+import { errorHandle } from '../../utils/errorHandle';
 import DocumentsTable from "../../components/Documents/DocumentsTable.vue";
 
 const schema = {
@@ -88,7 +90,7 @@ export default defineComponent({
                   this.documents = res['documents']['document'];
                 });
               })
-              .catch((e) => console.log(e));  
+              .catch(errorHandle);  
         }
       );
     }

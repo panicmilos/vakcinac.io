@@ -11,6 +11,8 @@ import Form from "../../components/Form.vue";
 import axios from "axios";
 import { API_URL } from "../../cfg";
 
+import { errorHandle } from '../../utils/errorHandle';
+
 const schema = {
   properties: {
     jmbg: {
@@ -39,8 +41,9 @@ export default defineComponent({
         .post(`${API_URL}/potvrde`, obj)
         .then((r) => {
           console.log(r);
+          alert("Uspešna akcija!");
         })
-        .catch((e) => console.log(e));
+        .catch(errorHandle);
     },
   },
 });
