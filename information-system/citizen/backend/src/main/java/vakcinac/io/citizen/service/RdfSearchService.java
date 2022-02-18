@@ -1,12 +1,9 @@
 package vakcinac.io.citizen.service;
 
 import org.apache.jena.query.QuerySolution;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 import vakcinac.io.citizen.repository.jena.CitizenJenaRepository;
-import vakcinac.io.core.Constants;
 import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.factories.QueryDocumentFactory;
 import vakcinac.io.core.repository.jena.CloseableResultSet;
@@ -31,7 +28,7 @@ public class RdfSearchService extends SearchService {
     private HashMap<String, String> potvrdaPredicateUrlRegistry;
     private HashMap<String, String> potvrdaPredicateTypeRegistry;
 
-    // POTVRDA
+    // DIGITALNI SERTIFIKAT
     private HashMap<String, String> digitalniSertifikatPredicateUrlRegistry;
     private HashMap<String, String> digitalniSertifikatPredicateTypeRegistry;
 

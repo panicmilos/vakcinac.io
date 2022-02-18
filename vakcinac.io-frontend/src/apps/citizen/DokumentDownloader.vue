@@ -9,6 +9,8 @@ import { defineComponent } from "@vue/composition-api";
 import axios from "axios";
 import { API_URL } from "../../cfg";
 
+import { errorHandle } from '../../utils/errorHandle';
+
 export default defineComponent({
   components: {
   },
@@ -37,7 +39,7 @@ export default defineComponent({
           .then((r) => {
             download(r.data, path2 + (path3 ? '/' + path3 : '') + `.${type}`);
           })
-          .catch((e) => console.log(e));
+          .catch(errorHandle);
     
     }
   },

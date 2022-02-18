@@ -76,6 +76,7 @@ public class ZaposleniController extends ControllerBase {
 	@PostMapping("/sluzbenik")
 	public ResponseEntity<Sluzbenik> createSluzbenik(@RequestBody CreateSluzbenikRequest createSluzbenikRequest) throws IOException {
 		validate(createSluzbenikRequest);
+		System.out.println(createSluzbenikRequest);
 		
 		Sluzbenik sluzbenik = (Sluzbenik) map(createSluzbenikRequest, Sluzbenik.class);
 		sluzbenik.setLozinka(passwordEncoder.encode(sluzbenik.getLozinka()));

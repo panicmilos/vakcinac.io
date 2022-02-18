@@ -2,16 +2,16 @@ package vakcinac.io.civil.servant.service;
 
 import java.time.format.DateTimeFormatter;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import org.xmldb.api.base.XMLDBException;
 
 import vakcinac.io.civil.servant.models.red.RedCekanja;
 import vakcinac.io.civil.servant.models.term.Termin;
 import vakcinac.io.civil.servant.repository.RedCekanjaRepository;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
-import vakcinac.io.core.exceptions.MissingEntityException;
-import vakcinac.io.core.mail.MailContent;
-import vakcinac.io.core.models.os.Tgradjanin;
 import vakcinac.io.core.services.BaseService;
 import vakcinac.io.core.utils.StringUtils;
 import vakcinac.io.core.utils.parsers.JaxBParser;
@@ -20,16 +20,17 @@ import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 @Service
 public class RedCekanjaService extends BaseService<RedCekanja> {
 
-	private TerminService terminService;
-	private GradjaninService gradjaninService;
-	private MailingService mailingService;
+	@Value("${gradjanin.url}")
+	private String gradjaninUrl;
 	
-	public RedCekanjaService(TerminService terminService, GradjaninService gradjaninService, MailingService mailingService, RedCekanjaRepository redCekanjaRepository, CivilServantJenaRepository jenaRepository) throws Exception {
+	private TerminService terminService;
+	private RestTemplate restTemplate;
+	
+	public RedCekanjaService(TerminService terminService, RestTemplate restTemplate, RedCekanjaRepository redCekanjaRepository, CivilServantJenaRepository jenaRepository) throws Exception {
 		super(redCekanjaRepository, jenaRepository);
 		
 		this.terminService = terminService;
-		this.gradjaninService = gradjaninService;
-		this.mailingService = mailingService;
+		this.restTemplate = restTemplate;
 	}
 
 	@Override
@@ -100,22 +101,11 @@ public class RedCekanjaService extends BaseService<RedCekanja> {
 		else {
 			id = termin.getBrojPasosaEbs();
 		}
+			
+		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm");
+		String terminDate = timeFormatter.format(termin.getVreme());
 		
-		Tgradjanin gradjanin = gradjaninService.read(id);
-		if (gradjanin == null) {
-			throw new MissingEntityException("Ne postoji građanin.");
-		}
-		
-		MailContent mailContent = new MailContent();
-		mailContent.setTo(gradjanin.getEmail());
-		mailContent.setSubject("Termin za vakcinaciju");
-		
-		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm");  
-		
-		String body = String.format("Poštovani,\nVaš termin za vakcinaciju je: %s", timeFormatter.format(termin.getVreme()));
-		mailContent.setText(body);
-		
-		mailingService.Send(mailContent);
+		restTemplate.postForEntity(String.format("%s/gradjani/dodeljen-termin/%s?termin=%s", gradjaninUrl, id, terminDate),  HttpEntity.EMPTY, String.class);
 	}
 	
 }

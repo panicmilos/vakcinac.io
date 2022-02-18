@@ -15,6 +15,8 @@ import DocumentsTable from "../../components/Documents/DocumentsTable.vue";
 import axios from "axios";
 import { API_URL } from "../../cfg";
 
+import { errorHandle } from '../../utils/errorHandle';
+
 const schema = {
   properties: {
     od: {
@@ -54,7 +56,7 @@ export default defineComponent({
           console.log(r);
           this.fetchIzvestaji();
         })
-        .catch((e) => console.log(e));
+        .catch(errorHandle);
     },
 
     fetchIzvestaji() {
@@ -65,7 +67,7 @@ export default defineComponent({
             this.documents = res['documents']['document'];
           });
         })
-        .catch((e) => console.log(e));
+        .catch(errorHandle);
     }
   },
 

@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="sbar">
   <v-navigation-drawer
     v-model="drawer"
     absolute
@@ -22,20 +22,24 @@
       dense
       nav
     >
-      <v-list-item
+      <template
         v-for="item in items"
-        :key="item.title"
-        link
-        :to="item.href"
       >
-        <v-list-item-icon>
-          <v-icon>{{ item.icon }}</v-icon>
-        </v-list-item-icon>
+        <v-list-item
+          :key="item.title"
+          link
+          :to="item.href"
+          v-if="authItem(item)"
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
 
-        <v-list-item-content>
-          <v-list-item-title>{{ item.title }}</v-list-item-title>
-        </v-list-item-content>
-      </v-list-item>
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </template>
     </v-list>
   </v-navigation-drawer>
   <v-app-bar>
@@ -45,7 +49,7 @@
 
     <v-toolbar-title>{{userFullName}}</v-toolbar-title>
 
-    <v-btn icon @click.stop="logout">
+    <v-btn v-if="role" icon @click.stop="logout">
       <v-icon>mdi-logout</v-icon>
     </v-btn>
   </v-app-bar>
@@ -53,6 +57,8 @@
 </template>
 
 <script>
+import { getRole } from '../utils/auth';
+
 export default {
   props: {
     title: {
@@ -73,18 +79,32 @@ export default {
     }
   },
   data: () => ({
-    drawer: false
+    drawer: false,
+    role: getRole(),
   }),
+  watch: {
+    $route() {
+      this.role = getRole();
+    },
+  },
+  mounted() {
+    this.role = getRole();
+  },
   methods: {
     logout() {
       localStorage.removeItem('jwt');
       this.$router.push('/');
       this.$emit('logout');
+    },
+    authItem(item) {
+      return (!item.roles && !this.role) || item?.roles?.includes(this.role);
     }
   }
 }
 </script>
 
-<style>
-
+<style scoped>
+.sbar { 
+  margin-bottom: 5em;
+}
 </style>

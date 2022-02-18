@@ -1,5 +1,5 @@
 <template>
-  <div>Home</div>
+  <img src="jsonxml.jpg" />
 </template>
 
 <script>

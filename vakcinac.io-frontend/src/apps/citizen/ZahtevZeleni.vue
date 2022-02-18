@@ -21,6 +21,9 @@ import axios from "axios";
 import { API_URL } from "../../cfg";
 import { VueEditor } from 'vue2-quill-editor'
 
+import { errorHandle } from '../../utils/errorHandle';
+import { getGradjaninId } from "../../utils/auth";
+
 const schema = {
   properties: {
     "podnosilac": {
@@ -50,7 +53,9 @@ export default defineComponent({
   },
   data() {
     return {
-      data: {},
+      data: {
+        podnosilac: getGradjaninId()
+      },
       schema,
       content: null,
       customToolbar: [
@@ -70,8 +75,9 @@ export default defineComponent({
         )
         .then((r) => {
           console.log(r)
+          alert("Uspešna akcija!");
         })
-        .catch((e) => console.log(e));
+        .catch(errorHandle);
     }
   },
 });

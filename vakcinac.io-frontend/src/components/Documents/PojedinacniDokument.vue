@@ -38,6 +38,7 @@ import TableHead from "../Table/TableHead.vue";
 import TableRow from "../Table/TableRow.vue";
 import axios from "axios";
 import { API_URL } from "../../cfg";
+import { errorHandle } from '../../utils/errorHandle';
 
 export default defineComponent({
   components: {
@@ -113,7 +114,7 @@ export default defineComponent({
             doc.close();
 
           })
-          .catch((e) => console.log(e));
+          .catch(errorHandle);
 
       axios.get(`${API_URL}/${documentPaths[path1]}/query/${path2}${path3 ? '/' + path3 : ''}/links`,)
           .then((r) => {
@@ -123,7 +124,7 @@ export default defineComponent({
 
             })
           })
-          .catch((e) => console.log(e));
+          .catch(errorHandle);
     
     }
 

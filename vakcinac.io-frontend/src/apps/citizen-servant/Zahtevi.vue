@@ -18,6 +18,8 @@ import Form from "../../components/Form.vue";
 import DocumentsTable from "../../components/Documents/DocumentsTable.vue";
 import axios from "axios";
 import { API_URL } from "../../cfg";
+
+import { errorHandle } from '../../utils/errorHandle';
 import moment from 'moment'
 
 const schemaAccept = {
@@ -122,8 +124,9 @@ export default defineComponent({
         .then((r) => {
           this.fetchZahtevi();
           console.log(r)
+          alert("Uspešna akcija!");
         })
-        .catch((e) => console.log(e));
+        .catch(errorHandle);
     },
 
     onDeclineSubmit(data) {
@@ -136,8 +139,9 @@ export default defineComponent({
         .then((r) => {
           this.fetchZahtevi();
           console.log(r)
+          alert("Uspešna akcija!");
         })
-        .catch((e) => console.log(e));    },
+        .catch(errorHandle);    },
 
     fetchZahtevi() {
       axios.get(`${API_URL}/zahtevi/query/not-processed`,)
@@ -147,7 +151,7 @@ export default defineComponent({
             this.documents = res['documents']['document'];
           });
         })
-        .catch((e) => console.log(e));
+        .catch(errorHandle);
     }
   },
 

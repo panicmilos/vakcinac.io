@@ -32,6 +32,8 @@ import TableRow from "../../components/Table/TableRow.vue";
 import axios from 'axios'
 import { API_URL } from "../../cfg";
 
+import { errorHandle } from '../../utils/errorHandle';
+
 export default defineComponent({
   components: {
     Table,
@@ -92,7 +94,7 @@ export default defineComponent({
         .then((r) => {
           download(r.data, id + ".pdf");
         })
-        .catch((e) => console.log(e));
+        .catch(errorHandle);
     },
 
     downloadXhtml(document) {
@@ -102,7 +104,7 @@ export default defineComponent({
         .then((r) => {
           download(r.data, id + ".html");
         })
-        .catch((e) => console.log(e));
+        .catch(errorHandle);
     },
 
     downloadNTRIPLES(document) {
@@ -123,7 +125,7 @@ export default defineComponent({
             download(r.data, id + `.${type.toLowerCase()}`);
           }
         })
-        .catch((e) => console.log(e));
+        .catch(errorHandle);
     }
     
   },

@@ -19,6 +19,9 @@ import TableRow from "../../components/Table/TableRow.vue";
 import axios from "axios";
 import { API_URL } from "../../cfg";
 
+import { errorHandle } from '../../utils/errorHandle';
+import { getGradjaninId } from "../../utils/auth";
+
 const schema = {
   properties: {
     "drzavljanstvo": {
@@ -104,7 +107,9 @@ export default defineComponent({
   },
   data() {
     return {
-      data: {},
+      data: {
+        podnosilac: getGradjaninId()
+      },
       schema,
     };
   },
@@ -124,8 +129,9 @@ export default defineComponent({
         )
         .then((r) => {
           console.log(r)
+          alert("Uspešna akcija!");
         })
-        .catch((e) => console.log(e));
+        .catch(errorHandle);
     }
   },
 });

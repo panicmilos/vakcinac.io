@@ -10,6 +10,8 @@ import DokumentiGradjana from './DokumentiGradjana'
 import TextPretraga from './TextPretraga'
 import MetaPretraga from './MetaPretraga'
 import PojedinacniDokument from '../../components/Documents/PojedinacniDokument'
+import VakcineStock from './VakcineStock'
+import Potvrda from './Potvrda'
 
 const baseRoutes = [
   {
@@ -36,6 +38,11 @@ const baseRoutes = [
     path: '/add-vakcine',
     name: 'AddVakcine',
     component: AddVakcine
+  },
+  {
+    path: '/vakcine/stock',
+    name: 'VakcineStock',
+    component: VakcineStock
   },
   {
     path: '/izvestaj',
@@ -71,6 +78,11 @@ const baseRoutes = [
     path: '/meta-pretraga',
     name: 'MetaPretraga',
     component: MetaPretraga
+  },
+  {
+    path: '/potvrda',
+    name: 'Potvrda',
+    component: Potvrda
   },
   {
     path: '*',
