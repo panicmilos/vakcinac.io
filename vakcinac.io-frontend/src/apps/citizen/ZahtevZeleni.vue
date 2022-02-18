@@ -5,6 +5,7 @@
       :schema="schema"
       @submit="onSubmit"
     />
+     <vue-editor v-model="content" :editorToolbar="customToolbar"></vue-editor>
   </div>
 </template>
 
@@ -18,6 +19,7 @@ import TableHead from "../../components/Table/TableHead.vue";
 import TableRow from "../../components/Table/TableRow.vue";
 import axios from "axios";
 import { API_URL } from "../../cfg";
+import { VueEditor } from 'vue2-quill-editor'
 
 const schema = {
   properties: {
@@ -43,17 +45,23 @@ export default defineComponent({
     Table,
     TableHead,
     TableBody,
-    TableRow
+    TableRow,
+    VueEditor
   },
   data() {
     return {
       data: {},
       schema,
+      content: null,
+      customToolbar: [
+            ['bold', 'italic', 'underline'],
+          ]
     };
   },
   methods: {
     onSubmit(data) {
       const builder = new x.Builder({ headless: true, rootName: "zahtev-za-izdavanje-zelenog-sertifikata" });
+      data.razlog = this.content;
       const obj = builder.buildObject(data);
       console.log(obj);
       axios.post(

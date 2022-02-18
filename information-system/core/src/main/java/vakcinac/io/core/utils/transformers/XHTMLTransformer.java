@@ -1,24 +1,23 @@
 package vakcinac.io.core.utils.transformers;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
-
 import org.w3c.dom.Document;
-
 import vakcinac.io.core.Constants;
+import vakcinac.io.core.models.trans.ZahtevZaIzdavanjeZelenogSertifikata;
 import vakcinac.io.core.utils.parsers.DocumentParser;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 import vakcinac.io.core.utils.registries.XsltRegistry;
+
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class XHTMLTransformer {
 
@@ -35,9 +34,25 @@ public class XHTMLTransformer {
 	public byte[] generate(Object obj) {
 
 		try {
-			String serializedObj = serializeSource(obj);
 
-			StreamSource transformSource = new StreamSource(new File(findXslPathFor(obj)));
+			String serializedObj = serializeSource(obj);
+			StreamSource transformSource;
+
+			if (obj.getClass().getSimpleName().equals("ZahtevZaIzdavanjeZelenogSertifikata")) {
+				String fileLines = String.join("\n", Files.readAllLines(Paths.get(findXslPathFor(obj))));
+
+				JaxBParser parser = JaxBParserFactory.newInstanceFor(ZahtevZaIzdavanjeZelenogSertifikata.class);
+				ZahtevZaIzdavanjeZelenogSertifikata zahtev = parser.unmarshall(serializedObj);
+
+				String[] parts = fileLines.split("xml-je-odrvatno-los");
+				String serializedZahtev = parts[0] + zahtev.getRazlog() + parts[1];
+
+				ByteArrayInputStream byteReader = new ByteArrayInputStream(serializedZahtev.getBytes());
+				transformSource = new StreamSource(byteReader);
+			} else {
+				transformSource = new StreamSource(new File(findXslPathFor(obj)));
+			}
+			
 			Transformer transformer = createTransformerFor(transformSource);
 			
 			Document document = documentParser.parse(serializedObj.getBytes());
@@ -50,6 +65,8 @@ public class XHTMLTransformer {
 
 		} catch (TransformerException te) {
 			te.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 		return null;
