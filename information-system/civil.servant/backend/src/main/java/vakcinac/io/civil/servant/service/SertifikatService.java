@@ -50,7 +50,7 @@ public class SertifikatService {
         HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
         
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/sertifikati/%s/preview", gradjaninUrl, id), HttpMethod.GET, httpEntity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/sertifikati/query/%s", gradjaninUrl, id), HttpMethod.GET, httpEntity, String.class);
 
         return response.getBody();
 	}
@@ -59,7 +59,7 @@ public class SertifikatService {
         HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
         
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/sertifikati/%s/preview?type=%s", gradjaninUrl, id, type), HttpMethod.GET, httpEntity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/sertifikati/query/%s?type=%s", gradjaninUrl, id, type), HttpMethod.GET, httpEntity, String.class);
 
         return response.getBody();
 	}
@@ -68,7 +68,7 @@ public class SertifikatService {
         HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
         
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/sertifikati/%s/rdf?type=%s", gradjaninUrl, id, type), HttpMethod.GET, httpEntity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/sertifikati/query/%s/rdf?type=%s", gradjaninUrl, id, type), HttpMethod.GET, httpEntity, String.class);
 
         return response.getBody();
 	}

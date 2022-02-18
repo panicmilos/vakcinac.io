@@ -82,7 +82,7 @@ public class PotvrdaService {
         HttpEntity<?> httpEntity = HttpUtils.configureHeader(jwtStore.getJwt());
         
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/potvrde/%s/preview", gradjaninUrl, id), HttpMethod.GET, httpEntity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/potvrde/query/%s", gradjaninUrl, id), HttpMethod.GET, httpEntity, String.class);
 
         return response.getBody();
 	}
@@ -91,7 +91,7 @@ public class PotvrdaService {
         HttpEntity<?> httpEntity = HttpUtils.configureHeader(jwtStore.getJwt());
         
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/potvrde/%s/preview?type=%s", gradjaninUrl, id, type), HttpMethod.GET, httpEntity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/potvrde/query/%s?type=%s", gradjaninUrl, id, type), HttpMethod.GET, httpEntity, String.class);
 
         return response.getBody();
 	}
@@ -100,7 +100,7 @@ public class PotvrdaService {
         HttpEntity<?> httpEntity = HttpUtils.configureHeader(jwtStore.getJwt());
         
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/potvrde/%s/rdf?type=%s", gradjaninUrl, id, type), HttpMethod.GET, httpEntity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/potvrde/query/%s/rdf?type=%s", gradjaninUrl, id, type), HttpMethod.GET, httpEntity, String.class);
 
         return response.getBody();
 	}
