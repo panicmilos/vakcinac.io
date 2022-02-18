@@ -45,9 +45,40 @@
             <xsl:apply-templates select="i:statistika-proizvodjaca"/>
           </fo:block>
 
-          <fo:block xsl:use-attribute-sets="issuing-date">
-            Датум издавања: <fo:inline xsl:use-attribute-sets="underline-text"><xsl:value-of select="@izdato"/></fo:inline> године
-          </fo:block>
+
+          <fo:table xsl:use-attribute-sets="issuing-date">
+            <fo:table-column column-width="30%" />
+            <fo:table-column column-width="30%" />
+            <fo:table-column column-width="40%" />
+            <fo:table-body>
+              <fo:table-row>
+                <fo:table-cell>
+                  <fo:block>
+                    Датум издавања: <fo:inline xsl:use-attribute-sets="underline-text"><xsl:value-of select="@izdato"/></fo:inline> године
+                  </fo:block>
+                </fo:table-cell>
+                <fo:table-cell>
+                  <fo:block></fo:block>
+                </fo:table-cell>
+                <fo:table-cell>
+                  <fo:block></fo:block>
+                </fo:table-cell>
+              </fo:table-row>
+              <fo:table-row>
+                <fo:table-cell>
+                  <fo:block></fo:block>
+                </fo:table-cell>
+                <fo:table-cell>
+                  <fo:block></fo:block>
+                </fo:table-cell>
+                <fo:table-cell>
+                  <fo:block xsl:use-attribute-sets="div signature">
+                    <fo:inline xsl:use-attribute-sets="signature-label">Потпис</fo:inline>
+                  </fo:block>
+                </fo:table-cell>
+              </fo:table-row>
+            </fo:table-body>
+          </fo:table>
 
         </fo:flow>
       </fo:page-sequence>

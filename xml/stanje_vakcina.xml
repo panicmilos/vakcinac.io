@@ -9,13 +9,11 @@
   <stanje_vakcine>
     <vakcina>Neki unique Id</vakcina>
     <dostupno>20</dostupno>
-    <rezervisano>0</rezervisano>
   </stanje_vakcine>
 
   <stanje_vakcine>
     <vakcina>Neki unique Id2</vakcina>
     <dostupno>20</dostupno>
-    <rezervisano>0</rezervisano>
   </stanje_vakcine>
   
 </stanje_vakcina>

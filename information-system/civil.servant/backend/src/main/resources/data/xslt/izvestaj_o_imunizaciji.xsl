@@ -36,8 +36,32 @@
         }
 
         .datum-izdavanja {
-          padding-top: 5%;
+          padding-top: 3%;
         }
+
+        .end-container {
+          display: flex;
+          flex-wrap: wrap;
+        }
+
+        .end-container div {
+          margin-top: 5%;
+          flex: 50%;
+        }
+
+        .signature {
+            display: flex;
+            text-align: center;
+            justify-content: flex-end;
+            padding-top: 2%;
+        }
+
+        .signature-label {
+          width: 40%;
+          border-top: 1px solid;
+          font-size: 14px;
+        }
+
       </style>
     </head>
     <body>
@@ -62,9 +86,15 @@
         <xsl:apply-templates select="x:statistika-proizvodjaca" />
       </div>
     
-      <div class="datum-izdavanja">
-        Датум издавања: <u><xsl:value-of select="@izdato"/></u> године
+      <div class="end-container">
+        <div class="datum-izdavanja">
+          Датум издавања: <u><xsl:value-of select="@izdato"/></u> године
+        </div>
+        <div class="signature">
+          <p class="signature-label">Потпис</p>
+        </div>
       </div>
+
     </body>
   </html>
 </xsl:template>

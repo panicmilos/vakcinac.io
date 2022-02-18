@@ -45,7 +45,7 @@ public class StanjeVakcinaService extends BaseService<StanjeVakcina> {
 		
 		boolean vaccineHasStock = baseRepository.contains("stanje-vakcina", String.format("//*:vakcina[text()='%s']", vaccineId));
 		if (!vaccineHasStock) {
-			StanjeVakcina.StanjeVakcine stanjeVakcine = StanjeVakcineFactory.create(vaccineId, amount, 0);
+			StanjeVakcina.StanjeVakcine stanjeVakcine = StanjeVakcineFactory.create(vaccineId, amount);
 			JaxBParser parser = JaxBParserFactory.newInstanceFor(StanjeVakcina.StanjeVakcine.class, Boolean.FALSE);
 			String serializedObj = parser.marshall(stanjeVakcine);
 			baseRepository.append("stanje-vakcina", "//stanje_vakcina", serializedObj);

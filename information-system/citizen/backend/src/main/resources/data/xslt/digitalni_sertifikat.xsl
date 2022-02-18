@@ -53,12 +53,12 @@
                     border-bottom: 1px solid black;
                 }
 
-                #testovi > div:nth-last-child(-n+3) {
+                #testovi div:nth-last-child(-n+3) {
                     border-right: none;
                     border-bottom: 1px solid black;
                 }
 
-                #testovi > div:last-child {
+                #testovi div:last-child {
                     border-right: none;
                     border-bottom: none;
                 }

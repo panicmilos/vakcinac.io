@@ -58,4 +58,14 @@
     <xsl:attribute name="padding-top">10%</xsl:attribute>
   </xsl:attribute-set>
 
+  <xsl:attribute-set name="signature">
+    <xsl:attribute name="text-align">center</xsl:attribute>
+    <xsl:attribute name="padding-top">0.5%</xsl:attribute>
+    <xsl:attribute name="border-top">1px solid</xsl:attribute>
+  </xsl:attribute-set>
+
+  <xsl:attribute-set name="signature-label">
+    <xsl:attribute name="font-size">14px</xsl:attribute>
+  </xsl:attribute-set>
+
 </xsl:stylesheet>
