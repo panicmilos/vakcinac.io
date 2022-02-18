@@ -7,10 +7,8 @@ import org.xmldb.api.base.XMLDBException;
 
 import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.factories.DocumentLinksResultFactory;
-import vakcinac.io.core.factories.PreviewDocumentResultFactory;
 import vakcinac.io.core.repository.ExistRepository;
 import vakcinac.io.core.repository.jena.JenaRepository;
-import vakcinac.io.core.results.doc.PreviewDocumentResult;
 import vakcinac.io.core.results.link.DocumentLinksResult;
 import vakcinac.io.core.results.link.Links;
 import vakcinac.io.core.utils.parsers.JaxBParser;
