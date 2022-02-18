@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="https://www.vakcinac-io.rs/osnovna-sema"
+    xmlns="https://www.vakcinac-io.rs/osnovna-sema"
+    elementFormDefault="qualified">
+
+    <xsd:simpleType name="Tjmbg">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="\d{13}"></xsd:pattern>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="Tpasos">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="\d{9}"></xsd:pattern>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="Tebs">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="\d{13}"></xsd:pattern>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="Tpol">
+        <xsd:restriction base="xsd:int">
+            <!-- Muško -->
+            <xsd:enumeration value="0"/>
+            <!-- Žensko -->
+            <xsd:enumeration value="1"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="Trezultat">
+        <xsd:restriction base="xsd:string">
+            <!-- Pozitivan -->
+            <xsd:enumeration value="1"/>
+            <!-- Negativan -->
+            <xsd:enumeration value="0"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="Tproizvodjac">
+        <xsd:restriction base="xsd:int">
+            <!-- Pfizer-BioNTech -->
+            <xsd:enumeration value="0"></xsd:enumeration>
+            <!-- Sputnik V -->
+            <xsd:enumeration value="1"></xsd:enumeration>
+            <!-- Sinopharm -->
+            <xsd:enumeration value="2"></xsd:enumeration>
+            <!-- AstraZeneca -->
+            <xsd:enumeration value="3"></xsd:enumeration>
+            <!-- Moderna -->
+            <xsd:enumeration value="4"></xsd:enumeration>
+            <!-- Било која -->
+            <xsd:enumeration value="5"></xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="TbrMob">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="06\d{7,8}"></xsd:pattern>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="TbrFiks">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="0\d{8,9}"></xsd:pattern>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="Temail">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[^@]+@[^\.]+\..+"></xsd:pattern>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="TdateString">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="\d{2}\.\d{2}\.\d{4}\."></xsd:pattern>
+        </xsd:restriction>
+    </xsd:simpleType>
+    
+    <xsd:simpleType name="TdateTimeString">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="\d{2}\.\d{2}\.\d{4}\. \d{2}:\d{2}"></xsd:pattern>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="Tkontakt">
+        <xsd:sequence>
+            <xsd:element name="adresa-elektronske-poste" type="Temail"></xsd:element>
+            <xsd:element name="broj-mobilnog-telefona" type="TbrMob"></xsd:element>
+            <xsd:element name="broj-fiksnog-telefona" type="TbrFiks"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="Tosoba">
+        <xsd:sequence>
+            <xsd:element name="meta" type="Tmeta" minOccurs="0" maxOccurs="unbounded"></xsd:element>
+
+            <xsd:element name="ime" type="xsd:string"></xsd:element>
+            <xsd:element name="prezime" type="xsd:string"></xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="TosobaSaJmbg">
+        <xsd:complexContent>
+            <xsd:extension base="Tosoba">
+                <xsd:sequence>
+                    <xsd:element name="jmbg" type="Tjmbg"></xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="Tkorisnik">
+        <xsd:complexContent>
+            <xsd:extension base="Tosoba">
+                <xsd:sequence>
+                    <xsd:element name="korisnicko-ime" type="xsd:string"></xsd:element>
+                    <xsd:element name="lozinka" type="xsd:string"></xsd:element>
+                    <xsd:element name="datum-rodjenja" type="xsd:date"></xsd:element>
+                    <xsd:element name="pol" type="Tpol"></xsd:element>
+                    <xsd:element name="email" type="Temail"></xsd:element>
+                </xsd:sequence>
+
+                <xsd:attributeGroup ref="rdfMainDocument"></xsd:attributeGroup>
+                <xsd:anyAttribute />
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="Tgradjanin">
+        <xsd:complexContent>
+            <xsd:extension base="Tkorisnik">
+                <xsd:sequence>
+                    <xsd:element name="ime-roditelja" type="xsd:string"></xsd:element>
+                    <xsd:element name="mesto-rodjenja" type="xsd:string"></xsd:element>
+                    <xsd:element name="adresa" type="xsd:string"></xsd:element>
+                    <xsd:element name="mesto" type="xsd:string"></xsd:element>
+                    <xsd:element name="opstina" type="xsd:string"></xsd:element>
+                    <xsd:element name="broj-pasosa" nillable="true" type="Tpasos"></xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="Tzaposleni">
+        <xsd:complexContent>
+            <xsd:extension base="Tkorisnik">
+                <xsd:sequence>
+                    <xsd:element name="jmbg" type="Tjmbg"></xsd:element>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:simpleType name="Tserija">
+        <xsd:restriction base="xsd:string">
+            <xsd:length value="6"></xsd:length>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <!-- RDF -->
+
+    <xsd:complexType name="Tlink">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attributeGroup ref="rdfLinkedDocument"></xsd:attributeGroup>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:complexType name="Tmeta">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attributeGroup ref="rdfProperty"></xsd:attributeGroup>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:attributeGroup name="rdfMainDocument">
+        <xsd:attribute name="about"/>
+        <xsd:attribute name="typeof"/>
+    </xsd:attributeGroup>
+
+    <xsd:attributeGroup name="rdfLinkedDocument">
+        <xsd:attribute name="rel"/>
+        <xsd:attribute name="href" />
+        <xsd:attribute name="typeof"/>
+    </xsd:attributeGroup>
+
+    <xsd:attributeGroup name="rdfProperty">
+        <xsd:attribute name="property"/>
+        <xsd:attribute name="content" />
+        <xsd:attribute name="datatype"/>
+    </xsd:attributeGroup>
+
+
+</xsd:schema>

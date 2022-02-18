@@ -8,10 +8,13 @@
 
 package vakcinac.io.civil.servant.models.vak;
 
+import java.math.BigInteger;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 
 import vakcinac.io.core.annotations.RegisterExistEntity;
@@ -41,7 +44,8 @@ import vakcinac.io.core.annotations.RegisterXmlScheme;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "proizvodjac",
-    "serija"
+    "serija",
+    "periodCekanja"
 })
 @XmlRootElement(name = "vakcina")
 @RegisterXmlScheme(
@@ -57,6 +61,10 @@ public class Vakcina {
     protected int proizvodjac;
     @XmlElement(required = true)
     protected String serija;
+    @XmlElement(name = "period-cekanja", required = true)
+    @XmlSchemaType(name = "positiveInteger")
+    protected BigInteger periodCekanja;
+
 
     /**
      * Gets the value of the proizvodjac property.
@@ -97,5 +105,17 @@ public class Vakcina {
     public void setSerija(String value) {
         this.serija = value;
     }
+
+	public BigInteger getPeriodCekanja() {
+		return periodCekanja;
+	}
+
+	public void setPeriodCekanja(BigInteger periodCekanja) {
+		this.periodCekanja = periodCekanja;
+	}
+    
+    
+    
+    
 
 }

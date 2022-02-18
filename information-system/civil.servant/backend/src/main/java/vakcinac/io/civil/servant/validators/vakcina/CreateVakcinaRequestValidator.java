@@ -25,6 +25,11 @@ public class CreateVakcinaRequestValidator extends AbstractValidator<CreateVakci
 	        .must(StringPredicate.stringMatches(RegexPatterns.SERIJA_PATTERN))
 	        .withMessage("Serija nije u dobrom formatu.")
 	        .withFieldName("Serija");
+        
+        ruleFor(CreateVakcinaRequest::getPeriodCekanja)
+			.must(ComparablePredicate.greaterThan(0))
+			.withMessage("Period čekanja nije validan.")
+			.withFieldName("PeriodCekanja");
 	}
 
 }

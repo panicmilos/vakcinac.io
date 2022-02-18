@@ -8,5 +8,6 @@
 >
   <proizvodjac>2</proizvodjac>
   <serija>ABC123</serija>
+  <period-cekanja>60</period-cekanja>
 
 </vakcina>

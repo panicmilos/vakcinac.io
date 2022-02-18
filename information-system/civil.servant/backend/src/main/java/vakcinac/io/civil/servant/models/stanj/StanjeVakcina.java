@@ -113,7 +113,6 @@ public class StanjeVakcina {
      *       &lt;sequence>
      *         &lt;element name="vakcina" type="{http://www.w3.org/2001/XMLSchema}string"/>
      *         &lt;element name="dostupno" type="{http://www.w3.org/2001/XMLSchema}nonNegativeInteger"/>
-     *         &lt;element name="rezervisano" type="{http://www.w3.org/2001/XMLSchema}nonNegativeInteger"/>
      *       &lt;/sequence>
      *     &lt;/restriction>
      *   &lt;/complexContent>
@@ -126,8 +125,7 @@ public class StanjeVakcina {
     @XmlRootElement(name = "stanje_vakcine")
     @XmlType(name = "", propOrder = {
         "vakcina",
-        "dostupno",
-        "rezervisano"
+        "dostupno"
     })
     public static class StanjeVakcine {
 
@@ -136,9 +134,6 @@ public class StanjeVakcina {
         @XmlElement(required = true)
         @XmlSchemaType(name = "nonNegativeInteger")
         protected BigInteger dostupno;
-        @XmlElement(required = true)
-        @XmlSchemaType(name = "nonNegativeInteger")
-        protected BigInteger rezervisano;
 
         /**
          * Gets the value of the vakcina property.
@@ -186,30 +181,6 @@ public class StanjeVakcina {
          */
         public void setDostupno(BigInteger value) {
             this.dostupno = value;
-        }
-
-        /**
-         * Gets the value of the rezervisano property.
-         * 
-         * @return
-         *     possible object is
-         *     {@link BigInteger }
-         *     
-         */
-        public BigInteger getRezervisano() {
-            return rezervisano;
-        }
-
-        /**
-         * Sets the value of the rezervisano property.
-         * 
-         * @param value
-         *     allowed object is
-         *     {@link BigInteger }
-         *     
-         */
-        public void setRezervisano(BigInteger value) {
-            this.rezervisano = value;
         }
 
     }

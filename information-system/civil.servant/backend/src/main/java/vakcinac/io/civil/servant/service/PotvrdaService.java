@@ -157,7 +157,7 @@ public class PotvrdaService {
     	}
 
     	String lastTerminName = terminService.findLastTerminName(osobaJMBG);
-    	redCekanjaService.add(GradjaninUReduFactory.create(osobaJMBG, proizvodjacVakcine, 60));
+    	redCekanjaService.add(GradjaninUReduFactory.create(osobaJMBG, proizvodjacVakcine, vakcina.getPeriodCekanja().intValue()));
     	terminService.updateTerminStatus(lastTermin.getVreme().toLocalDate().toString(), lastTerminName.split("\\.")[0], true);
     }
     
