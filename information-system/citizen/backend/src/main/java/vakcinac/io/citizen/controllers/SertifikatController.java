@@ -38,6 +38,7 @@ public class SertifikatController extends ControllerBase {
 		this.sertifikatService = sertifikatService;
 	}
 
+	@PreAuthorize("hasAnyRole('Sluzbenik')")
 	@GetMapping(path = "/count")
 	public ResponseEntity<CountResponse> count(@RequestParam(name="startDate") String startDateS, @RequestParam(name="endDate") String endDateS) throws IOException {
 		

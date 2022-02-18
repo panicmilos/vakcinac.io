@@ -2,6 +2,7 @@ package vakcinac.io.civil.servant.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,7 @@ public class RdfSearchController {
         this.rdfSearchService = rdfSearchService;
     }
 
+	@PreAuthorize("hasAnyRole('Sluzbenik')")
     @PostMapping
     public ResponseEntity<QueryDocumentsResult> search(@RequestBody MetaSearchRequest request) {
         QueryDocumentsResult searchResult = rdfSearchService.search(request.getGraph(), request.getExpression());

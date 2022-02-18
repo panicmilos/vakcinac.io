@@ -2,6 +2,7 @@ package vakcinac.io.citizen.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +24,9 @@ public class SearchController {
 		this.existSearchService = existSearchService;
 	}
 	
+	@PreAuthorize("hasAnyRole('Sluzbenik')")
 	@GetMapping("")
-	public ResponseEntity<QueryDocumentsResult> preview(@RequestParam() String query) throws Exception {
+	public ResponseEntity<QueryDocumentsResult> search(@RequestParam() String query) throws Exception {
 		
 		return ResponseEntity.ok(existSearchService.search(query));
 	}

@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,11 +42,13 @@ public class VakcineController extends ControllerBase {
 		super(mapper, validator);
 	}
 
+	@PreAuthorize("hasAnyRole('Sluzbenik', 'DomaciGradjanin', 'StraniGradjanin', 'ZdravstveniRadnik')")
 	@GetMapping
 	public ResponseEntity<Vakcina> getVakcina(String serija) {
 		return ResponseEntity.ok(vakcinaService.read(serija));
 	}
 	
+	@PreAuthorize("hasAnyRole('Sluzbenik')")
 	@PostMapping
 	public ResponseEntity<Vakcina> createVakcina(@RequestBody CreateVakcinaRequest createVakcinaRequest) {
 		validate(createVakcinaRequest);
@@ -57,16 +60,19 @@ public class VakcineController extends ControllerBase {
 		return ResponseEntity.ok(createdVakcina);
 	}
 
+	@PreAuthorize("hasAnyRole('Sluzbenik')")
 	@GetMapping("/all")
 	public ResponseEntity<VakcineResult> getAll() throws XMLDBException, IOException {
 		return ResponseEntity.ok(vakcinaService.findAll());
 	}
 	
+	@PreAuthorize("hasAnyRole('Sluzbenik')")
 	@GetMapping("/stock")
 	public ResponseEntity<StanjeVakcina> getStock() {
 		return ResponseEntity.ok(stanjeVakcinaService.read("stanje-vakcina"));
 	}
 	
+	@PreAuthorize("hasAnyRole('Sluzbenik')")
 	@PutMapping("/{vaccineId}/stock")
 	public ResponseEntity<StanjeVakcina.StanjeVakcine> changeStock(@PathVariable("vaccineId") String vaccineId, @RequestBody AddVakcinaStockRequest addVakcinaStockRequest) throws XMLDBException {
 		validate(addVakcinaStockRequest);
