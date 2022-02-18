@@ -1,5 +1,7 @@
 package vakcinac.io.civil.servant.service;
 
+import java.time.format.DateTimeFormatter;
+
 import org.springframework.stereotype.Service;
 import org.xmldb.api.base.XMLDBException;
 
@@ -7,7 +9,11 @@ import vakcinac.io.civil.servant.models.red.RedCekanja;
 import vakcinac.io.civil.servant.models.term.Termin;
 import vakcinac.io.civil.servant.repository.RedCekanjaRepository;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
+import vakcinac.io.core.exceptions.MissingEntityException;
+import vakcinac.io.core.mail.MailContent;
+import vakcinac.io.core.models.os.Tgradjanin;
 import vakcinac.io.core.services.BaseService;
+import vakcinac.io.core.utils.StringUtils;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 
@@ -15,11 +21,15 @@ import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 public class RedCekanjaService extends BaseService<RedCekanja> {
 
 	private TerminService terminService;
+//	private GradjaninService gradjaninService;
+//	private MailingService mailingService;
 	
 	public RedCekanjaService(TerminService terminService, RedCekanjaRepository redCekanjaRepository, CivilServantJenaRepository jenaRepository) throws Exception {
 		super(redCekanjaRepository, jenaRepository);
 		
 		this.terminService = terminService;
+//		this.gradjaninService = gradjaninService;
+//		this.mailingService = mailingService;
 	}
 
 	@Override
@@ -74,10 +84,38 @@ public class RedCekanjaService extends BaseService<RedCekanja> {
 			
 			terminService.create(rightTermin);
 			
+//			sendEmail(rightTermin);
+			
 			int index = existingRedCekanja.getGradjaninURedu().indexOf(gradjaninURedu);
 			remove(index + 1 - numberOfDeleted);
 			numberOfDeleted++;		
 		}
 	}
+	
+//	private void sendEmail(Termin termin) {
+//		String id;
+//		if (StringUtils.notNullOrEmpty(termin.getJmbg())) {
+//			id = termin.getJmbg();
+//		}
+//		else {
+//			id = termin.getBrojPasosaEbs();
+//		}
+//		
+//		Tgradjanin gradjanin = gradjaninService.read(id);
+//		if (gradjanin == null) {
+//			throw new MissingEntityException("Ne postoji građanin.");
+//		}
+//		
+//		MailContent mailContent = new MailContent();
+//		mailContent.setTo(gradjanin.getEmail());
+//		mailContent.setSubject("Termin za vakcinaciju");
+//		
+//		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm");  
+//		
+//		String body = String.format("Poštovani,\n Dodeljen Vam je termin za vakcinaciju: %s", timeFormatter.format(termin.getVreme()));
+//		mailContent.setText(body);
+//		
+//		mailingService.Send(mailContent);
+//	}
 	
 }

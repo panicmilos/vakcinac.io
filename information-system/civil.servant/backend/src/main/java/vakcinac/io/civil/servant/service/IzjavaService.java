@@ -3,6 +3,7 @@ package vakcinac.io.civil.servant.service;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -12,6 +13,7 @@ import org.springframework.web.context.annotation.RequestScope;
 import org.xmldb.api.base.XMLDBException;
 
 import vakcinac.io.civil.servant.models.izj.IzjavaInteresovanjaZaVakcinisanje;
+import vakcinac.io.civil.servant.models.izj.Tpodnosilac;
 import vakcinac.io.civil.servant.models.red.RedCekanja.GradjaninURedu;
 import vakcinac.io.civil.servant.repository.IzjavaRepository;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
@@ -19,8 +21,10 @@ import vakcinac.io.core.Constants;
 import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.factories.TlinkFactory;
 import vakcinac.io.core.factories.TmetaFactory;
+import vakcinac.io.core.mail.MailContent;
 import vakcinac.io.core.models.os.InformacijeOPrimljenimDozamaIzPotvrde;
 import vakcinac.io.core.models.os.Tgradjanin;
+import vakcinac.io.core.models.os.Tkontakt;
 import vakcinac.io.core.repository.jena.RdfObject;
 import vakcinac.io.core.results.link.Links;
 import vakcinac.io.core.services.BaseService;
@@ -36,6 +40,7 @@ public class IzjavaService extends BaseService<IzjavaInteresovanjaZaVakcinisanje
 	private TerminService terminService;
 	private RedCekanjaService redCekanjaService;
 	private PotvrdaService potvrdaService;
+	private MailingService mailingService;
 	private AuthenticationService authenticationService;
 	
 	public IzjavaService(
@@ -43,6 +48,7 @@ public class IzjavaService extends BaseService<IzjavaInteresovanjaZaVakcinisanje
 			TerminService terminService,
 			RedCekanjaService redCekanjaService,
 			PotvrdaService potvrdaService,
+			MailingService mailingService,
 			AuthenticationService authenticationService,
 			IzjavaRepository izjavaRepository,
 			CivilServantJenaRepository jenaRepository) {
@@ -52,6 +58,7 @@ public class IzjavaService extends BaseService<IzjavaInteresovanjaZaVakcinisanje
 		this.terminService = terminService;
 		this.redCekanjaService = redCekanjaService;
 		this.potvrdaService = potvrdaService;
+		this.mailingService = mailingService;
 		this.authenticationService = authenticationService;
 	}
 	
@@ -107,6 +114,8 @@ public class IzjavaService extends BaseService<IzjavaInteresovanjaZaVakcinisanje
 		
 		String id = String.format("%s_%d", jmbg, baseRepository.count(jmbg) + 1);
 		fillOutRdf(jmbg, izjava);
+		
+		sendEmail(izjava);
 
 		JaxBParser parser = JaxBParserFactory.newInstanceFor(IzjavaInteresovanjaZaVakcinisanje.class);
 		String serializedObj = parser.marshall(izjava);
@@ -117,6 +126,45 @@ public class IzjavaService extends BaseService<IzjavaInteresovanjaZaVakcinisanje
 
 		return create(id, serializedObj);
 	}
+	
+	private void sendEmail(IzjavaInteresovanjaZaVakcinisanje izjava) {
+		MailContent mailContent = new MailContent();
+		mailContent.setTo(izjava.getPodnosilacIzjave().getKontakt().getAdresaElektronskePoste());
+		mailContent.setSubject("Uspešno iskazano interesovanje za prijem vakcine");
+		
+		Tpodnosilac podnosilac = izjava.getPodnosilacIzjave().getPodnosilac();
+		Tkontakt kontakt = izjava.getPodnosilacIzjave().getKontakt();
+		
+		String body = String.format("Poštovani,\nDobijate prvi slobodan termin za vakcinu.\nPodaci koje ste uneil:"
+				+ "\nJMBG: %s\nIme: %s\nPrezime: %s\nAdresa elektronske pošte: %s\nBroj mobilnog telefona: %s\n"
+				+ "Broj fiksnog telefona: %s\nLokacija gde primate vakcinu: %s\nProizvođači vakcina: ", podnosilac.getJmbg(), podnosilac.getIme(), podnosilac.getPrezime(), 
+				kontakt.getAdresaElektronskePoste(), kontakt.getBrojMobilnogTelefona(), kontakt.getBrojFiksnogTelefona(), izjava.getInformacijeOPrimanjuVakcine().getOpstina());
+		List<Integer> proizvodjaci = izjava.getInformacijeOPrimanjuVakcine().getProizvodjaci().getProizvodjac();
+		for(int i = 0 ; i < proizvodjaci.size(); i++) {
+			body += getVakcinaName(proizvodjaci.get(i));
+			if (i < proizvodjaci.size() - 1) {
+				body +=  ", ";
+			}
+		}
+		String davalacKrvi = izjava.getPodnosilacIzjave().isDobrovoljanDavalacKrvi() ? "Da" : "Ne";
+		body += String.format("\nDobrovoljan davalac krvi: %s", davalacKrvi);
+		
+		mailContent.setText(body);
+				
+		mailingService.Send(mailContent);
+	}
+	
+	private String getVakcinaName(int proizvodjac) {
+    	Map<Integer, String> map = new HashMap<Integer, String>();
+    	map.put(0, "Pfizer-BioNTech");
+    	map.put(1, "Sputnik V");
+    	map.put(2, "Sinopharm");
+    	map.put(3, "AstraZeneca");
+    	map.put(4, "Moderna");
+    	map.put(5, "Bilo koja");
+    	
+    	return map.get(proizvodjac);
+    }
 	
     private Integer getVakcinaProizvodjac(String nazivVakcine) {
     	Map<String, Integer> map = new HashMap<>();

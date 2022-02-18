@@ -18,7 +18,7 @@ async function main() {
       ...req.body.mail,
       attachments: Array.isArray(req.body.mail.attachments)
         ? req.body.mail.attachments
-        : [req.body.mail.attachments],
+        : (req.body.mail.attachments ? [req.body.mail.attachments] : undefined),
     });
     res.contentType("application/json").status(200).send({ message: "Ok" });
   });
