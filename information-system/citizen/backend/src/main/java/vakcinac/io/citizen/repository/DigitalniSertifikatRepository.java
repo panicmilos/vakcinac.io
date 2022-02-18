@@ -9,8 +9,10 @@ import org.xmldb.api.base.XMLDBException;
 
 import vakcinac.io.citizen.models.dig.DigitalniSertifikat;
 import vakcinac.io.core.Constants;
+import vakcinac.io.core.factories.QueryDocumentFactory;
 import vakcinac.io.core.repository.ExistRepository;
 import vakcinac.io.core.results.doc.QueryDocumentsResult;
+import vakcinac.io.core.results.doc.QueryDocumentsResult.Document;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 
@@ -32,7 +34,12 @@ public class DigitalniSertifikatRepository extends ExistRepository<DigitalniSert
 		String serializedDocuments = iterator.nextResource().getContent().toString();
 		
 		JaxBParser parser = JaxBParserFactory.newInstanceFor(QueryDocumentsResult.class);
-		return parser.unmarshall(serializedDocuments);
+		QueryDocumentsResult result = parser.unmarshall(serializedDocuments);
+		for (Document document : result.getDocument()) {
+			QueryDocumentFactory.create(document);
+		}
+		
+		return result;
 	}
 
 }

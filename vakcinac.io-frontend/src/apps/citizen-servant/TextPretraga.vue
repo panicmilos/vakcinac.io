@@ -6,8 +6,7 @@
       @submit="onSubmit"
     />
 
-    <DocumentsTable :documents="documents" selector="link" />
-
+    <DocumentsTable :documents="documents" selector="url" />
   </div>
 </template>
 
@@ -21,7 +20,7 @@ import { API_URL } from "../../cfg";
 
 const schema = {
   properties: {
-    "jmbg": {
+    "query": {
       type: "string"
     }
   }
@@ -30,7 +29,7 @@ const schema = {
 export default defineComponent({
   components: {
     Form,
-    DocumentsTable
+    DocumentsTable,
   },
 
   data() {
@@ -43,13 +42,13 @@ export default defineComponent({
   
   methods: {
     onSubmit(data) {
-      const { jmbg } = data;
+      const { query } = data;
 
-      axios.get(`${API_URL}/gradjani/${jmbg}/documents/all`,)
+      axios.get(`${API_URL}/documents/search?query=${query}`,)
         .then((r) => {
           const parser = new x.Parser();
           parser.parseString(r.data, (err, res) => {
-            this.documents = res['citizen-documents-result']['citizen-document'];
+            this.documents = res['documents']['document'];
           });
         })
         .catch((e) => console.log(e));

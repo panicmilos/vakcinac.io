@@ -152,9 +152,8 @@ public class RdfSearchService extends SearchService {
                 QuerySolution querySolution = set.next();
 
                 QueryDocumentsResult.Document document = new QueryDocumentsResult.Document();
-                document.setValue(querySolution.get("?s").toString());
+                document.setUrl(querySolution.get("?s").toString());
                 document.setCreatedAt(querySolution.get("?izdat").toString());
-                System.out.println("KOJI KURAC: " + document.getValue());
 
                 queryDocumentsResult.getDocument().add(document);
             }

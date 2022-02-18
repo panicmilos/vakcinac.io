@@ -31,11 +31,11 @@
 <script>
 import x from "xml2js";
 import { defineComponent } from "@vue/composition-api";
-import Form from "../../components/Form.vue";
-import Table from "../../components/Table/Table.vue";
-import TableBody from "../../components/Table/TableBody.vue";
-import TableHead from "../../components/Table/TableHead.vue";
-import TableRow from "../../components/Table/TableRow.vue";
+import Form from "../Form.vue";
+import Table from "../Table/Table.vue";
+import TableBody from "../Table/TableBody.vue";
+import TableHead from "../Table/TableHead.vue";
+import TableRow from "../Table/TableRow.vue";
 import axios from "axios";
 import { API_URL } from "../../cfg";
 
@@ -85,7 +85,8 @@ export default defineComponent({
         'izjave': 'izjava',
         'saglasnosti': 'saglasnost',
         'zahtevi': 'zahtev',
-        'potvrde': 'potvrda'
+        'potvrde': 'potvrda',
+        'izvestaji': 'izvestaj'
       };
 
       this.$router.push(`/dokumenti/${documentPrefixes[pathPrefix]}/${id}`);
@@ -100,7 +101,8 @@ export default defineComponent({
           'izjava': 'izjave',
           'saglasnost': 'saglasnosti',
           'zahtev': 'zahtevi',
-          'potvrda': 'potvrde'
+          'potvrda': 'potvrde',
+          'izvestaj': 'izvestaji'
         };
 
       axios.get(`${API_URL}/${documentPaths[path1]}/query/${path2}${path3 ? '/' + path3 : ''}?type=xhtml`,)
@@ -144,7 +146,7 @@ table {
 }
 
 iframe {
-    margin: auto;
+  margin: auto;
   width: 100%;
   height: 2000px;
 }
