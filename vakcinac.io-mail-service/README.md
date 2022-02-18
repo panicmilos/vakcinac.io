@@ -1,5 +1,5 @@
 # vakcinac.io-mail-service
-Projekat za slanje email-ova na projektu za predmet XML Veb Servisi.
+Projekat za slanje email-ova na projektu za predmet XML i Web Servisi.
 
 ## Stvari potrebne za pokretanje projekta
 

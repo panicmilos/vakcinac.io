@@ -1,5 +1,5 @@
-# vakcinac.io-mail-service
-Projekat za UI projekta za predmet XML Veb Servisi.
+# vakcinac.io-frontend
+Projekat za UI projekta za predmet XML i Web Servisi.
 
 ## Stvari potrebne za pokretanje projekta
 

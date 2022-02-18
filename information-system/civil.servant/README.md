@@ -1,5 +1,5 @@
 # vakcinac.io-civil-servant-service
-Servis za rad sa službenicima i zdravstvenim radnicima na projektu za predmet XML Veb Servisi.
+Servis za rad sa službenicima i zdravstvenim radnicima na projektu za predmet XML i Web Servisi.
 
 ## Stvari potrebne za pokretanje projekta
 

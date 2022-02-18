@@ -1,5 +1,5 @@
 # vakcinac.io-citizen-service
-Servis za rad sa građanima na projektu za predmet XML Veb Servisi.
+Servis za rad sa građanima na projektu za predmet XML i Web Servisi.
 
 ## Stvari potrebne za pokretanje projekta
 
