@@ -5,11 +5,9 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.bind.annotation.XmlValue;
 
 @XmlRootElement(name = "documents")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -26,22 +24,45 @@ public class QueryDocumentsResult {
     
 	@XmlAccessorType(XmlAccessType.FIELD)
     @XmlType(name = "", propOrder = {
-        "value"
+        "url",
+        "id",
+        "type",
+        "createdAt"
     })
     public static class Document {
 
 		
-        @XmlValue
-        protected String value;
-        @XmlAttribute(name = "createdAt", required = true)
+		@XmlElement
+        protected String url;
+		@XmlElement(name = "id")
+        protected String id;
+        @XmlElement(name = "type")
+        protected String type;
+        @XmlElement(name = "created-at", required = true)
         protected String createdAt;
         
-        public String getValue() {
-            return value;
+        public String getUrl() {
+            return url;
         }
 
-        public void setValue(String value) {
-            this.value = value;
+        public void setUrl(String value) {
+            this.url = value;
+        }
+        
+        public String getId() {
+            return id;
+        }
+        
+        public void setId(String value) {
+        	this.id = value;
+        }
+        
+        public String getType() {
+        	return type;
+        }
+        
+        public void setType(String value) {
+        	this.type = value;
         }
        
         public String getCreatedAt() {

@@ -65,19 +65,6 @@ public abstract class BaseService<T> {
 		return DocumentLinksResultFactory.create(referencing, referencedBy);
 	}
 	
-	public PreviewDocumentResult readPreview(String id, String type) throws Exception {
-		T obj = read(id);
-		
-		if (obj == null) {
-			throw new MissingEntityException("Zadati dokument ne postoji.");
-		}
-		
-		Links referencing = findReferencing(id);
-		Links referencedBy = findReferencedBy(id);
-		
-		return PreviewDocumentResultFactory.create(obj, referencing, referencedBy, type);
-	}
-	
 	protected Links findReferencing(String id) throws Exception { return null; }
 	protected Links findReferencedBy(String id) throws Exception { return null; }
 
