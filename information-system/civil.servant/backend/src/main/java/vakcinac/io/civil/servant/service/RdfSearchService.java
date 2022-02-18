@@ -1,10 +1,12 @@
 package vakcinac.io.civil.servant.service;
 
+import com.github.andrewoma.dexx.collection.ArrayList;
 import org.apache.jena.query.QuerySolution;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
+import vakcinac.io.core.Constants;
 import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.repository.jena.CloseableResultSet;
 import vakcinac.io.core.requests.helpers.LogicalExpression;
@@ -13,7 +15,9 @@ import vakcinac.io.core.services.SearchService;
 import vakcinac.io.core.utils.JenaAuthenticationUtils;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 @RequestScope
@@ -24,7 +28,7 @@ public class RdfSearchService extends SearchService {
     private final String IZJAVA_GRAPH_URI = String.format("%s/izjava", jenaProperties.dataEndpoint);
     private final String SAGLASNOST_GRAPH_URI = String.format("%s/saglasnosti", jenaProperties.dataEndpoint);
     private final String ZAHTEVI_GRAPH_URI = String.format("%s/zahtevi", jenaProperties.dataEndpoint);
-    private final String IZVESTAJI_GRAPH_URI = String.format("%%s/izvestaji", jenaProperties.dataEndpoint);
+    private final String IZVESTAJI_GRAPH_URI = String.format("%s/izvestaji", jenaProperties.dataEndpoint);
 
     //IZJAVA
     private HashMap<String, String> izjavaPredicateUrlRegistry;
@@ -83,17 +87,17 @@ public class RdfSearchService extends SearchService {
         zahteviPredicateUrlRegistry = new HashMap<>();
         zahteviPredicateTypeRegistry = new HashMap<>();
 
-        saglasnostPredicateUrlRegistry.put("?naOsnovuInteresovanja", "<https://www.vakcinac-io.rs/rdfs/saglasnost/naOsnovuInteresovanja>");
-        saglasnostPredicateUrlRegistry.put("?vakcinisanOd", "<https://www.vakcinac-io.rs/rdfs/saglasnost/vakcinisanOd>");
-        saglasnostPredicateUrlRegistry.put("?za", "<https://www.vakcinac-io.rs/rdfs/saglasnost/za>");
-        saglasnostPredicateUrlRegistry.put("?izdat", "<https://www.vakcinac-io.rs/rdfs/deljeno/izdat>");
-        saglasnostPredicateUrlRegistry.put("?izmenjen", "<https://www.vakcinac-io.rs/rdfs/deljeno/izmenjen>");
+        zahteviPredicateUrlRegistry.put("?naOsnovuInteresovanja", "<https://www.vakcinac-io.rs/rdfs/saglasnost/naOsnovuInteresovanja>");
+        zahteviPredicateUrlRegistry.put("?vakcinisanOd", "<https://www.vakcinac-io.rs/rdfs/saglasnost/vakcinisanOd>");
+        zahteviPredicateUrlRegistry.put("?za", "<https://www.vakcinac-io.rs/rdfs/saglasnost/za>");
+        zahteviPredicateUrlRegistry.put("?izdat", "<https://www.vakcinac-io.rs/rdfs/deljeno/izdat>");
+        zahteviPredicateUrlRegistry.put("?izmenjen", "<https://www.vakcinac-io.rs/rdfs/deljeno/izmenjen>");
 
-        saglasnostPredicateTypeRegistry.put("?naOsnovuInteresovanja", LINK);
-        saglasnostPredicateTypeRegistry.put("?vakcinisanOd", LINK);
-        saglasnostPredicateTypeRegistry.put("?za", LINK);
-        saglasnostPredicateTypeRegistry.put("?izdat", XSD_DATE);
-        saglasnostPredicateTypeRegistry.put("?izmenjen", XSD_DATE);
+        zahteviPredicateTypeRegistry.put("?naOsnovuInteresovanja", LINK);
+        zahteviPredicateTypeRegistry.put("?vakcinisanOd", LINK);
+        zahteviPredicateTypeRegistry.put("?za", LINK);
+        zahteviPredicateTypeRegistry.put("?izdat", XSD_DATE);
+        zahteviPredicateTypeRegistry.put("?izmenjen", XSD_DATE);
 
         // IZVESTAJI
         izvestajiPredicateUrlRegistry = new HashMap<>();
@@ -116,27 +120,29 @@ public class RdfSearchService extends SearchService {
     @Override
     public QueryDocumentsResult search(String graph, LogicalExpression expression) {
 
+        String graphUrl = "";
+
         switch (graph) {
-            case "izjava": {
-                graph = IZJAVA_GRAPH_URI;
+            case "interesovanje": {
+                graphUrl = IZJAVA_GRAPH_URI;
                 this.predicateUrlRegistry = izjavaPredicateUrlRegistry;
                 this.predicateTypeRegistry = izjavaPredicateTypeRegistry;
                 break;
             }
-            case "saglasnosti": {
-                graph = SAGLASNOST_GRAPH_URI;
+            case "saglasnost": {
+                graphUrl = SAGLASNOST_GRAPH_URI;
                 this.predicateUrlRegistry = saglasnostPredicateUrlRegistry;
                 this.predicateTypeRegistry = saglasnostPredicateTypeRegistry;
                 break;
             }
             case "zahtevi": {
-                graph = ZAHTEVI_GRAPH_URI;
+                graphUrl = ZAHTEVI_GRAPH_URI;
                 this.predicateUrlRegistry = zahteviPredicateUrlRegistry;
                 this.predicateTypeRegistry = zahteviPredicateTypeRegistry;
                 break;
             }
             case "izvestaj": {
-                graph = IZVESTAJI_GRAPH_URI;
+                graphUrl = IZVESTAJI_GRAPH_URI;
                 this.predicateUrlRegistry = izvestajiPredicateUrlRegistry;
                 this.predicateTypeRegistry = izvestajiPredicateTypeRegistry;
                 break;
@@ -146,7 +152,7 @@ public class RdfSearchService extends SearchService {
 
         }
 
-        String sparqlQuery = formatQuery(graph, expression);
+        String sparqlQuery = formatQuery(graphUrl, expression);
 
         System.out.println(sparqlQuery);
 
@@ -158,6 +164,10 @@ public class RdfSearchService extends SearchService {
 
                 QueryDocumentsResult.Document document = new QueryDocumentsResult.Document();
                 document.setUrl(querySolution.get("?s").toString());
+                String url = querySolution.get("?s").toString();
+                document.setUrl(url);
+                document.setId(getDocumentId(url, graph));
+                document.setType(getDocumentType(url, graph));
                 document.setCreatedAt(querySolution.get("?izdat").toString());
 
                 queryDocumentsResult.getDocument().add(document);
@@ -165,6 +175,26 @@ public class RdfSearchService extends SearchService {
         }
 
         return queryDocumentsResult;
+    }
+
+    private String getDocumentId(String about, String graph) {
+        String[] parts = about.split("/");
+        if (graph.equals("interesovanje") || graph.equals("saglasnost")) {
+            return String.format("%s/%s", parts[parts.length-2], parts[parts.length-1]);
+        }
+        return parts[parts.length-1];
+    }
+
+    private String getDocumentType(String about, String graph) {
+        String[] parts = about.split("/");
+        List<String> partsList = Arrays.asList(parts);
+        List<String> subList = null;
+        if (graph.equals("interesovanje") || graph.equals("saglasnost")) {
+            subList = partsList.subList(0, partsList.size()-2);
+        } else {
+            subList = partsList.subList(0, partsList.size()-1);
+        }
+        return String.format("<%s>", String.join("/", subList));
     }
 
 }

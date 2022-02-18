@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 import vakcinac.io.citizen.repository.jena.CitizenJenaRepository;
+import vakcinac.io.core.Constants;
 import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.repository.jena.CloseableResultSet;
 import vakcinac.io.core.requests.helpers.LogicalExpression;
@@ -81,15 +82,18 @@ public class RdfSearchService extends SearchService {
 
     @Override
     public QueryDocumentsResult search(String graph, LogicalExpression expression) {
+
+        String graphUrl = "";
+
         switch (graph) {
             case "potvrda": {
-                graph = POTVRDA_GRAPH_URI;
+                graphUrl = POTVRDA_GRAPH_URI;
                 this.predicateUrlRegistry = potvrdaPredicateUrlRegistry;
                 this.predicateTypeRegistry = potvrdaPredicateTypeRegistry;
                 break;
             }
-            case "sertifikat": {
-                graph = DIGITALNI_SERTIFIKAT_GRAPH_URI;
+            case "digitalni-sertifikat": {
+                graphUrl = DIGITALNI_SERTIFIKAT_GRAPH_URI;
                 this.predicateUrlRegistry = digitalniSertifikatPredicateUrlRegistry;
                 this.predicateTypeRegistry = digitalniSertifikatPredicateTypeRegistry;
                 break;
@@ -99,7 +103,7 @@ public class RdfSearchService extends SearchService {
 
         }
 
-        String sparqlQuery = formatQuery(graph, expression);
+        String sparqlQuery = formatQuery(graphUrl, expression);
 
         System.out.println(sparqlQuery);
 
@@ -110,7 +114,11 @@ public class RdfSearchService extends SearchService {
                 QuerySolution querySolution = set.next();
 
                 QueryDocumentsResult.Document document = new QueryDocumentsResult.Document();
-                document.setUrl(querySolution.get("?s").toString());
+                String url = querySolution.get("?s").toString();
+                document.setUrl(url);
+                String[] urlParts = url.split("/");
+                document.setId(urlParts[urlParts.length-1]);
+                document.setType(String.format("<%s/%s>", Constants.ROOT_URL, graph));
                 document.setCreatedAt(querySolution.get("?izdat").toString());
 
                 queryDocumentsResult.getDocument().add(document);
