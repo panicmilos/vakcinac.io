@@ -59,7 +59,7 @@ export default defineComponent({
       schema,
       content: null,
       customToolbar: [
-            ['bold', 'italic', 'underline'],
+            ['bold', 'italic', 'underline', "strike"],
           ]
     };
   },

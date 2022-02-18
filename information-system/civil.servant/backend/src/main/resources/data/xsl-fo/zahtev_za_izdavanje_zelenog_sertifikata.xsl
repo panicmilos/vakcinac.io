@@ -134,7 +134,7 @@
               <fo:table-row>
                 <fo:table-cell>
                   <fo:block xsl:use-attribute-sets="dots-underline">
-                    <xsl:value-of select="x:razlog" />
+                    xml-je-odrvatno-los
                   </fo:block>
                 </fo:table-cell>
               </fo:table-row>
