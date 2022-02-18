@@ -28,8 +28,8 @@ export default defineComponent({
   data: () => ({
     items: [
       { title: 'Home', icon: 'mdi-view-dashboard', href: '/home' },
-      { title: 'Register Domaci', icon: 'mdi-image', href: '/register-domaci' },
-      { title: 'Register Strani', icon: 'mdi-image', href: '/register-strani' },
+      { title: 'Register Domaci', icon: 'mdi-account', href: '/register-domaci' },
+      { title: 'Register Strani', icon: 'mdi-account', href: '/register-strani' },
       { title: 'Izjava Interesovanja', icon: 'mdi-help-box', href: '/izjava-interesovanja' },
       { title: 'Saglasnost', icon: 'mdi-help-box', href: '/saglasnost' },
       { title: 'ZahtevZeleni', icon: 'mdi-help-box', href: '/zahtev-zeleni' },

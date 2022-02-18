@@ -18,20 +18,20 @@
 <script>
 import { defineComponent } from "@vue/composition-api";
 import Sidebar from "../../components/Sidebar.vue";
-import FormExample from "./FormExample.vue";
 import { isLoggedIn } from "../../utils/auth"
 
 export default defineComponent({
   name: "App",
   components: {
     Sidebar,
-    FormExample,
   },
   data: () => ({
     items: [
       { title: 'Home', icon: 'mdi-view-dashboard', href: '/home' },
-      { title: 'Register Sluzbenik', icon: 'mdi-image', href: '/register-sluzbenik' },
-      { title: 'Register Zdravstveni Radnik', icon: 'mdi-image', href: '/register-zdravstveni' },
+      { title: 'Register Sluzbenik', icon: 'mdi-account', href: '/register-sluzbenik' },
+      { title: 'Register Zdravstveni Radnik', icon: 'mdi-account', href: '/register-zdravstveni' },
+      { title: 'Add Vakcine', icon: 'mdi-needle', href: '/add-vakcine' },
+      { title: 'Izvestaj', icon: 'mdi-calendar', href: '/izvestaj' },
     ],
     showToolbar: isLoggedIn()
   }),
