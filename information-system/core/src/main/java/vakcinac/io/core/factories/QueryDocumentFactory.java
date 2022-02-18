@@ -11,6 +11,18 @@ public class QueryDocumentFactory {
 		return other;
 		
 	}
+
+	public static Document create(String url, String createdAt) {
+
+		Document document = new Document();
+
+		document.setUrl(url);
+		document.setId(findId(url));
+		document.setType(findType(url));
+		document.setCreatedAt(createdAt);
+
+		return document;
+	}
 	
 	private static String findType(String link) {
     	if (link.contains("digitalni-sertifikat")) {

@@ -8,6 +8,7 @@ import Izvestaj from './Izvestaj'
 import Zahtevi from './Zahtevi'
 import DokumentiGradjana from './DokumentiGradjana'
 import TextPretraga from './TextPretraga'
+import MetaPretraga from './MetaPretraga'
 import PojedinacniDokument from '../../components/Documents/PojedinacniDokument'
 
 const baseRoutes = [
@@ -65,6 +66,11 @@ const baseRoutes = [
     path: '/dokumenti/:path1/:path2',
     name: 'PojedinacniDokument2',
     component: PojedinacniDokument
+  },
+  {
+    path: '/meta-pretraga',
+    name: 'MetaPretraga',
+    component: MetaPretraga
   },
   {
     path: '*',

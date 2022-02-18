@@ -105,12 +105,12 @@ public class SertifikatService {
 		
 		updateZahtev(zahtevId, zahtev, false, sluzbenikId);
 		
-		sendEmail(zahtev, declineZahtev.getRazlog());
+		sendDeclineEmail(zahtev, declineZahtev.getRazlog());
 		
 		return declineZahtev;
 	}
 	
-	public void sendEmail(ZahtevZaIzdavanjeZelenogSertifikata zahtev, String razlogOdbijanja) {
+	private void sendDeclineEmail(ZahtevZaIzdavanjeZelenogSertifikata zahtev, String razlogOdbijanja) {
 		String podnosilacId = zahtev.getPodnosilacZahteva().getJmbg();
 		Tgradjanin gradjanin = gradjaninService.read(podnosilacId);
 		
