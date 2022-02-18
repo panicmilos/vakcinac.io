@@ -8,6 +8,7 @@ import org.springframework.web.context.annotation.RequestScope;
 import vakcinac.io.citizen.repository.jena.CitizenJenaRepository;
 import vakcinac.io.core.Constants;
 import vakcinac.io.core.exceptions.BadLogicException;
+import vakcinac.io.core.factories.QueryDocumentFactory;
 import vakcinac.io.core.repository.jena.CloseableResultSet;
 import vakcinac.io.core.requests.helpers.LogicalExpression;
 import vakcinac.io.core.results.doc.QueryDocumentsResult;
@@ -113,15 +114,10 @@ public class RdfSearchService extends SearchService {
             while (set.hasNext()) {
                 QuerySolution querySolution = set.next();
 
-                QueryDocumentsResult.Document document = new QueryDocumentsResult.Document();
                 String url = querySolution.get("?s").toString();
-                document.setUrl(url);
-                String[] urlParts = url.split("/");
-                document.setId(urlParts[urlParts.length-1]);
-                document.setType(String.format("<%s/%s>", Constants.ROOT_URL, graph));
-                document.setCreatedAt(querySolution.get("?izdat").toString());
+                String createdAt = querySolution.get("?izdat").toString();
 
-                queryDocumentsResult.getDocument().add(document);
+                queryDocumentsResult.getDocument().add(QueryDocumentFactory.create(url, createdAt));
             }
         }
 
