@@ -1,12 +1,9 @@
 package vakcinac.io.civil.servant.service;
 
-import com.github.andrewoma.dexx.collection.ArrayList;
 import org.apache.jena.query.QuerySolution;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
-import vakcinac.io.core.Constants;
 import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.factories.QueryDocumentFactory;
 import vakcinac.io.core.repository.jena.CloseableResultSet;
@@ -16,9 +13,7 @@ import vakcinac.io.core.services.SearchService;
 import vakcinac.io.core.utils.JenaAuthenticationUtils;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 @Service
 @RequestScope
@@ -39,7 +34,7 @@ public class RdfSearchService extends SearchService {
     private HashMap<String, String> saglasnostPredicateUrlRegistry;
     private HashMap<String, String> saglasnostPredicateTypeRegistry;
 
-    //SAGLASNOST
+    //ZAHTEV
     private HashMap<String, String> zahteviPredicateUrlRegistry;
     private HashMap<String, String> zahteviPredicateTypeRegistry;
 
@@ -84,7 +79,7 @@ public class RdfSearchService extends SearchService {
         saglasnostPredicateTypeRegistry.put("?izdat", XSD_DATE);
         saglasnostPredicateTypeRegistry.put("?izmenjen", XSD_DATE);
 
-        // SAGLASNOST
+        // ZAHTEV
         zahteviPredicateUrlRegistry = new HashMap<>();
         zahteviPredicateTypeRegistry = new HashMap<>();
 
