@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import vakcinac.io.civil.servant.service.IzvestajService;
+import vakcinac.io.core.results.doc.QueryDocumentsResult;
 
 @Controller
 @RequestMapping(path = "izvestaji/query", produces = { "application/xml" })
@@ -17,6 +18,12 @@ public class IzvestajQueryController {
 	@Autowired
 	private IzvestajService izvestajService;
 
+	@GetMapping()
+    public ResponseEntity<QueryDocumentsResult> findAll() throws Exception {
+		    	
+    	return ResponseEntity.ok(izvestajService.findAll());
+    }
+	
 	@GetMapping("/{id}")
     public ResponseEntity<?> preview(@PathVariable String id, @RequestParam(required = false) String type) throws Exception {
 		

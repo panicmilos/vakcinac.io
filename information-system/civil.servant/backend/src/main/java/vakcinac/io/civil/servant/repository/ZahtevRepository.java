@@ -23,7 +23,15 @@ public class ZahtevRepository extends ExistRepository<ZahtevZaIzdavanjeZelenogSe
 	}
 
 	public QueryDocumentsResult search(String query) throws XMLDBException, IOException {
-		ResourceIterator iterator = retrieveUsingXQuery(Constants.ROOT_RESOURCE + "/data/xquery/zah-ser.xqy", query);
+		return executeQuery(query, "zah-ser");
+	}
+	
+	public QueryDocumentsResult findNotProcessed() throws XMLDBException, IOException {
+		return executeQuery("", "zah-not-processed");
+	}
+	
+	private QueryDocumentsResult executeQuery(String query, String fileName) throws XMLDBException, IOException {
+		ResourceIterator iterator = retrieveUsingXQuery(Constants.ROOT_RESOURCE + String.format("/data/xquery/%s.xqy", fileName), query);
 		
 		if (!iterator.hasMoreResources()) {
 			return new QueryDocumentsResult();
@@ -33,5 +41,6 @@ public class ZahtevRepository extends ExistRepository<ZahtevZaIzdavanjeZelenogSe
 		
 		JaxBParser parser = JaxBParserFactory.newInstanceFor(QueryDocumentsResult.class);
 		return parser.unmarshall(serializedDocuments);
+
 	}
 }
