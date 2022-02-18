@@ -29,15 +29,17 @@ public class TerminService extends BaseService<Termin> {
 	private TerminRepository terminRepository;
 	private VakcinaService vakcinaService;
 	private StanjeVakcinaService stanjeVakcinaService;
+	private ZaposleniService zaposleniService;
 	
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd");
 	
-	public TerminService(StanjeVakcinaService stanjeVakcinaService, VakcinaService vakcinaService, TerminRepository terminRepository, CivilServantJenaRepository jenaRepository) {
+	public TerminService(StanjeVakcinaService stanjeVakcinaService, VakcinaService vakcinaService, ZaposleniService zaposleniService, TerminRepository terminRepository, CivilServantJenaRepository jenaRepository) {
 		super(terminRepository, jenaRepository);
 		
 		this.terminRepository = terminRepository;
 		this.stanjeVakcinaService = stanjeVakcinaService;
 		this.vakcinaService = vakcinaService;
+		this.zaposleniService = zaposleniService;
 	}
 
 	@Override
@@ -170,7 +172,8 @@ public class TerminService extends BaseService<Termin> {
 		LocalDate iterator = LocalDateUtils.max(gradjaninURedu.getMinimalnoVreme(), LocalDate.now());
 
 		while (true) {
-			int terminPeriod = terminRepository.findTermin(5, formatter.format(iterator));
+			int numOfZdravstveniRadnici = zaposleniService.totalNumberOfZdravstveniRadnici();
+			int terminPeriod = terminRepository.findTermin(numOfZdravstveniRadnici, formatter.format(iterator));
 			
 			if (terminPeriod != -1) {
 				LocalDateTime dateTime = iterator.atStartOfDay();

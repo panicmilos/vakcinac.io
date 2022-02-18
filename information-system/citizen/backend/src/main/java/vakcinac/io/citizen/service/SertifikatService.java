@@ -20,6 +20,8 @@ import vakcinac.io.citizen.models.pot.PotvrdaOIzvrsenojVakcinaciji.PodaciOVakcin
 import vakcinac.io.citizen.models.pot.PotvrdaOIzvrsenojVakcinaciji.PodaciOVakcinaciji.PodaciODozama.PrimljenaDoza;
 import vakcinac.io.citizen.repository.DigitalniSertifikatRepository;
 import vakcinac.io.citizen.repository.jena.CitizenJenaRepository;
+import vakcinac.io.citizen.security.JwtStore;
+import vakcinac.io.citizen.security.utils.JwtUtil;
 import vakcinac.io.core.Constants;
 import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.exceptions.MissingEntityException;
@@ -42,12 +44,17 @@ public class SertifikatService extends BaseService<DigitalniSertifikat> {
 	private GradjaninService gradjaninService;
 	private PotvrdaService potvrdaService;
 	
+	private JwtUtil jwtUtil;
+	private JwtStore jwtStore;
+	
 	@Autowired
-	public SertifikatService(DigitalniSertifikatRepository sertifikatRepository, GradjaninService gradjaninService, PotvrdaService potvrdaService, CitizenJenaRepository jenaRepository) {
+	public SertifikatService(JwtUtil jwtUtil, JwtStore jwtStore, DigitalniSertifikatRepository sertifikatRepository, GradjaninService gradjaninService, PotvrdaService potvrdaService, CitizenJenaRepository jenaRepository) {
 		super(sertifikatRepository, jenaRepository);
 		
 		this.gradjaninService = gradjaninService;
 		this.potvrdaService = potvrdaService;
+		this.jwtStore = jwtStore;
+		this.jwtUtil = jwtUtil;
 	}
 	
 	@Override
@@ -120,8 +127,11 @@ public class SertifikatService extends BaseService<DigitalniSertifikat> {
 		sertifikat.setTypeof("rdfos:DigitalniSertifikatDokument");
 		
 		String za = String.format("%s/gradjani/%s", Constants.ROOT_URL, gradjaninId);
-		
 		sertifikat.getLink().add(TlinkFactory.create("rdfds:za", za, "rdfos:Gradjanin"));
+		
+		String sluzbenikId = getSluzbenikId();
+		String izdao = String.format("%s/sluzbenici/%s", Constants.ROOT_URL, sluzbenikId);
+		sertifikat.getLink().add(TlinkFactory.create("rdfds:izdao", izdao, "rdfos:Sluzbenik"));
 		
 		String potvrda = getRelatedPotvrda(za);
 		if(potvrda == null || potvrda.trim().isEmpty()) {
@@ -136,6 +146,12 @@ public class SertifikatService extends BaseService<DigitalniSertifikat> {
 		sertifikat.getOtherAttributes().put(QName.valueOf("xmlns:xsd"), "http://www.w3.org/2001/XMLSchema#");
 		sertifikat.getOtherAttributes().put(QName.valueOf("xmlns:rdfos"), "https://www.vakcinac-io.rs/rdfs/deljeno/");
 		sertifikat.getOtherAttributes().put(QName.valueOf("xmlns:rdfds"), "https://www.vakcinac-io.rs/rdfs/digitalni-sertifikat/");
+	}
+	
+	private String getSluzbenikId() {
+		String jwt = jwtStore.getJwt();
+		
+		return jwtUtil.extractCustomClaimFromToken(jwt, "ZaposleniId");
 	}
 	
 	private void fillOutVakcine(DigitalniSertifikat sertifikat, String potvrda) {

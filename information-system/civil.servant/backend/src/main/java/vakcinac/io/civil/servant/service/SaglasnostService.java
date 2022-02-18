@@ -15,6 +15,7 @@ import org.xmldb.api.base.XMLDBException;
 
 import vakcinac.io.civil.servant.models.sag.AzurirajSaglasnost;
 import vakcinac.io.civil.servant.models.sag.SaglasnostZaSprovodjenjePreporuceneImunizacije;
+import vakcinac.io.civil.servant.models.sag.SaglasnostZaSprovodjenjePreporuceneImunizacije.EvidencijaOVakcinaciji.Obrazac.PrimljeneVakcine;
 import vakcinac.io.civil.servant.models.sag.Tlekar;
 import vakcinac.io.civil.servant.models.term.Termin;
 import vakcinac.io.civil.servant.models.zrad.ZdravstveniRadnik;
@@ -30,6 +31,7 @@ import vakcinac.io.core.models.os.Tgradjanin;
 import vakcinac.io.core.models.os.Tlink;
 import vakcinac.io.core.models.os.Tmeta;
 import vakcinac.io.core.repository.jena.RdfObject;
+import vakcinac.io.core.requests.helpers.UpdateSaglasnostDoza;
 import vakcinac.io.core.results.link.Links;
 import vakcinac.io.core.services.BaseService;
 import vakcinac.io.core.utils.LocalDateUtils;
@@ -138,21 +140,20 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
             return;
         }
 
-        List<SaglasnostZaSprovodjenjePreporuceneImunizacije.EvidencijaOVakcinaciji.Obrazac.PrimljeneVakcine> saglasnostDoze = saglasnost.getEvidencijaOVakcinaciji().getObrazac().getPrimljeneVakcine();
-
+        List<PrimljeneVakcine> saglasnostDoze = saglasnost.getEvidencijaOVakcinaciji().getObrazac().getPrimljeneVakcine(); 
+        
         if (saglasnostDoze.size() > 2) {
             throw new BadLogicException("Gradjanin je vec primio tri vakcince.");
         }
-
+        
         if (saglasnostDoze.size() > 0) {
-            for (int i = 0; i < info.getPrimljenaDozaIzPotvrde().size(); i++) {
+            for (int i = 0; i < saglasnostDoze.size(); i++) {
                 saglasnostDoze.get(i).setNaziv(info.getNazivVakcine());
-                saglasnostDoze.get(i).setBroj(new BigInteger(String.valueOf(i)));
+                saglasnostDoze.get(i).setBroj(new BigInteger(String.valueOf(i + 1)));
                 saglasnostDoze.get(i).setProizvodjac(info.getNazivVakcine());
                 saglasnostDoze.get(i).setDatumDavanjaVakcine(info.getPrimljenaDozaIzPotvrde().get(i).getDatum());
             }
         }
-
     }
 
     private String getGradjaninId(SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost) {
@@ -211,14 +212,26 @@ public class SaglasnostService extends BaseService<SaglasnostZaSprovodjenjePrepo
     public SaglasnostZaSprovodjenjePreporuceneImunizacije update(AzurirajSaglasnost noviPodaci) throws Exception {
 
         String id = String.format("%s_%d", noviPodaci.getSaglasnostId(), baseRepository.count(noviPodaci.getSaglasnostId()));
-        SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost = read(id);
-
+        SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost = read(id);        
         if (noviPodaci.getSaglasnostId() == null) {
             throw new MissingEntityException("Saglasnost za datog gradjanina ne postoji.");
         }
 
         fillOutEvidencija(saglasnost, noviPodaci);
         addGeneralAttributes(saglasnost);
+        
+        List<PrimljeneVakcine> saglasnostDoze = saglasnost.getEvidencijaOVakcinaciji().getObrazac().getPrimljeneVakcine(); 
+        
+        for(UpdateSaglasnostDoza doza : noviPodaci.getDoze()) {
+        	PrimljeneVakcine vakcine = new PrimljeneVakcine();
+        	
+        	vakcine.setEkstremitet(doza.getEkstremitet());
+        	vakcine.setNacinDavanjaVakcine(doza.getNacinDavanjaVakcine());
+        	vakcine.setSerijaVakcine(doza.getSerijaVakcine());
+        	vakcine.setNezeljenaReakcija(doza.getNezeljenaReakcija());
+        	
+        	saglasnostDoze.add(vakcine);
+        }
 
         Optional<Tlink> noviLink = saglasnost.getLink().stream()
                 .filter(link -> link.getRel().equals("rdfsi:za"))

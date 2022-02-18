@@ -18,4 +18,38 @@ public class UpdateSaglasnostDoza {
 
     @XmlElement(name = "nezeljena-reakcija")
     protected String nezeljenaReakcija;
+    
+    public UpdateSaglasnostDoza() {}
+
+	public String getNacinDavanjaVakcine() {
+		return nacinDavanjaVakcine;
+	}
+
+	public void setNacinDavanjaVakcine(String nacinDavanjaVakcine) {
+		this.nacinDavanjaVakcine = nacinDavanjaVakcine;
+	}
+
+	public Integer getEkstremitet() {
+		return ekstremitet;
+	}
+
+	public void setEkstremitet(Integer ekstremitet) {
+		this.ekstremitet = ekstremitet;
+	}
+
+	public String getSerijaVakcine() {
+		return serijaVakcine;
+	}
+
+	public void setSerijaVakcine(String serijaVakcine) {
+		this.serijaVakcine = serijaVakcine;
+	}
+
+	public String getNezeljenaReakcija() {
+		return nezeljenaReakcija;
+	}
+
+	public void setNezeljenaReakcija(String nezeljenaReakcija) {
+		this.nezeljenaReakcija = nezeljenaReakcija;
+	}
 }

@@ -50,6 +50,7 @@ public class SaglasnostController extends ControllerBase {
         validate(updateSaglasnostRequest);
 
         AzurirajSaglasnost noviPodaci = mapper.map(updateSaglasnostRequest, AzurirajSaglasnost.class);
+        
         SaglasnostZaSprovodjenjePreporuceneImunizacije updatedSaglasnost = saglasnostService.update(noviPodaci);
 
         return ResponseEntity.ok(updatedSaglasnost);

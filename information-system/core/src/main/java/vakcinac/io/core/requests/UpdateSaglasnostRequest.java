@@ -23,7 +23,7 @@ public class UpdateSaglasnostRequest {
 
     @XmlElementWrapper(name = "doze")
     @XmlElement(name = "doza")
-    private List<UpdateSaglasnostDoza> testovi;
+    private List<UpdateSaglasnostDoza> doze;
 
     public String getSaglasnostId() {
         return saglasnostId;
@@ -56,14 +56,12 @@ public class UpdateSaglasnostRequest {
     public void setJmbgLekara(String jmbgLekara) {
         this.jmbgLekara = jmbgLekara;
     }
+    
+    public List<UpdateSaglasnostDoza> getDoze() {
+		return doze;
+	}
 
-    @Override
-    public String toString() {
-        return "UpdateSaglasnostRequest{" +
-                "saglasnostId='" + saglasnostId + '\'' +
-                ", jmbgLekara='" + jmbgLekara + '\'' +
-                ", dijagnoza='" + dijagnoza + '\'' +
-                ", odlukaKomisije=" + odlukaKomisije +
-                '}';
-    }
+	public void setDoze(List<UpdateSaglasnostDoza> doze) {
+		this.doze = doze;
+	}
 }

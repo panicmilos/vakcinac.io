@@ -14,7 +14,7 @@ public class UpdateSaglasnostValidator extends AbstractValidator<UpdateSaglasnos
         ruleFor(UpdateSaglasnostRequest::getSaglasnostId)
                 .must(StringUtils::notNullOrEmpty)
                 .withMessage("Saglasnost je obavezna.")
-                .must(StringPredicate.stringMatches(RegexPatterns.JMBG_PATTERN))
+                .must(UpdateSaglasnostValidator::isSaglasnostIdValid)
                 .withMessage("Saglasnost nije u dobrom formatu.")
                 .withFieldName("Saglasnost");
 
@@ -26,5 +26,14 @@ public class UpdateSaglasnostValidator extends AbstractValidator<UpdateSaglasnos
                 .withFieldName("Jmbg");
 
     }
+    
+	private static boolean isSaglasnostIdValid(String podnosilac) {
+		if (podnosilac.matches(RegexPatterns.JMBG_PATTERN) || podnosilac.matches(RegexPatterns.EBS_PATTERN) || 
+				podnosilac.matches(RegexPatterns.PASOS_PATTERN)) {
+			return true;
+		}
+
+		return false;
+	}
 
 }

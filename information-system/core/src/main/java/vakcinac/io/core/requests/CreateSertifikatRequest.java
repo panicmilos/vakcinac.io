@@ -30,8 +30,6 @@ public class CreateSertifikatRequest {
 	@XmlElementWrapper(name = "testovi")
 	@XmlElement(name = "test")
 	private List<SertifikatTest> testovi;
-	
-    private String sluzbenikId;
 
 	public CreateSertifikatRequest() {
 		testovi = new ArrayList<SertifikatTest>();
@@ -51,14 +49,6 @@ public class CreateSertifikatRequest {
 	
 	public void setZahtev(String zahtev) {
 		this.zahtev = zahtev;
-	}
-	
-	public String getSluzbenikId() {
-		return sluzbenikId;
-	}
-
-	public void setSluzbenikId(String sluzbenikId) {
-		this.sluzbenikId = sluzbenikId;
 	}
 
 	public Integer getCitizenIdentification() {

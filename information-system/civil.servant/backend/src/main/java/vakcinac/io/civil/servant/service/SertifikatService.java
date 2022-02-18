@@ -140,7 +140,6 @@ public class SertifikatService {
 		}
 		
 		String sluzbenikId = authenticationService.getCurrentWorkerId();
-		digitalniSertifikat.setSluzbenikId(sluzbenikId);
 		
 		updateZahtev(zahtevId, zahtev, true, sluzbenikId);
 	}
