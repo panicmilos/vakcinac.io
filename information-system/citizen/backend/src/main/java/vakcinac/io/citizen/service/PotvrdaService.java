@@ -47,6 +47,9 @@ import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 @RequestScope
 public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
 
+	@Value("${frontend.url}")
+	private String frontendUrl;
+	
 	@Value("${sluzbenik.url}")
     private String sluzbenikUrl;
 	
@@ -147,8 +150,7 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
         validateVakcina(potvrda.getPodaciOVakcinaciji().getPodaciODozama().getPrimljenaDoza().get(0).getSerija());
 
         String id = getValidPotvrdaId();
-
-        potvrda.setQrKod(String.format("%s/potvrda/%s", Constants.ROOT_URL, id));
+        potvrda.setQrKod(String.format("%s/dokumenti/potvrda/%s", frontendUrl, id));
 
         Tgradjanin gradjanin = gradjaninService.findById(potvrda.getPodaciOVakcinisanom().getJmbg());
         if (gradjanin == null) {

@@ -3,10 +3,13 @@ package vakcinac.io.citizen.service;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 import org.xmldb.api.base.XMLDBException;
@@ -27,6 +30,8 @@ import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.factories.TlinkFactory;
 import vakcinac.io.core.factories.TmetaFactory;
+import vakcinac.io.core.mail.MailContent;
+import vakcinac.io.core.mail.MailAttachment;
 import vakcinac.io.core.models.os.Tgradjanin;
 import vakcinac.io.core.repository.jena.RdfObject;
 import vakcinac.io.core.results.link.Links;
@@ -41,18 +46,26 @@ import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 @RequestScope
 public class SertifikatService extends BaseService<DigitalniSertifikat> {
 	
+	@Value("${frontend.url}")
+	private String frontendUrl;
+	
+	@Value("${backend.url}")
+	private String backendUrl;
+	
 	private GradjaninService gradjaninService;
 	private PotvrdaService potvrdaService;
+	private MailingService mailingService;
 	
 	private JwtUtil jwtUtil;
 	private JwtStore jwtStore;
 	
 	@Autowired
-	public SertifikatService(JwtUtil jwtUtil, JwtStore jwtStore, DigitalniSertifikatRepository sertifikatRepository, GradjaninService gradjaninService, PotvrdaService potvrdaService, CitizenJenaRepository jenaRepository) {
+	public SertifikatService(MailingService mailingService, JwtUtil jwtUtil, JwtStore jwtStore, DigitalniSertifikatRepository sertifikatRepository, GradjaninService gradjaninService, PotvrdaService potvrdaService, CitizenJenaRepository jenaRepository) {
 		super(sertifikatRepository, jenaRepository);
 		
 		this.gradjaninService = gradjaninService;
 		this.potvrdaService = potvrdaService;
+		this.mailingService = mailingService;
 		this.jwtStore = jwtStore;
 		this.jwtUtil = jwtUtil;
 	}
@@ -93,7 +106,7 @@ public class SertifikatService extends BaseService<DigitalniSertifikat> {
 		String id = getValidSertifikatId();
 		sertifikat.setBrojSertifikata(id);;
 		
-		sertifikat.setValidacija(String.format("%s/digitalni-sertifikat/%s", Constants.ROOT_URL, id));
+		sertifikat.setValidacija(String.format("%s/dokumenti/digitalni-sertifikat/%s", frontendUrl, id));
 		
 		String gradjaninId;
 		TnosilacSertifikata nosilac = sertifikat.getNosilacSertifikata();
@@ -117,7 +130,49 @@ public class SertifikatService extends BaseService<DigitalniSertifikat> {
         String serializedObj = parser.marshall(sertifikat);
         jenaRepository.insert(serializedObj, "/sertifikat");
     
-		return create(id.replace('/', '-'), sertifikat);
+        DigitalniSertifikat created = create(id.replace('/', '-'), sertifikat);
+        
+        sendApproveEmail(id, gradjaninId);
+        
+        return created;
+	}
+	
+	private void sendApproveEmail(String sertifikatId, String gradjaninId) {
+		Tgradjanin gradjanin = gradjaninService.findById(gradjaninId);
+		
+		MailContent mailContent = new MailContent();
+		mailContent.setTo(gradjanin.getEmail());
+		mailContent.setSubject("Odobren zahtev za digitalni sertifikat");
+		
+		String body = String.format("Poštovani,\nOdobren Vam je zahtev za digitalni sertifikat.\n");
+		mailContent.setText(body);
+			
+		MailAttachment htmlDoc = createAttachmentForType(sertifikatId, "html");
+		System.out.println(htmlDoc.getPath());
+		
+		MailAttachment pdfDoc = createAttachmentForType(sertifikatId, "pdf");
+		System.out.println(pdfDoc.getPath());
+		
+		List<MailAttachment> attach = new ArrayList<MailAttachment>();
+		attach.add(htmlDoc);
+		attach.add(pdfDoc);	
+		mailContent.setAttachments(attach);
+		
+		mailingService.Send(mailContent);
+	}
+	
+	private MailAttachment createAttachmentForType(String sertifikatId, String type) {
+		String downloadLink = createLinkForType(sertifikatId, type);
+		
+		MailAttachment doc = new MailAttachment();
+		doc.setFilename(String.format("sertifikat.%s", type));
+		doc.setPath(downloadLink);
+		
+		return doc;
+	}
+	
+	private String createLinkForType(String id, String type) {
+		return String.format("%s/sertifikati/query/%s?type=%s", backendUrl, id, type);
 	}
 	
 	private void fillOutRdf(DigitalniSertifikat sertifikat, String gradjaninId) throws XMLDBException, IOException {
