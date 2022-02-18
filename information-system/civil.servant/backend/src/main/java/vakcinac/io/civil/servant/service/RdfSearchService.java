@@ -1,6 +1,7 @@
 package vakcinac.io.civil.servant.service;
 
 import org.apache.jena.query.QuerySolution;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
@@ -9,17 +10,21 @@ import vakcinac.io.core.repository.jena.CloseableResultSet;
 import vakcinac.io.core.requests.helpers.LogicalExpression;
 import vakcinac.io.core.results.doc.QueryDocumentsResult;
 import vakcinac.io.core.services.SearchService;
+import vakcinac.io.core.utils.JenaAuthenticationUtils;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 @Service
 @RequestScope
 public class RdfSearchService extends SearchService {
 
-    private final String IZJAVA_GRAPH_URI = "http://localhost:3030/ServantDataset/data/izjava";
-    private final String SAGLASNOST_GRAPH_URI = "http://localhost:3030/ServantDataset/data/saglasnosti";
-    private final String ZAHTEVI_GRAPH_URI = "http://localhost:3030/ServantDataset/data/zahtevi";
-    private final String IZVESTAJI_GRAPH_URI = "http://localhost:3030/ServantDataset/data/izvestaji";
+    JenaAuthenticationUtils.JenaConnectionProperties jenaProperties = JenaAuthenticationUtils.loadProperties();
+
+    private final String IZJAVA_GRAPH_URI = String.format("%s/izjava", jenaProperties.dataEndpoint);
+    private final String SAGLASNOST_GRAPH_URI = String.format("%s/saglasnosti", jenaProperties.dataEndpoint);
+    private final String ZAHTEVI_GRAPH_URI = String.format("%s/zahtevi", jenaProperties.dataEndpoint);
+    private final String IZVESTAJI_GRAPH_URI = String.format("%%s/izvestaji", jenaProperties.dataEndpoint);
 
     //IZJAVA
     private HashMap<String, String> izjavaPredicateUrlRegistry;
@@ -37,7 +42,7 @@ public class RdfSearchService extends SearchService {
     private HashMap<String, String> izvestajiPredicateUrlRegistry;
     private HashMap<String, String> izvestajiPredicateTypeRegistry;
 
-    public RdfSearchService(CivilServantJenaRepository jenaRepository) {
+    public RdfSearchService(CivilServantJenaRepository jenaRepository) throws IOException {
         super(jenaRepository);
     }
 
@@ -132,8 +137,8 @@ public class RdfSearchService extends SearchService {
             }
             case "izvestaj": {
                 graph = IZVESTAJI_GRAPH_URI;
-                this.predicateUrlRegistry = izjavaPredicateUrlRegistry;
-                this.predicateTypeRegistry = izjavaPredicateTypeRegistry;
+                this.predicateUrlRegistry = izvestajiPredicateUrlRegistry;
+                this.predicateTypeRegistry = izvestajiPredicateTypeRegistry;
                 break;
             }
             default:
@@ -154,7 +159,6 @@ public class RdfSearchService extends SearchService {
                 QueryDocumentsResult.Document document = new QueryDocumentsResult.Document();
                 document.setValue(querySolution.get("?s").toString());
                 document.setCreatedAt(querySolution.get("?izdat").toString());
-                System.out.println("KOJI KURAC: " + document.getValue());
 
                 queryDocumentsResult.getDocument().add(document);
             }

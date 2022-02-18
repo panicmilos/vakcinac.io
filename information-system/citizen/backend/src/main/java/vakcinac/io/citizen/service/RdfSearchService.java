@@ -2,6 +2,7 @@ package vakcinac.io.citizen.service;
 
 import org.apache.jena.query.QuerySolution;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 import vakcinac.io.citizen.repository.jena.CitizenJenaRepository;
@@ -10,15 +11,19 @@ import vakcinac.io.core.repository.jena.CloseableResultSet;
 import vakcinac.io.core.requests.helpers.LogicalExpression;
 import vakcinac.io.core.results.doc.QueryDocumentsResult;
 import vakcinac.io.core.services.SearchService;
+import vakcinac.io.core.utils.JenaAuthenticationUtils;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 @Service
 @RequestScope
 public class RdfSearchService extends SearchService {
 
-    private final String POTVRDA_GRAPH_URI = "http://localhost:3030/CitizenDataset/data/potvrda";
-    private final String DIGITALNI_SERTIFIKAT_GRAPH_URI = "http://localhost:3030/CitizenDataset/data/digitalni-sertifikat";
+    JenaAuthenticationUtils.JenaConnectionProperties jenaProperties = JenaAuthenticationUtils.loadProperties();
+
+    private final String POTVRDA_GRAPH_URI = String.format("%s/potvrda", jenaProperties.dataEndpoint);
+    private final String DIGITALNI_SERTIFIKAT_GRAPH_URI = String.format("%s/digitalni-sertifikat", jenaProperties.dataEndpoint);
 
     // POTVRDA
     private HashMap<String, String> potvrdaPredicateUrlRegistry;
@@ -28,10 +33,7 @@ public class RdfSearchService extends SearchService {
     private HashMap<String, String> digitalniSertifikatPredicateUrlRegistry;
     private HashMap<String, String> digitalniSertifikatPredicateTypeRegistry;
 
-    private CitizenJenaRepository jenaRepository;
-
-    @Autowired
-    public RdfSearchService(CitizenJenaRepository jenaRepository) {
+    public RdfSearchService(CitizenJenaRepository jenaRepository) throws IOException {
         super(jenaRepository);
     }
 
@@ -44,7 +46,7 @@ public class RdfSearchService extends SearchService {
 
         potvrdaPredicateUrlRegistry.put("?naOsnovuInteresovanja", "<https://www.vakcinac-io.rs/rdfs/potvrda/naOsnovuInteresovanja>");
         potvrdaPredicateUrlRegistry.put("?saSaglasnoscu", "<https://www.vakcinac-io.rs/rdfs/potvrda/saSaglasnoscu>");
-        potvrdaPredicateUrlRegistry.put("?za", "https://www.vakcinac-io.rs/rdfs/potvrda/za>");
+        potvrdaPredicateUrlRegistry.put("?za", "<https://www.vakcinac-io.rs/rdfs/potvrda/za>");
         potvrdaPredicateUrlRegistry.put("?brojDoza", "<https://www.vakcinac-io.rs/rdfs/potvrda/brojDoza>");
         potvrdaPredicateUrlRegistry.put("?izdat", "<https://www.vakcinac-io.rs/rdfs/deljeno/izdat>");
         potvrdaPredicateUrlRegistry.put("?izmenjen", "<https://www.vakcinac-io.rs/rdfs/potvrda/izmenjen>");
@@ -64,7 +66,7 @@ public class RdfSearchService extends SearchService {
 
         digitalniSertifikatPredicateUrlRegistry.put("?saPotvrdom", "<https://www.vakcinac-io.rs/rdfs/digitalni-sertifikat/saPotvrdom>");
         digitalniSertifikatPredicateUrlRegistry.put("?naOsnovuZahteva", "<https://www.vakcinac-io.rs/rdfs/digitalni-sertifikat/naOsnovuZahteva>");
-        digitalniSertifikatPredicateUrlRegistry.put("?za", "https://www.vakcinac-io.rs/rdfs/potvrda/za>");
+        digitalniSertifikatPredicateUrlRegistry.put("?za", "<https://www.vakcinac-io.rs/rdfs/potvrda/za>");
         digitalniSertifikatPredicateUrlRegistry.put("?izdat", "<https://www.vakcinac-io.rs/rdfs/deljeno/izdat>");
         digitalniSertifikatPredicateUrlRegistry.put("?izmenjen", "<https://www.vakcinac-io.rs/rdfs/potvrda/izmenjen>");
         digitalniSertifikatPredicateUrlRegistry.put("?izdao", "<https://www.vakcinac-io.rs/rdfs/digitalni-sertifikat/izdao>");
@@ -80,13 +82,13 @@ public class RdfSearchService extends SearchService {
     @Override
     public QueryDocumentsResult search(String graph, LogicalExpression expression) {
         switch (graph) {
-            case "izjava": {
+            case "potvrda": {
                 graph = POTVRDA_GRAPH_URI;
                 this.predicateUrlRegistry = potvrdaPredicateUrlRegistry;
                 this.predicateTypeRegistry = potvrdaPredicateTypeRegistry;
                 break;
             }
-            case "saglasnosti": {
+            case "sertifikat": {
                 graph = DIGITALNI_SERTIFIKAT_GRAPH_URI;
                 this.predicateUrlRegistry = digitalniSertifikatPredicateUrlRegistry;
                 this.predicateTypeRegistry = digitalniSertifikatPredicateTypeRegistry;
