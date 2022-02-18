@@ -17,7 +17,7 @@ public class ValidatorsRegistry {
 	
 	private void populateRegistry() {
 		List<Class<?>> validatorClasses = AnnotatedClassScanner.find(Constants.ROOT_PACKAGE, RegisteredValidator.class);
-
+		System.out.println(validatorClasses);
 		for(Class<?> validatorClass : validatorClasses) {
 			RegisteredValidator validatorAnnotation = validatorClass.getAnnotation(RegisteredValidator.class);
 

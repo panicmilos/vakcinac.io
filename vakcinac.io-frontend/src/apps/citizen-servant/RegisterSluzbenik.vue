@@ -85,7 +85,12 @@ export default defineComponent({
         .then((r) => {
           console.log(r)
         })
-        .catch((e) => console.log(e));
+        .catch((e) => {
+          alert(e.response.data)
+          console.log(e)
+          console.log(e)
+          console.log(e)
+        });
     }
   },
 });
