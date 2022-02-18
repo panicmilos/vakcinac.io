@@ -15,6 +15,8 @@ import TableRow from "../../components/Table/TableRow.vue";
 import axios from "axios";
 import { API_URL } from "../../cfg";
 
+import { errorHandle } from '../../utils/errorHandle';
+
 export const proizvodjaci = [
   "Pfizer-BioNTech",
   "Sputnik V (Gamaleya истраживачки центар)",
@@ -88,8 +90,9 @@ export default defineComponent({
         .post(`${API_URL}/vakcine`, obj)
         .then((r) => {
           console.log(r);
+          alert("Uspešna akcija!");
         })
-        .catch((e) => console.log(e));
+        .catch(errorHandle);
     },
   },
 });
