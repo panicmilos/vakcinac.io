@@ -8,6 +8,7 @@ import org.springframework.web.context.annotation.RequestScope;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
 import vakcinac.io.core.Constants;
 import vakcinac.io.core.exceptions.BadLogicException;
+import vakcinac.io.core.factories.QueryDocumentFactory;
 import vakcinac.io.core.repository.jena.CloseableResultSet;
 import vakcinac.io.core.requests.helpers.LogicalExpression;
 import vakcinac.io.core.results.doc.QueryDocumentsResult;
@@ -162,39 +163,14 @@ public class RdfSearchService extends SearchService {
             while (set.hasNext()) {
                 QuerySolution querySolution = set.next();
 
-                QueryDocumentsResult.Document document = new QueryDocumentsResult.Document();
-                document.setUrl(querySolution.get("?s").toString());
                 String url = querySolution.get("?s").toString();
-                document.setUrl(url);
-                document.setId(getDocumentId(url, graph));
-                document.setType(getDocumentType(url, graph));
-                document.setCreatedAt(querySolution.get("?izdat").toString());
+                String createdAt = querySolution.get("?izdat").toString();
 
-                queryDocumentsResult.getDocument().add(document);
+                queryDocumentsResult.getDocument().add(QueryDocumentFactory.create(url, createdAt));
             }
         }
 
         return queryDocumentsResult;
-    }
-
-    private String getDocumentId(String about, String graph) {
-        String[] parts = about.split("/");
-        if (graph.equals("interesovanje") || graph.equals("saglasnost")) {
-            return String.format("%s/%s", parts[parts.length-2], parts[parts.length-1]);
-        }
-        return parts[parts.length-1];
-    }
-
-    private String getDocumentType(String about, String graph) {
-        String[] parts = about.split("/");
-        List<String> partsList = Arrays.asList(parts);
-        List<String> subList = null;
-        if (graph.equals("interesovanje") || graph.equals("saglasnost")) {
-            subList = partsList.subList(0, partsList.size()-2);
-        } else {
-            subList = partsList.subList(0, partsList.size()-1);
-        }
-        return String.format("<%s>", String.join("/", subList));
     }
 
 }

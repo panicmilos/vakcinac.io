@@ -8,6 +8,6 @@ import module namespace functx="http://www.functx.com";
         where not($processed)
         let $about := $document//@about/string()
         let $createdAt := $document//*:meta[@property = 'rdfos:izdat']/text()
-        return <document createdAt="{$createdAt}">{$about}</document>
+        return <document><url>{$about}</url><created-at>{$createdAt}</created-at></document>
 }
 </documents>

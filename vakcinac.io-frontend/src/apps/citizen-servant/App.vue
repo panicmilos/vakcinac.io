@@ -32,8 +32,10 @@ export default defineComponent({
       { title: 'Register Zdravstveni Radnik', icon: 'mdi-account', href: '/register-zdravstveni' },
       { title: 'Add Vakcine', icon: 'mdi-needle', href: '/add-vakcine' },
       { title: 'Izvestaj', icon: 'mdi-calendar', href: '/izvestaj' },
+      { title: 'Zahtevi', icon: 'mdi-calendar', href: '/zahtevi' },
       { title: 'Dokumenti Gradjana', icon: 'mdi-calendar', href: '/dokumenti/gradjana' },
-      { title: 'Pretraga', icon: 'mdi-calendar', href: '/dokumenti/pretraga' }
+      { title: 'Pretraga', icon: 'mdi-calendar', href: '/dokumenti/pretraga' },
+      { title: 'Meta Pretraga', icon: 'mdi-calendar', href: '/meta-pretraga' }
     ],
     showToolbar: isLoggedIn()
   }),
