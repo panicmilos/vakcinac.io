@@ -13,12 +13,13 @@ async function main() {
 
   app.post("/", async (req, res) => {
     console.log(req.body);
+    const atts = req.body.mail.attachments;
     await mailService.sendMail({
       from: "contact@vakcinac.io",
       ...req.body.mail,
-      attachments: Array.isArray(req.body.mail.attachments)
-        ? req.body.mail.attachments
-        : (req.body.mail.attachments ? [req.body.mail.attachments] : undefined),
+      attachments: Array.isArray(atts)
+        ? atts
+        : (atts ? [{...atts, contentType: 'blob'}] : undefined),
     });
     res.contentType("application/json").status(200).send({ message: "Ok" });
   });

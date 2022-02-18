@@ -54,6 +54,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/potvrde/aggregate/types").permitAll()
                 .antMatchers("/zahtevi").permitAll()
                 .antMatchers("/sertifikati").permitAll()
+                .antMatchers("/sertifikati/query/*/*").permitAll()
                 .antMatchers("/sertifikati/count").permitAll()
                 .antMatchers("/test/jena/*").permitAll()
                 .antMatchers("/test/links").permitAll()
