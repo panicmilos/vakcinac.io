@@ -12,7 +12,7 @@ import vakcinac.io.civil.servant.service.ExistSearchService;
 import vakcinac.io.core.results.doc.QueryDocumentsResult;
 
 @Controller
-@CrossOrigin
+@CrossOrigin("*")
 @RequestMapping("/documents/search")
 public class SearchController {
 

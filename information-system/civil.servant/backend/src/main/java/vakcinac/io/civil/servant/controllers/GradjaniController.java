@@ -17,7 +17,7 @@ import vakcinac.io.core.controllers.ControllerBase;
 import vakcinac.io.core.results.doc.CitizenDocumentsResult;
 
 @Controller
-@CrossOrigin
+@CrossOrigin("*")
 @RequestMapping("/gradjani")
 public class GradjaniController extends ControllerBase {
 	
