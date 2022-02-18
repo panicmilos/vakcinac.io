@@ -6,6 +6,7 @@ import javax.xml.namespace.QName;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
+import org.xmldb.api.base.XMLDBException;
 
 import vakcinac.io.civil.servant.models.zrad.ZdravstveniRadnik;
 import vakcinac.io.civil.servant.repository.ZdravstveniRadnikRepository;
@@ -36,6 +37,10 @@ public class ZdravstveniRadnikService extends BaseService<ZdravstveniRadnik> {
 	    jenaRepository.insert(serializedObj, "/zdravstveni-radnici");
 		
 		return create(id, zdravstveniRadnik);
+	}
+	
+	public int totalNumber() throws XMLDBException, IOException {
+		return baseRepository.count(".xml");
 	}
 	
 	private void fillOutRdf(String id, ZdravstveniRadnik zdravstveniRadnik) {

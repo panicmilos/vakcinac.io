@@ -18,12 +18,8 @@ import vakcinac.io.civil.servant.models.vak.Vakcina;
 import vakcinac.io.civil.servant.repository.TerminRepository;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
 import vakcinac.io.core.Constants;
-import vakcinac.io.core.exceptions.MissingEntityException;
-import vakcinac.io.core.mail.MailContent;
-import vakcinac.io.core.models.os.Tgradjanin;
 import vakcinac.io.core.services.BaseService;
 import vakcinac.io.core.utils.LocalDateUtils;
-import vakcinac.io.core.utils.StringUtils;
 import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 
@@ -33,19 +29,15 @@ public class TerminService extends BaseService<Termin> {
 	private TerminRepository terminRepository;
 	private VakcinaService vakcinaService;
 	private StanjeVakcinaService stanjeVakcinaService;
-	private GradjaninService gradjaninService;
-	private MailingService mailingService;
 	
 	private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("YYYY-MM-dd");
 	
-	public TerminService(StanjeVakcinaService stanjeVakcinaService, VakcinaService vakcinaService, GradjaninService gradjaninService, MailingService mailingService, TerminRepository terminRepository, CivilServantJenaRepository jenaRepository) {
+	public TerminService(StanjeVakcinaService stanjeVakcinaService, VakcinaService vakcinaService, TerminRepository terminRepository, CivilServantJenaRepository jenaRepository) {
 		super(terminRepository, jenaRepository);
 		
 		this.terminRepository = terminRepository;
 		this.stanjeVakcinaService = stanjeVakcinaService;
 		this.vakcinaService = vakcinaService;
-		this.gradjaninService = gradjaninService;
-		this.mailingService = mailingService;
 	}
 
 	@Override
@@ -53,36 +45,8 @@ public class TerminService extends BaseService<Termin> {
 		String id = createTerminId(termin);
 		
         stanjeVakcinaService.decStockFor(termin.getVakcina());
-        
-        sendEmail(termin);
-        
+             
 		return create(formatter.format(termin.getVreme()), id, termin);
-	}
-	
-	private void sendEmail(Termin termin) {
-		String id;
-		if (StringUtils.notNullOrEmpty(termin.getJmbg())) {
-			id = termin.getJmbg();
-		}
-		else {
-			id = termin.getBrojPasosaEbs();
-		}
-		
-		Tgradjanin gradjanin = gradjaninService.read(id);
-		if (gradjanin == null) {
-			throw new MissingEntityException("Ne postoji građanin.");
-		}
-		
-		MailContent mailContent = new MailContent();
-		mailContent.setTo(gradjanin.getEmail());
-		mailContent.setSubject("Termin za vakcinaciju");
-		
-		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm");  
-		
-		String body = String.format("Poštovani,\n Dodeljen Vam je termin za vakcinaciju: %s", timeFormatter.format(termin.getVreme()));
-		mailContent.setText(body);
-		
-		mailingService.Send(mailContent);
 	}
 	
 	private String createTerminId(Termin termin) throws XMLDBException, IOException {
