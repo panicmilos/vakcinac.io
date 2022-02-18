@@ -1,9 +1,10 @@
-SELECT ?link
+SELECT ?link ?createdAt
 FROM <http://localhost:3030/CitizenDataset/data/potvrda>
 FROM <http://localhost:3030/CitizenDataset/data/sertifikat>
 FROM <http://localhost:3030/CitizenDataset/data/izjava>
 FROM <http://localhost:3030/CitizenDataset/data/saglasnosti>
 FROM <http://localhost:3030/CitizenDataset/data/zahtevi>
 WHERE {
-  ?link ?predicate <%1$s>
+  ?link ?predicate <%1$s>.
+  ?link <https://www.vakcinac-io.rs/rdfs/deljeno/izdat> ?createdAt.
 }

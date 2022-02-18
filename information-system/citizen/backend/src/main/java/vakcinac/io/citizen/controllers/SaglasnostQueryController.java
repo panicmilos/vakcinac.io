@@ -1,6 +1,9 @@
 package vakcinac.io.citizen.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -27,7 +30,11 @@ public class SaglasnostQueryController {
     		return ResponseEntity.ok(saglasnostService.readPlain(id));
     	}
     	
-    	return ResponseEntity.ok(saglasnostService.readTransformed(id, type));
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(type.equals("PDF") ? MediaType.APPLICATION_PDF : MediaType.APPLICATION_XHTML_XML);
+		headers.setCacheControl("must-revalidate, post-check=0, pre-check=0");
+		
+		return new ResponseEntity<Object>(saglasnostService.readTransformed(id, type), headers, HttpStatus.OK);
     }
     
 	@GetMapping(path = "/{id1}/{id2}/links")

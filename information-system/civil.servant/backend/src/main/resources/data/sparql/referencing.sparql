@@ -1,7 +1,8 @@
-SELECT ?link
+SELECT ?link ?createdAt
 FROM <%1$s>
 WHERE {
-  <%2$s> ?p ?link
+  <%2$s> ?p ?link.
+  ?link <https://www.vakcinac-io.rs/rdfs/deljeno/izdat> ?createdAt.
   FILTER (?p IN
     (
       <https://www.vakcinac-io.rs/rdfs/digitalni-sertifikat/naOsnovuZahteva>,
