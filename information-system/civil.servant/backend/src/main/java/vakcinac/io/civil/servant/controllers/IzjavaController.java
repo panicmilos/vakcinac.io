@@ -47,6 +47,7 @@ public class IzjavaController extends ControllerBase {
 		return ResponseEntity.ok(createdIzjava);
 	}
 	
+	@PreAuthorize("hasAnyRole('Sluzbenik', 'DomaciGradjanin', 'StraniGradjanin', 'ZdravstveniRadnik')")
 	@GetMapping("/za")
 	public ResponseEntity<String> getIzjavaZa(@RequestParam String za) {
 		return ResponseEntity.ok(izjavaService.getIzjavaZa(za));

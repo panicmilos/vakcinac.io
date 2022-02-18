@@ -47,7 +47,7 @@ public class ZaposleniController extends ControllerBase {
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Tzaposleni> getGradjanin(@PathVariable("id") String id) {
+	public ResponseEntity<Tzaposleni> getZaposleni(@PathVariable("id") String id) {
 		Tzaposleni zaposleni = zaposleniService.findById(id);
 		if (zaposleni == null) {
 			throw new MissingEntityException(String.format("Zaposleni sa željenim id (%s) ne postoji.", id));
@@ -72,6 +72,7 @@ public class ZaposleniController extends ControllerBase {
 		return ResponseEntity.ok(zaposleni);
 	}
 	
+	@PreAuthorize("hasAnyRole('Sluzbenik')")
 	@PostMapping("/sluzbenik")
 	public ResponseEntity<Sluzbenik> createSluzbenik(@RequestBody CreateSluzbenikRequest createSluzbenikRequest) throws IOException {
 		validate(createSluzbenikRequest);
@@ -84,6 +85,7 @@ public class ZaposleniController extends ControllerBase {
 		return ResponseEntity.ok(createdSluzbenik);
 	}
 	
+	@PreAuthorize("hasAnyRole('Sluzbenik')")
 	@PostMapping("/zdravstveni-radnik")
 	public ResponseEntity<ZdravstveniRadnik> createZdravstveniRadnik(@RequestBody CreateZdravstveniRadnikRequest createZdravstveniRadnikRequest) throws IOException {
 		validate(createZdravstveniRadnikRequest);
@@ -96,6 +98,7 @@ public class ZaposleniController extends ControllerBase {
 		return ResponseEntity.ok(createdZdravstveniRadnik);
 	}
 	
+	@PreAuthorize("hasAnyRole('Sluzbenik')")
 	@GetMapping("/total/zdravstveni-radnici")
 	public ResponseEntity<Integer> getTotalNumberOfZdravstveniRadnici() throws IOException, XMLDBException {
 		int totalNumber = zaposleniService.totalNumberOfZdravstveniRadnici();

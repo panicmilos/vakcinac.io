@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,7 @@ public class IzvestajController extends ControllerBase {
 		super(mapper, validator);
 	}
 	
+	@PreAuthorize("hasAnyRole('Sluzbenik')")
 	@GetMapping
 	public ResponseEntity<IzvestajOImunizaciji> make(@RequestParam(name="startDate") String startDateS, @RequestParam(name="endDate") String endDateS) throws Exception {
 		

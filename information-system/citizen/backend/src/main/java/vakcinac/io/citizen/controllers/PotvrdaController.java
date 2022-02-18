@@ -39,7 +39,8 @@ public class PotvrdaController extends ControllerBase {
     protected PotvrdaController(ModelMapper mapper, ObjectValidator validator) {
         super(mapper, validator);
     }
-
+    
+	@PreAuthorize("hasAnyRole('Sluzbenik')")
     @GetMapping("aggregate/doses")
     public ResponseEntity<AggregateResult> aggregateByDoses(@RequestParam(name="startDate") String startDateS, @RequestParam(name="endDate") String endDateS) throws Exception {
 
@@ -49,6 +50,7 @@ public class PotvrdaController extends ControllerBase {
         return ResponseEntity.ok(potvrdaService.aggregateByDose(startDate, endDate));
     }
     
+	@PreAuthorize("hasAnyRole('Sluzbenik')")
     @GetMapping("aggregate/types")
     public ResponseEntity<AggregateResult> aggregateByTypes(@RequestParam(name="startDate") String startDateS, @RequestParam(name="endDate") String endDateS) throws Exception {
 
@@ -58,8 +60,9 @@ public class PotvrdaController extends ControllerBase {
         return ResponseEntity.ok(potvrdaService.aggregateByTypes(startDate, endDate));
     }
     
+	@PreAuthorize("hasAnyRole('Sluzbenik')")
     @PostMapping
-    public ResponseEntity<PotvrdaOIzvrsenojVakcinaciji> apply(@RequestBody CreatePotvrdaRequest request) throws Exception {
+    public ResponseEntity<PotvrdaOIzvrsenojVakcinaciji> create(@RequestBody CreatePotvrdaRequest request) throws Exception {
         validate(request);
 
         PotvrdaOIzvrsenojVakcinaciji potvrda = PotvrdaOIzvrsenojVakcinacijiFactory.create(request);
@@ -69,6 +72,7 @@ public class PotvrdaController extends ControllerBase {
         return ResponseEntity.ok(createdPotvrda);
     }
 
+	@PreAuthorize("hasAnyRole('Sluzbenik')")
     @PostMapping(path = "dodaj-dozu")
     public ResponseEntity<PotvrdaOIzvrsenojVakcinaciji> addDoza(@RequestBody AddDozaRequest request) throws Exception {
         validate(request);
@@ -78,7 +82,7 @@ public class PotvrdaController extends ControllerBase {
         return ResponseEntity.ok(updatedPotvrda);
     }
 
-    @PreAuthorize("hasAnyRole('Sluzbenik')")
+	@PreAuthorize("hasAnyRole('Sluzbenik', 'DomaciGradjanin', 'StraniGradjanin', 'ZdravstveniRadnik')")
     @GetMapping(path = "gradjanin/{gradjaninId}/doze")
     public ResponseEntity<InformacijeOPrimljenimDozamaIzPotvrde> primljeneDoze(@PathVariable String gradjaninId) throws Exception {
 
