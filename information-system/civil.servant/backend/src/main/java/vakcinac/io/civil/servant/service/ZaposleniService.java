@@ -9,9 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.RequestScope;
 import org.xmldb.api.base.XMLDBException;
 
 import vakcinac.io.civil.servant.models.sluz.Sluzbenik;
@@ -22,18 +20,15 @@ import vakcinac.io.core.security.Authority;
 import vakcinac.io.core.security.User;
 
 @Service
-@RequestScope
 public class ZaposleniService implements UserDetailsService {
 	
 	private SluzbenikService sluzbenikService;
 	private ZdravstveniRadnikService zdravstveniRadnikService;
-	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
-	public ZaposleniService(SluzbenikService sluzbenikService, ZdravstveniRadnikService zdravstveniRadnikService, PasswordEncoder passwordEncoder) {
+	public ZaposleniService(SluzbenikService sluzbenikService, ZdravstveniRadnikService zdravstveniRadnikService) {
 		this.sluzbenikService = sluzbenikService;
 		this.zdravstveniRadnikService = zdravstveniRadnikService;
-		this.passwordEncoder = passwordEncoder;
 	}
 	
 	@Override
@@ -64,8 +59,6 @@ public class ZaposleniService implements UserDetailsService {
 	
 	public Tzaposleni create(Tzaposleni zaposleni) throws IOException {
 		validate(zaposleni);
-		
-		zaposleni.setLozinka(passwordEncoder.encode(zaposleni.getLozinka()));
 		
 		if (zaposleni instanceof Sluzbenik) {
 			return sluzbenikService.create((Sluzbenik) zaposleni);

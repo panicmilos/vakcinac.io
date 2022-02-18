@@ -5,7 +5,6 @@ import java.io.IOException;
 import javax.xml.namespace.QName;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.annotation.RequestScope;
 import org.xmldb.api.base.XMLDBException;
 
 import vakcinac.io.civil.servant.models.zrad.ZdravstveniRadnik;
@@ -19,7 +18,6 @@ import vakcinac.io.core.utils.parsers.JaxBParser;
 import vakcinac.io.core.utils.parsers.JaxBParserFactory;
 
 @Service
-@RequestScope
 public class ZdravstveniRadnikService extends BaseService<ZdravstveniRadnik> {
 	
 	public ZdravstveniRadnikService(ZdravstveniRadnikRepository zdravstveniRadnikRepository, CivilServantJenaRepository jenaRepository) {

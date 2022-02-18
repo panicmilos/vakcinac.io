@@ -112,7 +112,7 @@ public class RedCekanjaService extends BaseService<RedCekanja> {
 		
 		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("YYYY-MM-dd HH:mm");  
 		
-		String body = String.format("Poštovani,\n Dodeljen Vam je termin za vakcinaciju datuma: %s", timeFormatter.format(termin.getVreme()));
+		String body = String.format("Poštovani,\nVaš termin za vakcinaciju je: %s", timeFormatter.format(termin.getVreme()));
 		mailContent.setText(body);
 		
 		mailingService.Send(mailContent);

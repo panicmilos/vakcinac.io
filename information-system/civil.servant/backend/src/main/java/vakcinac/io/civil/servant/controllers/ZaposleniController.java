@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,12 +36,14 @@ public class ZaposleniController extends ControllerBase {
 	
 	private ZaposleniService zaposleniService;
 	private AuthenticationService authService;
+	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
-	public ZaposleniController(ModelMapper mapper, CivilServantValidator validator, ZaposleniService zaposleniService, AuthenticationService authService) {
+	public ZaposleniController(ModelMapper mapper, CivilServantValidator validator, ZaposleniService zaposleniService, AuthenticationService authService, PasswordEncoder passwordEncoder) {
 		super(mapper, validator);
 		this.zaposleniService = zaposleniService;
 		this.authService = authService;
+		this.passwordEncoder = passwordEncoder;
 	}
 	
 	@GetMapping("/{id}")
@@ -74,6 +77,7 @@ public class ZaposleniController extends ControllerBase {
 		validate(createSluzbenikRequest);
 		
 		Sluzbenik sluzbenik = (Sluzbenik) map(createSluzbenikRequest, Sluzbenik.class);
+		sluzbenik.setLozinka(passwordEncoder.encode(sluzbenik.getLozinka()));
 		
 		Sluzbenik createdSluzbenik = (Sluzbenik) zaposleniService.create(sluzbenik);
 		
@@ -81,10 +85,11 @@ public class ZaposleniController extends ControllerBase {
 	}
 	
 	@PostMapping("/zdravstveni-radnik")
-	public ResponseEntity<ZdravstveniRadnik> createStraniGradjanin(@RequestBody CreateZdravstveniRadnikRequest createZdravstveniRadnikRequest) throws IOException {
+	public ResponseEntity<ZdravstveniRadnik> createZdravstveniRadnik(@RequestBody CreateZdravstveniRadnikRequest createZdravstveniRadnikRequest) throws IOException {
 		validate(createZdravstveniRadnikRequest);
 		
 		ZdravstveniRadnik zdravstveniRadnik = (ZdravstveniRadnik) map(createZdravstveniRadnikRequest, ZdravstveniRadnik.class);
+		zdravstveniRadnik.setLozinka(passwordEncoder.encode(zdravstveniRadnik.getLozinka()));
 		
 		ZdravstveniRadnik createdZdravstveniRadnik = (ZdravstveniRadnik) zaposleniService.create(zdravstveniRadnik);
 		

@@ -50,6 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/saglasnosti/za").permitAll()
                 .antMatchers("/vakcine").permitAll()
                 .antMatchers("/vakcine/*").permitAll()
+                .antMatchers("/vakcine/*/*").permitAll()
                 .antMatchers("/zahtevi").permitAll()
                 .antMatchers("/test").permitAll()
                 .antMatchers("/izvestaji").permitAll()
