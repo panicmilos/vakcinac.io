@@ -43,7 +43,7 @@ public class SertifikatController extends ControllerBase {
     
     @PreAuthorize("hasAnyRole('Sluzbenik')")
  	@PostMapping("/decline")
- 	public ResponseEntity<DeclineZahtev> approve(@RequestBody DeclineZahtevRequest declineZahtevRequest) throws Exception {
+ 	public ResponseEntity<DeclineZahtev> decline(@RequestBody DeclineZahtevRequest declineZahtevRequest) throws Exception {
  		validate(declineZahtevRequest);
     	
     	DeclineZahtev decline = mapper.map(declineZahtevRequest, DeclineZahtev.class);

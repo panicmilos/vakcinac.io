@@ -28,9 +28,6 @@ public class DigitalniSertifikat {
 	@XmlElementWrapper(name = "testovi")
 	@XmlElement(name = "test")
 	private List<Test> testovi;
-	
-	@XmlElement(name = "sluzbenik-id")
-    private String sluzbenikId;
 
 	public DigitalniSertifikat() {
 		testovi = new ArrayList<Test>();
@@ -50,14 +47,6 @@ public class DigitalniSertifikat {
 	
 	public void setZahtev(String zahtev) {
 		this.zahtev = zahtev;
-	}
-
-	public String getSluzbenikId() {
-		return sluzbenikId;
-	}
-
-	public void setSluzbenikId(String sluzbenikId) {
-		this.sluzbenikId = sluzbenikId;
 	}
 
 	public Integer getCitizenIdentification() {

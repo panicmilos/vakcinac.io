@@ -9,7 +9,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AzurirajSaglasnost {
 
-    @XmlElement(name = "saglasnost-id")
+	@XmlElement(name = "saglasnost-id")
     private String saglasnostId;
 
     @XmlElement(name = "jmbg-lekara")
@@ -56,14 +56,12 @@ public class AzurirajSaglasnost {
     public void setJmbgLekara(String jmbgLekara) {
         this.jmbgLekara = jmbgLekara;
     }
+    
+    public List<UpdateSaglasnostDoza> getDoze() {
+		return doze;
+	}
 
-    @Override
-    public String toString() {
-        return "AzurirajSaglasnost{" +
-                "saglasnostId='" + saglasnostId + '\'' +
-                ", jmbgLekara='" + jmbgLekara + '\'' +
-                ", dijagnoza='" + dijagnoza + '\'' +
-                ", odlukaKomisije=" + odlukaKomisije +
-                '}';
-    }
+	public void setDoze(List<UpdateSaglasnostDoza> doze) {
+		this.doze = doze;
+	}
 }
