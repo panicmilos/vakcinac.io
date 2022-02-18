@@ -18,6 +18,7 @@ import TableHead from "../../components/Table/TableHead.vue";
 import TableRow from "../../components/Table/TableRow.vue";
 import axios from "axios";
 import { API_URL } from "../../cfg";
+import { getGradjaninId } from "../../utils/auth";
 
 const schema = {
   properties: {
@@ -47,7 +48,9 @@ export default defineComponent({
   },
   data() {
     return {
-      data: {},
+      data: {
+        podnosilac: getGradjaninId()
+      },
       schema,
     };
   },

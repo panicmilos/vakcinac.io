@@ -1,5 +1,5 @@
 <template>
-  <div>Home</div>
+  <img src="xmljson.png" />
 </template>
 
 <script>

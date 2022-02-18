@@ -18,7 +18,7 @@
 <script>
 import { defineComponent } from "@vue/composition-api";
 import Sidebar from "../../components/Sidebar.vue";
-import { isLoggedIn } from "../../utils/auth"
+import { isLoggedIn, ROLES } from "../../utils/auth"
 
 export default defineComponent({
   name: "App",
@@ -27,17 +27,17 @@ export default defineComponent({
   },
   data: () => ({
     items: [
-      { title: 'Home', icon: 'mdi-view-dashboard', href: '/home' },
-      { title: 'Register Sluzbenik', icon: 'mdi-account', href: '/register-sluzbenik' },
-      { title: 'Register Zdravstveni Radnik', icon: 'mdi-account', href: '/register-zdravstveni' },
-      { title: 'Add Vakcine', icon: 'mdi-needle', href: '/add-vakcine' },
-      { title: 'Restock Vakcine', icon: 'mdi-needle', href: '/vakcine/stock' },
-      { title: 'Izvestaj', icon: 'mdi-calendar', href: '/izvestaj' },
-      { title: 'Zahtevi', icon: 'mdi-calendar', href: '/zahtevi' },
-      { title: 'Dokumenti Gradjana', icon: 'mdi-calendar', href: '/dokumenti/gradjana' },
-      { title: 'Pretraga', icon: 'mdi-calendar', href: '/dokumenti/pretraga' },
-      { title: 'Meta Pretraga', icon: 'mdi-calendar', href: '/meta-pretraga' },
-      { title: 'Potvrda Vakcinacije', icon: 'mdi-candy', href: '/potvrda' },
+      { title: 'Početna', icon: 'mdi-view-dashboard', href: '/home', roles: [ROLES.Sluzbenik, ROLES.ZdravstveniRadnik] },
+      { title: 'Registracija Službenika', icon: 'mdi-account', href: '/register-sluzbenik', roles: [ROLES.Sluzbenik] },
+      { title: 'Registracija Zdravstvenog Radnika', icon: 'mdi-account', href: '/register-zdravstveni', roles: [ROLES.Sluzbenik] },
+      { title: 'Kreiranje Vakcine', icon: 'mdi-needle', href: '/add-vakcine', roles: [ROLES.Sluzbenik] },
+      { title: 'Dopuna Zaliha Vakcine', icon: 'mdi-needle', href: '/vakcine/stock', roles: [ROLES.Sluzbenik] },
+      { title: 'Potvrda Vakcinacije', icon: 'mdi-candy', href: '/potvrda', roles: [ROLES.ZdravstveniRadnik] },
+      { title: 'Zahtevi za Digitalni Sertifikat', icon: 'mdi-file-document', href: '/zahtevi', roles: [ROLES.Sluzbenik] },
+      { title: 'Izveštaj', icon: 'mdi-calendar', href: '/izvestaj', roles: [ROLES.Sluzbenik] },
+      { title: 'Dokumenti Građana', icon: 'mdi-file-document-multiple-outline', href: '/dokumenti/gradjana', roles: [ROLES.Sluzbenik] },
+      { title: 'Tekstualna Pretraga', icon: 'mdi-map-search', href: '/dokumenti/pretraga', roles: [ROLES.Sluzbenik] },
+      { title: 'Meta Pretraga', icon: 'mdi-magnify', href: '/meta-pretraga', roles: [ROLES.Sluzbenik] },
     ],
     showToolbar: isLoggedIn()
   }),
