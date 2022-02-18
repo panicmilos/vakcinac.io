@@ -30,7 +30,9 @@ export default defineComponent({
       { title: 'Home', icon: 'mdi-view-dashboard', href: '/home' },
       { title: 'Register Domaci', icon: 'mdi-image', href: '/register-domaci' },
       { title: 'Register Strani', icon: 'mdi-image', href: '/register-strani' },
-      { title: 'About', icon: 'mdi-help-box', href: '/about' },
+      { title: 'Izjava Interesovanja', icon: 'mdi-help-box', href: '/izjava-interesovanja' },
+      { title: 'Saglasnost', icon: 'mdi-help-box', href: '/saglasnost' },
+      { title: 'ZahtevZeleni', icon: 'mdi-help-box', href: '/zahtev-zeleni' },
     ],
     showToolbar: isLoggedIn()
   }),
@@ -48,7 +50,4 @@ export default defineComponent({
 </script>
 
 <style>
-.logo {
-  flex: 0 1 auto;
-}
 </style>

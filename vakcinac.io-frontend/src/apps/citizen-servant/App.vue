@@ -49,7 +49,4 @@ export default defineComponent({
 </script>
 
 <style>
-.logo {
-  flex: 0 1 auto;
-}
 </style>

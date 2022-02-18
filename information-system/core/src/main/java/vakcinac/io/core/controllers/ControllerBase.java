@@ -18,6 +18,9 @@ public abstract class ControllerBase {
 	
 	protected void validate(Object validatableObject) {
 		ValidationResult validateResult = validator.validate(validatableObject);
+		for (br.com.fluentvalidator.context.Error a : validateResult.getErrors()) {
+			System.out.println(a.getMessage());
+		}
 		if (!validateResult.isValid()) {
 			throw new BadLogicException(
 					"Jedan ili više uslova nije ispunjeno za: " + validatableObject.getClass().getSimpleName());
