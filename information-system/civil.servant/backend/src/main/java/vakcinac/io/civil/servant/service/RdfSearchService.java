@@ -16,10 +16,10 @@ import java.util.HashMap;
 @RequestScope
 public class RdfSearchService extends SearchService {
 
-    private final String IZJAVA_GRAPH_URI = "http://localhost:3030/CitizenDataset/data/izjava";
-    private final String SAGLASNOST_GRAPH_URI = "http://localhost:3030/CitizenDataset/data/saglasnosti";
-    private final String ZAHTEVI_GRAPH_URI = "http://localhost:3030/CitizenDataset/data/zahtevi";
-    private final String IZVESTAJI_GRAPH_URI = "http://localhost:3030/CitizenDataset/data/izvestaji";
+    private final String IZJAVA_GRAPH_URI = "http://localhost:3030/ServantDataset/data/izjava";
+    private final String SAGLASNOST_GRAPH_URI = "http://localhost:3030/ServantDataset/data/saglasnosti";
+    private final String ZAHTEVI_GRAPH_URI = "http://localhost:3030/ServantDataset/data/zahtevi";
+    private final String IZVESTAJI_GRAPH_URI = "http://localhost:3030/ServantDataset/data/izvestaji";
 
     //IZJAVA
     private HashMap<String, String> izjavaPredicateUrlRegistry;
@@ -154,6 +154,7 @@ public class RdfSearchService extends SearchService {
                 QueryDocumentsResult.Document document = new QueryDocumentsResult.Document();
                 document.setValue(querySolution.get("?s").toString());
                 document.setCreatedAt(querySolution.get("?izdat").toString());
+                System.out.println("KOJI KURAC: " + document.getValue());
 
                 queryDocumentsResult.getDocument().add(document);
             }
