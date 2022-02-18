@@ -33,6 +33,7 @@ export default defineComponent({
       { title: 'Izjava Interesovanja', icon: 'mdi-help-box', href: '/izjava-interesovanja' },
       { title: 'Saglasnost', icon: 'mdi-help-box', href: '/saglasnost' },
       { title: 'ZahtevZeleni', icon: 'mdi-help-box', href: '/zahtev-zeleni' },
+      { title: 'DokumentiGradjana', icon: 'mdi-help-box', href: '/dokumenti' },
     ],
     showToolbar: isLoggedIn()
   }),

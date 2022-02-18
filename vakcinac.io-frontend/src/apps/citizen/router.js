@@ -6,6 +6,7 @@ import RegisterStrani from './RegisterStrani'
 import IzjavaInteresovanja from './IzjavaInteresovanja'
 import Saglasnost from './Saglasnost'
 import ZahtevZeleni from './ZahtevZeleni'
+import DokumentiGradjana from './DokumentiGradjana'
 
 const baseRoutes = [
   {
@@ -42,6 +43,11 @@ const baseRoutes = [
     path: '/zahtev-zeleni',
     name: 'ZahtevZeleni',
     component: ZahtevZeleni
+  },
+  {
+    path: '/dokumenti',
+    name: 'Dokumenti',
+    component: DokumentiGradjana
   },
   {
     path: '*',

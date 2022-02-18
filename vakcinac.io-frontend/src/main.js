@@ -16,7 +16,7 @@ Vue.config.productionTip = false;
 axios.interceptors.request.use(config => {
   const token = localStorage.getItem('jwt') || '';
   config.headers['Content-Type'] = 'text/xml';
-  config.headers.Accept = 'text/xml';
+  config.headers.Accept = 'application/xml';
   if(token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
