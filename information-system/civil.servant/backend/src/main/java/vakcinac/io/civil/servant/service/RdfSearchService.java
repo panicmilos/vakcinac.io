@@ -5,15 +5,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
 import vakcinac.io.core.exceptions.BadLogicException;
-import vakcinac.io.core.factories.CitizenDocumentFactory;
 import vakcinac.io.core.repository.jena.CloseableResultSet;
 import vakcinac.io.core.requests.helpers.LogicalExpression;
 import vakcinac.io.core.results.doc.QueryDocumentsResult;
 import vakcinac.io.core.services.SearchService;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 @Service
 @RequestScope
