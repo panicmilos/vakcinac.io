@@ -2,6 +2,7 @@ package vakcinac.io.citizen.service;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -106,7 +107,8 @@ public class SertifikatService extends BaseService<DigitalniSertifikat> {
 		String id = getValidSertifikatId();
 		sertifikat.setBrojSertifikata(id);;
 		
-		sertifikat.setValidacija(String.format("%s/dokumenti/digitalni-sertifikat/%s", frontendUrl, id));
+		String encodedQr = URLEncoder.encode(String.format("%s/dokumenti/digitalni-sertifikat/%s", frontendUrl, id));
+		sertifikat.setValidacija(encodedQr);
 		
 		String gradjaninId;
 		TnosilacSertifikata nosilac = sertifikat.getNosilacSertifikata();

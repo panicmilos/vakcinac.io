@@ -2,6 +2,7 @@ package vakcinac.io.civil.servant.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +13,7 @@ import vakcinac.io.civil.servant.service.ExistSearchService;
 import vakcinac.io.core.results.doc.QueryDocumentsResult;
 
 @Controller
-@CrossOrigin
+@CrossOrigin("*")
 @RequestMapping("/documents/search")
 public class SearchController {
 
@@ -23,6 +24,7 @@ private ExistSearchService existSearchService;
 		this.existSearchService = existSearchService;
 	}
 	
+	@PreAuthorize("hasAnyRole('Sluzbenik')")
 	@GetMapping("")
 	public ResponseEntity<QueryDocumentsResult> preview(@RequestParam() String query) throws Exception {
 		

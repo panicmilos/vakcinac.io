@@ -54,12 +54,14 @@ public class GradjaniController extends ControllerBase {
 		return ResponseEntity.ok(gradjanin);
 	}
 	
+	@PreAuthorize("hasAnyRole('Sluzbenik', 'DomaciGradjanin', 'StraniGradjanin')")
 	@GetMapping("/{id}/documents")
 	public ResponseEntity<CitizenDocumentsResult> getDocumentsForGradjanin(@PathVariable("id") String id) throws IOException {
 				
 		return ResponseEntity.ok(gradjaninService.getDocumentsFor(id));
 	}
 	
+	@PreAuthorize("hasAnyRole('Sluzbenik', 'DomaciGradjanin', 'StraniGradjanin')")
 	@GetMapping("/{id}/documents/all")
 	public ResponseEntity<CitizenDocumentsResult> getAllDocumentsForGradjanin(@PathVariable("id") String id) throws IOException {
 				

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,7 @@ import vakcinac.io.core.results.agres.AggregateResult;
 import vakcinac.io.core.validators.ObjectValidator;
 
 @Controller
+@CrossOrigin("*")
 @RequestMapping(path = "potvrde")
 public class PotvrdaController extends ControllerBase {
 
@@ -37,7 +39,8 @@ public class PotvrdaController extends ControllerBase {
     protected PotvrdaController(ModelMapper mapper, ObjectValidator validator) {
         super(mapper, validator);
     }
-
+    
+	@PreAuthorize("hasAnyRole('Sluzbenik')")
     @GetMapping("aggregate/doses")
     public ResponseEntity<AggregateResult> aggregateByDoses(@RequestParam(name="startDate") String startDateS, @RequestParam(name="endDate") String endDateS) throws Exception {
 
@@ -47,6 +50,7 @@ public class PotvrdaController extends ControllerBase {
         return ResponseEntity.ok(potvrdaService.aggregateByDose(startDate, endDate));
     }
     
+	@PreAuthorize("hasAnyRole('Sluzbenik')")
     @GetMapping("aggregate/types")
     public ResponseEntity<AggregateResult> aggregateByTypes(@RequestParam(name="startDate") String startDateS, @RequestParam(name="endDate") String endDateS) throws Exception {
 
@@ -56,8 +60,9 @@ public class PotvrdaController extends ControllerBase {
         return ResponseEntity.ok(potvrdaService.aggregateByTypes(startDate, endDate));
     }
     
+	@PreAuthorize("hasAnyRole('Sluzbenik')")
     @PostMapping
-    public ResponseEntity<PotvrdaOIzvrsenojVakcinaciji> apply(@RequestBody CreatePotvrdaRequest request) throws Exception {
+    public ResponseEntity<PotvrdaOIzvrsenojVakcinaciji> create(@RequestBody CreatePotvrdaRequest request) throws Exception {
         validate(request);
 
         PotvrdaOIzvrsenojVakcinaciji potvrda = PotvrdaOIzvrsenojVakcinacijiFactory.create(request);
@@ -67,6 +72,7 @@ public class PotvrdaController extends ControllerBase {
         return ResponseEntity.ok(createdPotvrda);
     }
 
+	@PreAuthorize("hasAnyRole('Sluzbenik')")
     @PostMapping(path = "dodaj-dozu")
     public ResponseEntity<PotvrdaOIzvrsenojVakcinaciji> addDoza(@RequestBody AddDozaRequest request) throws Exception {
         validate(request);
@@ -76,7 +82,7 @@ public class PotvrdaController extends ControllerBase {
         return ResponseEntity.ok(updatedPotvrda);
     }
 
-    @PreAuthorize("hasAnyRole('Sluzbenik')")
+	@PreAuthorize("hasAnyRole('Sluzbenik', 'DomaciGradjanin', 'StraniGradjanin', 'ZdravstveniRadnik')")
     @GetMapping(path = "gradjanin/{gradjaninId}/doze")
     public ResponseEntity<InformacijeOPrimljenimDozamaIzPotvrde> primljeneDoze(@PathVariable String gradjaninId) throws Exception {
 

@@ -2,7 +2,9 @@ package vakcinac.io.citizen.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +13,7 @@ import vakcinac.io.core.requests.MetaSearchRequest;
 import vakcinac.io.core.results.doc.QueryDocumentsResult;
 
 @Controller
+@CrossOrigin("*")
 @RequestMapping("meta-search")
 public class RdfSearchController {
 
@@ -21,6 +24,7 @@ public class RdfSearchController {
         this.rdfSearchService = rdfSearchService;
     }
 
+    @PreAuthorize("hasAnyRole('Sluzbenik')")
     @PostMapping
     public ResponseEntity<QueryDocumentsResult> search(@RequestBody MetaSearchRequest request) {
         QueryDocumentsResult searchResult = rdfSearchService.search(request.getGraph(), request.getExpression());

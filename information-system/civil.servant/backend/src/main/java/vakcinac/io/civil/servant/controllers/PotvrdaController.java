@@ -3,6 +3,7 @@ package vakcinac.io.civil.servant.controllers;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +28,7 @@ public class PotvrdaController extends ControllerBase {
         super(mapper, validator);
     }
 
+	@PreAuthorize("hasAnyRole('Sluzbenik')")
     @PostMapping
     public ResponseEntity<KreiranjePotvrde> vaccinated(@RequestBody VaccinateRequest request) throws Exception {
         validate(request);

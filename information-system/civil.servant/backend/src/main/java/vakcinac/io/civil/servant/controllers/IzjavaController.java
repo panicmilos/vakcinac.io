@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +23,7 @@ import vakcinac.io.core.controllers.ControllerBase;
 import vakcinac.io.core.requests.CreateIzjavaRequest;
 
 @Controller
+@CrossOrigin("*")
 @RequestMapping(path = "/izjave")
 public class IzjavaController extends ControllerBase {
 
@@ -45,6 +47,7 @@ public class IzjavaController extends ControllerBase {
 		return ResponseEntity.ok(createdIzjava);
 	}
 	
+	@PreAuthorize("hasAnyRole('Sluzbenik', 'DomaciGradjanin', 'StraniGradjanin', 'ZdravstveniRadnik')")
 	@GetMapping("/za")
 	public ResponseEntity<String> getIzjavaZa(@RequestParam String za) {
 		return ResponseEntity.ok(izjavaService.getIzjavaZa(za));

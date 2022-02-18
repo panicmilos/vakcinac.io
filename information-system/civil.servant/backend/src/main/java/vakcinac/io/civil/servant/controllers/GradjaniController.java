@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +18,7 @@ import vakcinac.io.core.controllers.ControllerBase;
 import vakcinac.io.core.results.doc.CitizenDocumentsResult;
 
 @Controller
-@CrossOrigin
+@CrossOrigin("*")
 @RequestMapping("/gradjani")
 public class GradjaniController extends ControllerBase {
 	
@@ -29,12 +30,13 @@ public class GradjaniController extends ControllerBase {
 		this.gradjaninService = gradjaninService;
 	}
 
+	@PreAuthorize("hasAnyRole('Sluzbenik', 'DomaciGradjanin', 'StraniGradjanin')")
 	@GetMapping("/{id}/documents")
 	public ResponseEntity<CitizenDocumentsResult> getDocumentsForGradjanin(@PathVariable("id") String id) throws IOException {
 				
 		return ResponseEntity.ok(gradjaninService.getDocumentsFor(id));
 	}
-	
+	@PreAuthorize("hasAnyRole('Sluzbenik', 'DomaciGradjanin', 'StraniGradjanin')")
 	@GetMapping("/{id}/documents/all")
 	public ResponseEntity<CitizenDocumentsResult> getAllDocumentsForGradjanin(@PathVariable("id") String id) throws IOException {
 				

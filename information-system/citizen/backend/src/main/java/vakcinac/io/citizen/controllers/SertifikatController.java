@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,6 +25,7 @@ import vakcinac.io.core.requests.CreateSertifikatRequest;
 import vakcinac.io.core.responses.CountResponse;
 
 @Controller
+@CrossOrigin("*")
 @RequestMapping(path = "/sertifikati")
 public class SertifikatController extends ControllerBase {
 	
@@ -36,6 +38,7 @@ public class SertifikatController extends ControllerBase {
 		this.sertifikatService = sertifikatService;
 	}
 
+	@PreAuthorize("hasAnyRole('Sluzbenik')")
 	@GetMapping(path = "/count")
 	public ResponseEntity<CountResponse> count(@RequestParam(name="startDate") String startDateS, @RequestParam(name="endDate") String endDateS) throws IOException {
 		

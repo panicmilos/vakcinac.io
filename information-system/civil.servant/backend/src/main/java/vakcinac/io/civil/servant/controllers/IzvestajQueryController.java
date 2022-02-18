@@ -5,6 +5,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +30,7 @@ public class IzvestajQueryController {
     	return ResponseEntity.ok(izvestajService.findAll());
     }
 	
+	@PreAuthorize("hasAnyRole('Sluzbenik')")
 	@GetMapping("/{id}")
     public ResponseEntity<?> preview(@PathVariable String id, @RequestParam(required = false) String type) throws Exception {
 		
@@ -43,12 +45,14 @@ public class IzvestajQueryController {
 		return new ResponseEntity<byte[]>(izvestajService.readTransformed(id, type), headers, HttpStatus.OK);
     }
 
+	@PreAuthorize("hasAnyRole('Sluzbenik')")
 	@GetMapping(path = "/{id}/links")
     public ResponseEntity<?> readLinks(@PathVariable String id) throws Exception {
 
     	return ResponseEntity.ok(izvestajService.readLinks(id));
     }
 	
+	@PreAuthorize("hasAnyRole('Sluzbenik')")
 	@GetMapping(path = "/{id}/rdf")
     public ResponseEntity<?> extractRdf(@PathVariable String id, @RequestParam(required = false) String type) throws Exception {
 

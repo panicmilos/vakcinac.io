@@ -3,6 +3,7 @@ package vakcinac.io.citizen.controllers;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,9 +28,10 @@ public class SaglasnostController extends ControllerBase {
     public SaglasnostController(ModelMapper mapper, CitizenValidator validator) {
         super(mapper, validator);
     }
-
+    
+    @PreAuthorize("hasAnyRole('DomaciGradjanin', 'StraniGradjanin')")
     @PostMapping
-    public ResponseEntity<SaglasnostZaSprovodjenjePreporuceneImunizacije> apply(@RequestBody CreateSaglasnostRequest createSaglasnostRequest) throws Exception {
+    public ResponseEntity<SaglasnostZaSprovodjenjePreporuceneImunizacije> create(@RequestBody CreateSaglasnostRequest createSaglasnostRequest) throws Exception {
         validate(createSaglasnostRequest);
 
         SaglasnostZaSprovodjenjePreporuceneImunizacije saglasnost = mapper.map(createSaglasnostRequest, SaglasnostZaSprovodjenjePreporuceneImunizacije.class);

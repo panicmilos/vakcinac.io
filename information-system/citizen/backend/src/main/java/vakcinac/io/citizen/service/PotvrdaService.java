@@ -2,6 +2,7 @@ package vakcinac.io.citizen.service;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -150,7 +151,8 @@ public class PotvrdaService extends BaseService<PotvrdaOIzvrsenojVakcinaciji> {
         validateVakcina(potvrda.getPodaciOVakcinaciji().getPodaciODozama().getPrimljenaDoza().get(0).getSerija());
 
         String id = getValidPotvrdaId();
-        potvrda.setQrKod(String.format("%s/dokumenti/potvrda/%s", frontendUrl, id));
+        String encodedQr = URLEncoder.encode(String.format("%s/dokumenti/potvrda/%s", frontendUrl, id));
+        potvrda.setQrKod(encodedQr);
 
         Tgradjanin gradjanin = gradjaninService.findById(potvrda.getPodaciOVakcinisanom().getJmbg());
         if (gradjanin == null) {
