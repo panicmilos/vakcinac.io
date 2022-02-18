@@ -12,7 +12,6 @@ async function main() {
   const port = 3000;
 
   app.post("/", async (req, res) => {
-    console.log(req.body);
     const atts = req.body.mail.attachments;
     await mailService.sendMail({
       from: "contact@vakcinac.io",
