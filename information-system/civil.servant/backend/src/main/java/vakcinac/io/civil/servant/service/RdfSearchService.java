@@ -45,7 +45,7 @@ public class RdfSearchService extends SearchService {
     private HashMap<String, String> saglasnostPredicateUrlRegistry;
     private HashMap<String, String> saglasnostPredicateTypeRegistry;
 
-    //SAGLASNOST
+    //ZAHTEV
     private HashMap<String, String> zahteviPredicateUrlRegistry;
     private HashMap<String, String> zahteviPredicateTypeRegistry;
 
@@ -96,7 +96,7 @@ public class RdfSearchService extends SearchService {
         saglasnostPredicateTypeRegistry.put("?izdat", XSD_DATE);
         saglasnostPredicateTypeRegistry.put("?izmenjen", XSD_DATE);
 
-        // SAGLASNOST
+        // ZAHTEV
         zahteviPredicateUrlRegistry = new HashMap<>();
         zahteviPredicateTypeRegistry = new HashMap<>();
 

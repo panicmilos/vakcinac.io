@@ -22,6 +22,8 @@ import vakcinac.io.citizen.models.dgradj.DomaciGradjanin;
 import vakcinac.io.citizen.models.sgradj.StraniGradjanin;
 import vakcinac.io.citizen.security.JwtStore;
 import vakcinac.io.core.exceptions.BadLogicException;
+import vakcinac.io.core.exceptions.MissingEntityException;
+import vakcinac.io.core.mail.MailContent;
 import vakcinac.io.core.models.os.Tgradjanin;
 import vakcinac.io.core.repository.jena.JenaRepository;
 import vakcinac.io.core.results.doc.CitizenDocumentsResult;
@@ -41,6 +43,7 @@ public class GradjaninService implements UserDetailsService {
 	private JenaRepository jenaRepository;
 	private JwtStore jwtStore;
 	private RestTemplate restTemplate;
+	private MailingService mailingService;
 	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
@@ -50,12 +53,14 @@ public class GradjaninService implements UserDetailsService {
 			JenaRepository jenaRepository,
 			JwtStore jwtStore,
 			RestTemplate restTemplate,
+			MailingService mailingService,
 			PasswordEncoder passwordEncoder) {
 		this.domaciGradjaninService = domaciGradjaninService;
 		this.straniGradjaninService = straniGradjaninService;
 		this.jenaRepository = jenaRepository;
 		this.jwtStore = jwtStore;
 		this.restTemplate = restTemplate;
+		this.mailingService = mailingService;
 		this.passwordEncoder = passwordEncoder;
 	}
 	
@@ -80,6 +85,22 @@ public class GradjaninService implements UserDetailsService {
         
 		return authorities;
     }
+	
+	public void sendEmailForTermin(String gradjaninId, String termin) {		
+		Tgradjanin gradjanin = findById(gradjaninId);
+		if (gradjanin == null) {
+			throw new MissingEntityException("Ne postoji građanin.");
+		}
+		
+		MailContent mailContent = new MailContent();
+		mailContent.setTo(gradjanin.getEmail());
+		mailContent.setSubject("Termin za vakcinaciju");	
+		
+		String body = String.format("Poštovani,\nVaš termin za vakcinaciju je: %s", termin);
+		mailContent.setText(body);
+		
+		mailingService.Send(mailContent);
+	}
 	
 	public CitizenDocumentsResult getDocumentsFor(String jmbg) throws IOException {
 		return jenaRepository.findDocumentsFor(jmbg);

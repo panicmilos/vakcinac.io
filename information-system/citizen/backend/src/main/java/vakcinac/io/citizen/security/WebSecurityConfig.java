@@ -45,6 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/authentication").permitAll()
                 .antMatchers("/gradjani/*").permitAll()
+                .antMatchers("/gradjani/dodeljen-termin/*").permitAll()
                 .antMatchers("/gradjani/domaci").permitAll()
                 .antMatchers("/gradjani/strani").permitAll()
                 .anyRequest().authenticated()

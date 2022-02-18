@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import vakcinac.io.citizen.models.dgradj.DomaciGradjanin;
 import vakcinac.io.citizen.models.sgradj.StraniGradjanin;
@@ -52,6 +53,13 @@ public class GradjaniController extends ControllerBase {
 		}
 		
 		return ResponseEntity.ok(gradjanin);
+	}
+	
+	@PostMapping("/dodeljen-termin/{id}")
+	public ResponseEntity<String> sendEmailForTermin(@PathVariable("id") String id, @RequestParam("termin") String termin) {
+		gradjaninService.sendEmailForTermin(id, termin);
+		
+		return ResponseEntity.ok(termin);
 	}
 	
 	@PreAuthorize("hasAnyRole('Sluzbenik', 'DomaciGradjanin', 'StraniGradjanin')")
