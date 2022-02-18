@@ -4,7 +4,12 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.xmldb.api.base.XMLDBException;
 
 import vakcinac.io.civil.servant.models.stanj.StanjeVakcina;
@@ -45,6 +50,11 @@ public class VakcineController extends ControllerBase {
 		Vakcina createdVakcina = vakcinaService.create(vakcina);
 		
 		return ResponseEntity.ok(createdVakcina);
+	}
+	
+	@GetMapping("/stock")
+	public ResponseEntity<StanjeVakcina> getStock() {
+		return ResponseEntity.ok(stanjeVakcinaService.read("stanje-vakcina"));
 	}
 	
 	@PutMapping("/{vaccineId}/stock")

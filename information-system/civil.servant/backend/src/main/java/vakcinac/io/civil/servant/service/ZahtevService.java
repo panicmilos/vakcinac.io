@@ -17,6 +17,7 @@ import vakcinac.io.core.factories.TlinkFactory;
 import vakcinac.io.core.factories.TmetaFactory;
 import vakcinac.io.core.models.os.Tgradjanin;
 import vakcinac.io.core.repository.jena.RdfObject;
+import vakcinac.io.core.results.doc.QueryDocumentsResult;
 import vakcinac.io.core.results.link.Links;
 import vakcinac.io.core.services.BaseService;
 import vakcinac.io.core.utils.LocalDateUtils;
@@ -29,11 +30,19 @@ public class ZahtevService extends BaseService<ZahtevZaIzdavanjeZelenogSertifika
 	private GradjaninService gradjaninService;
 	private PotvrdaService potvrdaService;
 	
+	private ZahtevRepository zahtevRepository;
+	
 	public ZahtevService(GradjaninService gradjaninService, PotvrdaService potvrdaService, ZahtevRepository zahtevRepository, CivilServantJenaRepository jenaRepository) {
 		super(zahtevRepository, jenaRepository);
 		
 		this.gradjaninService = gradjaninService;
 		this.potvrdaService = potvrdaService;
+		
+		this.zahtevRepository = zahtevRepository;
+	}
+	
+	public QueryDocumentsResult findAllNotProcessed() throws XMLDBException, IOException {
+		return zahtevRepository.findNotProcessed();
 	}
 	
 	@Override

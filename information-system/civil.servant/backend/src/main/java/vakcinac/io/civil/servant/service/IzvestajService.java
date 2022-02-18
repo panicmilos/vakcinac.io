@@ -20,6 +20,7 @@ import vakcinac.io.core.factories.TlinkFactory;
 import vakcinac.io.core.factories.TmetaFactory;
 import vakcinac.io.core.repository.jena.RdfObject;
 import vakcinac.io.core.results.agres.AggregateResult;
+import vakcinac.io.core.results.doc.QueryDocumentsResult;
 import vakcinac.io.core.results.link.Links;
 import vakcinac.io.core.services.BaseService;
 import vakcinac.io.core.utils.parsers.JaxBParser;
@@ -35,6 +36,8 @@ public class IzvestajService extends BaseService<IzvestajOImunizaciji> {
 	private PotvrdaService potvrdaService;
     private JwtUtil jwtUtil;
     private JwtStore jwtStore;
+    
+    private IzvestajRepository izvestajRepository;
 	
 	public IzvestajService(
 			ZahtevService zahtevService,
@@ -54,7 +57,14 @@ public class IzvestajService extends BaseService<IzvestajOImunizaciji> {
 		this.potvrdaService = potvrdaService;
 		this.jwtUtil = jwtUtil;
 		this.jwtStore = jwtStore;
+		
+		this.izvestajRepository = izvestajRepository;
 	}
+	
+	public QueryDocumentsResult findAll() throws XMLDBException, IOException {
+		return izvestajRepository.search("");
+	}
+	
 	
 	@Override
 	protected Links findReferencing(String id) throws Exception {

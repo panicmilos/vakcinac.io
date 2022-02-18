@@ -17,6 +17,12 @@ public class ZahtevQueryController {
 	@Autowired
 	private ZahtevService zahtevService;
 
+	@GetMapping("/not-processed")
+    public ResponseEntity<?> findAllNotProcesse() throws Exception {
+    	
+    	return ResponseEntity.ok(zahtevService.findAllNotProcessed());
+    }
+	
 	@GetMapping("/{id1}/{id2}")
     public ResponseEntity<?> preview(@PathVariable String id1, @PathVariable String id2, @RequestParam(required = false) String type) throws Exception {
     	String id = id1 + "_" + id2;
