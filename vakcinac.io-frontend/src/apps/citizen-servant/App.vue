@@ -33,7 +33,8 @@ export default defineComponent({
       { title: 'Add Vakcine', icon: 'mdi-needle', href: '/add-vakcine' },
       { title: 'Izvestaj', icon: 'mdi-calendar', href: '/izvestaj' },
       { title: 'Dokumenti Gradjana', icon: 'mdi-calendar', href: '/dokumenti/gradjana' },
-      { title: 'Pretraga', icon: 'mdi-calendar', href: '/dokumenti/pretraga' }
+      { title: 'Pretraga', icon: 'mdi-calendar', href: '/dokumenti/pretraga' },
+      { title: 'Meta Pretraga', icon: 'mdi-calendar', href: '/meta-pretraga' }
     ],
     showToolbar: isLoggedIn()
   }),
