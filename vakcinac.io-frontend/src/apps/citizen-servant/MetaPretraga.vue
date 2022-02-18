@@ -29,7 +29,7 @@ const schema = {
         "saglasnost",
         "potvrda",
         "zahtevi",
-        "digitalni-sertifikat",
+        "sertifikat",
         "izvestaj",
       ]
     },

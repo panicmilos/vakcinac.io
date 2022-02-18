@@ -22,7 +22,7 @@ public class RdfSearchService extends SearchService {
     JenaAuthenticationUtils.JenaConnectionProperties jenaProperties = JenaAuthenticationUtils.loadProperties();
 
     private final String POTVRDA_GRAPH_URI = String.format("%s/potvrda", jenaProperties.dataEndpoint);
-    private final String DIGITALNI_SERTIFIKAT_GRAPH_URI = String.format("%s/digitalni-sertifikat", jenaProperties.dataEndpoint);
+    private final String DIGITALNI_SERTIFIKAT_GRAPH_URI = String.format("%s/sertifikat", jenaProperties.dataEndpoint);
 
     // POTVRDA
     private HashMap<String, String> potvrdaPredicateUrlRegistry;
@@ -90,7 +90,7 @@ public class RdfSearchService extends SearchService {
                 this.predicateTypeRegistry = potvrdaPredicateTypeRegistry;
                 break;
             }
-            case "digitalni-sertifikat": {
+            case "sertifikat": {
                 graphUrl = DIGITALNI_SERTIFIKAT_GRAPH_URI;
                 this.predicateUrlRegistry = digitalniSertifikatPredicateUrlRegistry;
                 this.predicateTypeRegistry = digitalniSertifikatPredicateTypeRegistry;
