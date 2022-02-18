@@ -15,6 +15,15 @@ import TableRow from "../../components/Table/TableRow.vue";
 import axios from "axios";
 import { API_URL } from "../../cfg";
 
+export const proizvodjaci = [
+  "Pfizer-BioNTech",
+  "Sputnik V (Gamaleya истраживачки центар)",
+  "Sinopharm",
+  "AstraZeneca",
+  "Moderna",
+  "Било која",
+];
+
 const schema = {
   properties: {
     proizvodjac: {
@@ -22,27 +31,27 @@ const schema = {
       oneOf: [
         {
           const: "0",
-          title: "Pfizer-BioNTech",
+          title: proizvodjaci[0],
         },
         {
           const: "1",
-          title: "Sputnik V (Gamaleya истраживачки центар)",
+          title: proizvodjaci[1],
         },
         {
           const: "2",
-          title: "Sinopharm",
+          title: proizvodjaci[2],
         },
         {
           const: "3",
-          title: "AstraZeneca",
+          title: proizvodjaci[3],
         },
         {
           const: "4",
-          title: "Moderna",
+          title: proizvodjaci[4],
         },
         {
           const: "5",
-          title: "Било која",
+          title: proizvodjaci[5],
         },
       ],
     },

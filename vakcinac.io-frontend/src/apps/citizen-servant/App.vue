@@ -31,6 +31,7 @@ export default defineComponent({
       { title: 'Register Sluzbenik', icon: 'mdi-account', href: '/register-sluzbenik' },
       { title: 'Register Zdravstveni Radnik', icon: 'mdi-account', href: '/register-zdravstveni' },
       { title: 'Add Vakcine', icon: 'mdi-needle', href: '/add-vakcine' },
+      { title: 'Restock Vakcine', icon: 'mdi-needle', href: '/vakcine/stock' },
       { title: 'Izvestaj', icon: 'mdi-calendar', href: '/izvestaj' },
       { title: 'Zahtevi', icon: 'mdi-calendar', href: '/zahtevi' },
       { title: 'Dokumenti Gradjana', icon: 'mdi-calendar', href: '/dokumenti/gradjana' },
