@@ -50,11 +50,11 @@
     </xsl:attribute-set>
 
     <xsl:attribute-set name="mt-4.5">
-        <xsl:attribute name="margin-top">4.5%</xsl:attribute>
+        <xsl:attribute name="margin-top">3.0%</xsl:attribute>
     </xsl:attribute-set>
 
     <xsl:attribute-set name="qr-code">
-        <xsl:attribute name="margin-top">3.5%</xsl:attribute>
+        <xsl:attribute name="margin-top">2.5%</xsl:attribute>
     </xsl:attribute-set>
 
     <xsl:attribute-set name="bold-text">

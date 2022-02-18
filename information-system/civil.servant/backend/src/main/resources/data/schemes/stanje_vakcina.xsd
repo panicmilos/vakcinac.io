@@ -17,7 +17,6 @@
 
               <xsd:element name="vakcina" type="xsd:string"></xsd:element>
               <xsd:element name="dostupno" type="xsd:nonNegativeInteger"></xsd:element>
-              <xsd:element name="rezervisano" type="xsd:nonNegativeInteger"></xsd:element>
 
             </xsd:sequence>
           </xsd:complexType>

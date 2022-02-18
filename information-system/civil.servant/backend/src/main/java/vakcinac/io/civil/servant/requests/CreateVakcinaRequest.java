@@ -14,6 +14,9 @@ public class CreateVakcinaRequest {
     
     @XmlElement(name = "serija")
     private String serija;
+    
+    @XmlElement(name = "period-cekanja")
+    private int periodCekanja;
 
 	public int getProizvodjac() {
 		return proizvodjac;
@@ -30,5 +33,14 @@ public class CreateVakcinaRequest {
 	public void setSerija(String serija) {
 		this.serija = serija;
 	}
+
+	public int getPeriodCekanja() {
+		return periodCekanja;
+	}
+
+	public void setPeriodCekanja(int periodCekanja) {
+		this.periodCekanja = periodCekanja;
+	}
+	
     
 }

@@ -39,6 +39,16 @@ public class CreateSaglasnostRequest {
     @XmlElement(name = "imunoloski-lek")
     private String nazivImunoloskogLeka;
 
+    @XmlElement(name = "mesto-stanovanje")
+    private String mestoStanovanje;
+
+    @XmlElement(name = "opstina-stanovanje")
+    private String opstinaStanovanje;
+
+    @XmlElement(name = "adresa-stanovanje")
+    private String adresaStanovanje;
+
+
     public String getPacijentJmbg() {
         return pacijentJmbg;
     }
@@ -125,5 +135,29 @@ public class CreateSaglasnostRequest {
 
     public void setBrojFiknsog(String brojFiknsog) {
         this.brojFiknsog = brojFiknsog;
+    }
+
+    public String getMestoStanovanje() {
+        return mestoStanovanje;
+    }
+
+    public void setMestoStanovanje(String mestoStanovanje) {
+        this.mestoStanovanje = mestoStanovanje;
+    }
+
+    public String getOpstinaStanovanje() {
+        return opstinaStanovanje;
+    }
+
+    public void setOpstinaStanovanje(String opstinaStanovanje) {
+        this.opstinaStanovanje = opstinaStanovanje;
+    }
+
+    public String getAdresaStanovanje() {
+        return adresaStanovanje;
+    }
+
+    public void setAdresaStanovanje(String adresaStanovanje) {
+        this.adresaStanovanje = adresaStanovanje;
     }
 }

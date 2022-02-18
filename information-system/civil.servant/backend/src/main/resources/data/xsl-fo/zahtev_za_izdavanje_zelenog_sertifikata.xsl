@@ -120,7 +120,7 @@
                 </fo:table-cell>
                 <fo:table-cell>
                   <fo:block xsl:use-attribute-sets="dots-underline">
-                    <xsl:value-of select="x:podnosilac-zahteva/x:broj-pasosa" />
+                    &#160;<xsl:value-of select="x:podnosilac-zahteva/x:broj-pasosa" />
                   </fo:block>
                 </fo:table-cell>
               </fo:table-row>

@@ -13,6 +13,7 @@
 
         <xsd:element name="proizvodjac" type="os:Tproizvodjac"></xsd:element>
         <xsd:element name="serija" type="os:Tserija"></xsd:element>
+        <xsd:element name="period-cekanja" type="xsd:positiveInteger"></xsd:element>
 
       </xsd:sequence>
     </xsd:complexType>

@@ -60,7 +60,7 @@
             <header>
                 <div class="flex-container">
                     <div style="float: left; flex-grow: 1;">
-                        <img class="institute-logo" src="../xslt/images/institute-logo.jpg" />
+                        <img class="institute-logo" src="https://i.ibb.co/KW0sDXY/institute-logo.jpg" />
                     </div>
                     <div style="margin-right: 7%;">
                         <div class="institute-intro">

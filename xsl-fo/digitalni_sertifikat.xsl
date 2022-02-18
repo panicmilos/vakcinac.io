@@ -535,7 +535,7 @@
         <fo:inline font-weight="bold">Резултат / Result:</fo:inline>
         <fo:block>
           <xsl:choose>
-            <xsl:when test="not(x:rezultat/@xsi:nil='true')">
+            <xsl:when test="x:rezultat/@xsi:nil='false' or x:rezultat/text() != ''">
               <xsl:choose>
                 <xsl:when test="x:rezultat = 1">
                   <xsl:text>Позитиван</xsl:text>

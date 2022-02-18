@@ -36,19 +36,19 @@
           flex-wrap: wrap;
         }
 
-        .form-content > div {
+        .form-content div {
           flex: 100%;
           display: flex;
           flex-wrap: wrap;
           margin-bottom: 5px;
         }
 
-        .form-content > div > p {
+        .form-content div p {
           flex: 100%;
           margin-bottom: 5px;
         }
 
-        .form-content > div > .dots-underline {
+        .form-content div .dots-underline {
           flex: 100%;
           margin-bottom: 15px;
         }
@@ -81,7 +81,7 @@
           margin-top: 25%;
         }
 
-        .end-container > div {
+        .end-container div {
           flex: 50%;
         }
 
