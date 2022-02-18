@@ -30,7 +30,7 @@ public class SaglasnostService {
 		HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
 	        
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/saglasnosti/%s/preview", sluzbenikUrl, id), HttpMethod.GET, httpEntity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/saglasnosti/query/%s", sluzbenikUrl, id), HttpMethod.GET, httpEntity, String.class);
 
         return response.getBody();
     }
@@ -39,7 +39,7 @@ public class SaglasnostService {
 		HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
 	        
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/saglasnosti/%s/preview?type=%s", sluzbenikUrl, id, type), HttpMethod.GET, httpEntity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/saglasnosti/query/%s?type=%s", sluzbenikUrl, id, type), HttpMethod.GET, httpEntity, String.class);
 
         return response.getBody();
     }
@@ -48,7 +48,7 @@ public class SaglasnostService {
 		HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
         
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/saglasnosti/%s/rdf?type=%s", sluzbenikUrl, id, type), HttpMethod.GET, httpEntity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/saglasnosti/query/%s/rdf?type=%s", sluzbenikUrl, id, type), HttpMethod.GET, httpEntity, String.class);
 
         return response.getBody();
 	}

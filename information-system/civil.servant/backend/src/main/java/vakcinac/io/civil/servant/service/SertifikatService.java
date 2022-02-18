@@ -21,6 +21,8 @@ import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.exceptions.MissingEntityException;
 import vakcinac.io.core.factories.TlinkFactory;
 import vakcinac.io.core.factories.TmetaFactory;
+import vakcinac.io.core.mail.MailContent;
+import vakcinac.io.core.models.os.Tgradjanin;
 import vakcinac.io.core.models.os.Tmeta;
 import vakcinac.io.core.responses.CountResponse;
 import vakcinac.io.core.utils.HttpUtils;
@@ -36,21 +38,24 @@ public class SertifikatService {
 	
 	private AuthenticationService authenticationService;
 	private ZahtevService zahtevService;
+	private GradjaninService gradjaninService;
+	private MailingService mailingService;
 	
 	@Autowired
-	public SertifikatService(JwtStore store, RestTemplate restTemplate, AuthenticationService authenticationService, ZahtevService zahtevService) {
+	public SertifikatService(JwtStore store, RestTemplate restTemplate, AuthenticationService authenticationService, ZahtevService zahtevService, GradjaninService gradjaninService, MailingService mailingService) {
 		this.store = store;
 		this.restTemplate = restTemplate;
 		this.authenticationService = authenticationService;
 		this.zahtevService = zahtevService;
+		this.gradjaninService = gradjaninService;
+		this.mailingService = mailingService;
 	}
-
 	
 	public Object readPlain(String id) {
         HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
         
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/sertifikati/%s/preview", gradjaninUrl, id), HttpMethod.GET, httpEntity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/sertifikati/query/%s", gradjaninUrl, id), HttpMethod.GET, httpEntity, String.class);
 
         return response.getBody();
 	}
@@ -59,7 +64,7 @@ public class SertifikatService {
         HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
         
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/sertifikati/%s/preview?type=%s", gradjaninUrl, id, type), HttpMethod.GET, httpEntity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/sertifikati/query/%s?type=%s", gradjaninUrl, id, type), HttpMethod.GET, httpEntity, String.class);
 
         return response.getBody();
 	}
@@ -68,7 +73,7 @@ public class SertifikatService {
         HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
         
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/sertifikati/%s/rdf?type=%s", gradjaninUrl, id, type), HttpMethod.GET, httpEntity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/sertifikati/query/%s/rdf?type=%s", gradjaninUrl, id, type), HttpMethod.GET, httpEntity, String.class);
 
         return response.getBody();
 	}
@@ -90,7 +95,23 @@ public class SertifikatService {
 		
 		updateZahtev(zahtevId, zahtev, false, sluzbenikId);
 		
+		sendEmail(zahtev, declineZahtev.getRazlog());
+		
 		return declineZahtev;
+	}
+	
+	public void sendEmail(ZahtevZaIzdavanjeZelenogSertifikata zahtev, String razlogOdbijanja) {
+		String podnosilacId = zahtev.getPodnosilacZahteva().getJmbg();
+		Tgradjanin gradjanin = gradjaninService.read(podnosilacId);
+		
+		MailContent mailContent = new MailContent();
+		mailContent.setTo(gradjanin.getEmail());
+		mailContent.setSubject("Odbijen zahtev za digitalni sertifikat");
+		
+		String body = String.format("Poštovani,\nZahtev je odbijen iz razloga:\n%s", razlogOdbijanja);
+		mailContent.setText(body);
+		
+		mailingService.Send(mailContent);
 	}
 	
 	public int count(LocalDate startDate, LocalDate endDate) {

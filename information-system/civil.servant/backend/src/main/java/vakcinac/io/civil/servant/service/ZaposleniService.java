@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
+import org.xmldb.api.base.XMLDBException;
 
 import vakcinac.io.civil.servant.models.sluz.Sluzbenik;
 import vakcinac.io.civil.servant.models.zrad.ZdravstveniRadnik;
@@ -46,6 +47,10 @@ public class ZaposleniService implements UserDetailsService {
         
         return new User(zaposleni.getKorisnickoIme(), zaposleni.getLozinka(), authorities);
     }
+	
+	public int totalNumberOfZdravstveniRadnici() throws XMLDBException, IOException {
+		return zdravstveniRadnikService.totalNumber();
+	}
 	
 	private List<GrantedAuthority> getGradjaninAuthorities(Tzaposleni zaposleni) {
 		String role = zaposleni instanceof Sluzbenik ? "Sluzbenik" : "ZdravstveniRadnik";
