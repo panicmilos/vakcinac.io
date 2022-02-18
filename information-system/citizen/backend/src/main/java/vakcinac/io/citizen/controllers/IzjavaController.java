@@ -5,12 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import vakcinac.io.citizen.models.izj.IzjavaInteresovanjaZaVakcinisanje;
 import vakcinac.io.citizen.service.IzjavaService;
@@ -30,24 +27,6 @@ public class IzjavaController extends ControllerBase {
 	public IzjavaController(ModelMapper mapper, CitizenValidator validator) {
 		super(mapper, validator);
 	}
-	
-	@GetMapping("/{id1}/{id2}/preview")
-    public ResponseEntity<?> preview(@PathVariable String id1, @PathVariable String id2, @RequestParam(required = false) String type) throws Exception {
-    	String id = id1 + "/" + id2;
-		
-    	if (type == null) {
-    		return ResponseEntity.ok(izjavaService.readPlain(id));
-    	}
-    	
-    	return ResponseEntity.ok(izjavaService.readPreview(id, type));
-    }
-	
-	@GetMapping(path = "/{id1}/{id2}/rdf", produces = "text/plain")
-    public ResponseEntity<?> extractRdf(@PathVariable String id1, @PathVariable String id2, @RequestParam(required = false) String type) throws Exception {
-    	String id = id1 + "/" + id2;
-
-    	return ResponseEntity.ok(izjavaService.extractRdf(id, type));
-    }
 
 	@PostMapping
 	public ResponseEntity<IzjavaInteresovanjaZaVakcinisanje> apply(@RequestBody CreateIzjavaRequest createIzjavaRequest) throws Exception {

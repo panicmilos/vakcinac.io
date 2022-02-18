@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.xmldb.api.base.XMLDBException;
 
 import vakcinac.io.civil.servant.models.sluz.Sluzbenik;
 import vakcinac.io.civil.servant.models.zrad.ZdravstveniRadnik;
@@ -88,5 +89,12 @@ public class ZaposleniController extends ControllerBase {
 		ZdravstveniRadnik createdZdravstveniRadnik = (ZdravstveniRadnik) zaposleniService.create(zdravstveniRadnik);
 		
 		return ResponseEntity.ok(createdZdravstveniRadnik);
+	}
+	
+	@GetMapping("/total/zdravstveni-radnici")
+	public ResponseEntity<Integer> getTotalNumberOfZdravstveniRadnici() throws IOException, XMLDBException {
+		int totalNumber = zaposleniService.totalNumberOfZdravstveniRadnici();
+		
+		return ResponseEntity.ok(totalNumber);
 	}
 }

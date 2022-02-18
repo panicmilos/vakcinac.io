@@ -45,7 +45,7 @@ public class TerminService extends BaseService<Termin> {
 		String id = createTerminId(termin);
 		
         stanjeVakcinaService.decStockFor(termin.getVakcina());
-        
+             
 		return create(formatter.format(termin.getVreme()), id, termin);
 	}
 	

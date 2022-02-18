@@ -38,7 +38,7 @@ public class ZahtevService {
 		HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
         
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/zahtevi/%s/preview", sluzbenikUrl, id), HttpMethod.GET, httpEntity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/zahtevi/query/%s", sluzbenikUrl, id), HttpMethod.GET, httpEntity, String.class);
 
         return response.getBody();
 	}
@@ -47,7 +47,7 @@ public class ZahtevService {
 		HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
         
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/zahtevi/%s/preview?type=%s", sluzbenikUrl, id, type), HttpMethod.GET, httpEntity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/zahtevi/query/%s?type=%s", sluzbenikUrl, id, type), HttpMethod.GET, httpEntity, String.class);
 
         return response.getBody();
 	}
@@ -56,7 +56,7 @@ public class ZahtevService {
 		HttpEntity<?> httpEntity = HttpUtils.configureHeader(store.getJwt());
         
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/zahtevi/%s/rdf?type=%s", sluzbenikUrl, id, type), HttpMethod.GET, httpEntity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(String.format("%s/zahtevi/query/%s/rdf?type=%s", sluzbenikUrl, id, type), HttpMethod.GET, httpEntity, String.class);
 
         return response.getBody();
 	}
