@@ -110,7 +110,7 @@ export default defineComponent({
         'potvrde': 'potvrda'
       };
 
-      this.$router.push(`dokumenti/${documentPrefixes[pathPrefix]}/${id}`);
+      this.$router.push(`/dokumenti/${documentPrefixes[pathPrefix]}/${id}`);
 
     },
 

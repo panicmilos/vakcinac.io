@@ -7,19 +7,23 @@
         <TableRow
           v-for="(link, i) in links['referencing'][0]" 
           :key="i" 
-          :values="[link[0], 'Referencira']"
-        />
+          :values="formTableRow(link[0], 'Referencira')"
+        >
+          <button @click="showDocument(link[0])">Prikaz</button>
+        </TableRow>
 
         <TableRow
           v-for="(link, i) in links['referenced-by'][0]" 
           :key="i" 
-          :values="[link[0], 'Referenciran']"
-        />
+          :values="formTableRow(link[0], 'Referenciran')"
+        >
+          <button @click="showDocument(link[0])">Prikaz</button>
+        </TableRow>
        
       </TableBody>
     </Table>
    
-    <div id="document" />
+    <iframe id="document" src="about:blank"></iframe>
 
   </div>
 </template>
@@ -48,26 +52,14 @@ export default defineComponent({
     return {
       data: {},
       links: {},
-      tableHead: ['Link', 'Tip']
+      tableHead: ['Izdat', 'Id', 'Tip Dokumenta', 'Tip Reference', 'Link', 'Akcija'],
     };
   },
   
   methods: {
-    onSubmit(data) {
-      const { jmbg } = data;
 
-      axios.get(`${API_URL}/gradjani/${jmbg}/documents/all`,)
-        .then((r) => {
-          const parser = new x.Parser();
-          parser.parseString(r.data, (err, res) => {
-            this.documents = res['citizen-documents-result']['citizen-document'];
-          })
-        })
-        .catch((e) => console.log(e));
-    },
-
-    formTableRow(document) {
-      return [document['created-at'][0].split("^^")[0], document['id'][0], document['type'][0], document['link'][0]];
+    formTableRow(document, reference) {
+      return [document['created-at'][0].split("^^")[0], document['id'][0], document['type'][0], reference, document['url'][0]];
     },
 
     findUrlParts(document) {
@@ -84,41 +76,60 @@ export default defineComponent({
       const id = documentParts[1];
 
       return { pathPrefix, id };
+    },
+
+    showDocument(document) {
+      const { pathPrefix, id } = this.findUrlParts(document);
+      const documentPrefixes = {
+        'sertifikati': 'digitalni-sertifikat',
+        'izjave': 'izjava',
+        'saglasnosti': 'saglasnost',
+        'zahtevi': 'zahtev',
+        'potvrde': 'potvrda'
+      };
+
+      this.$router.push(`/dokumenti/${documentPrefixes[pathPrefix]}/${id}`);
+      this.fetchDocument();
+    },
+
+    fetchDocument() {
+      const { path1, path2, path3 } = this.$route.params;
+
+      const documentPaths = {
+          'digitalni-sertifikat': 'sertifikati',
+          'izjava': 'izjave',
+          'saglasnost': 'saglasnosti',
+          'zahtev': 'zahtevi',
+          'potvrda': 'potvrde'
+        };
+
+      axios.get(`${API_URL}/${documentPaths[path1]}/query/${path2}${path3 ? '/' + path3 : ''}?type=xhtml`,)
+          .then((r) => {
+            const doc = document.getElementById('document').contentWindow.document;
+            doc.open();
+            doc.write(r.data);
+            doc.close();
+
+          })
+          .catch((e) => console.log(e));
+
+      axios.get(`${API_URL}/${documentPaths[path1]}/query/${path2}${path3 ? '/' + path3 : ''}/links`,)
+          .then((r) => {
+            const parser = new x.Parser();
+            parser.parseString(r.data, (err, res) => {
+              this.links = res['document-links'];
+
+            })
+          })
+          .catch((e) => console.log(e));
+    
     }
+
     
   },
 
   mounted() {
-    const { path1, path2, path3 } = this.$route.params;
-
-    const documentPaths = {
-        'digitalni-sertifikat': 'sertifikati',
-        'izjava': 'izjave',
-        'saglasnost': 'saglasnosti',
-        'zahtev': 'zahtevi',
-        'potvrda': 'potvrde'
-      };
-
-    axios.get(`${API_URL}/${documentPaths[path1]}/query/${path2}${path3 ? '/' + path3 : ''}?type=xhtml`,)
-        .then((r) => {
-          console.log(r);
-          document.getElementById("document").innerHTML = r.data;
-        })
-        .catch((e) => console.log(e));
-
-    axios.get(`${API_URL}/${documentPaths[path1]}/query/${path2}${path3 ? '/' + path3 : ''}/links`,)
-        .then((r) => {
-          console.log(r);
-          const parser = new x.Parser();
-          parser.parseString(r.data, (err, res) => {
-            console.log(res);
-            this.links = res['document-links'];
-            console.log(this.links);
-
-          })
-        })
-        .catch((e) => console.log(e));
-    
+    this.fetchDocument();
   }
 });
 </script>
@@ -130,5 +141,11 @@ button {
 
 table {
   margin-bottom: 50px;
+}
+
+iframe {
+    margin: auto;
+  width: 100%;
+  height: 2000px;
 }
 </style>

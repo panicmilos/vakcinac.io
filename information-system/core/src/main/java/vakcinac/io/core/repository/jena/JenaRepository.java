@@ -19,6 +19,7 @@ import org.apache.jena.update.UpdateRequest;
 
 import vakcinac.io.core.Constants;
 import vakcinac.io.core.factories.CitizenDocumentFactory;
+import vakcinac.io.core.factories.LinkFactory;
 import vakcinac.io.core.results.doc.CitizenDocumentsResult;
 import vakcinac.io.core.results.link.Links;
 import vakcinac.io.core.utils.JenaAuthenticationUtils;
@@ -190,7 +191,7 @@ public class JenaRepository implements Closeable {
 		try (CloseableResultSet set = new CloseableResultSet(resultSet, query)) {
 			while (set.hasNext()) {
 				QuerySolution querySolution = set.next();
-				links.getLink().add(querySolution.get("link").toString());
+				links.getLink().add(LinkFactory.create(querySolution.get("link").toString(), querySolution.get("createdAt").toString()));
 			}
 		}
 		
