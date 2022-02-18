@@ -4,6 +4,7 @@ import org.apache.jena.query.QuerySolution;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 import vakcinac.io.civil.servant.repository.jena.CivilServantJenaRepository;
+import vakcinac.io.core.exceptions.BadLogicException;
 import vakcinac.io.core.repository.jena.CloseableResultSet;
 import vakcinac.io.core.requests.helpers.LogicalExpression;
 import vakcinac.io.core.services.SearchService;
@@ -76,24 +77,24 @@ public class RdfSearchService extends SearchService {
                 graph = IZJAVA_GRAPH_URI;
                 this.predicateUrlRegistry = izjavaPredicateUrlRegistry;
                 this.predicateTypeRegistry = izjavaPredicateTypeRegistry;
-                System.out.println(this.predicateTypeRegistry);
-                System.out.println(this.predicateUrlRegistry);
                 break;
             }
-            case "saglasnost": {
+            case "saglasnosti": {
                 graph = SAGLASNOST_GRAPH_URI;
                 this.predicateUrlRegistry = saglasnostPredicateUrlRegistry;
                 this.predicateTypeRegistry = saglasnostPredicateTypeRegistry;
+                break;
+            }
+            case "zahtevi": {
+                graph = ZAHTEVI_GRAPH_URI;
                 break;
             }
             case "izvestaj": {
                 graph = IZVESTAJI_GRAPH_URI;
                 break;
             }
-            case "zahtev": {
-                graph = ZAHTEVI_GRAPH_URI;
-                break;
-            }
+            default:
+                throw new BadLogicException("");
 
         }
 
