@@ -1,13 +1,12 @@
 package vakcinac.io.civil.servant.factories;
 
 import org.springframework.stereotype.Component;
+
 import vakcinac.io.civil.servant.models.sag.SaglasnostZaSprovodjenjePreporuceneImunizacije;
 import vakcinac.io.civil.servant.models.sag.Tlekar;
 import vakcinac.io.civil.servant.models.sag.TlicneInformacije;
 import vakcinac.io.core.models.os.Tkontakt;
 import vakcinac.io.core.requests.CreateSaglasnostRequest;
-
-import java.time.LocalDate;
 
 @Component
 public class SaglasnostZaSprovodjenjePreporuceneImunizacijeFactory {
